@@ -1,0 +1,38 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__hr__get_workflows",
+      "mcp__hr__get_workflow_details",
+      "mcp__hr__get_node_details",
+      "mcp__hr__get_workflow_folders",
+      "mcp__hr__get_available_variables",
+      "mcp__hr__search_documentation",
+      "mcp__phone__list_user_call_log",
+      "mcp__phone__platform_read_user_call_record"
+    ],
+    "ask": [
+      "mcp__hr__update_workflow_nodes",
+      "mcp__hr__update_workflow",
+      "mcp__hr__manage_versions",
+      "mcp__hr__manage_workflow",
+      "mcp__hr__create_workflow",
+      "mcp__hr__delete_workflow",
+      "mcp__hr__trigger_run",
+      "mcp__hr__test_workflow",
+      "mcp__hr__cancel_workflow_runs",
+      "mcp__hr__fix_broken_vars",
+      "mcp__hr__manage_variables",
+      "mcp__hr__manage_credentials",
+      "mcp__hr__manage_phone_numbers",
+      "mcp__hr__manage_sip_trunks",
+      "mcp__hr__insert_row",
+      "mcp__hr__update_row",
+      "mcp__hr__delete_rows",
+      "mcp__hr__drop_table"
+    ],
+    "deny": [
+      "mcp__phone__send_sms",
+      "mcp__phone__message_store_create_smsmessage"
+    ]
+  }
+}

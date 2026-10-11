@@ -1,0 +1,6 @@
+# Datos de trabajo de los análisis: pueden contener datos personales. Nunca al repo.
+datos/
+*.jsonl
+.env
+.DS_Store
+__pycache__/
