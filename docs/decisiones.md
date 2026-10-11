@@ -20,6 +20,25 @@ Plantilla:
 
 ---
 
+## D-007 · 2026-10-11 · Rutina diaria: corrección del prompt
+- **Qué:**
+  - Las transferencias de Minibús ES a 18057, 18061, 18001, 18006 y 18034 cuentan en el informe;
+    se ignoran solo las patas de esas colas que no casan con un intento de Minibús.
+  - La 2119 se añade a los menús prohibidos.
+  - La 18066 (PT-EN) se añade a las colas de Minibús.
+  - `consultas_alquiler` e `informacion_oficina` vacías no son error.
+  - El listado de runs se extrae con python, no copiado a mano.
+  - Los teléfonos se guardan solo como hash.
+  - Se tolera el retraso de RingCentral en los últimos 15 minutos del periodo.
+  - Se reintenta ante el límite de peticiones del conector.
+- **Por qué:** en el informe del 10/10, las versiones v19 y siguientes de ES transfirieron 21 veces
+  a Gestión (18057 y 18061) y ahí se perdieron 2 llamadas porque el agente no pulsó 1. Con el
+  prompt anterior esas transferencias se habrían ignorado. También hubo una avería a la 2119 en
+  Italia.
+- **Afecta a:** `rutinas/informe-minibus.md`.
+- **Quién:** pendiente de aplicar en la rutina programada.
+- **Estado:** aplicada en el repo; falta pegarla en la rutina.
+
 ## D-006 · 2026-10-11 · Mejoras de prompt para Minibús (propuesta)
 - **Qué:**
   - preguntas frecuentes con respuestas validadas (recogida tarde, devoluciones, oficinas,

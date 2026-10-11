@@ -14,12 +14,16 @@ Todas las patas salientes de los bots salen de la extensión **19236** (id inter
 | 18066 | 00. CC PT-EN-Hor.MiniBus | Minibús Portugal, inglés |
 
 ## Otras colas a las que transfieren los bots de Minibús
+
+En el informe solo cuentan las patas que casan con un intento de transferencia de Minibús; el
+resto son del bot de Prolongaciones.
+
 | Ext. | Nombre | Nota |
 |---|---|---|
 | 18057 | 00. CC ES-ES -Hor.Gestión | Compartida con el bot de Prolongaciones |
 | 18061 | 00. CC ES-EN-Hor. Manage Reservation | Compartida con el bot de Prolongaciones |
-| 18001 / 18006 | Nueva Reserva ES-ES / ES-EN | |
-| 18034 | 00. RA ES-ES AVERÍAS | Cola de agentes de averías (ES) |
+| 18001 / 18006 | Nueva Reserva ES-ES / ES-EN | Compartidas con el bot de Prolongaciones |
+| 18034 | 00. RA ES-ES AVERÍAS | Cola de agentes de averías (ES); compartida con el bot de Prolongaciones |
 | 18071 / 18074 | IT Mod. Reserva IT-IT / IT-EN | |
 | 18024 / 19042 | IT Nuova Prenotazione IT-IT / IT-EN | |
 | 18064 / 18067 | PT Alteração PT-PT / PT Management EN | |
