@@ -195,8 +195,8 @@ salen del análisis de llamadas del 5 al 11 de octubre, no de HappyRobot.
 | Version 7 | fftgzxcuqdkj | V6 con averías a 18034/18035 | publicada antes | 07/10 |
 | V8 | 5qzsupu4v4w8 | Daniel con todas las respuestas (aseguradoras fase 1) | publicada antes | 07/10 22:48 → 09/10 13:54 |
 | V9 | xn2gx6zswa5h | Daniel: responder más sin transferir (caso 1) | publicada antes | 09/10 13:54 → 10/10 20:16 |
-| V10 | fg6e9yqdgwok | V9 + horario de la cola de Gestión | publicada antes | 10/10 20:16 → 11/10 |
-| **Version 11** | **2g1bxzyzazpp** | V10 + regla de Gestión cerrada, «no pudo recoger a su hora» y «recoger antes» | **publicada (live)** | desde el 11/10 (hora sin confirmar) |
+| V10 | fg6e9yqdgwok | V9 + horario de la cola de Gestión | publicada antes | 10/10 20:16 → 11/10 11:31 |
+| **Version 11** | **2g1bxzyzazpp** | V10 + regla de Gestión cerrada, «no pudo recoger a su hora» y «recoger antes» | **publicada (live)** | desde el 11/10 entre 11:31 y 11:52 (primer run a las 11:52) |
 
 version_id de las versiones publicadas:
 - V6 `01a0fc08-5131-7307-959c-4b5508c11fad`

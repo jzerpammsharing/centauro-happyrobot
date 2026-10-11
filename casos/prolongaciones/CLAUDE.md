@@ -36,6 +36,7 @@ del menú telefónico de Centauro España.
 | `docs/decisiones.md` | Decisiones de Prolongaciones (D-NNN) |
 | `docs/workflows.md` | Ficha del workflow y tabla de versiones |
 | `docs/pendientes.md` | Incidencias abiertas y mejoras propuestas |
+| `docs/informes/` | Análisis puntuales (comparaciones de versiones) |
 | `prompts/prolongacion-es/<versión>/` | Copias de los prompts y de la configuración de los nodos |
 | `rutinas/informe-prolongaciones.md` | Prompt de la rutina diaria de calidad |
 
