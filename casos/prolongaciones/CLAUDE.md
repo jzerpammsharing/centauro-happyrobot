@@ -37,7 +37,7 @@ del menú telefónico de Centauro España.
 | `docs/workflows.md` | Ficha del workflow y tabla de versiones |
 | `docs/pendientes.md` | Incidencias abiertas y mejoras propuestas |
 | `prompts/prolongacion-es/<versión>/` | Copias de los prompts y de la configuración de los nodos |
-| `rutinas/` | Prompts de rutinas programadas (todavía no hay ninguna) |
+| `rutinas/informe-prolongaciones.md` | Prompt de la rutina diaria de calidad |
 
 ## 3. Reglas propias de Prolongaciones
 
@@ -86,3 +86,30 @@ del menú telefónico de Centauro España.
 - **Problemas de conversación ya vistos** (de la conversación, no del prompt): turnos cortados,
   bloques largos repetidos, el bucle de «¿ha entrado alguna vez en su cuenta?» y suposiciones sin
   preguntar (que el coche es de empresa, que la reserva no ha empezado).
+
+## 4. Rutina diaria de calidad
+
+`rutinas/informe-prolongaciones.md` es una rutina en la nube, «Centauro Prolongaciones - informe
+diario», que se ejecuta cada día a las 22:05 de Madrid. Hace tres cosas:
+- analiza las llamadas del día en HappyRobot y RingCentral, en solo lectura;
+- escribe las cifras en los dos artefactos de abajo;
+- devuelve el informe.
+
+El fichero del repo está actualizado a la V11. La rutina programada en la nube sigue con el prompt
+del 09/10 (V8) y no se ha cambiado.
+
+| Artefacto | Compartido con | La rutina escribe en | Solo lo escriben los revisores |
+|---|---|---|---|
+| [Calidad Prolongaciones](https://claude.ai/artifact/3i8Reh68FkdQDACdZdFq3A) | personas concretas | `informes` (doc_id = AAAA-MM-DD) | dentro de `informes`, los campos `evaluacion_versiones`, `diff_versiones`, `mejoras` e `info_que_falta`, que se escriben a mano |
+| [Respuestas de Daniel](https://claude.ai/artifact/L4cpA1DVsHPdT3ELCQJY2Y) | toda la organización | `volumen` (doc_id = fecha) y `detectadas` (doc_id = slug de la pregunta) | `reviews`, `rev`, `offices`, `contra` y `miss` |
+
+- **Calidad Prolongaciones:**
+  - arriba muestra el seguimiento diario;
+  - en medio, la tabla «versión a versión», que se calcula con los campos `version` y `versiones`
+    de cada informe;
+  - al final, el análisis del día 1 (05/10).
+- **Respuestas de Daniel:** es la revisión compartida de lo que debe contestar el bot. El equipo
+  marca cada respuesta como correcta, por cambiar o descartada, y rellena las contradicciones, lo
+  que falta y la tabla de oficinas. La rutina solo añade el volumen por tema y las preguntas nuevas
+  que el bot no supo contestar.
+- Las claves de cada documento y su significado están en la sección 7 del prompt de la rutina.

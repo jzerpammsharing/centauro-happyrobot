@@ -21,6 +21,24 @@ Plantilla:
 
 ---
 
+## D-007 · 2026-10-11 · Rutina diaria: prompt en el repo, actualizado a la V11 y sin la comparación V8/V7
+- **Qué:** el prompt de la rutina diaria de calidad pasa al repo
+  (`rutinas/informe-prolongaciones.md`), con estos cambios respecto al de la nube (del 09/10):
+  - **Versión:** la V11 sustituye a la V8 como versión en producción.
+  - **Comparación diaria V8/V7:** se quita (sección 5b y campo `v8_vs_v7`). En su lugar, cada
+    informe guarda una entrada por versión en `versiones`, que es lo que usa la tabla «versión a
+    versión» de la página.
+  - **Gestión cerrada:** se cuentan los intentos de transferir a Gestión cerrada (error «NO
+    DISPONIBLE») y se guarda el campo nuevo `perdidas_gestion_cerrada`.
+  - **Fallos de la V11:** se añaden a los fallos del bot que hay que buscar.
+  - **Teléfonos y colas:** sin teléfonos en cifras. Se protege la colección `rev` de los revisores
+    y, al reescribir un informe, se conservan los campos que se escriben a mano.
+- **Por qué:** la comparación V8/V7 ya no tiene sentido y el prompt de la nube no conoce la V9, la V10
+  ni la V11. La memoria de Claude no viaja entre cuentas, así que el prompt tiene que estar en el repo.
+- **Afecta a:** la rutina «Centauro Prolongaciones - informe diario» (`trig_01BTNdfZukdFBe6PpMrEAj5T`).
+- **Quién:** jzerpa.
+- **Estado:** aplicada en el repo. La rutina programada no se cambia por ahora.
+
 ## D-006 · 2026-10-11 · V11: Gestión cerrada como regla de máxima prioridad, «no pudo recoger a su hora» y «recoger antes»
 - **Qué:** solo cambia el prompt de «Prolongacion».
   - **Bloque «GESTIÓN CERRADA» al principio:**
