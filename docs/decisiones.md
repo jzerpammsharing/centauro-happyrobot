@@ -20,6 +20,14 @@ Plantilla:
 
 ---
 
+## D-008 · 2026-10-11 · El repo es solo del caso Minibús
+- **Qué:** el proyecto se llama `centauro-happyrobot-minibus` y cubre solo los tres workflows de
+  Minibús (ES, IT y PT). Otros bots de Centauro en HappyRobot, como Prolongaciones, irían en su
+  propio repo.
+- **Por qué:** cada caso tiene su contexto, sus decisiones y su histórico propios.
+- **Quién:** jzerpa.
+- **Estado:** aplicada.
+
 ## D-007 · 2026-10-11 · Rutina diaria: corrección del prompt
 - **Qué:**
   - Las transferencias de Minibús ES a 18057, 18061, 18001, 18006 y 18034 cuentan en el informe;

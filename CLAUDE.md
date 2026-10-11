@@ -1,4 +1,8 @@
-# CLAUDE.md — Voicebots Centauro en HappyRobot
+# CLAUDE.md — centauro-happyrobot-minibus
+
+Proyecto del **caso Minibús**: los voicebots de HappyRobot que atienden a los clientes de
+Centauro que esperan el minibús en el aeropuerto (España, Italia y Portugal). Otros bots de
+Centauro (p. ej. Prolongaciones) quedan fuera de este repo.
 
 Guía para trabajar en este proyecto con Claude Code, desde cualquier cuenta o equipo. Resume qué
 hay, cómo se trabaja y dónde está cada cosa. **El histórico y el porqué de cada cambio** están en
@@ -24,8 +28,9 @@ fichero y el registro de decisiones en el mismo commit**.
 
 ## 1. Qué es
 
-Voicebots de atención telefónica de **Centauro Rent a Car** construidos en **HappyRobot**, que
-transfieren a las colas del call center en **RingCentral**.
+Los tres voicebots de **Minibús** de **Centauro Rent a Car**, construidos en **HappyRobot**. Cada
+uno tiene su agente «Daniel», que da al cliente el punto de encuentro del minibús o le transfiere
+a las colas del call center en **RingCentral**.
 
 | Bot | País | workflow_id | slug | Producción |
 |---|---|---|---|---|
@@ -33,8 +38,8 @@ transfieren a las colas del call center en **RingCentral**.
 | Centauro Minibus ITALY | IT | `01a03a65-3700-74c1-9c7b-e9c708833c4b` | `w13gsdcqkq9b` | Version 2 (`v9c38tkjwxae`) |
 | Centauro Minibus Portugal | PT | `01a05977-3a33-76da-acb2-a757f3947cf9` | `i8kjlnu1m3zp` | v1 (`ql6fasoxl1ql`) |
 
-Hay además un bot de **Prolongaciones**, que comparte colas con Minibús; está pendiente de
-documentar aquí.
+El bot de **Prolongaciones** no es de este proyecto, pero comparte con Minibús España las colas
+18057, 18061, 18001, 18006 y 18034 (ver `docs/extensiones.md`).
 
 Detalle de cada workflow (flujo, nodos, versiones): `docs/workflows/minibus.md`.
 Colas y extensiones de RingCentral: `docs/extensiones.md`.

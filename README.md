@@ -1,7 +1,9 @@
-# Voicebots Centauro · HappyRobot
+# centauro-happyrobot-minibus
 
-Documentación, histórico de decisiones, prompts versionados y rutinas de análisis de los
-voicebots de Centauro Rent a Car en HappyRobot (Minibús ES, IT y PT; Prolongaciones).
+Proyecto del **caso Minibús** de Centauro Rent a Car: los voicebots de HappyRobot que atienden a
+los clientes que esperan el minibús en el aeropuerto, en España, Italia y Portugal. Incluye la
+documentación, el histórico de decisiones, los prompts versionados y la rutina diaria de análisis
+de calidad.
 
 - Empieza por **`CLAUDE.md`**: contexto, estructura y forma de trabajar.
 - **¿Por qué está así?** → `docs/decisiones.md`

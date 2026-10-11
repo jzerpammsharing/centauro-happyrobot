@@ -19,5 +19,4 @@
   - ubicación y foto del punto por WhatsApp (4);
   - parte de asistencia (3);
   - objetos olvidados (3).
-- [ ] Documentar el bot de Prolongaciones en este repo.
 - [ ] Guardar en `prompts/` los prompts de las versiones publicadas (ES v17, IT v2, PT v1).
