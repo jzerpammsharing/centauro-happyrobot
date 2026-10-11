@@ -6,7 +6,7 @@ decisiones, prompts versionados y rutinas de análisis.
 | Caso | Carpeta | Estado |
 |---|---|---|
 | Minibús (ES · IT · PT) | `casos/minibus/` | Documentado; rutina diaria de calidad activa |
-| Prolongaciones (ES) | `casos/prolongaciones/` | Por documentar |
+| Prolongaciones (ES) | `casos/prolongaciones/` | Documentado (V11) |
 | Reembolsos | `casos/reembolsos/` | Por documentar |
 
 - Empieza por **`CLAUDE.md`** (común) y luego por el `CLAUDE.md` del caso.

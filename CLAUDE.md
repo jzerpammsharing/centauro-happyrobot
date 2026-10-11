@@ -36,7 +36,7 @@ Workflows de la carpeta de Centauro en HappyRobot (folder `019d8144-ce27-7aaf-b9
 | Caso | Carpeta | Workflows | Estado de la documentación |
 |---|---|---|---|
 | Minibús | `casos/minibus/` | Centauro Minibus SPAIN, ITALY y Portugal | Completa |
-| Prolongaciones | `casos/prolongaciones/` | Centauro Prolongacion Spain | Por documentar |
+| Prolongaciones | `casos/prolongaciones/` | Centauro Prolongacion Spain | Completa (V11) |
 | Reembolsos | `casos/reembolsos/` | Centauro Reembolsos | Por documentar |
 
 Para añadir un caso:

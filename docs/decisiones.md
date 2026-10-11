@@ -48,7 +48,8 @@ Plantilla:
   - 09/10: 3 averías de Minibús ES perdidas (v17 y v18).
   - 10/10: una avería a la 2115 (Minibús ES v19, `c6ffa5b5`) y otra a la 2119 (Minibús IT v2,
     `7463c774`).
-- **Afecta a:** todos los workflows que transfieren averías. Confirmado en Minibús ES e IT; falta
-  revisar Prolongaciones y Reembolsos.
+- **Afecta a:** todos los workflows que transfieren averías. Confirmado en Minibús ES e IT.
+  Prolongaciones, revisado el 11/10/2026: la V6 mandaba las averías a 2114/2115; desde la V7 van a
+  18034/18035 y la V11 no usa ninguna de las tres. Falta revisar Reembolsos.
 - **Quién:** pendiente.
 - **Estado:** propuesta (antes era la D-005 de Minibús).
