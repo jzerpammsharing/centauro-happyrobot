@@ -1,7 +1,7 @@
 # Pendientes
 
 ## Incidencias abiertas
-- [ ] **Averías enviadas a menús** (2114, 2115 y 2119): ver D-005. Afecta a ES v17, v18 y v19 y a
+- [ ] **Averías enviadas a menús** (2114, 2115 y 2119): ver C-001. Afecta a ES v17, v18 y v19 y a
       IT v2.
 - [ ] **Llamadas de ES por versiones no publicadas** (v19, v21, v22): 70 de 133 el 10/10.
       Revisar qué números de teléfono apuntan a cada versión.

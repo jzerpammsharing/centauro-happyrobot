@@ -1,14 +1,17 @@
-# centauro-happyrobot-minibus
+# centauro-happyrobot
 
-Proyecto del **caso Minibús** de Centauro Rent a Car: los voicebots de HappyRobot que atienden a
-los clientes que esperan el minibús en el aeropuerto, en España, Italia y Portugal. Incluye la
-documentación, el histórico de decisiones, los prompts versionados y la rutina diaria de análisis
-de calidad.
+Todos los casos de uso de **Centauro Rent a Car en HappyRobot**: documentación, histórico de
+decisiones, prompts versionados y rutinas de análisis.
 
-- Empieza por **`CLAUDE.md`**: contexto, estructura y forma de trabajar.
-- **¿Por qué está así?** → `docs/decisiones.md`
-- **¿Qué falta?** → `docs/pendientes.md`
-- **¿Cómo va?** → `docs/informes/` y el artefacto de Minibús
+| Caso | Carpeta | Estado |
+|---|---|---|
+| Minibús (ES · IT · PT) | `casos/minibus/` | Documentado; rutina diaria de calidad activa |
+| Prolongaciones (ES) | `casos/prolongaciones/` | Por documentar |
+| Reembolsos | `casos/reembolsos/` | Por documentar |
+
+- Empieza por **`CLAUDE.md`** (común) y luego por el `CLAUDE.md` del caso.
+- **Colas y extensiones de RingCentral** (compartidas) → `docs/extensiones.md`
+- **Decisiones comunes** → `docs/decisiones.md`; las de cada caso → `casos/<caso>/docs/decisiones.md`
 
 ## Trabajar con Claude Code
 1. Clona el repo y ábrelo con Claude Code (terminal, escritorio o claude.ai/code).
