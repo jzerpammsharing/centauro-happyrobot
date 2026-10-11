@@ -9,6 +9,10 @@
       10/10. En la 18057 las patas duran solo 8 s.
 - [ ] **Frecuencias del minibús inventadas** («cada 10-15 minutos»): ver D-006.
 - [ ] **Respuestas en un idioma distinto del del cliente** (IT): ver D-006.
+- [ ] **La rutina cuenta como Minibús todas las patas a 18056 y 18059**, pero Prolongaciones también
+      transfiere a esas colas (minibús o idioma no atendido). Hay que corregir la sección 4 de
+      `rutinas/informe-minibus.md` para que cuente solo las patas que casan con un intento de
+      Minibús, como ya hace con 18057, 18061, 18001, 18006 y 18034.
 
 ## Mejoras propuestas
 - [ ] Mejoras de prompt de D-006 (estimación: resueltas del 42 % al 54 %).

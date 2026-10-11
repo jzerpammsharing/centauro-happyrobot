@@ -18,7 +18,8 @@ encuentro o les transfieren a las colas del call center en RingCentral.
 - **Fichas de los workflows** (flujo, comportamiento esperado, campos del extract, versiones):
   `docs/workflows.md`.
 - **Colas:** `../../docs/extensiones.md`. Minibús España (desde la v19) comparte con
-  Prolongaciones las colas 18057, 18061, 18001, 18006 y 18034.
+  Prolongaciones las colas 18057, 18061, 18001, 18006 y 18034. Además, Prolongaciones transfiere a
+  las colas de Minibús España, 18056 y 18059.
 
 ## 2. Carpetas del caso
 
