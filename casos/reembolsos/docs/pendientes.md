@@ -7,3 +7,4 @@
 - [ ] Reembolsos WhatsApp (W2 v4): pedir en Meta las plantillas `datos_llamada_es`, `datos_llamada_en`, `datos_llamada_it` y `datos_llamada_pt` (textos en `prompts/reembolsos-whatsapp-datos/v4/agente-whatsapp.md`).
 - [ ] Reembolsos WhatsApp (W2 v4): sustituir la plantilla mock `info_minibus` por `datos_llamada_*` y quitar del prompt la primera línea (solo válida para el mock).
 - [ ] Reembolsos WhatsApp (W2): selección de plantilla por `idioma` (rama por idioma antes del agente o plantilla dinámica); hoy solo hay una plantilla fija.
+- [ ] Reembolsos WhatsApp (W2 v4): comprobar si HappyRobot escapa los valores `{{$var}}` dentro de `body.raw` JSON; si no, valorar construir el payload en un nodo Python que haga `json.dumps`.

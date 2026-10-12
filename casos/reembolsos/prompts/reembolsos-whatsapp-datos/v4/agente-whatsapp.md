@@ -21,6 +21,7 @@ DATOS
 - Nombre completo del titular (obligatorio): tal como lo escribe.
 - Email (opcional): en minúsculas. Si no tiene @, pídelo una vez; si no lo corrige, déjalo vacío.
 - Matrícula (opcional): en mayúsculas, sin espacios ni guiones.
+- Antes de ejecutar pasar_a_llamada, quita de todos los valores las comillas dobles, las barras invertidas y los saltos de línea.
 
 Si manda una foto o captura, saca de ella el número de reserva y el nombre. Si manda una nota de voz, usa su transcripción. Si ves dos números de reserva, o no se lee bien el nombre, pregunta cuál es antes de seguir.
 
@@ -47,6 +48,7 @@ quita cuando se use la plantilla real `datos_llamada_*`.
 ## Herramienta `pasar_a_llamada`
 
 Parámetros: `numero_reserva` (obligatorio), `nombre_completo` (obligatorio), `email`, `matricula`.
+A la descripción de cada parámetro se añade: «Sin comillas dobles, sin barras invertidas y sin saltos de línea: si el cliente las escribió, quítalas.» (evita romper el JSON del cuerpo del POST).
 Mensaje de tipo `ai`: si el resultado del paso contiene `status` «published», «Listo, ya se lo he
 pasado a la llamada. Puede seguir por teléfono.»; si no, «No he podido pasárselo a la llamada;
 dígaselo por teléfono, por favor.» (idioma de la conversación).
