@@ -5,7 +5,7 @@ Fork de la v3. Se elimina «Señal de prueba (API)» y se construye:
 trigger «Petición desde la llamada» → agente «Agente de WhatsApp» (Outbound Text Agent) → prompt →
 herramienta `pasar_a_llamada` → POST «Señal a la llamada (API)».
 
-**Sin publicar.** Pendiente de pruebas reales (las coordina quien lleva el plan).
+**Publicada por una persona solo para pruebas** (no conectada a clientes). Probada de extremo a extremo con W1 v2 (informe en `docs/informes/2026-10-12-pruebas-whatsapp.md`).
 
 ## Prompt (modelo gpt-5.4-mini, mensaje inicial vacío: abre la conversación la plantilla)
 

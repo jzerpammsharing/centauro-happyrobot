@@ -76,3 +76,30 @@ Copias: `prompts/reembolsos-whatsapp-datos/` (v1, v3 y v4).
 
 Las versiones de W1 y W2 publicadas lo fueron para probar; no hay nada conectado a clientes. Antes
 de publicar a clientes, ver los pendientes de WhatsApp en `docs/pendientes.md`.
+
+## Antes de publicar a clientes
+
+Checklist para W1 y W2. Esta rama debe revisarse antes de publicar (CLAUDE.md raíz, apartado 3).
+
+- [ ] **Plantilla mock.** W2 v4 usa `info_minibus`. W1 no debe conectarse a números de clientes hasta
+  que `datos_llamada_*` estén aprobadas y se elija la plantilla por idioma.
+- [ ] **`HR_SIGNALS_API_KEY`.** Tiene un rol con `workflow.trigger` en todo el workspace y no caduca:
+  limitarla por etiquetas a Centauro y darle caducidad y rotación.
+- [ ] **Hook de W2.** El hook publicado solo está protegido por `WA_DATOS_API_KEY`: quien la tenga
+  puede hacer que el número de Centauro envíe WhatsApps y publicar señales en sesiones. Limitar y
+  rotar la clave.
+- [ ] **Variables de W1.** `TELEFONO_PRUEBA` vacío en producción y `WA_DATOS_URL` apuntando al hook de
+  producción (el valor de desarrollo es `/hooks/development/…`).
+- [ ] **Dependencias.** Se depende de `/api/v2/signals` (si HappyRobot arregla Send Signal se puede
+  volver) y del escape de JSON de `{{$var}}` en `body.raw`, sin verificar.
+- [ ] **Texto del cliente.** Lo que escribe el cliente llega al agente de voz (riesgo de inyección de
+  instrucciones). Mitigado porque la fecha de nacimiento va por voz y la verificación es en el
+  servidor.
+- [ ] **Sin probar:** 5.b–5.f, comillas en los datos, fijo u oculto en una llamada real, error del
+  webhook (caso 11), cierre a los 15 minutos, caso 12, una llamada real en otro idioma. Además, un
+  fijo extranjero da `whatsapp_posible = true`.
+- [ ] **Datos personales en HappyRobot.** `email_whatsapp` y `matricula_whatsapp` (extract) y los
+  outputs del trigger de W2 (teléfono y cabeceras) quedan guardados. No copiarlos al repo y valorar
+  la retención.
+- [ ] Pendientes abiertos en `docs/pendientes.md` revisados.
+

@@ -18,7 +18,7 @@ Evento POST (`01926f2b-2973-7ebf-ada1-e984251e27ec`), esquema v2 (`body.raw`, no
 
 - URL: `{{use_case_variables.WA_DATOS_URL}}`
 - Cabecera `x-api-key`: `{{use_case_variables.WA_DATOS_API_KEY}}`
-  (nombre de la cabecera pendiente de confirmar en la prueba de punta a punta con el trigger de W2)
+  (la cabecera `x-api-key` funcionó en las llamadas de la tarea 3 y en la prueba de extremo a extremo)
 - `authType`: `none`; `contentType`: `application/json`; `ignore5XX`: `false`; `webhookSchemaVersion`: 2
 - Cuerpo (`body.raw`; los tokens `$var` apuntan, por persistent_id, a «Calcular idioma y saludo»,
   «Receive Customer Call» y la herramienta `enviar_whatsapp`):

@@ -23,7 +23,8 @@ llamada (spec en `docs/specs/2026-10-12-datos-por-whatsapp.md`, decisión D-001)
 | Centauro Reembolsos WhatsApp (W1, voz) | `01a12d4e-7c03-7494-8e0c-194e1256f8fb` | `j2cgq0sfra2q` | v2 (`pc4zvke3xdjl`), publicada solo para pruebas |
 | Centauro Reembolsos · Datos por WhatsApp (W2, texto) | `01a12d4c-5fe2-76d7-a233-3d5a16972ffd` | `p45rx5hlsber` | v4 (`qw83lg2g3sa6`), publicada solo para pruebas |
 
-- **Ficha de los workflows** (flujo y versiones): `docs/workflows.md`.
+- **Ficha de los workflows** (flujo y versiones): `docs/workflows.md`. Antes de publicar a clientes,
+  sigue la checklist «Antes de publicar a clientes» de ese fichero.
 - **Colas:** `../../docs/extensiones.md`. W1 usa las mismas colas que la V4.
 
 ## 2. Carpetas del caso

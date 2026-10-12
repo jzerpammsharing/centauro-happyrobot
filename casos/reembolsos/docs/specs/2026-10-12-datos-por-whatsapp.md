@@ -83,7 +83,7 @@ Copia de la V4 con estos cambios:
    - `idioma`: el parámetro de la herramienta;
    - `entorno`: `current.execution_environment`.
 
-   La herramienta devuelve al agente `enviado` o `error`.
+   La herramienta devuelve al agente `enviado` o `error`. *(En lo construido no es así: devuelve la respuesta cruda del POST; ver apartado 11, punto 10.)*
 4. **Prompt**: las secciones del apartado 5.
 5. **«Registrar resultado de la llamada»** (AI Extract): campos nuevos `whatsapp_ofrecido`,
    `whatsapp_aceptado`, `whatsapp_datos_recibidos`, `identificacion_via` (`whatsapp` |
@@ -284,3 +284,13 @@ Lo construido difiere del diseño en lo siguiente. Resultados en
    número de clientes.
 9. **Sin contador `ya_enviado`.** HappyRobot no expone un contador de llamadas por herramienta; el
    agente se apoya en la regla del prompt de no enviar más de un WhatsApp por llamada.
+10. **`enviar_whatsapp` no devuelve `enviado` o `error`.** Devuelve la respuesta cruda del POST, y el
+    nodo POST sale «succeeded» aunque haya 4xx; con una clave caducada o una URL mala el agente
+    diría «Se lo acabo de enviar». Pendiente: comprobar la respuesta del hook de W2 (como
+    `pasar_a_llamada` con `published`) y probar el caso 11 antes de publicar.
+11. **Segunda oferta en «No encontrada».** En W1 v2 va antes de las reglas de la V4 de «cobro de un
+    intento web» y «reserva de otra compañía», así que un cliente con una reserva de otra compañía
+    podría recibir la oferta en vez de «esa reserva no es de Centauro». Pendiente: que la segunda
+    oferta sustituya solo el paso «pide que te repita el número despacio» y relanzar el eval 4d.
+12. **Segunda oferta tras «verificado false».** Es más estrecha que en el apartado 5 (solo si el
+    cliente no sabe qué corregir). Se acepta por ahora.
