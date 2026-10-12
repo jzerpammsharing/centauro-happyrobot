@@ -62,6 +62,13 @@ pendientes de Prolongaciones).
 | 18061 | 3741335064 |
 | 19236 (pata saliente de los bots) | 4027457064 |
 
+## Colas de Reembolsos
+
+Las colas de Centauro Reembolsos (V4) están por documentar (ver pendientes del caso). **Centauro
+Reembolsos WhatsApp** (W1, copia de la V4 con la oferta de WhatsApp) usa **las mismas colas que la
+V4**: antes de cambiar una cola de Reembolsos, cambia también las dos. «Centauro Reembolsos · Datos
+por WhatsApp» (W2) no transfiere llamadas.
+
 ## Otras colas a las que transfieren los bots de Minibús
 
 Las colas de Gestión, Nueva reserva y Averías de España están en la tabla de Prolongaciones.

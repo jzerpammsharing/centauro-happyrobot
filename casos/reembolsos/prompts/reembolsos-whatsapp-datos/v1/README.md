@@ -1,4 +1,5 @@
 <!-- workflow: Centauro Reembolsos · Datos por WhatsApp · versión: v1 (modo prueba) · copiado: 2026-10-12 -->
+> **Superada:** la v1 publicaba la señal con Send Signal y el payload llegaba vacío; ver v3 y v4.
 # W2 · v1 (modo prueba)
 
 - Trigger «Petición desde la llamada» (Predefined request, API key): telefono, session_key,

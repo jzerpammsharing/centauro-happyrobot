@@ -1,5 +1,7 @@
 # Evals automáticos de la conversación por WhatsApp (T4)
 
+> Última ronda: **ronda 2** (10/10 PASS), al final de este fichero. La tabla de arriba es la ronda 1.
+
 Evals personalizados de HappyRobot sobre el nodo de prompt «Reembolsos» (W1 v2, `v2 · v1 + oferta de WhatsApp y lectura de señales`).
 
 - Nodo: `01a12efe-08c3-7d1b-ab66-e951341c25e5`

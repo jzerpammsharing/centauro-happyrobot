@@ -1,18 +1,63 @@
 # CLAUDE.md — Caso Reembolsos
 
-> **Por documentar.** Esta carpeta tiene solo la estructura. Rellena las secciones a partir de
-> los workflows de HappyRobot y de lo que sepa el equipo. Toma el caso Minibús
-> (`casos/minibus/`) como ejemplo. Las reglas comunes están en el `CLAUDE.md` de la raíz.
+Contexto propio del caso Reembolsos. Las reglas comunes (forma de trabajar, transferencias,
+RingCentral, convenciones) están en el `CLAUDE.md` de la raíz.
+
+> **Documentación parcial.** Está documentado el trabajo de «datos por WhatsApp». Falta describir
+> con detalle el bot de la V4 (colas, herramientas, comportamiento esperado, falsos positivos del
+> análisis). Toma el caso Minibús (`casos/minibus/`) como ejemplo.
 
 ## 1. Qué es
-<!-- Qué hace el bot, a quién atiende y qué resuelve. -->
 
-| Workflow | workflow_id | slug | Producción |
+Voicebot de **reembolsos y fianzas** de Centauro Rent a Car. Identifica al cliente con número de
+reserva, nombre completo y fecha de nacimiento, consulta la reserva con `consultar_reembolso` y,
+solo con la identidad verificada, informa del estado del reembolso y de los plazos; lo que exige
+emitir, anular o decidir lo transfiere a una persona.
+
+Hay una variante que ofrece al cliente escribir los datos difíciles de dictar por WhatsApp durante la
+llamada (spec en `docs/specs/2026-10-12-datos-por-whatsapp.md`, decisión D-001).
+
+| Workflow | workflow_id | slug | Producción / actual (12/10/2026) |
 |---|---|---|---|
-| Centauro Reembolsos | `01a0defb-9c46-7f81-b966-69ca9d211709` | `ey9623r10ly2` | <!-- comprobar con get_workflows --> |
+| Centauro Reembolsos (V4) | `01a0defb-9c46-7f81-b966-69ca9d211709` | `ey9623r10ly2` | Version 4 (`m87e6xzgo405`), en producción |
+| Centauro Reembolsos WhatsApp (W1, voz) | `01a12d4e-7c03-7494-8e0c-194e1256f8fb` | `j2cgq0sfra2q` | v2 (`pc4zvke3xdjl`), publicada solo para pruebas |
+| Centauro Reembolsos · Datos por WhatsApp (W2, texto) | `01a12d4c-5fe2-76d7-a233-3d5a16972ffd` | `p45rx5hlsber` | v4 (`qw83lg2g3sa6`), publicada solo para pruebas |
+
+- **Ficha de los workflows** (flujo y versiones): `docs/workflows.md`.
+- **Colas:** `../../docs/extensiones.md`. W1 usa las mismas colas que la V4.
 
 ## 2. Carpetas del caso
-`docs/decisiones.md`, `docs/workflows.md`, `docs/pendientes.md`, `prompts/`, `rutinas/`.
+
+| Ruta | Qué contiene |
+|---|---|
+| `docs/decisiones.md` | Decisiones de Reembolsos (D-NNN) |
+| `docs/workflows.md` | Ficha de los workflows y tablas de versiones |
+| `docs/pendientes.md` | Incidencias abiertas y mejoras |
+| `docs/specs/`, `docs/planes/` | Spec y plan de «datos por WhatsApp» |
+| `docs/informes/` | Informes de pruebas |
+| `pruebas/` | Evals de HappyRobot (`evals-whatsapp.md`) |
+| `codigo/` | Lógica del teléfono (`telefono_whatsapp.py` y sus pruebas), que se pega en «Calcular idioma y saludo» |
+| `prompts/reembolsos-v4/` | Prompt de la V4 |
+| `prompts/reembolsos-whatsapp/<versión>/` | Copias de W1 |
+| `prompts/reembolsos-whatsapp-datos/<versión>/` | Copias de W2 |
 
 ## 3. Reglas propias del caso
-<!-- Herramientas, comportamientos esperados, falsos positivos del análisis… -->
+
+- **Señales de WhatsApp.** En la transcripción de W1 los turnos `user` que empiezan por
+  `<Signal Received>{…}</Signal Received>` **no son del cliente**: son los datos que llegan por
+  WhatsApp (a veces pegados a lo que dice el cliente). Al analizar llamadas no cuentan como turnos
+  del cliente ni como petición del agente.
+- **Outputs de W2.** Los outputs del trigger de W2 guardan cabeceras (incluida la API key) y el
+  teléfono del cliente. No copiarlos al repo.
+- **Señal.** Se publica con un Webhook POST a la API de signals, no con el nodo Send Signal (que
+  entrega el payload vacío). El nodo POST sale «succeeded» aunque la API devuelva un 4xx: mira la
+  respuesta (`status == "published"`).
+- **Plantilla mock.** W2 v4 usa la plantilla `info_minibus` hasta que Meta apruebe `datos_llamada_*`;
+  nunca publicar a clientes con el mock.
+- **Pruebas web.** En llamadas web `from_number` es `web` y W1 usa la variable `TELEFONO_PRUEBA`.
+- **Datos de prueba.** Reserva `ER00000000` o `ER12345678` y «Prueba Prueba». Nunca datos reales en
+  el repo.
+- **Ejemplo de «Verificado false».** El prompt de la V4 y de W1 en HappyRobot trae un nombre y una
+  fecha reales de ejemplo; las copias del repo llevan uno inventado (ver pendientes).
+- **El extract no es fiable** por sí solo (regla común): contrasta con los turnos `assistant` y las
+  señales de la transcripción.
