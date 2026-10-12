@@ -46,3 +46,24 @@ manage_custom_evals action=list_runs eval_id=<eval_id>   # unos segundos despué
 ```
 
 Para probar una versión nueva, usa su `version_id` (el nodo cambia de ID en cada versión, pero los evals cuelgan del workflow y se pueden lanzar contra otra versión). Los evals se listan con `action=list node_id=<node_id>`.
+
+## Ronda 2 (12/10/2026): ajustes de prompt
+
+Versión probada: W1 v2 `01a12efe-08b0-74e8-acba-f27b76f791eb` (slug `pc4zvke3xdjl`), mismo nodo, prompt editado en el sitio (sin publicar). Fichero: `casos/reembolsos/prompts/reembolsos-whatsapp/v2/receive-customer-call.md`.
+
+Cambios: (1) bloque «DATOS QUE LLEGAN POR WHATSAPP»: acuse corto sin repetir número, nombre ni fecha, y consulta en el mismo turno; (2) «No encontrada»: la SEGUNDA OFERTA pasa a ser lo primero de la rama, obligatoria cuando el resultado trae `encontrada false`, `whatsapp_posible` es true y no se ha enviado, y empieza diciendo que no aparece con esos datos.
+
+| Eval | Ronda 1 | Ronda 2 | Run ronda 2 |
+|---|---|---|---|
+| 4a1 oferta inicial | PASS | PASS | `f8969fe7-5c83-4f40-a3f2-a1b0c43ff5b7` |
+| 4a2 acepta → envía | PASS | PASS | `138309db-3dc8-4670-9453-41418c40e98c` |
+| 4a3 señal con fecha ya dada | FAIL | PASS | `5d2dc8c6-fd3e-4110-b52d-838110e501a2` |
+| 4b rechaza | PASS | PASS | `d6963c33-3f1d-4499-972c-f0929cd78b3c` |
+| 4c señal pegada sin fecha | PASS | PASS | `b2d28609-639e-4b17-9801-6a36acd4bc7a` |
+| 4d segunda oferta | FAIL | PASS | `ec67914a-9a2c-459e-b2fe-693ed723e61d` |
+| 4e no reenviar | PASS | PASS | `b877ebb8-88be-4eb3-94bc-decb0e06b1dc` |
+| 4f sin WhatsApp | PASS | PASS | `388661d7-0138-41e9-bbb8-1505e0960fef` |
+| 4g inglés | PASS | PASS | `d60d77fa-e7bc-4d46-95c4-b59b002c6b0c` |
+| 4h señal tardía tras verificar | PASS | PASS | `8325089a-024c-4b65-a5f0-d18758c3a4af` |
+
+Total ronda 2: 10 PASS, 0 FAIL. Nota: una pasada intermedia con solo el primer ajuste de 4d dejó 4d en FAIL (ofrecía el WhatsApp pero no decía que no aparecía con esos datos); se añadió esa frase y se relanzaron los 10.
