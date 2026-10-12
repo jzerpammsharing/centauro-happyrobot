@@ -12,8 +12,13 @@
   - **Arreglo:** cambiar «Resolver colas» para que, con Gestión cerrada, no haya ningún destino de
     gestión. Falta que el negocio decida si no se ofrece ningún destino o si se manda a otra cola
     abierta.
-  - **Riesgo ahora:** hoy es domingo, así que Gestión está cerrada todo el día con la V11 en
-    producción.
+  - **En producción con la V11** (11/10, 36 llamadas con Gestión cerrada): 0 intentos de transferir
+    a Gestión. Pero ningún cliente insistió de verdad en hablar con una persona, que es el caso de
+    FDS-05, así que sigue sin probarse. Minibús España v22 sí copió el texto el mismo día (f06cc517):
+    ver los pendientes de Minibús.
+  - **Efecto secundario:** sin poder transferir, el bot repite el horario de Gestión como única
+    salida (3 o 4 veces en 431fb6c7 y 340cde9a) y no ofrece Nueva reserva cuando el coche no está
+    disponible (38137f1d, 64d28e50).
 - [ ] **El destino de reserva de la transferencia es la cola de Gestión.** En «Initiate customer
       connection», `fallback_number` es `cola_gestion_reserva`.
   - Con Gestión cerrada, el destino de reserva es el texto «NO DISPONIBLE…», que no es un número.
@@ -25,6 +30,13 @@
     Opción 3 Fin de Semana» (del viernes a las 21:00 al lunes a las 08:00) solo reproduce un anuncio.
   - Sábado 10/10: 0 de 173 patas de bots atendidas y 230 llamadas directas perdidas.
   - Falta que Centauro confirme que es intencionado. Este horario es el que codifica `gestion_abierta`.
+- [ ] **Festivos: ni `gestion_abierta` ni el prompt los conocen.**
+  - El lunes 12/10 es festivo nacional. `gestion_abierta` lo dará como abierto de 08:00 a 21:00; si
+    la Gestión no tiene agentes ese día, el bot transferirá a una cola sin nadie.
+  - El 11/10 el bot mandó a un cliente sin internet, con el contrato venciendo el 12/10, a llamar «de
+    lunes a viernes de 8 a 21» (1aaa05f0 y su rellamada 59fdebe2).
+  - Falta confirmar si la Gestión trabaja los festivos y añadir una salida tipo `festivo_hoy` en
+    «Calcular idioma y saludo».
 - [ ] **La V11 se publicó sin seguir el proceso del repo.** Se publicó el 11/10 sin guardar antes el
       prompt, sin una entrada en decisiones y sin PR, y con el nombre genérico «Version 11» en vez de
       «v11 · v10 + …».
@@ -53,6 +65,16 @@
 - [ ] **Aclarar una contradicción del prompt.** Dice «Nunca das el teléfono de una oficina», pero en
       «TELÉFONOS QUE PUEDES DAR» incluye Benidorm y Torrevieja para el servicio de entrega. Hay que
       dejar la excepción explícita en «QUÉ NO HACES NUNCA».
+- [ ] **Dar el horario de las oficinas con los datos de Minibús.**
+  - El bot no tiene horarios de oficina (salvo Benidorm y Torrevieja) y transfiere esas preguntas a
+    Gestión, que en fin de semana está cerrada.
+  - En 127 llamadas analizadas (V8, V10 y V11), 6 preguntaban el horario de una oficina y en unas 6
+    más el bot mandaba al cliente a la oficina sin poder decirle cuándo abre.
+  - Minibús España tiene la lista de oficinas con horarios y las reglas para darlos
+    (`../../minibus/prompts/minibus-es/v22/informacion-de-oficina.md`, sección HORARIO y lista
+    OFICINAS). Opción más rápida: copiar la parte de España en el prompt y cambiar la regla de
+    «Horario o dirección de una oficina concreta». Hay que decidir quién mantiene las dos copias.
+  - El artefacto «Respuestas de Daniel» tiene una tabla de oficinas (`offices`) que conviene cruzar.
 - [ ] **Limpiar los borradores Version 1 a 4**, que nunca se publicaron y son de pruebas. La Version 5
       no aparece en HappyRobot.
 
