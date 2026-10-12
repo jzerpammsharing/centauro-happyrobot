@@ -1,5 +1,7 @@
 # Evals automáticos de la conversación por WhatsApp (T4)
 
+> Fecha anonimizada en esta copia (fila 4a3): el eval en HappyRobot usa otra fecha de prueba.
+>
 > Última ronda: **ronda 2** (10/10 PASS), al final de este fichero. La tabla de arriba es la ronda 1.
 
 Evals personalizados de HappyRobot sobre el nodo de prompt «Reembolsos» (W1 v2, `v2 · v1 + oferta de WhatsApp y lectura de señales`).

@@ -261,7 +261,7 @@ señal de la transcripción (el extract no es fiable por sí solo):
 Lo construido difiere del diseño en lo siguiente. Resultados en
 `docs/informes/2026-10-12-pruebas-whatsapp.md`.
 
-1. **Idioma de la plantilla.** `enviar_whatsapp` recibe `idioma` del agente (apartados 4.1 y 11.5).
+1. **Idioma de la plantilla.** `enviar_whatsapp` recibe `idioma` del agente (apartado 4.1 y punto 4 de este apartado).
 2. **Email y matrícula.** Van al extract, no a la transferencia (decisión 5 y apartado 4.1).
 3. **Fase 0.** Cubierta por el tótem y por las pruebas de W2 en modo prueba (apartado 7).
 4. **Send Signal entrega el payload vacío.** Con el nodo Send Signal (con el payload en `body.raw` y

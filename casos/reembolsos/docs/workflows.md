@@ -18,9 +18,9 @@ Por nombre de nodo, en línea:
 4. Registrar resultado de la llamada (AI Extract).
 
 ### Versiones
-| Versión | Slug | Nombre / cambio | Estado |
-|---|---|---|---|
-| Version 4 | `m87e6xzgo405` | Versión en producción | **Actual (producción)** |
+| Versión | Slug | Nombre en HappyRobot | Descripción | Estado |
+|---|---|---|---|---|
+| 4 | `m87e6xzgo405` | Version 4 | Versión en producción | **Actual (producción)** |
 
 ## Centauro Reembolsos WhatsApp (`01a12d4e-7c03-7494-8e0c-194e1256f8fb`, slug `j2cgq0sfra2q`) · W1
 
@@ -45,10 +45,10 @@ respuesta vuelve a la llamada como señal. La fecha de nacimiento sigue siendo p
 Copias de los prompts: `prompts/reembolsos-whatsapp/v1/` (nodos) y `v2/` (prompt y extract).
 
 ### Versiones
-| Versión | Slug | Nombre / cambio | Estado |
-|---|---|---|---|
-| v1 | `1g52kgh7y4pn` | Copia de la V4 + Signals + `enviar_whatsapp` | Publicada por una persona para las pruebas de la señal; superada por la v2 |
-| v2 | `pc4zvke3xdjl` | `v2 · v1 + oferta de WhatsApp y lectura de señales` (prompt, evals 10/10, extract de WhatsApp) | **Actual** (publicada por una persona para pruebas, no conectada a ningún número de clientes) |
+| Versión | Slug | Nombre en HappyRobot | Descripción | Estado |
+|---|---|---|---|---|
+| v1 | `1g52kgh7y4pn` | v1 · V4 + datos por WhatsApp | Copia de la V4 + Signals + `enviar_whatsapp` | Publicada por una persona para las pruebas de la señal; superada por la v2 |
+| v2 | `pc4zvke3xdjl` | v2 · v1 + oferta de WhatsApp y lectura de señales | Prompt con reglas de WhatsApp, evals 10/10, extract de WhatsApp | **Actual** (publicada por una persona para pruebas, no conectada a ningún número de clientes) |
 
 ## Centauro Reembolsos · Datos por WhatsApp (`01a12d4c-5fe2-76d7-a233-3d5a16972ffd`, slug `p45rx5hlsber`) · W2
 
@@ -67,12 +67,12 @@ como señal en la sesión de la llamada.
 Copias: `prompts/reembolsos-whatsapp-datos/` (v1, v3 y v4).
 
 ### Versiones
-| Versión | Slug | Nombre / cambio | Estado |
-|---|---|---|---|
-| v1 | `2afxs944xpxt` | `v1 · modo prueba`: Send Signal con payload fijo | Publicada por una persona para pruebas; superada |
-| v2 | `xc8n9t2rbods` | `v2 · v1 + payload en message` | Superada: la señal seguía llegando con el payload vacío |
-| v3 | `j0utp12shz0v` | `v3 · señal por API de signals`: Webhook POST en lugar de Send Signal | Superada por la v4 |
-| v4 | `qw83lg2g3sa6` | Agente de texto de WhatsApp con plantilla mock `info_minibus` y `pasar_a_llamada` | **Actual** (publicada por una persona para pruebas) |
+| Versión | Slug | Nombre en HappyRobot | Descripción | Estado |
+|---|---|---|---|---|
+| v1 | `2afxs944xpxt` | Version 1 | Modo prueba: Send Signal con payload fijo | Publicada por una persona para pruebas; superada |
+| v2 | `xc8n9t2rbods` | v2 · v1 + payload en message | Payload también en `message` | Superada: la señal seguía llegando con el payload vacío |
+| v3 | `j0utp12shz0v` | v3 · señal por API de signals | Webhook POST en lugar de Send Signal | Superada por la v4 |
+| v4 | `qw83lg2g3sa6` | v4 · agente de WhatsApp (plantilla mock info_minibus) | Agente de texto de WhatsApp con la plantilla mock y `pasar_a_llamada` | **Actual** (publicada por una persona para pruebas) |
 
 Las versiones de W1 y W2 publicadas lo fueron para probar; no hay nada conectado a clientes. Antes
 de publicar a clientes, ver los pendientes de WhatsApp en `docs/pendientes.md`.
