@@ -234,8 +234,8 @@ antes de publicar.
 - ~~**Bloqueante de la fase 1:** credencial sin cuentas ni plantillas visibles.~~ Resuelto el
   12/10/2026 (apartado 11).
 - **Bloqueante del despliegue:** plantillas aprobadas por Meta en los cuatro idiomas.
-- **Decisión abierta:** a qué número de entrada se conecta el workflow nuevo (uno de prueba, o el
-  de Reembolsos en lugar de la V4). Lo decide y lo publica una persona.
+- ~~**Decisión abierta:** a qué número de entrada se conecta el workflow nuevo.~~ El 12/10/2026 una
+  persona conectó W1 a la línea +34 911 200 3002.
 
 ## 9. Medición
 
@@ -271,8 +271,9 @@ Lo construido difiere del diseño en lo siguiente. Resultados en
    permiso `workflow.trigger` (con el rol Viewer devuelve 403), guardada en la variable oculta
    `HR_SIGNALS_API_KEY` de W2. El payload lleva además `"origen": "whatsapp"`.
 5. **Cuenta de WhatsApp.** La credencial «Whatsapp Centauro» sí permite elegir cuenta y número en el
-   nodo: cuenta de WhatsApp Business `970312032038916` y número de empresa +44 20 4621 5219
-   (id `1423130030877057`).
+   nodo: cuenta de WhatsApp Business `970312032038916`. Las pruebas empezaron con el número de
+   empresa +44 20 4621 5219 (id `1423130030877057`); desde el 12/10/2026 se usa el número español
+   +34 914 83 13 55 (id `1359458737254289`), probado de extremo a extremo (run de W2 `eeaf365c`).
 6. **Plantilla mock `info_minibus`.** Hasta que Meta apruebe `datos_llamada_*`, W2 v4 usa la
    plantilla `info_minibus` (UTILITY, `en`), una sola, sin selección por idioma, y su mensaje habla
    del minibús. Solo para pruebas con el móvil del equipo; **nunca publicar a clientes con el mock**.
@@ -280,8 +281,8 @@ Lo construido difiere del diseño en lo siguiente. Resultados en
 7. **Pruebas.** En llamadas web `from_number` es `web`; el teléfono de destino sale de la variable
    `TELEFONO_PRUEBA` de W1, que no debe quedar con un número personal en producción.
 8. **Versiones.** W1: v1 y v2. W2: v1, v2, v3 y v4. La tabla está en `docs/workflows.md`. Las
-   versiones publicadas lo fueron por una persona para las pruebas; ninguna está conectada a un
-   número de clientes.
+   versiones las publicó una persona. Desde el 12/10/2026 W1 v2 recibe las llamadas de la línea
+   +34 911 200 3002 (ver `docs/workflows.md`).
 9. **Sin contador `ya_enviado`.** HappyRobot no expone un contador de llamadas por herramienta; el
    agente se apoya en la regla del prompt de no enviar más de un WhatsApp por llamada.
 10. **`enviar_whatsapp` no devuelve `enviado` o `error`.** Devuelve la respuesta cruda del POST, y el

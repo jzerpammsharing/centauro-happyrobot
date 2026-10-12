@@ -20,8 +20,8 @@ llamada (spec en `docs/specs/2026-10-12-datos-por-whatsapp.md`, decisión D-001)
 | Workflow | workflow_id | slug | Producción / actual (12/10/2026) |
 |---|---|---|---|
 | Centauro Reembolsos (V4) | `01a0defb-9c46-7f81-b966-69ca9d211709` | `ey9623r10ly2` | Version 4 (`m87e6xzgo405`), en producción |
-| Centauro Reembolsos WhatsApp (W1, voz) | `01a12d4e-7c03-7494-8e0c-194e1256f8fb` | `j2cgq0sfra2q` | v2 (`pc4zvke3xdjl`), publicada solo para pruebas |
-| Centauro Reembolsos · Datos por WhatsApp (W2, texto) | `01a12d4c-5fe2-76d7-a233-3d5a16972ffd` | `p45rx5hlsber` | v4 (`qw83lg2g3sa6`), publicada solo para pruebas |
+| Centauro Reembolsos WhatsApp (W1, voz) | `01a12d4e-7c03-7494-8e0c-194e1256f8fb` | `j2cgq0sfra2q` | v2 (`pc4zvke3xdjl`), publicada; recibe la línea +34 911 200 3002 desde el 12/10/2026 |
+| Centauro Reembolsos · Datos por WhatsApp (W2, texto) | `01a12d4c-5fe2-76d7-a233-3d5a16972ffd` | `p45rx5hlsber` | v4 (`qw83lg2g3sa6`), publicada; envía desde +34 914 83 13 55 (plantilla mock) |
 
 - **Ficha de los workflows** (flujo y versiones): `docs/workflows.md`. Antes de publicar a clientes,
   sigue la checklist «Antes de publicar a clientes» de ese fichero.

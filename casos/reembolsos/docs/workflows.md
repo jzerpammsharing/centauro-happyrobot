@@ -48,7 +48,7 @@ Copias de los prompts: `prompts/reembolsos-whatsapp/v1/` (nodos) y `v2/` (prompt
 | Versión | Slug | Nombre en HappyRobot | Descripción | Estado |
 |---|---|---|---|---|
 | v1 | `1g52kgh7y4pn` | v1 · V4 + datos por WhatsApp | Copia de la V4 + Signals + `enviar_whatsapp` | Publicada por una persona para las pruebas de la señal; superada por la v2 |
-| v2 | `pc4zvke3xdjl` | v2 · v1 + oferta de WhatsApp y lectura de señales | Prompt con reglas de WhatsApp, evals 10/10, extract de WhatsApp | **Actual** (publicada por una persona para pruebas, no conectada a ningún número de clientes) |
+| v2 | `pc4zvke3xdjl` | v2 · v1 + oferta de WhatsApp y lectura de señales | Prompt con reglas de WhatsApp, evals 10/10, extract de WhatsApp | **Actual**. Publicada por una persona; desde el 12/10/2026 recibe las llamadas de la línea +34 911 200 3002 |
 
 ## Centauro Reembolsos · Datos por WhatsApp (`01a12d4c-5fe2-76d7-a233-3d5a16972ffd`, slug `p45rx5hlsber`) · W2
 
@@ -59,7 +59,8 @@ como señal en la sesión de la llamada.
 1. Petición desde la llamada (trigger «Incoming hook» con API key): `telefono`, `session_key`,
    `idioma`, `entorno`.
 2. Agente de WhatsApp (Outbound Text Agent): credencial «Whatsapp Centauro», número de empresa
-   +44 20 4621 5219, plantilla inicial mock `info_minibus`, inactividad de 15 minutos. Herramienta
+   +34 914 83 13 55 (id `1359458737254289`; hasta el 12/10/2026 a las 09:50 se usó +44 20 4621 5219),
+   plantilla inicial mock `info_minibus`, inactividad de 15 minutos. Herramienta
    `pasar_a_llamada`.
 3. Señal a la llamada (API): Webhook POST a `https://platform.eu.happyrobot.ai/api/v2/signals` con
    `Authorization: Bearer` y la variable oculta `HR_SIGNALS_API_KEY`. Comprueba `status == "published"`.
@@ -74,8 +75,17 @@ Copias: `prompts/reembolsos-whatsapp-datos/` (v1, v3 y v4).
 | v3 | `j0utp12shz0v` | v3 · señal por API de signals | Webhook POST en lugar de Send Signal | Superada por la v4 |
 | v4 | `qw83lg2g3sa6` | v4 · agente de WhatsApp (plantilla mock info_minibus) | Agente de texto de WhatsApp con la plantilla mock y `pasar_a_llamada` | **Actual** (publicada por una persona para pruebas) |
 
-Las versiones de W1 y W2 publicadas lo fueron para probar; no hay nada conectado a clientes. Antes
-de publicar a clientes, ver los pendientes de WhatsApp en `docs/pendientes.md`.
+El workflow se llama ahora en HappyRobot «Centauro Reembolsos (wa) · Datos por WhatsApp».
+
+**Entrada de llamadas (12/10/2026):** W1 v2 recibe las llamadas de la línea +34 911 200 3002 (las
+primeras, a las 09:44). Mientras W2 use la plantilla mock `info_minibus`, un cliente que acepte el
+WhatsApp recibirá el mensaje del minibús: ver «Antes de publicar a clientes». La V4 tiene asignado el
+número «Onboarding» +1 628 214 2490 y en los runs revisados solo se ven llamadas web.
+
+**Si no llegan los WhatsApp:** W2 tiene que tener una versión publicada; el webhook de W1 solo llega a
+la versión publicada (el 12/10/2026 dejaron de llegar mientras W2 estaba despublicada para cambiar el
+número). Al cambiar el número en el nodo, elígelo de nuevo en el desplegable y comprueba en Meta que
+está en la misma cuenta de WhatsApp Business (`970312032038916`), donde está aprobada la plantilla.
 
 ## Antes de publicar a clientes
 
