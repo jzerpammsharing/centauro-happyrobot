@@ -22,6 +22,35 @@ Plantilla:
 
 ---
 
+## D-010 · 2026-10-12 · IT v3 y PT v3: flujo de ES v22 con las colas de cada país (borradores)
+- **Qué:**
+  - Fork de IT Version 2 → IT v3 (`jgkjecsoaxp4`) y de PT v1 → PT v3 (`2139o3pf25qm`). Se trae el
+    flujo de ES v22 y se mantienen las colas, la voz, las grabaciones y los números de cada país.
+  - Se quita la derivación nocturna («Idioma fuera de horario», «Derivacion nocturna ES/EN» y
+    `transferir_a_cola_nocturna`). La sustituye el **modo virtual** de la v22: con el centro de
+    atención cerrado (22:00–08:00 hora peninsular) Daniel atiende sin transferir, salvo averías.
+  - «Calcular horario nocturno» y «Resolver colas por idioma» copian la lógica de la v22:
+    `modo_virtual`, `gestion_abierta` (L-V 08:00–21:00 peninsular), `telefono_dictado` y el texto
+    «NO DISPONIBLE» en la cola de Gestión cerrada. Saludo, número dictado y whisper van en el
+    idioma del país; el idioma local se llama `it` / `pt` (antes `es`).
+  - Prompts de «Triaje y horario» y «Punto de encuentro», herramientas, transferencias (whisper con
+    resumen y teléfono) y extract «Registrar resultado» adaptados de la v22.
+  - **Colas de asistencia:** IT pasa de 2118/2119 (menús «RA IT-xx-OPCIONES», ver C-001) a
+    **19048 / 19049** («00. RA IT-IT RA Guasti» / «00. RA IT-EN Breakdowns»), equivalentes a las
+    18034/18035 de España. PT sigue en 19035/19036.
+  - **No se portan** «Información de oficina», «Prolongación y consultas» ni «Registrar consultas
+    del alquiler»: tienen oficinas y condiciones de alquiler de España. En IT y PT esas consultas van
+    a Gestión (o se explica su horario si está cerrada); las oficinas de estación o de ciudad, a la
+    cola de Minibús. El horario y la devolución de las oficinas de aeropuerto sí se dan (sección de
+    «Punto de encuentro»).
+  - Prompts en `prompts/minibus-it/v3/` y `prompts/minibus-pt/v3/`.
+- **Por qué:** IT y PT seguían en una copia anterior a la v19 de España: avería a un menú (2119),
+  derivación nocturna a una cola que solo pone una locución y sin el control de Gestión cerrada.
+- **Afecta a:** Minibús IT v3 y PT v3 (borradores).
+- **Quién:** jzerpa (con Claude).
+- **Estado:** borradores sin probar; pendiente de confirmar los supuestos de `pendientes.md`
+  (horarios y colas) antes de publicar.
+
 ## D-008 · 2026-10-11 · El repo es solo del caso Minibús
 - **Qué:** el proyecto se llama `centauro-happyrobot-minibus` y cubre solo los tres workflows de
   Minibús (ES, IT y PT). Otros bots de Centauro en HappyRobot, como Prolongaciones, irían en su

@@ -53,9 +53,11 @@ informacion_oficina_entregada, valido_antes_de_informar, muletillas, tono_agente
 |---|---|---|
 | v1 | yqq5wmz4g4x8 | — |
 | **Version 2** | v9c38tkjwxae | **publicada** |
+| v3 | jgkjecsoaxp4 | borrador: v2 + flujo de ES v22 con colas italianas (D-010) |
 
 ### Portugal (`01a05977-3a33-76da-acb2-a757f3947cf9`)
 | Versión | Slug | Estado |
 |---|---|---|
 | **v1** | ql6fasoxl1ql | **publicada** |
 | Version 2 | jaiwiyqhjvo0 | borrador |
+| v3 | 2139o3pf25qm | borrador: v1 + flujo de ES v22 con colas portuguesas (D-010) |

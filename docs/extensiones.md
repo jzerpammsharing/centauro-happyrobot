@@ -77,6 +77,9 @@ Las colas de Gestión, Nueva reserva y Averías de España están en la tabla de
 |---|---|---|
 | 18071 / 18074 | IT Mod. Reserva IT-IT / IT-EN | Mismo horario de fin de semana que Gestión ES |
 | 18024 / 19042 | IT Nuova Prenotazione IT-IT / IT-EN | |
+| 19048 / 19049 | 00. RA IT-IT RA Guasti / 00. RA IT-EN Breakdowns | Averías de Minibús IT desde la v3 (antes 2118/2119, menús) |
+| 19023 / 19028 | 00. CC PT-PT-1 Nova Reserva / PT-EN | |
+| 19035 / 19036 | 00. RA PT-PT RA Averias / 00. RA PT-EN Breakdowns | Averías de Minibús PT |
 | 18064 / 18067 | PT Alteração PT-PT / PT Management EN | Mismo horario de fin de semana que Gestión ES |
 
 ## ⚠️ Destinos prohibidos (menús automáticos, no agentes)
@@ -88,3 +91,4 @@ Una transferencia con resumen a un menú falla siempre a los 54 s, porque nadie 
 | 2114 | Menú de asistencia en carretera (ES), «RA ES-ES-Opciones» | Minibús ES 09/10; Prolongaciones V6 (05/10–07/10) |
 | 2115 | Menú de asistencia en carretera (EN), «RA ES-EN-OPCIONES» | Minibús ES 09/10 y 10/10 (v19); Prolongaciones V6 (05/10–07/10) |
 | 2119 | RA IT-EN-OPCIONES | Minibús IT 10/10 (v2) |
+| 2118 | RA IT-IT-OPCIONES (por el nombre, menú como la 2119) | Configurada en Minibús IT v2 |
