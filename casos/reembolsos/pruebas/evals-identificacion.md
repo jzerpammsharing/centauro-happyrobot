@@ -17,3 +17,13 @@ Resultados: V5 23/23 (19 previas + 4 nuevas; la «03 matrícula en vez del núme
 pasada, se ajustó el prompt y pasa). W1 v3: 14/14 (10 previas + 4 nuevas). W2 v8: 2/3; falla W-c.
 Código del filtro probado en local con el texto de cada `isError` del MCP (número, email, DNI, fecha,
 falta, «no disponible», timeout, otro), en texto plano y en formato de contenido MCP.
+
+## Segunda pasada (15/10/2026)
+
+- V5: las 14 evals que no se habían repetido tras el ajuste de la «03 matrícula» pasan con el prompt
+  definitivo. V5 queda 23/23 contra la versión final.
+- Extract «Registrar resultado de la llamada» (V5), actualizado para email/DNI: `test_node` sin errores,
+  los 30 campos con valores válidos. Solo prueba la estructura (transcripción vacía de ejemplo), no
+  cómo puntúa una llamada por email o DNI.
+- Sin probar: consulta real por email o DNI contra el MCP; nodos de W2 que envían (POST de la señal y
+  `pasar_a_llamada`). Sigue fallando W-c.

@@ -1,7 +1,7 @@
 # Pendientes del caso Reembolsos
 
-- [ ] **Identificación por email o DNI/NIE (D-003):** probar por voz V5, W1 v3 y W2 v8 y publicar (W1 v3 y W2 v8 a la vez, porque la señal cambia `matricula` por `dni`).
-- [ ] D-003, nodo «Registrar resultado de la llamada» (extract de V5 y W1 v3): su prompt aún dice «nunca pide correo» y que se identifica con tres datos; marcará `incumplio_restriccion = si` en las llamadas por email. Actualizarlo en una versión siguiente (no se tocó).
+- [ ] **Identificación por email o DNI/NIE (D-003):** W1 v3 y W2 v8 están live desde el 15/10/2026; probar por voz y publicar la V5.
+- [x] D-003, extract «Registrar resultado de la llamada» (V5 y W1 v3): actualizado el 15/10/2026 (identificación por número, email o DNI/NIE; pedir email o DNI solo es incumplimiento si ya hay número; la confirmación del alquiler no cuenta como leer datos sin verificar). `matricula_whatsapp` queda como campo heredado (siempre «ninguna»); el DNI no se registra.
 - [ ] D-003, plantilla Meta `datos_reserva`: pide número y nombre, y «email y matrícula» opcionales. No menciona el DNI y sugiere la matrícula, que ya no se usa. Pedir una versión nueva de la plantilla.
 - [ ] D-003, W2 v8: la eval «Solo nombre: pide el dato de la reserva y no pasa nada» falla (2 intentos y reforzando prompt y herramienta): el agente (gpt-5.4-mini) ejecuta `pasar_a_llamada` con solo el nombre. Efecto limitado: la señal llega sin identificador y W1 v3 pide el dato por voz.
 - [ ] D-003: no hay evals de `consultar_reserva` ni de otros agentes que usen el MCP; el MCP ya acepta email y DNI allí.
