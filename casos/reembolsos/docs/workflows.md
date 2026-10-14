@@ -20,7 +20,8 @@ Por nombre de nodo, en línea:
 ### Versiones
 | Versión | Slug | Nombre en HappyRobot | Descripción | Estado |
 |---|---|---|---|---|
-| 4 | `m87e6xzgo405` | Version 4 | Versión en producción | **Actual (producción)** |
+| 4 | `m87e6xzgo405` | Version 4 | Versión en producción | Base de la V5. Ojo: el 14/10/2026 HappyRobot la lista como no publicada (la publicada es la V3, `1ahurz19vb34`); confirmar cuál recibe llamadas |
+| 5 | `gwe1rc4d1po6` | Version 5 | V4 + identificación por email o DNI/NIE (D-003) | Sin publicar; pendiente de la prueba por voz. Copia: `prompts/reembolsos-v5/` |
 
 ## Centauro Reembolsos WhatsApp (`01a12d4e-7c03-7494-8e0c-194e1256f8fb`, slug `j2cgq0sfra2q`) · W1
 
@@ -49,6 +50,9 @@ Copias de los prompts: `prompts/reembolsos-whatsapp/v1/` (nodos) y `v2/` (prompt
 |---|---|---|---|---|
 | v1 | `1g52kgh7y4pn` | v1 · V4 + datos por WhatsApp | Copia de la V4 + Signals + `enviar_whatsapp` | Publicada por una persona para las pruebas de la señal; superada por la v2 |
 | v2 | `pc4zvke3xdjl` | v2 · v1 + oferta de WhatsApp y lectura de señales | Prompt con reglas de WhatsApp, evals 10/10, extract de WhatsApp | **Actual**. Publicada por una persona; desde el 12/10/2026 recibe las llamadas de la línea +34 911 200 3002 |
+| v3 | `o9e9ly8yd6bx` | Version 3 | v2 + identificación por email o DNI/NIE (D-003); la señal de WhatsApp trae `dni` en vez de `matricula` | Sin publicar; pendiente de la prueba por voz. Copia: `prompts/reembolsos-whatsapp/v3/`. Publicar junto con W2 v8 |
+
+El workflow se llama ahora en HappyRobot «Centauro Reembolsos Llamada + w» (visto el 14/10/2026).
 
 ## Centauro Reembolsos · Datos por WhatsApp (`01a12d4c-5fe2-76d7-a233-3d5a16972ffd`, slug `p45rx5hlsber`) · W2
 
@@ -65,7 +69,17 @@ como señal en la sesión de la llamada.
 3. Señal a la llamada (API): Webhook POST a `https://platform.eu.happyrobot.ai/api/v2/signals` con
    `Authorization: Bearer` y la variable oculta `HR_SIGNALS_API_KEY`. Comprueba `status == "published"`.
 
-Copias: `prompts/reembolsos-whatsapp-datos/` (v1, v3 y v4).
+### Cambios de la v7 (D-002)
+- Nodo nuevo «Elegir plantilla» (Python Sandbox) tras el trigger: da `idioma_plantilla` (`es`, o
+  `en` para el resto).
+- Nodo de rutas «Idioma de la plantilla»: «Español» → «Agente de WhatsApp (es)»; «Fallback» →
+  «Agente de WhatsApp (en)». Cada agente lleva `datos_reserva` en modo estático con el idioma fijado
+  por la API, sin parámetros, y su copia de `pasar_a_llamada` y del POST «Señal a la llamada (API)».
+  **Los cambios de prompt, herramienta o POST van en las dos ramas.**
+- Prompt sin la primera línea de la plantilla mock.
+- No editar la plantilla desde el desplegable del editor: guarda la inglesa en las dos ramas.
+
+Copias: `prompts/reembolsos-whatsapp-datos/` (v1, v3, v4, v5, v6 y v7).
 
 ### Versiones
 | Versión | Slug | Nombre en HappyRobot | Descripción | Estado |
@@ -74,6 +88,10 @@ Copias: `prompts/reembolsos-whatsapp-datos/` (v1, v3 y v4).
 | v2 | `xc8n9t2rbods` | v2 · v1 + payload en message | Payload también en `message` | Superada: la señal seguía llegando con el payload vacío |
 | v3 | `j0utp12shz0v` | v3 · señal por API de signals | Webhook POST en lugar de Send Signal | Superada por la v4 |
 | v4 | `qw83lg2g3sa6` | v4 · agente de WhatsApp (plantilla mock info_minibus) | Agente de texto de WhatsApp con la plantilla mock y `pasar_a_llamada` | **Actual** (publicada por una persona para pruebas) |
+| v5 | `0urzqrnn4yfr` | v5 · v4 + plantilla datos_reserva (es/en por ID) | Plantilla `datos_reserva` en modo dinámico con el ID de Meta (D-002) | No funciona (`template_not_found`: busca por nombre). Publicada solo en development para la prueba |
+| v6 | `ag32yoirx45a` | v6 · prueba: plantilla estática datos_reserva con idioma es | Prueba: plantilla estática con `language = es` fijado por la API | Llega en español. Publicada solo en development para la prueba |
+| v7 | `63eqtfk9nrdl` | v7 · v4 + plantilla datos_reserva (rama es / en) | Plantilla real con una rama y un agente por idioma (D-002) | Publicada (vista live el 14/10/2026) |
+| v8 | `fm6g5527v6lw` | Version 8 | v7 + el agente acepta número, email o DNI/NIE y pasa `dni` en lugar de `matricula` (D-003, en las dos ramas) | Sin publicar. Copia: `prompts/reembolsos-whatsapp-datos/v8/`. La plantilla `datos_reserva` no cambia: sigue pidiendo número, nombre, y email y matrícula opcionales |
 
 El workflow se llama ahora en HappyRobot «Centauro Reembolsos (wa) · Datos por WhatsApp».
 
@@ -91,8 +109,9 @@ está en la misma cuenta de WhatsApp Business (`970312032038916`), donde está a
 
 Checklist para W1 y W2. Esta rama debe revisarse antes de publicar (CLAUDE.md raíz, apartado 3).
 
-- [ ] **Plantilla mock.** W2 v4 usa `info_minibus`. W1 no debe conectarse a números de clientes hasta
-  que `datos_llamada_*` estén aprobadas y se elija la plantilla por idioma.
+- [ ] **Plantilla mock.** W2 v4 usa `info_minibus`. La v7 la sustituye por `datos_reserva` (rama
+  es/en; D-002). Antes de publicarla: comprobar con un envío real en `es` y en `en` que llega cada
+  plantilla en su idioma.
 - [ ] **`HR_SIGNALS_API_KEY`.** Tiene un rol con `workflow.trigger` en todo el workspace y no caduca:
   limitarla por etiquetas a Centauro y darle caducidad y rotación.
 - [ ] **Hook de W2.** El hook publicado solo está protegido por `WA_DATOS_API_KEY`: quien la tenga
