@@ -48,6 +48,7 @@ informacion_oficina_entregada, valido_antes_de_informar, muletillas, tono_agente
 | v21 | djfjfsx8zq2f | v19 + voz, Palma y respuestas validadas | recibió llamadas sin estar publicada (hasta el 10/10) |
 | **v22** | 2l6skwt8wphb | v21 + horario de la cola de Gestión | **publicada** (desde la noche del 11 al 12/10) |
 | v23 | 3o04zrwgfj0g | v22 + saltos entre módulos | borrador completo, sin probar |
+| v24 | 5g6422lgdcem | v23 + WhatsApp del punto de encuentro con geolocalización (MAD, SVQ, AGP) | borrador, sin probar (D-010) |
 
 ### Italia (`01a03a65-3700-74c1-9c7b-e9c708833c4b`)
 | Versión | Slug | Estado |
