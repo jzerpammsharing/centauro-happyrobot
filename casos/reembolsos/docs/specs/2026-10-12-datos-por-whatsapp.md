@@ -295,3 +295,7 @@ Lo construido difiere del diseño en lo siguiente. Resultados en
     oferta sustituya solo el paso «pide que te repita el número despacio» y relanzar el eval 4d.
 12. **Segunda oferta tras «verificado false».** Es más estrecha que en el apartado 5 (solo si el
     cliente no sabe qué corregir). Se acepta por ahora.
+13. **Plantillas reales (14/10/2026, D-002).** Meta aprobó `datos_reserva` (no `datos_llamada_*`) solo
+    en `es` y `en`, con otro texto que el del apartado 6 (copiado en
+    `prompts/reembolsos-whatsapp-datos/v7/`). W2 v7 tiene una rama y un agente por idioma; `it` y
+    `pt` reciben la inglesa.

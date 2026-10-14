@@ -3,8 +3,8 @@
 ## Incidencias abiertas
 - [ ] **Averías enviadas a menús** (2114, 2115 y 2119): ver C-001. Afecta a ES v17, v18 y v19 y a
       IT v2.
-- [ ] **Llamadas de ES por versiones no publicadas** (v19, v21, v22): 70 de 133 el 10/10.
-      Revisar qué números de teléfono apuntan a cada versión.
+- [x] **Llamadas de ES por versiones no publicadas** (v19, v21, v22): 70 de 133 el 10/10.
+      Resuelto: la v22 se publicó la noche del 11 al 12/10 y desde entonces entra todo por ella.
   - Desde el 10/10 hacia las 18:40 solo entran la v17 (publicada) y la v22 (no publicada), casi a
     medias: el 11/10, 27 y 28 runs. La v19 y la v21 ya no reciben llamadas.
   - Comparación v17/v22 del fin de semana: `informes/2026-10-11-v17-vs-v22.md`.
@@ -16,6 +16,11 @@
       sección de Gestión cerrada. El bot pasó el texto como `extension_destino` y la transferencia
       falló con «invalid phone number». Misma causa que en Prolongaciones: «Resolver colas» deja el
       texto donde va la extensión.
+- [ ] **v22 no tiene en cuenta los festivos** en `gestion_abierta` (solo mira día de la semana y
+      hora). El 12/10 (festivo nacional) la Gestión sí tuvo agentes, así que no hizo daño; falta
+      confirmar con Centauro qué festivos cierra Gestión.
+- [ ] **v22: dice «le paso con un compañero» dos veces** (por su cuenta y dentro de la herramienta)
+      en 4 de 34 llamadas del 12/10 (d1774c82, c21eba56, a3be3ecb, bac77e01).
 - [ ] **v22: tutea** («Perdón, continúa.», «Perdón, dime.») en 5 de 37 llamadas (10–11/10).
 - [ ] **v22: información inventada** el 11/10: oficina en el aeropuerto de A Coruña (2ff9ad71) y
       «el minibús es amarillo» (a0b9b970).
@@ -30,6 +35,16 @@
       transfiere a esas colas (minibús o idioma no atendido). Hay que corregir la sección 4 de
       `rutinas/informe-minibus.md` para que cuente solo las patas que casan con un intento de
       Minibús, como ya hace con 18057, 18061, 18001, 18006 y 18034.
+
+- [ ] **v23: probar con llamadas reales** (D-009). Los 4 «Module Change» están enlazados y la batería de evals pasa: 14/14 nuevas y 24/24 de regresión (`informes/2026-10-12-v23-evals.md`). Falta el recorrido completo en una llamada.
+  - Probar los recorridos mixtos: minibús → prolongar, prolongar → minibús, oficina → fianza,
+    recoger tarde → punto de encuentro, y prolongar → oficina en modo virtual.
+  - Revisar que al cambiar de módulo no repite el saludo ni vuelve a preguntar el motivo.
+  - Revisar los extracts:
+    - Hecho (12/10): «Registrar consultas del alquiler» ya lee también el `tema` y la `pregunta` de
+      las dos `consultas_alquiler` nuevas.
+    - En «Registrar resultado», `ultima_herramienta` y `fase_transferencia` no conocen la fase de
+      consultas.
 
 ## Mejoras propuestas
 - [ ] Mejoras de prompt de D-006 (estimación: resueltas del 42 % al 54 %).

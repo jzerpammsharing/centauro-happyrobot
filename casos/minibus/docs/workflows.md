@@ -38,15 +38,16 @@ informacion_oficina_entregada, valido_antes_de_informar, muletillas, tono_agente
 ## Versiones
 
 ### España (`019f7594-2cce-7eed-b995-dd9ea64a1062`)
-| Versión | Slug | Nombre / cambio | Estado (11/10/2026) |
+| Versión | Slug | Nombre / cambio | Estado (12/10/2026) |
 |---|---|---|---|
 | v16 | dlcl04sr1x8s | borrador: información de oficinas | — |
-| **v17** | i0syf61bujsz | horario 08-23 y modo virtual | **publicada** |
+| v17 | i0syf61bujsz | horario 08-23 y modo virtual | publicada hasta el 11/10 |
 | v18 | 21atxbf5mw1n | puntos de encuentro + idioma | recibió llamadas el 09/10 |
-| v19 | viuq0asx7ggf | v17 + prolongaciones y consultas + mejoras del análisis | recibe llamadas sin estar publicada |
+| v19 | viuq0asx7ggf | v17 + prolongaciones y consultas + mejoras del análisis | recibió llamadas sin estar publicada (hasta el 10/10) |
 | v20 | 4onx46ig1kz4 | v19 + WhatsApp del punto de encuentro | — |
-| v21 | djfjfsx8zq2f | v19 + voz, Palma y respuestas validadas | recibe llamadas sin estar publicada |
-| v22 | 2l6skwt8wphb | v21 + horario de la cola de Gestión | recibe llamadas sin estar publicada |
+| v21 | djfjfsx8zq2f | v19 + voz, Palma y respuestas validadas | recibió llamadas sin estar publicada (hasta el 10/10) |
+| **v22** | 2l6skwt8wphb | v21 + horario de la cola de Gestión | **publicada** (desde la noche del 11 al 12/10) |
+| v23 | 3o04zrwgfj0g | v22 + saltos entre módulos | borrador completo, sin probar |
 
 ### Italia (`01a03a65-3700-74c1-9c7b-e9c708833c4b`)
 | Versión | Slug | Estado |
