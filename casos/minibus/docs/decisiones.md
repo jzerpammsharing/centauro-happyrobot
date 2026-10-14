@@ -22,6 +22,30 @@ Plantilla:
 
 ---
 
+## D-010 · 2026-10-15 · v24: WhatsApp del punto de encuentro solo con seguimiento en directo (borrador)
+- **Qué:**
+  - Fork de la v23: v24 (`5g6422lgdcem`).
+  - El agente ofrece una vez el WhatsApp con el punto de encuentro, y se envía al terminar la llamada,
+    solo para Madrid (T1, T2, T4), Sevilla y Málaga: los aeropuertos con seguimiento en directo en
+    buscentauro.com.
+  - Plantilla de Meta nueva `minibus_punto_texto_boton` (español, botón «Ver minibús en directo»).
+    La de inglés aún no existe: solo se envía en llamadas en español.
+  - El diccionario `TRACKING` de «Preparar WhatsApp minibús» decide por aeropuerto.
+  - `frecuencia` = «15 a 20 minutos» en el WhatsApp para los tres aeropuertos.
+  - Detalle en `prompts/minibus-es/v24/`.
+- **Por qué:**
+  - El botón de seguimiento solo sirve donde el minibús tiene geolocalización; enviar el mensaje
+    en el resto de aeropuertos daría un enlace sin datos.
+  - Retoma el envío de la v20 (borrador sin publicar) sobre la v23, con la plantilla nueva.
+- **Afecta a:** Minibús ES v24.
+- **Quién:** jzerpa.
+- **Estado:** borrador (sin probar ni publicar).
+  - **Revisar en el editor:** el nodo «Enviar WhatsApp del punto de encuentro» se montó sin poder
+    leer la plantilla desde Meta; hay que reseleccionarla y comprobar que las cuatro variables
+    quedan asignadas.
+  - **Frecuencia:** el prompt de voz dice «diez o quince minutos» en estos tres aeropuertos y el
+    WhatsApp «15 a 20 minutos»; conviene unificarlas.
+
 ## D-009 · 2026-10-12 · v23: saltos entre módulos (borrador)
 - **Qué:**
   - Fork de la v22: v23 (`3o04zrwgfj0g`).
