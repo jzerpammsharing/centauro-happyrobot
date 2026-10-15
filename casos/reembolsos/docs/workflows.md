@@ -53,8 +53,8 @@ Copias de los prompts: `prompts/reembolsos-whatsapp/v1/` (nodos) y `v2/` (prompt
 |---|---|---|---|---|
 | v1 | `1g52kgh7y4pn` | v1 · V4 + datos por WhatsApp | Copia de la V4 + Signals + `enviar_whatsapp` | Publicada por una persona para las pruebas de la señal; superada por la v2 |
 | v2 | `pc4zvke3xdjl` | v2 · v1 + oferta de WhatsApp y lectura de señales | Prompt con reglas de WhatsApp, evals 10/10, extract de WhatsApp | **Actual**. Publicada por una persona; desde el 12/10/2026 recibe las llamadas de la línea +34 911 200 3002 |
-| v3 | `o9e9ly8yd6bx` | Version 3 | v2 + identificación por email o DNI/NIE (D-003); la señal de WhatsApp trae `dni` en vez de `matricula` | Publicada (live el 15/10/2026, no por Claude). Copia: `prompts/reembolsos-whatsapp/v3/` |
-| v4 | `n9k51iiu8ehw` | v4 · v3 + WhatsApp solo con dificultad y «ya he encontrado su reserva» | Sin oferta inicial de WhatsApp: se ofrece una vez, solo con dificultad (corrección de un dato repetido, dato confuso al segundo intento, no encontrada, verificado false o dato no interpretado). Al verificar dice «Ya he encontrado su reserva» (D-004) | Sin publicar; pendiente de la prueba por voz. Copia: `prompts/reembolsos-whatsapp/v4/` |
+| v3 | `o9e9ly8yd6bx` | Version 3 | v2 + identificación por email o DNI/NIE (D-003); la señal de WhatsApp trae `dni` en vez de `matricula` | Superada por la v4. Copia: `prompts/reembolsos-whatsapp/v3/` |
+| v4 | `n9k51iiu8ehw` | v4 · v3 + WhatsApp solo con dificultad y «ya he encontrado su reserva» | Sin oferta inicial de WhatsApp: se ofrece una vez, solo con dificultad (corrección de un dato repetido, dato confuso al segundo intento, no encontrada, verificado false o dato no interpretado). Al verificar dice «Ya he encontrado su reserva» (D-004) | **Actual** (live el 15/10/2026, publicada por una persona). Copia: `prompts/reembolsos-whatsapp/v4/` |
 
 El workflow se llama ahora en HappyRobot «Centauro Reembolsos Llamada + w» (visto el 14/10/2026).
 
@@ -94,7 +94,7 @@ Copias: `prompts/reembolsos-whatsapp-datos/` (v1, v3, v4, v5, v6 y v7).
 | v4 | `qw83lg2g3sa6` | v4 · agente de WhatsApp (plantilla mock info_minibus) | Agente de texto de WhatsApp con la plantilla mock y `pasar_a_llamada` | **Actual** (publicada por una persona para pruebas) |
 | v5 | `0urzqrnn4yfr` | v5 · v4 + plantilla datos_reserva (es/en por ID) | Plantilla `datos_reserva` en modo dinámico con el ID de Meta (D-002) | No funciona (`template_not_found`: busca por nombre). Publicada solo en development para la prueba |
 | v6 | `ag32yoirx45a` | v6 · prueba: plantilla estática datos_reserva con idioma es | Prueba: plantilla estática con `language = es` fijado por la API | Llega en español. Publicada solo en development para la prueba |
-| v7 | `63eqtfk9nrdl` | v7 · v4 + plantilla datos_reserva (rama es / en) | Plantilla real con una rama y un agente por idioma (D-002) | Publicada (vista live el 14/10/2026) |
+| v7 | `63eqtfk9nrdl` | v7 · v4 + plantilla datos_reserva (rama es / en) | Plantilla real con una rama y un agente por idioma (D-002) | Superada por la v8 |
 | v8 | `fm6g5527v6lw` | Version 8 | v7 + el agente acepta número, email o DNI/NIE y pasa `dni` en lugar de `matricula` (D-003, en las dos ramas) | Publicada (live el 15/10/2026, no por Claude). Copia: `prompts/reembolsos-whatsapp-datos/v8/`. La plantilla `datos_reserva` no cambia: sigue pidiendo número, nombre, y email y matrícula opcionales |
 
 El workflow se llama ahora en HappyRobot «Centauro Reembolsos (wa) · Datos por WhatsApp».

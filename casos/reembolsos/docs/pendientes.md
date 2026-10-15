@@ -1,6 +1,7 @@
 # Pendientes del caso Reembolsos
 
-- [ ] **D-004:** probar por voz W1 v4 (WhatsApp solo con dificultad y «ya he encontrado su reserva») y publicarla. La V5 de «Centauro Reembolsos» no se publica (congelado).
+- [ ] **D-004:** W1 v4 ya está live (15/10/2026). Falta la prueba por voz con el callcenter (WhatsApp solo con dificultad, «ya he encontrado su reserva», identificación por email y DNI). La V5 de «Centauro Reembolsos» no se publica (congelado).
+- [ ] W1 v4, eval «4d segunda oferta»: viene de la v2, cuando había oferta inicial; su respuesta esperada pide ofrecer el WhatsApp «por segunda vez» y el juez lo da por bueno. En la v4, si el cliente ya rechazó la oferta, no se vuelve a ofrecer. Revisar en el editor si la conversación de la eval trae una oferta rechazada: si la trae, la v4 contradice su propia regla (hay que corregir el prompt en una v5) y la eval hay que reescribirla («primera oferta tras no encontrada»). Añadir otra eval: «rechazó antes, no encontrada → pide repetir el número, sin ofrecer».
 - [ ] D-004: el extract de W1 no distingue si el WhatsApp se ofreció al principio o por dificultad; valorar un campo `motivo_oferta_whatsapp` tras las primeras llamadas.
 - [x] D-003, extract «Registrar resultado de la llamada» (V5 y W1 v3): actualizado el 15/10/2026 (identificación por número, email o DNI/NIE; pedir email o DNI solo es incumplimiento si ya hay número; la confirmación del alquiler no cuenta como leer datos sin verificar). `matricula_whatsapp` queda como campo heredado (siempre «ninguna»); el DNI no se registra.
 - [ ] D-003, plantilla Meta `datos_reserva`: pide número y nombre, y «email y matrícula» opcionales. No menciona el DNI y sugiere la matrícula, que ya no se usa. Pedir una versión nueva de la plantilla.
