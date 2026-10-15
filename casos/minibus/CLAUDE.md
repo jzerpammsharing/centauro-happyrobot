@@ -31,6 +31,7 @@ encuentro o les transfieren a las colas del call center en RingCentral.
 | `docs/informes/` | Resumen mensual de los informes diarios |
 | `prompts/minibus-<es\|it\|pt>/<versión>/` | Copias de los prompts |
 | `rutinas/informe-minibus.md` | Prompt de la rutina diaria de calidad |
+| `rutinas/vigilancia-v24-ab.md` | Prompt de la rutina horaria que vigila v24 durante el test A/B con v22 |
 
 ## 3. Reglas propias de Minibús
 
