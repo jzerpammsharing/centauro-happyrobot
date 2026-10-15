@@ -1,30 +1,45 @@
 # Pendientes del caso Reembolsos
 
+- [ ] **D-005:** W1 v5 y W2 v9 publicadas el 15/10/2026 por la tarde sin prueba por voz previa. Repetir las cuatro llamadas del informe `docs/informes/2026-10-15-pruebas-tarde-w1-v4.md` y revisar las primeras llamadas reales. Fijarse en los silencios tras «Se lo acabo de enviar»: los turnos que HappyRobot da al agente en silencio no se pueden reproducir con evals.
+- [ ] D-005: velocidad de la voz. La v4/v5 no fijan `voice_speed`; si se quiere «más despacio», bajarla en el editor (por voz, 0,7-1,2) y probar con una llamada.
+- [ ] D-005: el cliente ofreció el DNI/NIE y Daniel insistió en el email (orden de D-003). En las pruebas el email por voz falló las tres veces y el NIE se entendió a la primera: valorar aceptar el DNI/NIE si el cliente lo ofrece.
+- [ ] D-005: Daniel aceptó un número ER con nueve cifras sin preguntar (llamada 3 del informe). Valorar pedir confirmación si no son ocho.
+- [x] **D-004:** probar por voz W1 v4 y publicarla. Publicada el 15/10/2026 (no por Claude); la prueba de la tarde dio los fallos que corrige D-005. La V5 de «Centauro Reembolsos» no se publica (congelado).
+- [ ] D-004: el extract de W1 no distingue si el WhatsApp se ofreció al principio o por dificultad; valorar un campo `motivo_oferta_whatsapp` tras las primeras llamadas.
+- [x] D-003, extract «Registrar resultado de la llamada» (V5 y W1 v3): actualizado el 15/10/2026 (identificación por número, email o DNI/NIE; pedir email o DNI solo es incumplimiento si ya hay número; la confirmación del alquiler no cuenta como leer datos sin verificar). `matricula_whatsapp` queda como campo heredado (siempre «ninguna»); el DNI no se registra.
+- [ ] D-003, plantilla Meta `datos_reserva`: pide número y nombre, y «email y matrícula» opcionales. No menciona el DNI y sugiere la matrícula, que ya no se usa. Pedir una versión nueva de la plantilla.
+- [ ] D-003, W2 v8: la eval «Solo nombre: pide el dato de la reserva y no pasa nada» falla (2 intentos y reforzando prompt y herramienta): el agente (gpt-5.4-mini) ejecuta `pasar_a_llamada` con solo el nombre. Efecto limitado: la señal llega sin identificador y W1 v3 pide el dato por voz. En W2 v9 (D-005) pasa en 1 de 2 intentos: sigue inestable.
+- [ ] D-003: no hay evals de `consultar_reserva` ni de otros agentes que usen el MCP; el MCP ya acepta email y DNI allí.
 - [ ] Documentar el caso: `CLAUDE.md` y `docs/workflows.md`.
 - [x] Guardar en `prompts/` los prompts de la versión publicada (V4 en `prompts/reembolsos-v4/`).
 - [ ] Revisar que no transfiere a 2114, 2115 ni 2119 (C-001).
 - [ ] Reembolsos WhatsApp: la herramienta `enviar_whatsapp` no puede devolver `ya_enviado`: HappyRobot no expone un contador de llamadas por herramienta (solo `num_tool_calls` global del agente). Se confía en la regla del prompt («nunca ejecutes enviar_whatsapp más de una vez por llamada»); revisar en las pruebas del caso 4.e.
-- [ ] Reembolsos WhatsApp (W2 v4): pedir en Meta las plantillas `datos_llamada_es`, `datos_llamada_en`, `datos_llamada_it` y `datos_llamada_pt` (textos en `prompts/reembolsos-whatsapp-datos/v4/agente-whatsapp.md`).
-- [ ] Reembolsos WhatsApp (W2 v4): sustituir la plantilla mock `info_minibus` por `datos_llamada_*` y quitar del prompt la primera línea (solo válida para el mock).
-- [ ] Reembolsos WhatsApp (W2): selección de plantilla por `idioma` (rama por idioma antes del agente o plantilla dinámica); hoy solo hay una plantilla fija.
+- [x] Reembolsos WhatsApp (W2): plantillas en Meta. Aprobadas como `datos_reserva` en `es` y `en` (no `datos_llamada_*`), con otro texto (D-002).
+- [x] Reembolsos WhatsApp (W2): sustituir la plantilla mock `info_minibus` y quitar del prompt la primera línea. Hecho en W2 v7, sin publicar (D-002).
+- [x] Reembolsos WhatsApp (W2): selección de plantilla por `idioma`. W2 v7: «Elegir plantilla» + rama «Idioma de la plantilla» con un agente por idioma (D-002). El modo dinámico por ID de Meta (v5) no funciona.
+- [ ] Reembolsos WhatsApp (W2 v7): probar con un envío real en `es` y en `en` (y uno en `it`, que debe ir por la inglesa) antes de publicar la v7.
+- [ ] Reembolsos WhatsApp (W2): pedir en Meta `datos_reserva_es` y `datos_reserva_en` (mismo texto, nombres distintos). Cuando estén aprobadas, versión nueva con un solo agente y plantilla dinámica por nombre (`datos_reserva_<idioma>`), sin las ramas duplicadas de la v7.
+- [ ] Reembolsos WhatsApp (W2): no hay plantillas `datos_reserva` en `it` ni `pt`; esos clientes reciben la inglesa.
+- [ ] Reembolsos WhatsApp (W2 v7): el agente, la herramienta y el POST están duplicados por idioma. Mientras dure, cualquier cambio va en las dos ramas.
 - [ ] Reembolsos WhatsApp (W2 v4): comprobar si HappyRobot escapa los valores `{{$var}}` dentro de `body.raw` JSON (comillas, `\` y saltos de línea en los datos del cliente); si no, valorar construir el payload en un nodo Python que haga `json.dumps`. Hoy solo hay instrucciones de limpieza en la herramienta y el prompt, sin probar.
 - [ ] Reembolsos WhatsApp: casos de prueba 5.b–5.f sin hacer (reserva en minúsculas o con espacios, captura del correo con OCR, nota de voz, pregunta de fianza o reembolso por WhatsApp, reescribir datos tras enviarlos). Informe en `docs/informes/2026-10-12-pruebas-whatsapp.md`.
 - [ ] Reembolsos WhatsApp: la API key «Reembolsos · señales WhatsApp» (variable `HR_SIGNALS_API_KEY` de W2) tiene un rol con `workflow.trigger` en TODO el workspace y no caduca. Antes de publicar: limitarla por etiquetas a Centauro y darle caducidad y rotación.
 - [ ] Reembolsos WhatsApp: vaciar `TELEFONO_PRUEBA` en producción (W1); no debe quedar un número personal en la variable.
 - [ ] Reembolsos WhatsApp: mostrar email y matrícula al agente humano (whisper o popup): hoy solo quedan en el extract (`email_whatsapp`, `matricula_whatsapp`) y el susurro de la transferencia está vacío.
-- [ ] Reembolsos WhatsApp: decidir a qué número de entrada se conecta W1 (uno de prueba o el de Reembolsos en lugar de la V4). Lo decide y lo publica una persona.
-- [ ] Reembolsos WhatsApp: mejora del prompt: tras «no encontrada» con datos llegados por WhatsApp, pedir que revise lo que escribió en el WhatsApp antes de dictar carácter a carácter.
+- [x] Reembolsos WhatsApp: número de entrada de W1. El 12/10/2026 una persona lo conectó a la línea +34 911 200 3002.
+- [ ] **Urgente** · Reembolsos WhatsApp: W1 ya recibe llamadas de la línea +34 911 200 3002 y W2 sigue con la plantilla mock `info_minibus`. Un cliente que acepte el WhatsApp recibe el mensaje del minibús. Cambiar a `datos_llamada` en cuanto la apruebe Meta, o desactivar la oferta de WhatsApp (o desconectar la línea) hasta entonces. 14/10/2026: Meta aprobó `datos_reserva` y W2 v7 ya la usa; se cierra cuando una persona publique la v7 en producción tras la prueba de envío.
+- [x] Reembolsos WhatsApp: mejora del prompt: tras «no encontrada» con datos llegados por WhatsApp, pedir que revise lo que escribió. Hecho en W1 v5 (D-005): pregunta si lo escribió bien y sigue por voz, sin pedir que escriba más en el WhatsApp.
 - [ ] Cambiar en el prompt de HappyRobot (V4 y W1) los ejemplos de «Verificado false» (nombre y fecha reales) y de «DICTADO POR PARTES» y de confirmación de número de reserva (posibles números reales) por otros inventados (versión nueva, la publica una persona).
 - [ ] Lógica del teléfono (`codigo/telefono_whatsapp.py`): `+0034…` no se normaliza; los extranjeros no tienen cota superior ni comprobación de solo dígitos; 9 cifras sin prefijo se asumen de España (documentarlo); faltan pruebas de esos casos límite. Si se cambia, hay que pegar de nuevo las funciones en «Calcular idioma y saludo» de W1.
 - [ ] Reembolsos WhatsApp (W2): el nombre visible del agente de WhatsApp es «Centauro Rent a Car» en vez de «Daniel»; decidir.
 - [ ] Reembolsos WhatsApp: el juez del eval 4a3 es permisivo con el acuse corto; endurecer el criterio.
 - [ ] Reembolsos WhatsApp: `whatsapp_datos_recibidos = si` del extract no está probado con una transcripción real con señal; revisar en el primer análisis tras publicar.
-- [ ] W1 v2, «No encontrada»: la SEGUNDA OFERTA va antes de las reglas de la V4 de «cobro de un intento web» y «reserva de otra compañía», así que un cliente con una reserva de otra compañía podría recibir la oferta de WhatsApp en vez de «esa reserva no es de Centauro». En la próxima versión, que la segunda oferta sustituya solo el paso «pide que te repita el número despacio» y relanzar el eval 4d.
+- [x] W1 v2, «No encontrada»: la SEGUNDA OFERTA va antes de las reglas de la V4 de «cobro de un intento web» y «reserva de otra compañía», así que un cliente con una reserva de otra compañía podría recibir la oferta de WhatsApp en vez de «esa reserva no es de Centauro». En la próxima versión, que la segunda oferta sustituya solo el paso «pide que te repita el número despacio» y relanzar el eval 4d. Resuelto en W1 v4 (D-004).
 - [ ] W1 v2, `enviar_whatsapp`: no puede devolver «enviado» o «error» como dice el spec §4.1.3; devuelve la respuesta cruda del POST, y el nodo POST sale «succeeded» aunque haya 4xx. Con una clave caducada o una URL mala el agente diría «Se lo acabo de enviar». En la próxima versión, comprobar la respuesta del hook de W2 (como `pasar_a_llamada` con «published») y probar el caso 11 antes de publicar.
 - [ ] W1 v2: el agente de voz dice al cliente que escriba email y matrícula, pero la regla «nunca pidas el correo» y `incumplio_restriccion` del extract lo penalizan. Añadir una excepción en el prompt y en el extract.
-- [ ] W1 v2: el prompt aún menciona `ya_enviado`, que la herramienta no devuelve (referencia muerta); quitarla.
+- [x] W1 v2: el prompt aún menciona `ya_enviado`, que la herramienta no devuelve (referencia muerta); quitarla. Resuelto en W1 v4 (D-004).
 - [ ] W1 v2: la segunda oferta tras «verificado false» es más estrecha que en el spec (solo «si no sabe qué corregir»); ampliarla o aceptarlo (anotado en el spec §11).
-- [ ] W1 v2: posible conflicto entre «repite despacio y vuelve a ejecutar» y el máximo de dos consultas cuando los datos de WhatsApp también dan «no encontrada»; aclarar en el prompt.
+- [x] W1 v2: conflicto entre el máximo de dos consultas y los datos de WhatsApp. Resuelto en W1 v5 (D-005): si los datos del WhatsApp llegan tras dos consultas, se permite una tercera con ellos.
 - [ ] W2 v4: «pide el @ una vez» del agente de texto puede retrasar `pasar_a_llamada`; preguntarlo después de enviar o quitar la comprobación.
 - [ ] `codigo/test_telefono_whatsapp.py` es un script, no un módulo de pytest; ejecutarlo con `python3 -I`.
 - [ ] W1 v2: posibles frases duplicadas al enviar («Un momento, se lo envío.» del mensaje de la herramienta y «Se lo acabo de enviar…» del prompt); revisar con una llamada real.

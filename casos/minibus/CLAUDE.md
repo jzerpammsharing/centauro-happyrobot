@@ -9,9 +9,9 @@ Tres voicebots de HappyRobot, uno por país, cada uno con su agente «Daniel». 
 que normalmente están **en el aeropuerto esperando el minibús** de Centauro. Les dan el punto de
 encuentro o les transfieren a las colas del call center en RingCentral.
 
-| Workflow | País | workflow_id | slug | Producción (11/10/2026) |
+| Workflow | País | workflow_id | slug | Producción (12/10/2026) |
 |---|---|---|---|---|
-| Centauro Minibus SPAIN | ES | `019f7594-2cce-7eed-b995-dd9ea64a1062` | `t2vkrtiqj3ve` | v17 (`i0syf61bujsz`) |
+| Centauro Minibus SPAIN | ES | `019f7594-2cce-7eed-b995-dd9ea64a1062` | `t2vkrtiqj3ve` | v22 (`2l6skwt8wphb`) |
 | Centauro Minibus ITALY | IT | `01a03a65-3700-74c1-9c7b-e9c708833c4b` | `w13gsdcqkq9b` | Version 2 (`v9c38tkjwxae`) |
 | Centauro Minibus Portugal | PT | `01a05977-3a33-76da-acb2-a757f3947cf9` | `i8kjlnu1m3zp` | v1 (`ql6fasoxl1ql`) |
 
@@ -40,8 +40,8 @@ encuentro o les transfieren a las colas del call center en RingCentral.
   `invento_informacion` del extract son casi siempre falsos positivos.
 - `aeropuerto_detectado` hay que normalizarlo (Napoli/Nápoles, Venezia/Venecia, Bologna/Bolonia,
   Malpensa/Milano-Malpensa…).
-- En España entran llamadas por varias versiones a la vez (v17 publicada, más v19, v21 y v22):
-  ver `docs/pendientes.md`.
+- España: la v22 se publicó entre el 11/10 a las 21:53 y el 12/10 a las 08:02. Desde entonces todas
+  las llamadas entran por ella; antes convivían varias versiones (ver `docs/pendientes.md`).
 
 ## 4. Rutina diaria de calidad
 
