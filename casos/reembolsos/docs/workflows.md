@@ -6,7 +6,10 @@ la columna «Estado».
 
 ## Centauro Reembolsos (`01a0defb-9c46-7f81-b966-69ca9d211709`, slug `ey9623r10ly2`)
 
-Voicebot de reembolsos y fianzas. Es la **V4**, en producción y sin cambios. Copia del prompt:
+> **Congelado desde el 15/10/2026 (D-004).** El único bot de voz de Reembolsos es W1 («Centauro Reembolsos
+> Llamada + w»). Este workflow no se borra ni se publica (la V5 queda sin publicar); los cambios se hacen solo en W1.
+
+Voicebot de reembolsos y fianzas. Copia del prompt de la V4:
 `prompts/reembolsos-v4/receive-customer-call.md`.
 
 ### Flujo
@@ -21,7 +24,7 @@ Por nombre de nodo, en línea:
 | Versión | Slug | Nombre en HappyRobot | Descripción | Estado |
 |---|---|---|---|---|
 | 4 | `m87e6xzgo405` | Version 4 | Versión en producción | Base de la V5. Ojo: el 14/10/2026 HappyRobot la lista como no publicada (la publicada es la V3, `1ahurz19vb34`); confirmar cuál recibe llamadas |
-| 5 | `gwe1rc4d1po6` | Version 5 | V4 + identificación por email o DNI/NIE (D-003) | Sin publicar; pendiente de la prueba por voz. Copia: `prompts/reembolsos-v5/` |
+| 5 | `gwe1rc4d1po6` | Version 5 | V4 + identificación por email o DNI/NIE (D-003) | Sin publicar y congelada (D-004): su contenido está en W1 v3/v4. Copia: `prompts/reembolsos-v5/` |
 
 ## Centauro Reembolsos WhatsApp (`01a12d4e-7c03-7494-8e0c-194e1256f8fb`, slug `j2cgq0sfra2q`) · W1
 
@@ -51,6 +54,7 @@ Copias de los prompts: `prompts/reembolsos-whatsapp/v1/` (nodos) y `v2/` (prompt
 | v1 | `1g52kgh7y4pn` | v1 · V4 + datos por WhatsApp | Copia de la V4 + Signals + `enviar_whatsapp` | Publicada por una persona para las pruebas de la señal; superada por la v2 |
 | v2 | `pc4zvke3xdjl` | v2 · v1 + oferta de WhatsApp y lectura de señales | Prompt con reglas de WhatsApp, evals 10/10, extract de WhatsApp | **Actual**. Publicada por una persona; desde el 12/10/2026 recibe las llamadas de la línea +34 911 200 3002 |
 | v3 | `o9e9ly8yd6bx` | Version 3 | v2 + identificación por email o DNI/NIE (D-003); la señal de WhatsApp trae `dni` en vez de `matricula` | Publicada (live el 15/10/2026, no por Claude). Copia: `prompts/reembolsos-whatsapp/v3/` |
+| v4 | `n9k51iiu8ehw` | v4 · v3 + WhatsApp solo con dificultad y «ya he encontrado su reserva» | Sin oferta inicial de WhatsApp: se ofrece una vez, solo con dificultad (corrección de un dato repetido, dato confuso al segundo intento, no encontrada, verificado false o dato no interpretado). Al verificar dice «Ya he encontrado su reserva» (D-004) | Sin publicar; pendiente de la prueba por voz. Copia: `prompts/reembolsos-whatsapp/v4/` |
 
 El workflow se llama ahora en HappyRobot «Centauro Reembolsos Llamada + w» (visto el 14/10/2026).
 

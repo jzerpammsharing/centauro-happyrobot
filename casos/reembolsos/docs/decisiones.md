@@ -5,6 +5,32 @@ caso (D-NNN), la más reciente arriba, con la misma plantilla.
 
 ---
 
+## D-004 · 2026-10-15 · Un solo bot de voz (W1) y WhatsApp solo cuando hay dificultad
+- **Qué:**
+  - W1 («Centauro Reembolsos Llamada + w») es el único bot de voz de Reembolsos. «Centauro Reembolsos»
+    (V3/V4/V5) se congela: no se publica la V5 ni se borra nada; los cambios se hacen solo en W1. W2 sigue
+    aparte (es el agente de texto de WhatsApp, lo dispara un webhook).
+  - W1 v4: no ofrece el WhatsApp al empezar. Lo ofrece una sola vez, en el primer momento con dificultad:
+    el cliente corrige lo que Daniel le repite o pide que lo repita, un dato no queda claro al segundo
+    intento, o la consulta da no encontrada, verificado false o dato no interpretado. Si no lo acepta, no
+    se vuelve a ofrecer.
+  - Al verificar, Daniel empieza con «Ya he encontrado su reserva» (con email o DNI: «Ya he encontrado una
+    reserva a su nombre…, ¿es ese?»).
+  - El WhatsApp solo puede ir al número desde el que llama el cliente, y solo si es un móvil. El agente no
+    elige el destino (`enviar_whatsapp` solo tiene `idioma`) y nunca se envía a un número dictado, para que
+    nadie pueda usar el bot para mandar el WhatsApp a otra persona. En W1 v4, «Calcular idioma y saludo» da
+    `telefono_whatsapp` (vacío si no es un móvil) y el POST usa ese campo en vez de `telefono_e164`.
+  - En «no encontrada», las reglas de intento web y de reserva de otra compañía van antes de la oferta de
+    WhatsApp (resuelve el pendiente de la «segunda oferta»). Se quita la referencia muerta a `ya_enviado`.
+- **Por qué:** dos bots casi iguales obligaban a duplicar cada cambio. La oferta inicial alargaba todas las
+  llamadas, también las que no tienen problema con el dictado; el WhatsApp ayuda cuando el dictado falla.
+  «Ya he encontrado su reserva» da al cliente la confirmación de que se ha localizado.
+- **Afecta a:** Reembolsos (W1 v4; Centauro Reembolsos queda congelado).
+- **Quién:** jzerpa.
+- **Estado:** W1 v4 construida con evals; sin publicar, pendiente de la prueba por voz.
+
+---
+
 ## D-003 · 2026-10-14 · Identificar por email o DNI/NIE cuando no hay número de reserva
 - **Qué:** el MCP (`consultar_reembolso` y `consultar_reserva`) acepta `numero_reserva`, `email` o `dni`
   (prioridad en ese orden) más nombre y fecha de nacimiento. Con email o DNI devuelve la reserva más

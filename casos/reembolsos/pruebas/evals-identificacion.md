@@ -27,3 +27,25 @@ falta, «no disponible», timeout, otro), en texto plano y en formato de conteni
   cómo puntúa una llamada por email o DNI.
 - Sin probar: consulta real por email o DNI contra el MCP; nodos de W2 que envían (POST de la señal y
   `pasar_a_llamada`). Sigue fallando W-c.
+
+## W1 v4 · WhatsApp solo con dificultad y «ya he encontrado su reserva» (D-004, 15/10/2026)
+
+Evals nuevas en W1 (nodo «Reembolsos»), con `whatsapp_posible = true`:
+
+| # | Caso | Esperado |
+|---|---|---|
+| 5a | El cliente corrige el número que Daniel le repite | Toma la corrección y ofrece el WhatsApp una vez, sin herramientas |
+| 5b | Dicta el número sin problemas | Lo repite y pide el nombre; no menciona WhatsApp |
+| 5c | La consulta por email da `dato_no_interpretado` | Dice que no ha podido apuntar el email y ofrece el WhatsApp para escribir email y nombre |
+| V | La consulta verifica | Empieza con «Ya he encontrado su reserva» y confirma oficina y fecha, sin datos personales |
+
+Cambios en evals existentes: «4a1 oferta inicial» pasa a «4a1 sin oferta inicial: pide el número por voz».
+«5b» y «DNI ilegible» se reescribieron como comportamiento (el juez exigía el texto literal).
+
+Resultados en la v4 final: 18/18. En la primera pasada fallaron 5c (la frase de la oferta decía «número de
+reserva» aunque el cliente no lo tenía; se ajustó el prompt), 5b y «DNI ilegible» (juez demasiado literal) y
+4a3 (variación de la simulación; pasa al repetir).
+
+Duda abierta: el juez de «4d segunda oferta» dice que el agente «ofrece por segunda vez». Si en esa
+conversación el cliente ya había rechazado el WhatsApp, la v4 no debería volver a ofrecerlo. La API no
+muestra los mensajes de la eval; revisarla en el editor.

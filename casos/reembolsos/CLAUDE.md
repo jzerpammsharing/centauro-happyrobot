@@ -19,8 +19,8 @@ llamada (spec en `docs/specs/2026-10-12-datos-por-whatsapp.md`, decisión D-001)
 
 | Workflow | workflow_id | slug | Producción / actual (12/10/2026) |
 |---|---|---|---|
-| Centauro Reembolsos (V4) | `01a0defb-9c46-7f81-b966-69ca9d211709` | `ey9623r10ly2` | Version 4 (`m87e6xzgo405`), en producción. Version 5 (`gwe1rc4d1po6`, email/DNI) sin publicar (14/10/2026) |
-| Centauro Reembolsos WhatsApp (W1, voz) | `01a12d4e-7c03-7494-8e0c-194e1256f8fb` | `j2cgq0sfra2q` | v2 (`pc4zvke3xdjl`), publicada; v3 (`o9e9ly8yd6bx`, email/DNI) sin publicar; recibe la línea +34 911 200 3002 desde el 12/10/2026 |
+| Centauro Reembolsos (congelado, D-004) | `01a0defb-9c46-7f81-b966-69ca9d211709` | `ey9623r10ly2` | No se toca: el único bot de voz es W1. V5 (`gwe1rc4d1po6`) sin publicar |
+| Centauro Reembolsos WhatsApp (W1, voz) | `01a12d4e-7c03-7494-8e0c-194e1256f8fb` | `j2cgq0sfra2q` | v2 (`pc4zvke3xdjl`), publicada; v3 (`o9e9ly8yd6bx`, email/DNI) live; v4 (`n9k51iiu8ehw`, WhatsApp solo con dificultad) sin publicar; recibe la línea +34 911 200 3002 desde el 12/10/2026 |
 | Centauro Reembolsos · Datos por WhatsApp (W2, texto) | `01a12d4c-5fe2-76d7-a233-3d5a16972ffd` | `p45rx5hlsber` | v4 (`qw83lg2g3sa6`), publicada; envía desde +34 914 83 13 55 (plantilla mock). v7 (`63eqtfk9nrdl`) con la plantilla real, publicada; v8 (`fm6g5527v6lw`, email/DNI) sin publicar (14/10/2026) |
 
 - **Ficha de los workflows** (flujo y versiones): `docs/workflows.md`. Antes de publicar a clientes,
@@ -39,7 +39,7 @@ llamada (spec en `docs/specs/2026-10-12-datos-por-whatsapp.md`, decisión D-001)
 | `pruebas/` | Evals de HappyRobot (`evals-whatsapp.md`) |
 | `codigo/` | Lógica del teléfono (`telefono_whatsapp.py` y sus pruebas), que se pega en «Calcular idioma y saludo» |
 | `prompts/reembolsos-v4/`, `reembolsos-v5/` | Prompt de la V4 y de la V5 (identificación por email o DNI/NIE) |
-| `prompts/reembolsos-whatsapp/<versión>/` | Copias de W1 (v1 a v3) |
+| `prompts/reembolsos-whatsapp/<versión>/` | Copias de W1 (v1 a v4) |
 | `prompts/reembolsos-whatsapp-datos/<versión>/` | Copias de W2 |
 
 ## 3. Reglas propias del caso
@@ -59,6 +59,9 @@ llamada (spec en `docs/specs/2026-10-12-datos-por-whatsapp.md`, decisión D-001)
   editar la plantilla desde el desplegable del editor (guarda la inglesa) ni usar el ID de Meta en
   modo dinámico (busca por nombre: `template_not_found`). `it` y `pt` reciben la inglesa. Los
   cambios de prompt, herramienta o POST van en las dos ramas.
+- **Destino del WhatsApp.** Solo el número desde el que llama el cliente (o `TELEFONO_PRUEBA` en
+  llamadas web), y solo si es un móvil. No añadir nunca un parámetro de teléfono a `enviar_whatsapp` ni
+  enviar a un número dictado (D-004).
 - **Pruebas web.** En llamadas web `from_number` es `web` y W1 usa la variable `TELEFONO_PRUEBA`.
 - **Datos de prueba.** Reserva `ER00000000` o `ER12345678` y «Prueba Prueba». Nunca datos reales en
   el repo.

@@ -1,6 +1,7 @@
 # Pendientes del caso Reembolsos
 
-- [ ] **Identificación por email o DNI/NIE (D-003):** W1 v3 y W2 v8 están live desde el 15/10/2026; probar por voz y publicar la V5.
+- [ ] **D-004:** probar por voz W1 v4 (WhatsApp solo con dificultad y «ya he encontrado su reserva») y publicarla. La V5 de «Centauro Reembolsos» no se publica (congelado).
+- [ ] D-004: el extract de W1 no distingue si el WhatsApp se ofreció al principio o por dificultad; valorar un campo `motivo_oferta_whatsapp` tras las primeras llamadas.
 - [x] D-003, extract «Registrar resultado de la llamada» (V5 y W1 v3): actualizado el 15/10/2026 (identificación por número, email o DNI/NIE; pedir email o DNI solo es incumplimiento si ya hay número; la confirmación del alquiler no cuenta como leer datos sin verificar). `matricula_whatsapp` queda como campo heredado (siempre «ninguna»); el DNI no se registra.
 - [ ] D-003, plantilla Meta `datos_reserva`: pide número y nombre, y «email y matrícula» opcionales. No menciona el DNI y sugiere la matrícula, que ya no se usa. Pedir una versión nueva de la plantilla.
 - [ ] D-003, W2 v8: la eval «Solo nombre: pide el dato de la reserva y no pasa nada» falla (2 intentos y reforzando prompt y herramienta): el agente (gpt-5.4-mini) ejecuta `pasar_a_llamada` con solo el nombre. Efecto limitado: la señal llega sin identificador y W1 v3 pide el dato por voz.
@@ -29,10 +30,10 @@
 - [ ] Reembolsos WhatsApp (W2): el nombre visible del agente de WhatsApp es «Centauro Rent a Car» en vez de «Daniel»; decidir.
 - [ ] Reembolsos WhatsApp: el juez del eval 4a3 es permisivo con el acuse corto; endurecer el criterio.
 - [ ] Reembolsos WhatsApp: `whatsapp_datos_recibidos = si` del extract no está probado con una transcripción real con señal; revisar en el primer análisis tras publicar.
-- [ ] W1 v2, «No encontrada»: la SEGUNDA OFERTA va antes de las reglas de la V4 de «cobro de un intento web» y «reserva de otra compañía», así que un cliente con una reserva de otra compañía podría recibir la oferta de WhatsApp en vez de «esa reserva no es de Centauro». En la próxima versión, que la segunda oferta sustituya solo el paso «pide que te repita el número despacio» y relanzar el eval 4d.
+- [x] W1 v2, «No encontrada»: la SEGUNDA OFERTA va antes de las reglas de la V4 de «cobro de un intento web» y «reserva de otra compañía», así que un cliente con una reserva de otra compañía podría recibir la oferta de WhatsApp en vez de «esa reserva no es de Centauro». En la próxima versión, que la segunda oferta sustituya solo el paso «pide que te repita el número despacio» y relanzar el eval 4d. Resuelto en W1 v4 (D-004).
 - [ ] W1 v2, `enviar_whatsapp`: no puede devolver «enviado» o «error» como dice el spec §4.1.3; devuelve la respuesta cruda del POST, y el nodo POST sale «succeeded» aunque haya 4xx. Con una clave caducada o una URL mala el agente diría «Se lo acabo de enviar». En la próxima versión, comprobar la respuesta del hook de W2 (como `pasar_a_llamada` con «published») y probar el caso 11 antes de publicar.
 - [ ] W1 v2: el agente de voz dice al cliente que escriba email y matrícula, pero la regla «nunca pidas el correo» y `incumplio_restriccion` del extract lo penalizan. Añadir una excepción en el prompt y en el extract.
-- [ ] W1 v2: el prompt aún menciona `ya_enviado`, que la herramienta no devuelve (referencia muerta); quitarla.
+- [x] W1 v2: el prompt aún menciona `ya_enviado`, que la herramienta no devuelve (referencia muerta); quitarla. Resuelto en W1 v4 (D-004).
 - [ ] W1 v2: la segunda oferta tras «verificado false» es más estrecha que en el spec (solo «si no sabe qué corregir»); ampliarla o aceptarlo (anotado en el spec §11).
 - [ ] W1 v2: posible conflicto entre «repite despacio y vuelve a ejecutar» y el máximo de dos consultas cuando los datos de WhatsApp también dan «no encontrada»; aclarar en el prompt.
 - [ ] W2 v4: «pide el @ una vez» del agente de texto puede retrasar `pasar_a_llamada`; preguntarlo después de enviar o quitar la comprobación.
