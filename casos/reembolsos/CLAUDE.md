@@ -17,11 +17,11 @@ emitir, anular o decidir lo transfiere a una persona.
 Hay una variante que ofrece al cliente escribir los datos difíciles de dictar por WhatsApp durante la
 llamada (spec en `docs/specs/2026-10-12-datos-por-whatsapp.md`, decisión D-001).
 
-| Workflow | workflow_id | slug | Producción / actual (12/10/2026) |
+| Workflow | workflow_id | slug | Producción / actual (15/10/2026) |
 |---|---|---|---|
 | Centauro Reembolsos (congelado, D-004) | `01a0defb-9c46-7f81-b966-69ca9d211709` | `ey9623r10ly2` | No se toca: el único bot de voz es W1. V5 (`gwe1rc4d1po6`) sin publicar |
-| Centauro Reembolsos WhatsApp (W1, voz) | `01a12d4e-7c03-7494-8e0c-194e1256f8fb` | `j2cgq0sfra2q` | v2 (`pc4zvke3xdjl`), publicada; v3 (`o9e9ly8yd6bx`, email/DNI) live; v4 (`n9k51iiu8ehw`, WhatsApp solo con dificultad) sin publicar; recibe la línea +34 911 200 3002 desde el 12/10/2026 |
-| Centauro Reembolsos · Datos por WhatsApp (W2, texto) | `01a12d4c-5fe2-76d7-a233-3d5a16972ffd` | `p45rx5hlsber` | v4 (`qw83lg2g3sa6`), publicada; envía desde +34 914 83 13 55 (plantilla mock). v7 (`63eqtfk9nrdl`) con la plantilla real, publicada; v8 (`fm6g5527v6lw`, email/DNI) sin publicar (14/10/2026) |
+| Centauro Reembolsos WhatsApp (W1, voz) | `01a12d4e-7c03-7494-8e0c-194e1256f8fb` | `j2cgq0sfra2q` | v4 (`n9k51iiu8ehw`, WhatsApp solo con dificultad) live desde el 15/10/2026; v5 (`ok9wpis1yhs3`, nombre sin inventar, email sin guiones y espera del WhatsApp, D-005) sin publicar; recibe la línea +34 911 200 3002 desde el 12/10/2026 |
+| Centauro Reembolsos · Datos por WhatsApp (W2, texto) | `01a12d4c-5fe2-76d7-a233-3d5a16972ffd` | `p45rx5hlsber` | v8 (`fm6g5527v6lw`, email/DNI) live desde el 15/10/2026; envía desde +34 914 83 13 55 con la plantilla `datos_reserva`. v9 (`n1ij39vr42xd`, pide el nombre y no repite la pregunta, D-005) sin publicar |
 
 - **Ficha de los workflows** (flujo y versiones): `docs/workflows.md`. Antes de publicar a clientes,
   sigue la checklist «Antes de publicar a clientes» de ese fichero.
@@ -36,10 +36,10 @@ llamada (spec en `docs/specs/2026-10-12-datos-por-whatsapp.md`, decisión D-001)
 | `docs/pendientes.md` | Incidencias abiertas y mejoras |
 | `docs/specs/`, `docs/planes/` | Spec y plan de «datos por WhatsApp» |
 | `docs/informes/` | Informes de pruebas |
-| `pruebas/` | Evals de HappyRobot (`evals-whatsapp.md`) |
+| `pruebas/` | Evals de HappyRobot (`evals-whatsapp.md`, `evals-identificacion.md`) |
 | `codigo/` | Lógica del teléfono (`telefono_whatsapp.py` y sus pruebas), que se pega en «Calcular idioma y saludo» |
 | `prompts/reembolsos-v4/`, `reembolsos-v5/` | Prompt de la V4 y de la V5 (identificación por email o DNI/NIE) |
-| `prompts/reembolsos-whatsapp/<versión>/` | Copias de W1 (v1 a v4) |
+| `prompts/reembolsos-whatsapp/<versión>/` | Copias de W1 (v1 a v5) |
 | `prompts/reembolsos-whatsapp-datos/<versión>/` | Copias de W2 |
 
 ## 3. Reglas propias del caso

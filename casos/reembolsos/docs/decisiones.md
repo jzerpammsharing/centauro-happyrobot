@@ -5,6 +5,43 @@ caso (D-NNN), la más reciente arriba, con la misma plantilla.
 
 ---
 
+## D-005 · 2026-10-15 · Nombre sin inventar, email sin guiones y espera tranquila del WhatsApp
+- **Qué:** tras las pruebas por voz de la tarde con W1 v4 (informe
+  `docs/informes/2026-10-15-pruebas-tarde-w1-v4.md`):
+  - W1 v5, prompt «Reembolsos»:
+    - el nombre solo vale si lo dice el cliente o llega en `nombre_completo` por WhatsApp; nunca se saca
+      del email; antes de consultar se comprueba que los tres datos los ha dado el cliente;
+    - el email se deletrea entero letra a letra y sin los guiones, puntos o espacios que mete la
+      transcripción; solo lleva guion, punto o guion bajo si el cliente los dice;
+    - «Me ha llegado» solo con una señal `datos_whatsapp` en la conversación; si el cliente dice que ya lo
+      escribió y no hay señal: «Todavía no me ha llegado; a veces tarda unos segundos»;
+    - espera del WhatsApp: la frase de espera se dice una vez; en silencio no habla (como mucho «Sin
+      prisa.» una vez); no ofrece seguir por voz por un silencio, solo si el cliente dice que no le llega,
+      no sabe o prefiere dictar;
+    - si los datos del WhatsApp llegan tras dos consultas, se permite una tercera con esos datos;
+    - si la consulta con datos de WhatsApp no aparece, no se pide escribir más en el WhatsApp: se pregunta
+      si lo escribió bien y se sigue por voz;
+    - si el `nombre_completo` de la señal no parece un nombre (una palabra o igual al email), se pide por
+      voz.
+  - W1 v5, herramienta `consultar_reembolso`: la descripción admite la tercera consulta con datos de
+    WhatsApp; el nombre no se inventa ni se saca del email; el email sin guiones de la transcripción; el
+    mensaje al consultar con datos de WhatsApp es «Me ha llegado, gracias».
+  - W2 v9 (las dos ramas): el agente decide qué contestar según lo que ya tiene en toda la conversación:
+    con el dato de la reserva y sin nombre pide solo el nombre; un email o DNI/NIE ya es el dato de la
+    reserva; no repite el mismo mensaje; el nombre no sale del email; un número que empieza por ER va en
+    `numero_reserva`, nunca en `dni`.
+- **Por qué:** en las cuatro llamadas de prueba Daniel dijo «Me ha llegado» sin señal y consultó con un
+  nombre sacado del email; W2 no pedía el nombre (repetía «¿Tiene el número de reserva?…» aunque ya
+  tenía el email); el email se consultó con un guion que puso la transcripción; Daniel ofrecía seguir por
+  voz a los pocos segundos de enviar el WhatsApp y repetía la espera; y el límite de dos consultas dejaba
+  sin usar los datos del WhatsApp.
+- **Afecta a:** Reembolsos (W1 v5 y W2 v9). La voz (`voice_speed`) no cambia.
+- **Quién:** jzerpa.
+- **Estado:** construidas con evals (resultados en `pruebas/evals-whatsapp.md`, ronda D-005); sin
+  publicar, pendientes de la prueba por voz. W1 v4 y W2 v8 siguen publicadas.
+
+---
+
 ## D-004 · 2026-10-15 · Un solo bot de voz (W1) y WhatsApp solo cuando hay dificultad
 - **Qué:**
   - W1 («Centauro Reembolsos Llamada + w») es el único bot de voz de Reembolsos. «Centauro Reembolsos»

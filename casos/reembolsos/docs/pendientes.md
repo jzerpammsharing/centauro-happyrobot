@@ -1,10 +1,14 @@
 # Pendientes del caso Reembolsos
 
-- [ ] **D-004:** probar por voz W1 v4 (WhatsApp solo con dificultad y «ya he encontrado su reserva») y publicarla. La V5 de «Centauro Reembolsos» no se publica (congelado).
+- [ ] **D-005:** probar por voz W1 v5 y W2 v9 (repetir las cuatro llamadas del informe `docs/informes/2026-10-15-pruebas-tarde-w1-v4.md`) y publicarlas juntas. Fijarse en los silencios tras «Se lo acabo de enviar»: los turnos que HappyRobot da al agente en silencio no se pueden reproducir con evals.
+- [ ] D-005: velocidad de la voz. La v4/v5 no fijan `voice_speed`; si se quiere «más despacio», bajarla en el editor (por voz, 0,7-1,2) y probar con una llamada.
+- [ ] D-005: el cliente ofreció el DNI/NIE y Daniel insistió en el email (orden de D-003). En las pruebas el email por voz falló las tres veces y el NIE se entendió a la primera: valorar aceptar el DNI/NIE si el cliente lo ofrece.
+- [ ] D-005: Daniel aceptó un número ER con nueve cifras sin preguntar (llamada 3 del informe). Valorar pedir confirmación si no son ocho.
+- [x] **D-004:** probar por voz W1 v4 y publicarla. Publicada el 15/10/2026 (no por Claude); la prueba de la tarde dio los fallos que corrige D-005. La V5 de «Centauro Reembolsos» no se publica (congelado).
 - [ ] D-004: el extract de W1 no distingue si el WhatsApp se ofreció al principio o por dificultad; valorar un campo `motivo_oferta_whatsapp` tras las primeras llamadas.
 - [x] D-003, extract «Registrar resultado de la llamada» (V5 y W1 v3): actualizado el 15/10/2026 (identificación por número, email o DNI/NIE; pedir email o DNI solo es incumplimiento si ya hay número; la confirmación del alquiler no cuenta como leer datos sin verificar). `matricula_whatsapp` queda como campo heredado (siempre «ninguna»); el DNI no se registra.
 - [ ] D-003, plantilla Meta `datos_reserva`: pide número y nombre, y «email y matrícula» opcionales. No menciona el DNI y sugiere la matrícula, que ya no se usa. Pedir una versión nueva de la plantilla.
-- [ ] D-003, W2 v8: la eval «Solo nombre: pide el dato de la reserva y no pasa nada» falla (2 intentos y reforzando prompt y herramienta): el agente (gpt-5.4-mini) ejecuta `pasar_a_llamada` con solo el nombre. Efecto limitado: la señal llega sin identificador y W1 v3 pide el dato por voz.
+- [ ] D-003, W2 v8: la eval «Solo nombre: pide el dato de la reserva y no pasa nada» falla (2 intentos y reforzando prompt y herramienta): el agente (gpt-5.4-mini) ejecuta `pasar_a_llamada` con solo el nombre. Efecto limitado: la señal llega sin identificador y W1 v3 pide el dato por voz. En W2 v9 (D-005) pasa en 1 de 2 intentos: sigue inestable.
 - [ ] D-003: no hay evals de `consultar_reserva` ni de otros agentes que usen el MCP; el MCP ya acepta email y DNI allí.
 - [ ] Documentar el caso: `CLAUDE.md` y `docs/workflows.md`.
 - [x] Guardar en `prompts/` los prompts de la versión publicada (V4 en `prompts/reembolsos-v4/`).
@@ -24,7 +28,7 @@
 - [ ] Reembolsos WhatsApp: mostrar email y matrícula al agente humano (whisper o popup): hoy solo quedan en el extract (`email_whatsapp`, `matricula_whatsapp`) y el susurro de la transferencia está vacío.
 - [x] Reembolsos WhatsApp: número de entrada de W1. El 12/10/2026 una persona lo conectó a la línea +34 911 200 3002.
 - [ ] **Urgente** · Reembolsos WhatsApp: W1 ya recibe llamadas de la línea +34 911 200 3002 y W2 sigue con la plantilla mock `info_minibus`. Un cliente que acepte el WhatsApp recibe el mensaje del minibús. Cambiar a `datos_llamada` en cuanto la apruebe Meta, o desactivar la oferta de WhatsApp (o desconectar la línea) hasta entonces. 14/10/2026: Meta aprobó `datos_reserva` y W2 v7 ya la usa; se cierra cuando una persona publique la v7 en producción tras la prueba de envío.
-- [ ] Reembolsos WhatsApp: mejora del prompt: tras «no encontrada» con datos llegados por WhatsApp, pedir que revise lo que escribió en el WhatsApp antes de dictar carácter a carácter.
+- [x] Reembolsos WhatsApp: mejora del prompt: tras «no encontrada» con datos llegados por WhatsApp, pedir que revise lo que escribió. Hecho en W1 v5 (D-005): pregunta si lo escribió bien y sigue por voz, sin pedir que escriba más en el WhatsApp.
 - [ ] Cambiar en el prompt de HappyRobot (V4 y W1) los ejemplos de «Verificado false» (nombre y fecha reales) y de «DICTADO POR PARTES» y de confirmación de número de reserva (posibles números reales) por otros inventados (versión nueva, la publica una persona).
 - [ ] Lógica del teléfono (`codigo/telefono_whatsapp.py`): `+0034…` no se normaliza; los extranjeros no tienen cota superior ni comprobación de solo dígitos; 9 cifras sin prefijo se asumen de España (documentarlo); faltan pruebas de esos casos límite. Si se cambia, hay que pegar de nuevo las funciones en «Calcular idioma y saludo» de W1.
 - [ ] Reembolsos WhatsApp (W2): el nombre visible del agente de WhatsApp es «Centauro Rent a Car» en vez de «Daniel»; decidir.
@@ -35,7 +39,7 @@
 - [ ] W1 v2: el agente de voz dice al cliente que escriba email y matrícula, pero la regla «nunca pidas el correo» y `incumplio_restriccion` del extract lo penalizan. Añadir una excepción en el prompt y en el extract.
 - [x] W1 v2: el prompt aún menciona `ya_enviado`, que la herramienta no devuelve (referencia muerta); quitarla. Resuelto en W1 v4 (D-004).
 - [ ] W1 v2: la segunda oferta tras «verificado false» es más estrecha que en el spec (solo «si no sabe qué corregir»); ampliarla o aceptarlo (anotado en el spec §11).
-- [ ] W1 v2: posible conflicto entre «repite despacio y vuelve a ejecutar» y el máximo de dos consultas cuando los datos de WhatsApp también dan «no encontrada»; aclarar en el prompt.
+- [x] W1 v2: conflicto entre el máximo de dos consultas y los datos de WhatsApp. Resuelto en W1 v5 (D-005): si los datos del WhatsApp llegan tras dos consultas, se permite una tercera con ellos.
 - [ ] W2 v4: «pide el @ una vez» del agente de texto puede retrasar `pasar_a_llamada`; preguntarlo después de enviar o quitar la comprobación.
 - [ ] `codigo/test_telefono_whatsapp.py` es un script, no un módulo de pytest; ejecutarlo con `python3 -I`.
 - [ ] W1 v2: posibles frases duplicadas al enviar («Un momento, se lo envío.» del mensaje de la herramienta y «Se lo acabo de enviar…» del prompt); revisar con una llamada real.
