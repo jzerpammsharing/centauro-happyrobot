@@ -6,6 +6,10 @@
   La decisión de dar de baja v24 la toma una persona: la rutina solo lo recomienda.
 - **Para recrearla en otra cuenta:** crea una rutina programada con el prompt de abajo, copiado
   tal cual.
+- **Cuando v25 sustituya a v24 en el A/B** (D-011): en el prompt, cambia la versión vigilada de
+  v24 a v25 (slug `k2in5n9kk01x`) y quita el párrafo «Fallo conocido de v24», porque v25 ya tiene
+  rama por defecto en «¿Enviar WhatsApp?». Cambia también la rutina programada, que tiene su propia
+  copia del prompt.
 
 ---
 
