@@ -16,6 +16,13 @@ Plantilla:
 
 ---
 
+## C-004 · 2026-10-15 · Se permiten tests A/B con dos versiones en producción
+- **Qué:** un workflow puede tener dos versiones en producción a la vez para comparar una frente a otra. Cada test lleva una entrada en el `decisiones.md` del caso con: versiones, reparto del tráfico, métricas, umbrales de decisión y fecha de revisión. Al terminar se deja una sola versión.
+- **Por qué:** poder medir el efecto de un cambio (primer uso: Minibús ES, v22 frente a v24) en lugar de publicarlo a ciegas.
+- **Afecta a:** todos los casos; regla de «una sola versión en producción» en `CLAUDE.md`.
+- **Quién:** jzerpa
+- **Estado:** aprobada
+
 ## C-003 · 2026-10-11 · Un solo repo para todos los casos de HappyRobot, con una carpeta por caso
 - **Qué:** el repo `centauro-happyrobot` reúne todos los casos de uso de Centauro en HappyRobot.
   Lo común (colas, reglas de transferencia, scripts, convenciones) está en la raíz; cada caso

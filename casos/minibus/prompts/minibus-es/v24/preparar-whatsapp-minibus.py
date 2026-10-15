@@ -27,7 +27,7 @@
 TRACKING = {"MAD", "SVQ", "AGP"}
 
 DESCRIPCION_MINIBUS = "amarillo, con el logo de Centauro"
-FRECUENCIA = "15 a 20 minutos"
+FRECUENCIA = "15 o 20 minutos"
 
 # codigo de punto -> (aeropuerto y terminal, indicaciones, IATA)
 PUNTOS = {

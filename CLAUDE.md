@@ -68,8 +68,9 @@ Para añadir un caso:
   4. Abre un PR para que otra persona lo revise.
 - **Publicar** lo hace una persona, no el agente, salvo que se pida de forma explícita en ese
   momento.
-- **Una sola versión en producción por workflow.** Si entran llamadas por versiones no
-  publicadas, apúntalo en los pendientes del caso.
+- **Una sola versión en producción por workflow**, salvo un test A/B aprobado (C-004): dos
+  versiones en producción a la vez, con su entrada en el `decisiones.md` del caso. Si entran
+  llamadas por versiones no publicadas, apúntalo en los pendientes del caso.
 - **Variables:** en actualizaciones se usan `{{persistent_id.variable}}`, nunca índices
   numéricos. Las salidas de AI Extract llevan el prefijo `response.`. Después de cambios en
   bloque, ejecuta `fix_broken_vars`.

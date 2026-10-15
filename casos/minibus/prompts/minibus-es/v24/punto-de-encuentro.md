@@ -161,11 +161,11 @@ Si el valor es false o no se cumple alguna condición, no menciones el WhatsApp.
 
 **ESPAÑA**
 
-MADRID, terminal uno: Salga de la terminal, gire a la derecha y continúe unos ciento cincuenta metros hasta el cartel verde de información "Hotel Bus", que está justo enfrente de la oficina de Consigna de Equipaje. Ahí espera el minibús; pasa cada diez o quince minutos.
+MADRID, terminal uno: Salga de la terminal, gire a la derecha y continúe unos ciento cincuenta metros hasta el cartel verde de información "Hotel Bus", que está justo enfrente de la oficina de Consigna de Equipaje. Ahí espera el minibús; pasa cada quince o veinte minutos.
 
-MADRID, terminal dos: Busque la señal de "Bus Connecting" y, en llegadas, siga a mano izquierda los carteles de "Bus Connecting" hasta la señal que pone "pe Exprés". Salga en ese punto y cruce la calzada; a mano derecha encontrará las señales de "Bus Stop, E-M-T Hotels, Agencies". Sígalas hasta el minibús; pasa cada diez o quince minutos.
+MADRID, terminal dos: Busque la señal de "Bus Connecting" y, en llegadas, siga a mano izquierda los carteles de "Bus Connecting" hasta la señal que pone "pe Exprés". Salga en ese punto y cruce la calzada; a mano derecha encontrará las señales de "Bus Stop, E-M-T Hotels, Agencies". Sígalas hasta el minibús; pasa cada quince o veinte minutos.
 
-MADRID, terminal cuatro: Verá el cartel de "Bus y Shuttle" a su izquierda. Sígalo hasta la salida y, una vez fuera, cruce la calzada y siga las indicaciones de "Bus Hotel" a la izquierda. Ahí espera el minibús; pasa cada diez o quince minutos.
+MADRID, terminal cuatro: Verá el cartel de "Bus y Shuttle" a su izquierda. Sígalo hasta la salida y, una vez fuera, cruce la calzada y siga las indicaciones de "Bus Hotel" a la izquierda. Ahí espera el minibús; pasa cada quince o veinte minutos.
 
 MADRID, terminal tres: (sin instrucciones) Remita al correo de confirmación.
 
@@ -181,7 +181,7 @@ BILBAO: Tome el ascensor más cercano hasta la tercera planta (Salidas), salga a
 
 IBIZA: Salga de la terminal y cruce el paso de peatones hasta el aparcamiento "P1". Tome el ascensor a la primera planta y vaya a las plazas pintadas de amarillo, entre las plazas novecientos veinticuatro y novecientos cuarenta y tres. El minibús pasa cada diez o quince minutos.
 
-MÁLAGA: Salga por la puerta principal de la terminal (salida hacia Estación de Tren). Cruce la carretera por el paso de cebra y siga unos cien metros; tras la estación de tren "Renfe Aeropuerto" está la parada de minibuses. El minibús pasa cada diez o quince minutos.
+MÁLAGA: Salga por la puerta principal de la terminal (salida hacia Estación de Tren). Cruce la carretera por el paso de cebra y siga unos cien metros; tras la estación de tren "Renfe Aeropuerto" está la parada de minibuses. El minibús pasa cada quince o veinte minutos.
 
 PALMA DE MALLORCA: Salga al exterior por la puerta número tres de llegadas. Cruce el paso de peatones y, justo después, a la derecha, espera el minibús.
 [Nota interna, no la leas: si tras esta indicación duda o no lo encuentra, no la repitas: transfiere a la cola de MINIBÚS.]
@@ -190,7 +190,7 @@ MURCIA: Salga de la terminal de llegadas. Nada más salir, al cruzar la calle, e
 
 SANTIAGO DE COMPOSTELA: Use los ascensores para subir a la planta de salidas (planta uno). Salga por la puerta más próxima; ahí está la zona de espera del minibús.
 
-SEVILLA: Salga de llegadas por la puerta más próxima. Cruce la calle y vaya a la izquierda. A doscientos cincuenta metros, dejando atrás el parking público "P1", está el parking "P2" de larga estancia. En la señal de "Meeting Point" está la zona de espera del minibús; pasa cada diez o quince minutos. (Si el cliente se pierde en Sevilla, usa las referencias de Sevilla del apartado SI EL CLIENTE ESTÁ PERDIDO.)
+SEVILLA: Salga de llegadas por la puerta más próxima. Cruce la calle y vaya a la izquierda. A doscientos cincuenta metros, dejando atrás el parking público "P1", está el parking "P2" de larga estancia. En la señal de "Meeting Point" está la zona de espera del minibús; pasa cada quince o veinte minutos. (Si el cliente se pierde en Sevilla, usa las referencias de Sevilla del apartado SI EL CLIENTE ESTÁ PERDIDO.)
 
 VALENCIA: Salga de llegadas por la puerta más próxima. Vaya a la izquierda dejando atrás la parada de taxis y, a ciento cincuenta metros, está el parking "P6" de larga estancia, junto a la señal de "Punto de recogida". El minibús pasa cada diez o quince minutos.
 

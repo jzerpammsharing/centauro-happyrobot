@@ -49,7 +49,6 @@
 - [ ] **v24: WhatsApp con geolocalización** (D-010). Borrador sin probar ni publicar.
   - Reseleccionar la plantilla `minibus_punto_texto_boton` en el nodo «Enviar WhatsApp del punto de encuentro» y comprobar las cuatro variables (no se pudo leer la plantilla desde la API).
   - Probar una llamada real desde un móvil en Madrid, Sevilla y Málaga, y una en otro aeropuerto (no debe ofrecer el WhatsApp).
-  - Unificar la frecuencia («diez o quince» en voz, «15 a 20 minutos» en el WhatsApp).
   - Cuando se apruebe la plantilla en inglés, enviar también en llamadas en inglés.
   - Revisar si v24 debe heredar los cambios de v23 antes de publicar (v23 sigue sin probar).
 

@@ -31,7 +31,7 @@ Plantilla:
   - Plantilla de Meta nueva `minibus_punto_texto_boton` (español, botón «Ver minibús en directo»).
     La de inglés aún no existe: solo se envía en llamadas en español.
   - El diccionario `TRACKING` de «Preparar WhatsApp minibús» decide por aeropuerto.
-  - `frecuencia` = «15 a 20 minutos» en el WhatsApp para los tres aeropuertos.
+  - `frecuencia` = «15 o 20 minutos» en el WhatsApp para los tres aeropuertos.
   - Detalle en `prompts/minibus-es/v24/`.
 - **Por qué:**
   - El botón de seguimiento solo sirve donde el minibús tiene geolocalización; enviar el mensaje
@@ -43,8 +43,8 @@ Plantilla:
   - **Revisar en el editor:** el nodo «Enviar WhatsApp del punto de encuentro» se montó sin poder
     leer la plantilla desde Meta; hay que reseleccionarla y comprobar que las cuatro variables
     quedan asignadas.
-  - **Frecuencia:** el prompt de voz dice «diez o quince minutos» en estos tres aeropuertos y el
-    WhatsApp «15 a 20 minutos»; conviene unificarlas.
+  - **Frecuencia:** unificada en «quince o veinte minutos» (voz) y «15 o 20 minutos» (WhatsApp)
+    en Madrid T1/T2/T4, Sevilla y Málaga. Los demás aeropuertos siguen con su frecuencia.
 
 ## D-009 · 2026-10-12 · v23: saltos entre módulos (borrador)
 - **Qué:**

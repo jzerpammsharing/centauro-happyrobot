@@ -27,7 +27,7 @@ uno de estos valores: `no_aceptado`, `sin_punto`, `sin_geolocalizacion`, `idioma
 
 Variables nombradas: `aeropuerto`, `indicaciones`, `descripcion_minibus` y `frecuencia`. Botón «Ver
 minibús en directo» con URL fija (sin parte variable). Valores fijos: `descripcion_minibus` =
-«amarillo, con el logo de Centauro» y `frecuencia` = «15 a 20 minutos» para los tres aeropuertos.
+«amarillo, con el logo de Centauro» y `frecuencia` = «15 o 20 minutos» para los tres aeropuertos.
 
 ## Dar de alta un aeropuerto nuevo con seguimiento
 
