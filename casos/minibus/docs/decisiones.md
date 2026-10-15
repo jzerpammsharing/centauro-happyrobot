@@ -22,6 +22,36 @@ Plantilla:
 
 ---
 
+## D-011 · 2026-10-15 · v25: rama por defecto en «¿Enviar WhatsApp?» (pendiente de publicar)
+- **Qué:**
+  - Fork de la v24: v25 (`k2in5n9kk01x`), «v25 · v24 + rama por defecto en ¿Enviar WhatsApp?».
+  - Único cambio: el nodo de rutas «¿Enviar WhatsApp?» tiene una segunda rama, «Fallback» (tipo
+    `fallback`), sin ninguna acción detrás. La rama «Enviar» (`enviar` es true → «Enviar WhatsApp
+    del punto de encuentro») no cambia.
+  - Prompts, Python «Preparar WhatsApp minibús», plantilla y resto de nodos: los de v24 (ver
+    `prompts/minibus-es/v25/README.md`).
+- **Por qué:**
+  - En v24, cuando `enviar` es false (el cliente no acepta, aeropuerto sin seguimiento, otro
+    idioma…: lo normal), no se cumple ninguna rama y el run termina en «failed» con «paths node
+    '¿Enviar WhatsApp?' has no matching condition and no fallback branch», aunque la llamada haya
+    ido bien.
+  - Ejemplos: 52019f08-6f67-4055-8537-db12c2c7cd57 (primer caso) y
+    4ca09060-423f-4b37-b45d-9fe7f5ee6172 (15/10, 18:06).
+  - Esos «failed» no son fallos de la llamada: ensucian el test A/B (C-004) y la rutina horaria
+    tiene que descontarlos aparte.
+- **Afecta a:** Minibús ES v25, que sustituirá a v24 en el test A/B.
+- **Quién:** jzerpa.
+- **Estado:** pendiente de publicar.
+  - Comprobado: la estructura es v24 + la rama (37 nodos frente a 36; 4 condiciones frente a 3) y
+    `fix_broken_vars` no encuentra referencias rotas. En el test solo fallan los 4 «Initiate
+    customer connection», que necesitan una llamada en curso.
+  - Sin probar los dos caminos: el nodo de rutas no se puede probar suelto (el motor no tiene
+    ejecutor de prueba para «Paths»), el workflow empieza con una llamada entrante y probar «Enviar
+    WhatsApp» manda el mensaje de verdad. Revisar en los primeros runs de v25: con `enviar` false,
+    run «completed»; con `enviar` true, WhatsApp enviado como en v24.
+  - Al publicar: cambiar v24 por v25 en el test A/B (lo hace una persona) y actualizar
+    `rutinas/vigilancia-v24-ab.md`.
+
 ## D-010 · 2026-10-15 · v24: WhatsApp del punto de encuentro solo con seguimiento en directo (borrador)
 - **Qué:**
   - Fork de la v23: v24 (`5g6422lgdcem`).
