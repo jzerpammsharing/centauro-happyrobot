@@ -20,8 +20,8 @@ llamada (spec en `docs/specs/2026-10-12-datos-por-whatsapp.md`, decisión D-001)
 | Workflow | workflow_id | slug | Producción / actual (15/10/2026) |
 |---|---|---|---|
 | Centauro Reembolsos (congelado, D-004) | `01a0defb-9c46-7f81-b966-69ca9d211709` | `ey9623r10ly2` | No se toca: el único bot de voz es W1. V5 (`gwe1rc4d1po6`) sin publicar |
-| Centauro Reembolsos WhatsApp (W1, voz) | `01a12d4e-7c03-7494-8e0c-194e1256f8fb` | `j2cgq0sfra2q` | v4 (`n9k51iiu8ehw`, WhatsApp solo con dificultad) live desde el 15/10/2026; v5 (`ok9wpis1yhs3`, nombre sin inventar, email sin guiones y espera del WhatsApp, D-005) sin publicar; recibe la línea +34 911 200 3002 desde el 12/10/2026 |
-| Centauro Reembolsos · Datos por WhatsApp (W2, texto) | `01a12d4c-5fe2-76d7-a233-3d5a16972ffd` | `p45rx5hlsber` | v8 (`fm6g5527v6lw`, email/DNI) live desde el 15/10/2026; envía desde +34 914 83 13 55 con la plantilla `datos_reserva`. v9 (`n1ij39vr42xd`, pide el nombre y no repite la pregunta, D-005) sin publicar |
+| Centauro Reembolsos WhatsApp (W1, voz) | `01a12d4e-7c03-7494-8e0c-194e1256f8fb` | `j2cgq0sfra2q` | v5 (`ok9wpis1yhs3`, nombre sin inventar, email sin guiones y espera del WhatsApp, D-005) live desde el 15/10/2026 (tarde); recibe la línea +34 911 200 3002 desde el 12/10/2026 |
+| Centauro Reembolsos · Datos por WhatsApp (W2, texto) | `01a12d4c-5fe2-76d7-a233-3d5a16972ffd` | `p45rx5hlsber` | v9 (`n1ij39vr42xd`, pide el nombre y no repite la pregunta, D-005) live desde el 15/10/2026 (tarde); envía desde +34 914 83 13 55 con la plantilla `datos_reserva` |
 
 - **Ficha de los workflows** (flujo y versiones): `docs/workflows.md`. Antes de publicar a clientes,
   sigue la checklist «Antes de publicar a clientes» de ese fichero.

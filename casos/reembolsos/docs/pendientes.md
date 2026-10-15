@@ -1,6 +1,6 @@
 # Pendientes del caso Reembolsos
 
-- [ ] **D-005:** probar por voz W1 v5 y W2 v9 (repetir las cuatro llamadas del informe `docs/informes/2026-10-15-pruebas-tarde-w1-v4.md`) y publicarlas juntas. Fijarse en los silencios tras «Se lo acabo de enviar»: los turnos que HappyRobot da al agente en silencio no se pueden reproducir con evals.
+- [ ] **D-005:** W1 v5 y W2 v9 publicadas el 15/10/2026 por la tarde sin prueba por voz previa. Repetir las cuatro llamadas del informe `docs/informes/2026-10-15-pruebas-tarde-w1-v4.md` y revisar las primeras llamadas reales. Fijarse en los silencios tras «Se lo acabo de enviar»: los turnos que HappyRobot da al agente en silencio no se pueden reproducir con evals.
 - [ ] D-005: velocidad de la voz. La v4/v5 no fijan `voice_speed`; si se quiere «más despacio», bajarla en el editor (por voz, 0,7-1,2) y probar con una llamada.
 - [ ] D-005: el cliente ofreció el DNI/NIE y Daniel insistió en el email (orden de D-003). En las pruebas el email por voz falló las tres veces y el NIE se entendió a la primera: valorar aceptar el DNI/NIE si el cliente lo ofrece.
 - [ ] D-005: Daniel aceptó un número ER con nueve cifras sin preguntar (llamada 3 del informe). Valorar pedir confirmación si no son ocho.

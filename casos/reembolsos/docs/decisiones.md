@@ -37,8 +37,9 @@ caso (D-NNN), la más reciente arriba, con la misma plantilla.
   sin usar los datos del WhatsApp.
 - **Afecta a:** Reembolsos (W1 v5 y W2 v9). La voz (`voice_speed`) no cambia.
 - **Quién:** jzerpa.
-- **Estado:** construidas con evals (resultados en `pruebas/evals-whatsapp.md`, ronda D-005); sin
-  publicar, pendientes de la prueba por voz. W1 v4 y W2 v8 siguen publicadas.
+- **Estado:** construidas con evals (resultados en `pruebas/evals-whatsapp.md`, ronda D-005). W1 v5 y
+  W2 v9 publicadas juntas el 15/10/2026 por la tarde (por una persona), sin prueba por voz previa;
+  revisar las primeras llamadas.
 
 ---
 
