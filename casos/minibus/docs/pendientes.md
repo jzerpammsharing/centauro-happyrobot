@@ -51,6 +51,7 @@
   - Probar una llamada real desde un móvil en Madrid, Sevilla y Málaga, y una en otro aeropuerto (no debe ofrecer el WhatsApp).
   - Cuando se apruebe la plantilla en inglés, enviar también en llamadas en inglés.
   - Revisar si v24 debe heredar los cambios de v23 antes de publicar (v23 sigue sin probar).
+  - **15/10/2026 · runs «failed» en v24:** el nodo de rutas «¿Enviar WhatsApp?» no tiene rama por defecto. Cuando `enviar` es false, el run termina en «failed» («has no matching condition and no fallback branch»), aunque la llamada fue bien (primer caso: run 52019f08-6f67-4055-8537-db12c2c7cd57, Murcia, inglés, transferida y conectada a 18059). Arreglo: añadir una rama por defecto sin acción, en una versión nueva (fork de v24).
 
 ## Mejoras propuestas
 - [ ] Mejoras de prompt de D-006 (estimación: resueltas del 42 % al 54 %).
