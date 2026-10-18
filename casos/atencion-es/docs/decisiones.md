@@ -16,6 +16,16 @@ Plantilla:
 
 ---
 
+## D-002 · 2026-10-18 · Consultas del alquiler con gpt-4.1 hasta comparar modelos
+- **Qué:** el módulo «Consultas del alquiler» de la v2 queda con `fast-gpt-4.1`. La comparación del spec §7.3
+  (gpt-4.1, gpt-4.1-fast y gpt-5.4; el más barato a ≤ 3 puntos del mejor y sin fallos críticos) se hace en una sesión
+  posterior, antes de la Tarea 16.
+- **Por qué:** acabar antes la Tarea 9. Lo que se llegó a ver, con el mismo prompt (vuelta 2): gpt-4.1 86,9 % (153
+  ejecuciones) y gpt-4.1-fast 89,0 % (136); los dos fallan la crítica DEVOL-03 (`docs/informes/evals-v2.md`).
+- **Afecta a:** v2 (nodo «Consultas del alquiler»).
+- **Quién:** el responsable de la construcción, a través del controlador de la Tarea 9.
+- **Estado:** aplicada en v2 (provisional; pendiente en `pendientes.md`).
+
 ## D-001 · 2026-10-18 · Arquitectura del bot único y plan de migración (fase 1: Minibús + Prolongación)
 - **Qué:** spec `specs/2026-10-18-bot-unico-arquitectura.md`. Resumen:
   - **Workflow nuevo** «Centauro Atención España», duplicando Minibús ES v25 (ver C-004).

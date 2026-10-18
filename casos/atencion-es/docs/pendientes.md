@@ -105,8 +105,39 @@ y en las copias de `prompts/atencion-es/v2/`):
     variables (`cola_no_valida`). La transferencia nunca se completa, así que el bot reintenta y da el teléfono.
     El resultado esperado tiene que decir que solo se valora el turno del módulo hasta la llamada; si no, el juez
     suspende por el texto posterior.
-  - Al cambiar una eval se reinicia su lista de ejecuciones.
+  - Cambiar una eval **no** reinicia su lista de ejecuciones (comprobado en la Tarea 9): las de cada ronda se cuentan
+    por la hora de creación.
 - **Prompt «Prolongación»** provisional (una línea) bajo `prolongar_alquiler`, hasta la Tarea 10.
+
+## Comprobaciones de la Tarea 9 (18/10/2026)
+
+- **Consultas del alquiler** construido sobre el nodo heredado «Prolongación y consultas» (mismo nodo, renombrado):
+  prompt de 7.983 caracteres con el bloque común, herramienta `buscar_respuesta` → Python «Buscar respuesta» con
+  `consultas_alquiler.py` entero (el nodo aceptó los 39.173 caracteres: no hace falta partir `SECCIONES`, §11.6) y el
+  patrón de transferencia del Triaje. Los Module Change de `buscar_punto_de_encuentro` e `informacion_oficina` siguen
+  como estaban. Ficheros: `prompts/atencion-es/v2/consultas-del-alquiler.md`, `herramientas-consultas.md`,
+  `buscar-respuesta.md`.
+- [ ] **Elegir el modelo de Consultas, antes de la Tarea 16.** La comparación del spec §7.3 (gpt-4.1, gpt-4.1-fast y
+      gpt-5.4; el más barato a ≤ 3 puntos del mejor y sin fallos críticos) no se hizo en la Tarea 9 por decisión del
+      controlador. El nodo está con `fast-gpt-4.1`. Lo que se llegó a ver (gpt-4.1-fast con el prompt de la vuelta 2,
+      136 ejecuciones: 89,0 % frente al 86,9 % de gpt-4.1 con el mismo prompt) está en `informes/evals-v2.md`. Hay que
+      repetirlo con el prompt vigente (vuelta 3) y los tres modelos.
+- [ ] **Evals de Consultas que no cumplen** (tras las tres vueltas permitidas; detalle en `informes/evals-v2.md`):
+  - DEVOL-03 (crítica, 0/3 siempre): con la oficina cerrada y sin haberlo acordado, la sección manda transferir a
+    Gestión y el modelo solo lo ofrece. Decidir: reescribir ese párrafo en `comun/bloques/consultas-alquiler.md`,
+    aceptar que lo ofrezca y transfiera al sí (y cambiar la eval) o ver si gpt-5.4 lo hace.
+  - FDS-02 (crítica, 2/3 en la última ronda): una ejecución omitió el servicio de espera por vuelo retrasado.
+  - ADV-2 (1/3): en modo virtual, una ejecución transfirió a minibus; las demás no dicen «a partir de las ocho».
+- **Evals de Consultas:** 52 en el nodo (51 cuentan; BR-05 espera `prolongar_alquiler` y se ejecuta en la Tarea 12).
+  Quedan para la Tarea 10 las de Minibús ES v25 ADV-1, PRO-1 y PRO-2 (empiezan en una prolongación). Para el juez:
+  - No ve el prompt: lo que el bot puede decir porque está en el bloque común (horario de gestión, «si es urgente, que
+    vaya a la oficina», el formulario) tiene que estar en el resultado esperado o lo cuenta como inventado.
+  - Lee la frase de aviso de `transfer_to_human_agent` («le paso con un compañero…») como dicha antes de la llamada;
+    las evals de transferencia lo aclaran.
+  - Suspende por la pregunta final de cortesía y por omitir detalles opcionales si no se le dice; las 34 evals de
+    respuesta llevan una nota común (texto en `informes/evals-v2.md`).
+- `prolongar_alquiler` y `volver_al_triaje` los nombra el prompt de Consultas, pero las herramientas las crea la Tarea
+  12: hasta entonces el bot no puede llamarlas (en una llamada real no saltaría).
 
 ## Para la persona (editor de HappyRobot)
 

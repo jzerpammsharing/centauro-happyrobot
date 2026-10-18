@@ -24,7 +24,7 @@ Module Change agrupados). La v2 empieza igual que la v1 salvo la rama «Fallback
 Los **persistent_id** son iguales en la v1 y la v2 (y son los que van en las variables `{{persistent_id.variable}}`);
 los **IDs de nodo** cambian de una versión a otra: localizar siempre por nombre.
 
-### Flujo de nodos de la v2 (18/10/2026, tras la Tarea 8)
+### Flujo de nodos de la v2 (18/10/2026, tras la Tarea 9)
 
 ```
 Inbound Call (sin líneas)
@@ -36,18 +36,22 @@ Inbound Call (sin líneas)
              ├ Triaje               (prompt, raíz del agente; antes «Triaje y horario»)
              │   ├ buscar_punto_de_encuentro → Punto de encuentro
              │   ├ informacion_oficina       → Información de oficina
-             │   ├ consultas_alquiler        → Prolongación y consultas
+             │   ├ consultas_alquiler        → Consultas del alquiler
              │   ├ prolongar_alquiler        → Prolongación (prompt provisional hasta la Tarea 10)
              │   └ transfer_to_human_agent   → Preparar transferencia (Python) → ¿Transferir? (Paths)
              │                                   ├ Transferir → Initiate customer connection
              │                                   └ Fallback (vacía: no se transfiere)
-             │      Punto de encuentro:  consultas_alquiler (→ Module Change → Prolongación y consultas),
+             │      Punto de encuentro:  consultas_alquiler (→ Module Change → Consultas del alquiler),
              │                           transfer_to_human_agent → Initiate customer connection  (patrón v25)
-             │      Información de oficina: consultas_alquiler (→ Module Change → Prolongación y consultas),
+             │      Información de oficina: consultas_alquiler (→ Module Change → Consultas del alquiler),
              │                           transfer_to_human_agent → Initiate customer connection  (patrón v25)
-             │      Prolongación y consultas: buscar_punto_de_encuentro (→ Module Change → Punto de encuentro),
-             │                           informacion_oficina (→ Module Change → Información de oficina),
-             │                           transfer_to_human_agent → Initiate customer connection  (patrón v25)
+             │      Consultas del alquiler (antes «Prolongación y consultas»; Tarea 9):
+             │                           buscar_respuesta → Buscar respuesta (Python, consultas_alquiler.py)
+             │                           buscar_punto_de_encuentro (→ Module Change → Punto de encuentro)
+             │                           informacion_oficina (→ Module Change → Información de oficina)
+             │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir?
+             │                                   ├ Transferir → Initiate customer connection
+             │                                   └ Fallback (vacía)
              └ Registrar resultado de la llamada (AI Extract, 29 campos)
                └ Registrar consultas del alquiler (AI Extract, 14 campos)
                  └ Preparar WhatsApp minibús (Python)
@@ -84,7 +88,14 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | Initiate customer connection (Triaje; sustituye a `b4439401-…`, borrado) | `01a14f66-5252-70a4-81ad-fa8d1cc6b438` | `01a14f66-5252-70a4-81ad-fa8d1cc6b438` |
 | Punto de encuentro | `01a14f1d-0397-7c91-b2bc-a12efeed5595` | `a80fca22-b295-41e3-a735-a3c878af4eee` |
 | Información de oficina | `01a14f1d-0396-717d-8b6f-52f789dbe9a3` | `0c60218b-8901-47bd-95de-40e0e1af1296` |
-| Prolongación y consultas | `01a14f1d-0397-7b22-b5ce-bcb398a7605e` | `38378785-0846-4920-b41a-583f7c5773fb` |
+| Consultas del alquiler (antes «Prolongación y consultas») | `01a14f1d-0397-7b22-b5ce-bcb398a7605e` | `38378785-0846-4920-b41a-583f7c5773fb` |
+| buscar_respuesta (Consultas, Tarea 9) | `01a14fa1-5c34-7bff-9366-aa7e9e4e448a` | `01a14fa1-5c34-7bff-9366-aa7e9e4e448a` |
+| Buscar respuesta (Python, Consultas) | `01a14fa1-5c44-7c37-821c-1d01c0bd41eb` | `01a14fa1-5c44-7c37-821c-1d01c0bd41eb` |
+| transfer_to_human_agent (Consultas) | `01a14f1d-0399-7dbf-9f55-4977771a298f` | `fbe2e40e-4915-4f44-9bac-59c318862e97` |
+| Preparar transferencia (Consultas) | `01a14fa7-1147-724b-af62-e10108d91bce` | `01a14fa7-1147-724b-af62-e10108d91bce` |
+| ¿Transferir? (Paths, Consultas) | `01a14fa7-420e-78db-a46a-1afc6823c0ac` | `01a14fa7-420e-78db-a46a-1afc6823c0ac` |
+| Transferir (condición, Consultas) | `01a14fa7-421d-7c4b-ab14-17edc7ed95df` | `01a14fa7-421d-7c4b-ab14-17edc7ed95df` |
+| Initiate customer connection (Consultas; sustituye a `01a14f1d-0396-7a17-…`, borrado) | `01a14fa7-4228-7812-a6b7-aa42c035b190` | `01a14fa7-4228-7812-a6b7-aa42c035b190` |
 | Registrar resultado de la llamada | `01a14f1d-0395-7611-80cf-234e9e9fcf11` | `aea14d45-81de-4a98-aaae-d45c89421f34` |
 | Registrar consultas del alquiler | `01a14f1d-0396-7b8c-ac8b-76817e8d62e8` | `15bf240b-4db7-47cc-86c5-963eaf6955b3` |
 | Preparar WhatsApp minibús | `01a14f1d-0394-7fed-89b7-f4b8a5e640aa` | `4bd059bb-837c-4242-845f-7fc802c0f937` |
@@ -92,7 +103,8 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | Enviar WhatsApp del punto de encuentro | `01a14f1d-0395-7934-834b-0382a080f15d` | `cbb87a1f-4994-49ea-872b-501640029b45` |
 
 Modelos de la v1/v2 (heredados de la v25): Triaje, Punto de encuentro `fast-turbo-one` (gpt-4.1-fast); Información de
-oficina `fast-gpt-4.1`; Prolongación y consultas `fast-gpt-5.4`; los dos extract `gpt-5.6-luna`.
+oficina `fast-gpt-4.1`; Prolongación y consultas `fast-gpt-5.4`; los dos extract `gpt-5.6-luna`. En la v2, Consultas
+del alquiler pasa a `fast-gpt-4.1` (Tarea 9); la elección de modelo del spec §7.3 está pendiente (`pendientes.md`).
 
 ### Cuidado al editar por API (duplicado)
 
