@@ -112,7 +112,7 @@ y en las copias de `prompts/atencion-es/v2/`):
 ## Comprobaciones de la Tarea 9 (18/10/2026)
 
 - **Consultas del alquiler** construido sobre el nodo heredado «Prolongación y consultas» (mismo nodo, renombrado):
-  prompt de 7.983 caracteres con el bloque común, herramienta `buscar_respuesta` → Python «Buscar respuesta» con
+  prompt de 7.979 caracteres con el bloque común, herramienta `buscar_respuesta` → Python «Buscar respuesta» con
   `consultas_alquiler.py` entero (el nodo aceptó los 39.173 caracteres: no hace falta partir `SECCIONES`, §11.6) y el
   patrón de transferencia del Triaje. Los Module Change de `buscar_punto_de_encuentro` e `informacion_oficina` siguen
   como estaban. Ficheros: `prompts/atencion-es/v2/consultas-del-alquiler.md`, `herramientas-consultas.md`,
@@ -121,14 +121,26 @@ y en las copias de `prompts/atencion-es/v2/`):
       gpt-5.4; el más barato a ≤ 3 puntos del mejor y sin fallos críticos) no se hizo en la Tarea 9 por decisión del
       controlador. El nodo está con `fast-gpt-4.1`. Lo que se llegó a ver (gpt-4.1-fast con el prompt de la vuelta 2,
       136 ejecuciones: 89,0 % frente al 86,9 % de gpt-4.1 con el mismo prompt) está en `informes/evals-v2.md`. Hay que
-      repetirlo con el prompt vigente (vuelta 3) y los tres modelos.
-- [ ] **Evals de Consultas que no cumplen** (tras las tres vueltas permitidas; detalle en `informes/evals-v2.md`):
-  - DEVOL-03 (crítica, 0/3 siempre): con la oficina cerrada y sin haberlo acordado, la sección manda transferir a
-    Gestión y el modelo solo lo ofrece. Decidir: reescribir ese párrafo en `comun/bloques/consultas-alquiler.md`,
-    aceptar que lo ofrezca y transfiera al sí (y cambiar la eval) o ver si gpt-5.4 lo hace.
-  - FDS-02 (crítica, 2/3 en la última ronda): una ejecución omitió el servicio de espera por vuelo retrasado.
-  - ADV-2 (1/3): en modo virtual, una ejecución transfirió a minibus; las demás no dicen «a partir de las ocho».
-- **Evals de Consultas:** 52 en el nodo (51 cuentan; BR-05 espera `prolongar_alquiler` y se ejecuta en la Tarea 12).
+      repetirlo con el prompt vigente (el de la ronda de arreglos 1) y los tres modelos.
+- [ ] **Evals de Consultas que no cumplen** tras la ronda de arreglos 1 (ronda 4, `fast-gpt-4.1`; resto 100/111,
+      90,1 %; detalle y motivos del juez en `informes/evals-v2.md`). Sin más vueltas de prompt: quedan para la sesión
+      de elección de modelo y la puerta 0.
+  - TEL-C1 (crítica, 0/3): da el número de asistencia de Portugal que trae la sección `telefonos`, pese a la regla de
+    los cuatro teléfonos. Decidir si se quitan del bloque `comun/bloques/consultas-alquiler.md` los teléfonos de
+    otros países o si se pueden dar.
+  - DEVOL-03c (crítica, 0/3): con Gestión cerrada dice que no está permitido dejar el coche fuera y no da el horario
+    de Gestión.
+  - FDS-02 (crítica, 0/3 con la expectativa corregida): no explica primero el servicio de espera por vuelo retrasado.
+  - REQ-09, FDS-03 y ADV-3 (críticas, 2/3): REQ-09 por el juez (cuenta como promesa una frase de la sección); FDS-03
+    («esté atento al correo») y ADV-3 («se calcula según las fechas nuevas») por pequeños inventos.
+  - DEVOL-03 queda resuelta con D-003 (ofrecer y transferir al sí): DEVOL-03a y 03b, 3/3.
+- [ ] **Triaje: VIRT-T1 y la descripción de `buscar_punto_de_encuentro`.** En la ronda de arreglos 1 se añadió la
+      excepción del modo virtual a esa descripción en el Triaje y VIRT-T1 (crítica) cayó de 3/3 a 0/3 (ejecutaba
+      `transfer_to_human_agent` para una reserva nueva de noche); al quitarla volvió a 3/3. El Triaje se ha dejado sin
+      la excepción (Consultas la mantiene). Decidir si se hace la red de seguridad de abajo (R24) en lugar de tocar
+      descripciones. «VIRTUAL · avería» da 1/3 con o sin la excepción porque el juez cuenta el reintento tras el fallo:
+      revisar su expectativa.
+- **Evals de Consultas:** 56 en el nodo (55 cuentan; BR-05 espera `prolongar_alquiler` y se ejecuta en la Tarea 12).
   Quedan para la Tarea 10 las de Minibús ES v25 ADV-1, PRO-1 y PRO-2 (empiezan en una prolongación). Para el juez:
   - No ve el prompt: lo que el bot puede decir porque está en el bloque común (horario de gestión, «si es urgente, que
     vaya a la oficina», el formulario) tiene que estar en el resultado esperado o lo cuenta como inventado.
@@ -138,6 +150,20 @@ y en las copias de `prompts/atencion-es/v2/`):
     respuesta llevan una nota común (texto en `informes/evals-v2.md`).
 - `prolongar_alquiler` y `volver_al_triaje` los nombra el prompt de Consultas, pero las herramientas las crea la Tarea
   12: hasta entonces el bot no puede llamarlas (en una llamada real no saltaría).
+- **Para la Tarea 13:** el extract «Registrar consultas del alquiler» lee `fbe2e40e-….extension_destino` (parámetro
+  quitado de `transfer_to_human_agent` de Consultas) y `1dce23f2-….transfer_succeeded` (el Transfer de Consultas
+  borrado en la Tarea 9): `hubo_transferencia_consultas` y `cola_destino_consultas` saldrán siempre «no» / «ninguna»
+  hasta que se rehaga. Al rehacerlo, seguir con `invento_condicion` los inventos que se vieron en evals (REQ-03 y
+  DEVOL-01).
+- **`fix_broken_vars` no se ejecutó en la Tarea 9** (R23), ni en simulación: el `dry_run` hace un test-all de la
+  versión y la v2 tiene el nodo «Enviar WhatsApp del punto de encuentro». Las variables se escribieron con
+  `{{persistent_id.variable}}` y la estructura se comprobó con `get_workflows`.
+- [ ] **Propuesta para decidir (R24): red de seguridad del modo virtual en «Preparar transferencia».** Igual que la de
+      Gestión cerrada: de 22 a 8 h solo se transfiere a asistencia, aunque el modelo pida otra cola. No se ha hecho;
+      el arreglo de la Tarea 9 es la descripción de `buscar_punto_de_encuentro` (Consultas y Triaje) y la eval crítica
+      VIRT-C1. Si se hace, probarla con ADV-2 (Consultas) y «VIRTUAL · pide persona» (Triaje), que son las que fallan.
+- **El Python de `buscar_respuesta` se llama «Buscar respuesta»** (`workflows.md`); la Tarea 10 debe usar el mismo
+  nombre en Prolongación.
 
 ## Para la persona (editor de HappyRobot)
 

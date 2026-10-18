@@ -21,6 +21,11 @@ función que ve el agente; lo que pasa al ejecutarla lo hacen sus hijos.
 
 **Descripción:** Úsala cuando el cliente pregunta por el minibús, por el punto de encuentro o por cómo llegar del aeropuerto a la oficina de Centauro, y ya sabes en qué aeropuerto está. La herramienta continúa la conversación: da el punto de encuentro o avisa de que la oficina de ese aeropuerto ya ha cerrado. Sirve a cualquier hora, también en modo virtual. NO la uses si se queja de que el minibús no llega, se ha ido sin él o lleva tiempo esperando (salvo que lleve menos de diez minutos): eso se transfiere a la cola minibus. NO la uses para el horario, la dirección o la devolución en una oficina (informacion_oficina), ni para prolongar o para dudas del alquiler. Si todavía no sabes el aeropuerto, pregúntalo antes. Nunca preguntes la terminal solo para poder llamarla: es opcional.
 
+> Ronda de arreglos 1 de la Tarea 9: se probó a añadir aquí la excepción del modo virtual («…salvo en modo virtual:
+> entonces no transfieras; dile que a esta hora no hay compañeros…»). Con ella, VIRT-T1 (crítica) pasó de 3/3 a 0/3
+> (el Triaje ejecutaba transfer_to_human_agent para una reserva nueva de noche); al quitarla volvió a 3/3. Se dejó sin
+> la excepción, que sí está en la de Consultas. Detalle en `docs/informes/evals-v2.md`.
+
 **Parámetros:**
 - `aeropuerto` (obligatorio): Nombre del aeropuerto donde está el cliente, tal como lo ha dicho (por ejemplo: Valencia, Rodas, Lisboa, Madrid).
 - `terminal` (opcional): Terminal o puerta de salida, SOLO si el cliente la ha mencionado espontáneamente. Si no la ha dicho, OMITE este parámetro por completo: no lo envíes vacío, con guiones ni con valores como "no indicada" o "desconocida". Nunca la deduzcas, la inventes ni la preguntes solo para rellenar este campo.

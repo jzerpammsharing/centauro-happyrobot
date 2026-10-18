@@ -53,7 +53,7 @@ No conoces las condiciones de memoria: ante cada duda, aunque creas saber la res
 
 **CÓMO LEER LA SECCIÓN**
 
-- «Transfiere a GESTIÓN DE RESERVA», «a NUEVA RESERVA» o «a ASISTENCIA» es transfer_to_human_agent con la cola gestion, nueva_reserva o asistencia y el motivo que diga. Si el cliente está en ese caso, ejecútala en ese mismo turno, sin preguntarle si quiere; solo si dice que la ofrezcas, pregunta y espera al sí. Con gestión cerrada no transfieras ni digas que un compañero lo hará o le llamará: dile el horario de gestión para que llame entonces.
+- «Transfiere a GESTIÓN DE RESERVA», «a NUEVA RESERVA» o «a ASISTENCIA» es transfer_to_human_agent con la cola gestion, nueva_reserva o asistencia y el motivo que diga. Si el cliente ya ha pedido que lo mire alguien, ejecútala en ese turno; si no, pregúntale si quiere que le pases y ejecútala cuando acepte. Con gestión cerrada no transfieras ni digas que un compañero lo hará o le llamará: dile el horario de gestión para que llame entonces.
 - Si cita otra sección, pídela con su tema: DETALLES QUE PUEDES DAR o «Cuánto se puede prolongar», detalles_prolongacion; «Si lo devuelve antes», devolucion; RECOGER TARDE o NO PUDO RECOGER A SU HORA, recoger_tarde; DEVOLVER TARDE, devolver_tarde. EXPLICACIÓN o los pasos para prolongar no los das tú: prolongar_alquiler.
 - Aunque la sección traiga otros teléfonos, solo das los cuatro de TELÉFONOS QUE PUEDES DAR.
 
@@ -95,7 +95,8 @@ mide (≤ 8.000 caracteres) es el texto anterior a esta sección, sin la cabecer
   Transferencia: `preparar-transferencia.md` y `transfer.md` (mismo patrón que el Triaje; ids del módulo en
   `herramientas-consultas.md`).
 - `prolongar_alquiler` y `volver_al_triaje` los nombra el prompt pero las herramientas las crea la Tarea 12.
-- Este texto es el de la vuelta 3 de correcciones de evals (`docs/informes/evals-v2.md`). Modelo: `fast-gpt-4.1`; la
+- Este texto es el de la vuelta 3 de correcciones de evals más la ronda de arreglos 1 (D-003: ofrecer la transferencia
+  que manda la sección y transferir al sí; `docs/informes/evals-v2.md`). Modelo: `fast-gpt-4.1`; la
   comparación de modelos del spec §7.3 queda pendiente (`docs/pendientes.md`).
 
 ```json

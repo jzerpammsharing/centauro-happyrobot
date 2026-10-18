@@ -16,6 +16,20 @@ Plantilla:
 
 ---
 
+## D-003 · 2026-10-18 · Consultas: ofrecer la transferencia que manda la sección y transferir al sí
+- **Qué:** cuando la sección de `buscar_respuesta` manda transferir («Transfiere a GESTIÓN DE RESERVA…») y el cliente
+  no ha pedido hablar con nadie, el bot de Consultas le pregunta si quiere que le pase y transfiere cuando acepta; si
+  el cliente ya lo ha pedido, transfiere en ese turno. Cambia el prompt («CÓMO LEER LA SECCIÓN») y la descripción de
+  `transfer_to_human_agent`. DEVOL-03 se parte en tres evals críticas: 03a (ofrece o transfiere; valen las dos), 03b
+  (acepta la oferta → cola gestion, motivo otro) y 03c (Gestión cerrada: ni ofrece ni transfiere, da el horario).
+  REQ-09 (objeto olvidado) pasa a aceptar también la oferta.
+- **Por qué:** con «ejecútala en ese mismo turno, sin preguntarle si quiere», gpt-4.1 y gpt-4.1-fast seguían
+  ofreciendo en vez de transferir (DEVOL-03 0/9 en las rondas 1 a 3). Ofrecer antes es aceptable para el cliente y
+  no salta a una cola que no ha pedido (R21 de la revisión de la Tarea 9).
+- **Afecta a:** v2 (nodo «Consultas del alquiler» y su `transfer_to_human_agent`).
+- **Quién:** el responsable de la construcción, a propuesta de la revisión de la Tarea 9.
+- **Estado:** aplicada en v2 (ronda de arreglos 1 de la Tarea 9; resultado en `docs/informes/evals-v2.md`).
+
 ## D-002 · 2026-10-18 · Consultas del alquiler con gpt-4.1 hasta comparar modelos
 - **Qué:** el módulo «Consultas del alquiler» de la v2 queda con `fast-gpt-4.1`. La comparación del spec §7.3
   (gpt-4.1, gpt-4.1-fast y gpt-5.4; el más barato a ≤ 3 puntos del mejor y sin fallos críticos) se hace en una sesión

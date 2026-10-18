@@ -102,6 +102,9 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | ¿Enviar WhatsApp? (Paths) | `01a14f1d-0392-7a3a-9987-9e9a6a9ab190` | `d7bea790-20cc-431d-b696-edd7f09b51e3` |
 | Enviar WhatsApp del punto de encuentro | `01a14f1d-0395-7934-834b-0382a080f15d` | `cbb87a1f-4994-49ea-872b-501640029b45` |
 
+El Python de `buscar_respuesta` se llama **«Buscar respuesta»** (no «Consultas del alquiler», para no repetir el nombre
+del prompt). **Aviso para la Tarea 10:** el nodo igual que se cree en Prolongación debe llevar el mismo nombre.
+
 Modelos de la v1/v2 (heredados de la v25): Triaje, Punto de encuentro `fast-turbo-one` (gpt-4.1-fast); Información de
 oficina `fast-gpt-4.1`; Prolongación y consultas `fast-gpt-5.4`; los dos extract `gpt-5.6-luna`. En la v2, Consultas
 del alquiler pasa a `fast-gpt-4.1` (Tarea 9); la elección de modelo del spec §7.3 está pendiente (`pendientes.md`).

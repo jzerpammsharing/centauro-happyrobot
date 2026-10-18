@@ -80,11 +80,15 @@ ese texto posterior, que no es del Triaje.
 
 Nodo «Consultas del alquiler» `01a14f1d-0397-7b22-b5ce-bcb398a7605e` (persistent_id
 `38378785-0846-4920-b41a-583f7c5773fb`). **Estado: no cumple el criterio.** Tras las tres vueltas de corrección
-permitidas quedan dos críticas por debajo de 3/3: DEVOL-03 (0/3) y FDS-02 (2/3). El resto cumple: 102/111 (91,9 %).
+permitidas (ronda 3) quedaban dos críticas por debajo de 3/3: DEVOL-03 (0/3) y FDS-02 (2/3), con el resto en 102/111
+(91,9 %). Tras la ronda de arreglos 1 de la revisión (ronda 4, con evals nuevas y más estrictas) quedan seis: DEVOL-03c,
+FDS-02 y TEL-C1 a 0/3, y REQ-09, FDS-03 y ADV-3 a 2/3; el resto, 100/111 (90,1 %). Detalle en «Ronda de arreglos 1».
 
 ### El juego de evals
 
 52 evals en el nodo; cuentan 51 (BR-05 espera `prolongar_alquiler` y se ejecuta en la Tarea 12, R5). 14 son críticas.
+Desde la ronda de arreglos 1 son 56 (cuentan 55; 18 críticas): DEVOL-03 pasa a DEVOL-03a y se crean DEVOL-03b,
+DEVOL-03c, VIRT-C1 y TEL-C1.
 
 | Carpeta | Evals |
 |---|---|
@@ -209,7 +213,7 @@ R1, R2 y R3 son las rondas de arriba; el motivo es el de las ejecuciones fallida
 | PRO-6 · horario de oficina en modo virtual → informacion_oficina |  | 3/3 | 3/3 | 3/3 |  |
 | BR-05 Tras responder, «quiero prolongarlo» → prolongar_alquiler | | — | — | — | No cuenta: espera `prolongar_alquiler`, que crea la Tarea 12 (R5) |
 
-**Lo que queda abierto:**
+**Lo que quedó abierto tras la ronda 3** (ver después «Ronda de arreglos 1»):
 
 - **DEVOL-03 (crítica, 0/3 en todas las rondas y con los dos modelos probados).** La sección dice «Si no lo acordó al
   recoger, transfiere a GESTIÓN DE RESERVA con motivo_transferencia otro»; el modelo responde que depende de la oficina
@@ -217,13 +221,133 @@ R1, R2 y R3 son las rondas de arriba; el motivo es el de las ejecuciones fallida
   descripción de la herramienta lo han cambiado. Salidas posibles: reescribir ese párrafo en
   `comun/bloques/consultas-alquiler.md` (contenido de la Tarea 4) para que la orden vaya primero y sin condiciones;
   aceptar que lo ofrezca y transfiera al sí (y cambiar la eval); o ver si gpt-5.4 lo hace (elección de modelo,
-  pendiente).
+  pendiente). **Se decidió lo segundo (D-003)** en la ronda de arreglos 1.
 - **FDS-02 (crítica, 2/3 en la R3; 3/3 en la R1 y la R2).** Una ejecución omitió el servicio de espera por vuelo
-  retrasado y dedujo que tendría que esperar a que abra la oficina. El resultado esperado presenta ese servicio como
-  correcto, no como obligatorio, pero el juez lo leyó como exigido; la deducción sí es un fallo del bot.
+  retrasado. La sección manda explicarlo primero («Su vuelo llega cuando la oficina ya ha cerrado: explícale primero el
+  servicio»), así que el fallo es del bot; el resultado esperado lo presentaba solo como «correcto» y se corrigió en la
+  ronda de arreglos 1 para exigirlo. Que «tendría que esperar a que abra la oficina» no es una deducción: la sección
+  dice «Puede recogerlo cuando abra la oficina, dentro de las doce horas que se guarda la reserva».
 - **ADV-2 (1/3):** en modo virtual, una ejecución transfirió dos veces a minibus pese a la regla del bloque común; las
   otras no dicen «a partir de las ocho». Pasó lo mismo en las rondas anteriores. Conviene mirarlo con Minibús en el
   Triaje (VIRTUAL · pide persona, 2/3 en la Tarea 8, falla igual).
+
+### Ronda de arreglos 1 (ronda 4)
+
+Tras la revisión de la Tarea 9 (R21 a R24). Ronda 4 con `fast-gpt-4.1`, empezada a las 19:21: las 55 evals de Consultas
+×3 y las 7 evals de modo virtual del Triaje ×3 (por el cambio de la descripción de `buscar_punto_de_encuentro`).
+
+**Qué cambió:**
+
+- **D-003 (R21):** en el prompt («CÓMO LEER LA SECCIÓN») y en la descripción de `transfer_to_human_agent`, si la sección
+  manda transferir y el cliente no lo ha pedido, el bot pregunta si quiere que le pase y transfiere cuando acepta; si
+  ya lo ha pedido, transfiere en ese turno (antes: «ejecútala en ese mismo turno, sin preguntarle si quiere»). Prompt:
+  7.979 caracteres.
+- DEVOL-03 se parte en **DEVOL-03a** (un turno: depende de la oficina; ofrece Gestión o transfiere, valen las dos),
+  **DEVOL-03b** (acepta la oferta → cola gestion, motivo otro) y **DEVOL-03c** (Gestión cerrada: ni ofrece ni
+  transfiere, da el horario y cierra). **REQ-09** (objeto olvidado) pasa a aceptar también la oferta, por la misma
+  política.
+- **Modo virtual:** la descripción de `buscar_punto_de_encuentro` de Consultas dice que la queja del minibús no se
+  transfiere en modo virtual. Eval crítica nueva **VIRT-C1** (el minibús no llega e insiste en una persona). En el
+  Triaje se probó lo mismo y se quitó (ver abajo).
+- **FDS-02 (R22):** el resultado esperado exige explicar primero el servicio de espera por vuelo retrasado.
+- **TEL-C1** (R15): pide el teléfono de asistencia de Portugal y la sección lo trae; solo puede dar los cuatro del
+  prompt.
+- `buscar_respuesta`: si devuelve `encontrado: false` por un tema que no es de la lista, repite con un tema válido.
+- **BR-04:** ya no acepta que ofrezca un compañero (el prompt no lo deja si la sección no lo dice).
+
+**Resultado de la ronda 4:** total 142/165 (86,1 %); **resto 100/111 (90,1 %)**, que cumple; críticas 42/54, con
+**seis por debajo de 3/3**: DEVOL-03c, FDS-02 y TEL-C1 (0/3), REQ-09, FDS-03 y ADV-3 (2/3). Mejoran DEVOL-03a/b (3/3),
+DEVOL-02 (3/3), ADV-2 (3/3) y VIRT-C1 (3/3). Empeoran RECOG-03 (1/3), BR-04 (1/3, con el criterio más estricto) y
+RECOG-01 (1/3).
+
+| Eval | Crítica | R3 | **R4** | Motivo del juez en las fallidas de la R4 |
+|---|---|---|---|---|
+| NOINI-01 Cambiar la hora de una reserva futura (caso real 6 oct 18:57) |  | 3/3 | 3/3 |  |
+| NOINI-02 Un día más en una reserva que aún no ha empezado (caso real 6 oct 19:52) |  | 3/3 | 3/3 |  |
+| NOINI-03 Si cancelo, ¿me devuelven el dinero? |  | 2/3 | **2/3** | dice que el reembolso se pide «desde su área de cliente» (la sección: «Mis reservas y facturas» → «Reembolso Cupón») |
+| NOINI-04 Reserva de Booking: adelantar el inicio |  | 3/3 | 3/3 |  |
+| NOINI-05 ¿Puedo recoger el coche antes de la hora? |  | 3/3 | 3/3 |  |
+| NOINI-06 Prefiere que lo haga un compañero: cola gestion, no_iniciada | sí | 3/3 | 3/3 |  |
+| NOINI-07 'Quiero modificar mi reserva': pregunta si ya tiene el coche |  | 3/3 | 3/3 |  |
+| RECOG-01 Voy a llegar tres horas tarde a recoger |  | 2/3 | **1/3** | añade «no tiene que avisar» (×2; la sección dice que no tiene que cambiar nada) |
+| RECOG-02 Vuelo retrasado, llego después del cierre (caso real día 1, Palma 20:43) |  | 3/3 | **2/3** | inventa «en Palma» no se puede recoger fuera de horario y omite las doce horas |
+| RECOG-03 Tren retrasado a Sants |  | 3/3 | **1/3** | afirma que el servicio de espera existe en Barcelona Sants (×2; la sección: «en algunas estaciones») |
+| RECOG-04 ¿A qué hora cierra la oficina de Málaga? → informacion_oficina |  | 3/3 | 3/3 |  |
+| RECOG-05 Deme el teléfono de la oficina de recogida | sí | 3/3 | 3/3 |  |
+| DEVOL-01 Si amplío y lo devuelvo antes, ¿me abonan los días? (caso real 6 oct 11:55) |  | 2/3 | 3/3 |  |
+| DEVOL-02 ¿Puedo devolverlo en otra oficina? |  | 1/3 | 3/3 |  |
+| DEVOL-03a Devolver con la oficina cerrada sin haberlo acordado: depende de la oficina; ofrece Gestión o transfiere | sí | 0/3 (como DEVOL-03) | 3/3 |  |
+| DEVOL-03b El cliente acepta la oferta de pasar con Gestión: cola gestion, otro | sí | nueva | 3/3 |  |
+| DEVOL-03c Gestión cerrada: devolver con la oficina cerrada sin haberlo acordado → no ofrece ni transfiere | sí | nueva | **0/3** | dice que no está permitido dejarlo fuera (la sección: depende de la oficina) y no da el horario de Gestión (×3) |
+| CARGO-01 ¿Cuándo me devuelven la fianza? |  | 3/3 | 3/3 |  |
+| CARGO-02 ¿Me devuelven el combustible? |  | 3/3 | 3/3 |  |
+| CARGO-03 Me devolvieron el combustible en dos pagos |  | 3/3 | 3/3 |  |
+| CARGO-04 Quiero reclamar una penalización: formulario primero |  | 3/3 | 3/3 |  |
+| CARGO-05 Insiste en que alguien revise el cargo ahora: cola gestion, otro | sí | 3/3 | 3/3 |  |
+| CARGO-06 Me ha llegado una multa |  | 3/3 | 3/3 |  |
+| REQ-01 Tengo 20 años y el carnet de hace 8 meses |  | 3/3 | 3/3 |  |
+| REQ-02 ¿Me vale una tarjeta de débito o American Express para recoger? |  | 3/3 | 3/3 |  |
+| REQ-03 Añadir un conductor con el alquiler ya en curso |  | 2/3 | **1/3** | inventa que tienen que ir juntos y que ella lleve DNI y carnet (×2) |
+| REQ-04 ¿Puedo ir a Portugal con el coche? |  | 3/3 | 3/3 |  |
+| REQ-05 Aviso de batería: teléfono de asistencia | sí | 3/3 | 3/3 |  |
+| REQ-06 Pinchazo en la autopista: cola asistencia | sí | 3/3 | 3/3 |  |
+| REQ-07 Sillas para niños |  | 3/3 | 3/3 |  |
+| REQ-08 ¿Me lo pueden traer a casa en Madrid? | sí | 3/3 | 3/3 |  |
+| REQ-09 Me he dejado las gafas en el coche: cola gestion, otro | sí | 3/3 | **2/3** | transfiere bien, pero el juez lee «un compañero toma los datos y avisa a la oficina» como promesa inventada (está en la sección) |
+| REQ-10 Consulta que no tiene nada que ver con Centauro |  | 3/3 | 3/3 |  |
+| REQ-11 Daños que no estaban anotados |  | 3/3 | 3/3 |  |
+| NOINI-08 Llega 4 horas antes, reserva de Booking para hoy (caso real 8e3241c0) |  | 2/3 | **2/3** | propone cancelar y rehacer sin decir que con Booking se hace con Booking |
+| NOINI-09 Pickup today at 12:30, can I collect earlier? (caso real 1aba8b41) |  | 3/3 | 3/3 |  |
+| FDS-02 Sábado noche, vuelo retrasado: ¿hasta qué hora abre la oficina? (caso real 10 oct 21:17) | sí | 2/3 | **0/3** | no explica primero el servicio de espera por vuelo retrasado (×2); la otra lo explica pero ofrece mirar el horario de la oficina y se alarga |
+| FDS-03 Sábado noche, objeto olvidado y el formulario no responde (caso real 10 oct 21:44) | sí | 3/3 | **2/3** | dice que un compañero contactará con la oficina y que esté atento al correo |
+| FDS-08 Domingo, no recogió anoche (otro aeropuerto): ¿puedo recogerlo hoy? (caso real ae499b3b) | sí | 3/3 | 3/3 |  |
+| BR-01 ¿Puedo llevar el coche a Portugal? → buscar_respuesta durante_el_alquiler |  | 3/3 | 3/3 |  |
+| BR-02 Tengo 20 años, ¿puedo alquilar? → buscar_respuesta requisitos |  | 3/3 | 3/3 |  |
+| BR-03 Con la sección devuelta: ¿y el conductor adicional? → cifra en una o dos frases |  | 3/3 | 3/3 |  |
+| BR-04 ¿Puedo pagar con puntos de fidelidad? La sección no lo dice → no inventa |  | 3/3 | **1/3** | ofrece pasarle con un compañero (×2), contra la regla del prompt |
+| GC-C1 Gestión cerrada: reserva no iniciada, prefiere un compañero → no transfiere | sí | 3/3 | 3/3 |  |
+| ADV-2 · queja del minibús en modo virtual: sin transferir |  | 1/3 | 3/3 |  |
+| ADV-3 · intento de sacar precio y teléfono: ninguno | sí | 3/3 | **2/3** | inventa que la tarifa «se calcula según las fechas nuevas» |
+| ADV-4 · francés pidiendo el minibús: ofrece los cuatro idiomas |  | 3/3 | 3/3 |  |
+| ADV-5 · se despide (no lanzar herramientas) |  | 3/3 | 3/3 |  |
+| ADV-6 · frecuencia del minibús de vuelta (Bilbao) → buscar_punto_de_encuentro |  | 3/3 | 3/3 |  |
+| PRO-3 · tras la penalización, horario de la oficina de Atocha → informacion_oficina |  | 3/3 | 3/3 |  |
+| PRO-4 · queja del minibús que no llega: cola minibus | sí | 3/3 | 3/3 |  |
+| PRO-5 · minibús sin decir aeropuerto: pregunta el aeropuerto |  | 3/3 | 3/3 |  |
+| PRO-6 · horario de oficina en modo virtual → informacion_oficina |  | 3/3 | 3/3 |  |
+| VIRT-C1 Modo virtual: el minibús no llega e insiste en una persona → no transfiere, a partir de las ocho | sí | nueva | 3/3 |  |
+| TEL-C1 Pide el teléfono de asistencia de Portugal: solo da los cuatro permitidos | sí | nueva | **0/3** | da el número de asistencia de Portugal que trae la sección (×3) |
+| BR-05 Tras responder, «quiero prolongarlo» → prolongar_alquiler | | — | — | No cuenta (Tarea 12, R5) |
+
+**Críticas que no llegan (sin más vueltas de prompt; para la sesión de elección de modelo y la puerta 0):**
+
+- **TEL-C1 0/3:** da el número de asistencia de Portugal que trae la sección, pese a «Aunque la sección traiga otros
+  teléfonos, solo das los cuatro». Mientras la sección `telefonos` traiga números de otros países, el modelo los da;
+  la salida más segura es quitarlos del bloque (`comun/bloques/consultas-alquiler.md`) o decidir que se pueden dar.
+- **DEVOL-03c 0/3:** con Gestión cerrada dice que no está permitido dejar el coche fuera (la sección dice que depende de
+  la oficina) y no da el horario de Gestión.
+- **FDS-02 0/3:** con la expectativa corregida, dos ejecuciones no explican primero el servicio de espera (dan las
+  doce horas y preguntan el aeropuerto) y la tercera lo explica pero ofrece mirar el horario de la oficina.
+- **REQ-09 2/3, FDS-03 2/3, ADV-3 2/3:** REQ-09 transfiere bien y el juez cuenta como promesa inventada «un compañero
+  toma los datos y avisa a la oficina» (está en la sección); FDS-03 dice que esté atento al correo; ADV-3 dice que la
+  tarifa «se calcula según las fechas nuevas».
+
+**Triaje: evals de modo virtual** (modelo `fast-turbo-one`; Tarea 8 = con la descripción anterior, sin la excepción):
+
+| Eval | Crítica | Tarea 8 | R4 con la excepción | Sin la excepción (19:34–19:36) |
+|---|---|---|---|---|
+| VIRT-T1 · Modo virtual: reserva nueva → volver a llamar a partir de las ocho | sí | 3/3 | **0/3** (ejecuta transfer_to_human_agent ×3) | 3/3 |
+| VIRTUAL · pide hablar con una persona → sin transferir | | 2/3 | 3/3 | 2/3 (da el horario de gestión en vez de «a partir de las ocho») |
+| VIRTUAL · avería → cola asistencia | | 3/3 | 1/3 | 1/3 (las dos veces, el juez cuenta el reintento tras el fallo, que la expectativa excluye) |
+| VIRTUAL · vuelo retrasado → consultas_alquiler, sin transferir | | 3/3 | 3/3 | 3/3 |
+| VIRTUAL · minibús Murcia (cerrada) → buscar_punto_de_encuentro | | 3/3 | 3/3 | 3/3 |
+| VIRTUAL · minibús Atenas (cerrada) → buscar_punto_de_encuentro | | 3/3 | 3/3 | 3/3 |
+| VIRTUAL · minibús Málaga (abierta) → buscar_punto_de_encuentro | | 3/3 | 3/3 | 3/3 |
+
+Con la excepción del modo virtual en la descripción de `buscar_punto_de_encuentro` del Triaje, VIRT-T1 (crítica) cae a
+0/3; sin ella vuelve a 3/3. **El Triaje se ha dejado sin la excepción** (la descripción de la Tarea 8), y la de
+Consultas la mantiene (allí VIRT-C1 y ADV-2 dan 3/3). La red de seguridad del modo virtual en «Preparar transferencia»
+(R24) queda como propuesta en `pendientes.md`.
 
 ### Modelos
 
