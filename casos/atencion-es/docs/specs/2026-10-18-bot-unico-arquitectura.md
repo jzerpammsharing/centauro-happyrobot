@@ -239,8 +239,8 @@ Las de contenido:
   `minibus`), `motivo_transferencia` (los 11 valores de la v12, iguales en todos los módulos) y
   `resumen_para_agente` (en español, sin datos personales). El modelo ya no copia extensiones: se acaban las
   extensiones vacías o mal copiadas.
-- **Cadena:** herramienta → Python «Preparar transferencia» (cola + idioma → extensión; red de seguridad de
-  Gestión cerrada) → Transfer «Initiate customer connection».
+- **Cadena:** herramienta → Python «Preparar transferencia» (cola + idioma → extensión; redes de seguridad de
+  Gestión cerrada y del modo virtual) → Transfer «Initiate customer connection».
 - **Gestión abierta** = de lunes a viernes de 8:00 a 21:00, hora peninsular, como hoy en los dos bots
   (RingCentral tiene el horario laboral hasta las 22:00, pero los bots no transfieren de 21 a 22).
 - **Gestión cerrada, en dos capas:**
@@ -250,6 +250,14 @@ Las de contenido:
      `resultado: gestion_cerrada` y el horario. Puede quedar una frase incómoda («le paso…» y después «ahora no
      está disponible»), que es mejor que dejar al cliente en la locución. Las evals miden que el modelo no lo
      intente. Cómo cortar la cadena sin transferir se comprueba al construir (§11).
+- **Modo virtual, también en dos capas (D-004):** de 22:00 a 8:00, hora peninsular, solo se transfiere a
+  Asistencia. El bloque de reglas comunes lo dice (MODO DE ATENCIÓN, variable `modo_virtual`) y, si aun así el modelo
+  pide `minibus` o `nueva_reserva`, «Preparar transferencia» no transfiere y devuelve `resultado: modo_virtual` con
+  un detalle fijo que remite a MODO DE ATENCIÓN (no hay compañeros a esta hora, volver a llamar a partir de las ocho;
+  una avería o un accidente, a la cola asistencia). La hora se calcula al ejecutarse, como la de Gestión. Si piden
+  `gestion` de noche, Gestión también está cerrada y gana `gestion_cerrada`: su detalle remite a COLA DE GESTIÓN
+  CERRADA, que da el horario real de Gestión («a partir de las ocho» sería falso de viernes a domingo y en vísperas
+  de festivo).
 - **`fallback_number`:** la misma cola, nunca Gestión.
 - **Quedarse en la llamada:** whisper con resumen y teléfono dictado, el agente pulsa 1 y se graba la
   conversación, como hoy en España. Se mantiene en las cuatro colas mientras se afina el bot (cuesta unos
@@ -300,8 +308,8 @@ Las de contenido:
 ### 5.11 Voz y agente
 
 «Receive Customer Call» de la v25: una sola voz («Pablo Galvez HR»), idiomas es/en/it/pt, fondo de call center.
-`transcription_context` ampliado a prolongaciones, contraseña y correo. Sin horario comercial en el nodo (el modo
-virtual lo decide el prompt).
+`transcription_context` ampliado a prolongaciones, contraseña y correo. Sin horario comercial en el nodo: el modo
+virtual lo decide el prompt y lo asegura «Preparar transferencia» (§5.8, D-004).
 
 ### 5.12 Extract «Registrar resultado de la llamada»
 

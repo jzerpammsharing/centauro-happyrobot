@@ -16,6 +16,29 @@ Plantilla:
 
 ---
 
+## D-004 · 2026-10-18 · Red de seguridad del modo virtual en «Preparar transferencia»
+- **Qué:** de 22:00 a 8:00 (hora peninsular, calculada al ejecutarse el nodo, como la de Gestión), «Preparar
+  transferencia» solo transfiere a `asistencia`. Si el modelo pide `minibus` o `nueva_reserva`, no transfiere y
+  devuelve `resultado: modo_virtual` con un detalle fijo: no hay compañeros en esa cola a esta hora, no lo vuelvas a
+  intentar con ella; si es una avería o un accidente, a la cola asistencia; si no, sigue MODO DE ATENCIÓN (volver a
+  llamar a partir de las ocho) sin decir que le pasas con nadie. Si pide `gestion` de noche, gana `gestion_cerrada`
+  (Gestión cierra a las 21:00, así que de noche siempre está cerrada). Cambia el spec §5.8 y §5.11. El prompt no
+  cambia: el detalle remite a lo que ya dice el bloque de reglas comunes.
+- **Por qué:**
+  - en modo virtual el modelo a veces transfería igualmente a minibus (ADV-2 de Consultas 1/3 en la ronda 3;
+    «VIRTUAL · pide persona» del Triaje 2/3), y una transferencia nocturna deja al cliente en una cola vacía;
+  - la excepción del modo virtual en la descripción de `buscar_punto_de_encuentro` del Triaje no sirve: con ella
+    VIRT-T1 cae a 0/3 (ronda de arreglos 1 de la Tarea 9). Se queda fuera del Triaje; la de Consultas se mantiene;
+  - gana `gestion_cerrada` sobre `modo_virtual` porque COLA DE GESTIÓN CERRADA da el horario real de Gestión y el
+    bloque de reglas comunes ya manda seguirla en un caso de gestión, también en modo virtual; con `modo_virtual`
+    el bot diría «a partir de las ocho», falso de viernes a domingo y en vísperas de festivo. Así además Gestión se
+    transfiere exactamente cuando `gestion_abierta_en` dice que está abierta (lo comprueba la prueba de equivalencia).
+- **Afecta a:** v2 (los dos «Preparar transferencia», Triaje y Consultas; los de Prolongación y los demás módulos
+  copiarán el mismo código). Código y pruebas: `codigo/preparar_transferencia.py` y
+  `codigo/test_preparar_transferencia.py` (71 casos).
+- **Quién:** jzerpa (responsable), 18/10/2026, a propuesta de la revisión de la Tarea 9 (R24).
+- **Estado:** aplicada en v2 (Tarea 9b).
+
 ## D-003 · 2026-10-18 · Consultas: ofrecer la transferencia que manda la sección y transferir al sí
 - **Qué:** cuando la sección de `buscar_respuesta` manda transferir («Transfiere a GESTIÓN DE RESERVA…») y el cliente
   no ha pedido hablar con nadie, el bot de Consultas le pregunta si quiere que le pase y transfiere cuando acepta; si

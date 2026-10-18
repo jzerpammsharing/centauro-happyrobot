@@ -1,4 +1,4 @@
-<!-- workflow: 01a14f1b-4ea9-7827-a4f3-4cfb06a896f6 · versión: v2 (x8xd0llbdp3j) · nodo: Preparar transferencia (Triaje) · copiado: 2026-10-18 -->
+<!-- workflow: 01a14f1b-4ea9-7827-a4f3-4cfb06a896f6 · versión: v2 (x8xd0llbdp3j) · nodo: Preparar transferencia (Triaje) · copiado: 2026-10-18 (Tarea 9b) -->
 
 # Preparar transferencia (código Python) · Triaje
 
@@ -8,6 +8,9 @@
 - Hijo: Paths «¿Transferir?» (ver `transfer.md`)
 - Código: `casos/atencion-es/codigo/preparar_transferencia.py` tal cual. Las Tareas 9 a 11 crean un nodo igual en la
   herramienta de transferencia de cada módulo (cambia solo el persistent_id de la herramienta en `cola`).
+- Tarea 9b (18/10/2026, D-004): red de seguridad del modo virtual (resultado `modo_virtual`). Pegado el mismo código en
+  los dos nodos «Preparar transferencia» de la v2: Triaje (`01a14f64-277b-…`, `cola` de `17c682a0-…`) y Consultas del
+  alquiler (`01a14fa7-1147-724b-af62-e10108d91bce`, `cola` de `fbe2e40e-4915-4f44-9bac-59c318862e97`).
 
 ## Entradas (input_data)
 
@@ -32,6 +35,19 @@ que para la prueba se puso `cola` como texto fijo y después se volvió a dejar 
 | `gestion` | false | «» | gestion_cerrada | el de `DETALLE_GESTION_CERRADA` |
 | `asistencia` | true | URI SIP de Asistencia (español) | transferir | «» |
 
+### Tarea 9b (18/10/2026, domingo, nodo de Consultas)
+
+Mismo método (`cola` fija y después otra vez la variable de la herramienta). El reloj es el real: a las 20:06 y
+20:07 todavía no era modo virtual.
+
+| Hora (Madrid) | cola | transferir | numero | resultado |
+|---|---|---|---|---|
+| 20:06 | `minibus` | true | URI SIP de Minibús (español) | transferir |
+| 20:07 | `gestion` | false | «» | gestion_cerrada (domingo) |
+
+`modo_virtual` no se pudo ver con `test_node` antes de las 22:00; lo cubren las pruebas locales
+(`test_preparar_transferencia.py`, 71/71).
+
 ## Código
 
 ```python
@@ -48,19 +64,23 @@ que para la prueba se puso `cola` como texto fijo y después se volvió a dejar 
 #                         las URI SIP de «Resolver colas» (sip:<ext>@hrpbx.buscentauro.com)
 #
 # Salidas: transferir (bool), numero (URI de la cola, o «» si no se transfiere), resultado (transferir |
-# gestion_cerrada | cola_no_valida) y detalle (instrucción para el agente cuando no se transfiere; vacío si se
-# transfiere). El Transfer lleva en number y en fallback_number {{<este nodo>.numero}}.
+# gestion_cerrada | modo_virtual | cola_no_valida) y detalle (instrucción para el agente cuando no se transfiere;
+# vacío si se transfiere). El Transfer lleva en number y en fallback_number {{<este nodo>.numero}}.
 #
 # - Red de seguridad de Gestión cerrada: si piden «gestion» fuera de su horario (lunes a viernes de 08:00 a 21:00,
 #   hora peninsular, y no en festivos nacionales), no se transfiere. La hora es la del momento en que se ejecuta
 #   el nodo, no la del principio de la llamada: este nodo NO usa gestion_abierta, aunque llegue en la entrada.
 #   Una llamada que empieza a las 20:55 y pide Gestión a las 21:02 no se transfiere.
-# - Las demás colas (asistencia, nueva_reserva, minibus) se transfieren siempre. El modo virtual nocturno lo
-#   controla el prompt, no este nodo.
+# - Red de seguridad del modo virtual (D-004): de 22:00 a 08:00, hora peninsular y calculada al ejecutarse, solo se
+#   transfiere a asistencia; si piden minibus o nueva_reserva, no se transfiere y el resultado es modo_virtual, con
+#   un detalle que remite a MODO DE ATENCIÓN del bloque de reglas comunes.
+# - Si piden gestion en modo virtual, Gestión también está cerrada (cierra a las 21:00): gana gestion_cerrada,
+#   porque COLA DE GESTIÓN CERRADA da el horario real de Gestión («a partir de las ocho» sería falso de viernes a
+#   domingo y en vísperas de festivo) y el bloque de reglas comunes ya manda seguirla en un caso de gestión.
 # - Nunca se devuelve transferir = true con un número vacío: si la URI de la cola pedida no llega, el resultado es
 #   cola_no_valida.
-# - hora_madrid, gestion_abierta_en y FESTIVOS_NACIONALES son una copia de contexto_llamada.py (un nodo de
-#   HappyRobot no puede importar otro fichero): si cambian allí, cambian aquí. La prueba
+# - hora_madrid, gestion_abierta_en, modo_virtual_en y FESTIVOS_NACIONALES son una copia de contexto_llamada.py (un
+#   nodo de HappyRobot no puede importar otro fichero): si cambian allí, cambian aquí. La prueba
 #   test_preparar_transferencia.py comprueba que las dos copias dan lo mismo.
 # ===============================================================
 from datetime import date, datetime, timedelta, timezone
@@ -77,6 +97,12 @@ DETALLE_GESTION_CERRADA = (
     "No se ha transferido: el equipo de gestión de reservas atiende de lunes a viernes de ocho de la mañana a "
     "nueve de la noche, salvo festivos. Díselo al cliente con calma, no digas que le pasas con nadie y sigue con "
     "COLA DE GESTIÓN CERRADA."
+)
+DETALLE_MODO_VIRTUAL = (
+    "No se ha transferido: de diez de la noche a ocho de la mañana no hay compañeros en esa cola. No lo vuelvas a "
+    "intentar con ella; si es una avería o un accidente, transfiere a la cola asistencia. Si no, sigue MODO DE "
+    "ATENCIÓN: dile que a esta hora no hay compañeros y que puede volver a llamar a partir de las ocho de la "
+    "mañana, y no digas que le pasas con nadie."
 )
 DETALLE_COLA_NO_VALIDA = (
     "No se ha transferido: la cola no es válida. Usa gestion, asistencia, nueva_reserva o minibus."
@@ -114,6 +140,11 @@ FESTIVOS_NACIONALES = {
 # nacionales. Fuera de ese horario la cola reproduce una locución de cerrado y nadie atiende.
 GESTION_INICIO = 8
 GESTION_FIN = 21
+
+# Centro de atención con operadores: de 08:00 a 22:00 (hora peninsular).
+# Fuera de esa franja el agente atiende en modo virtual, sin transferencias (salvo Asistencia).
+CALLCENTER_INICIO = 8
+CALLCENTER_FIN = 22
 
 # Desfase base respecto a UTC en horario de invierno (solo la zona peninsular; el original tiene también wet y eet)
 BASE = {
@@ -159,6 +190,14 @@ def hora_madrid(ahora_utc):
     return hora_local(ahora_utc, BASE["cet"])
 
 
+def callcenter_abierto_en(ahora_utc):
+    return CALLCENTER_INICIO <= hora_madrid(ahora_utc).hour < CALLCENTER_FIN
+
+
+def modo_virtual_en(ahora_utc):
+    return not callcenter_abierto_en(ahora_utc)
+
+
 def gestion_abierta_en(ahora_utc):
     local = hora_madrid(ahora_utc)
     return (local.weekday() < 5
@@ -188,6 +227,10 @@ def preparar(input_data, ahora_utc=None):
     ahora = _en_utc(ahora_utc or datetime.now(timezone.utc))
     if cola == "gestion" and not gestion_abierta_en(ahora):
         return salida(False, "", "gestion_cerrada", DETALLE_GESTION_CERRADA)
+
+    # Modo virtual: de noche solo hay compañeros en asistencia (gestion ya ha salido arriba como gestion_cerrada)
+    if cola != "asistencia" and modo_virtual_en(ahora):
+        return salida(False, "", "modo_virtual", DETALLE_MODO_VIRTUAL)
 
     # Sin URI no se transfiere: un Transfer con el número vacío falla
     numero = str(input_data.get(COLAS[cola]) or "").strip()

@@ -8,11 +8,14 @@ from datetime import datetime, timedelta, timezone
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import contexto_llamada  # noqa: E402
 from preparar_transferencia import (  # noqa: E402
+    CALLCENTER_FIN,
+    CALLCENTER_INICIO,
     FESTIVOS_NACIONALES,
     GESTION_FIN,
     GESTION_INICIO,
     gestion_abierta_en,
     hora_madrid,
+    modo_virtual_en,
     preparar,
 )
 
@@ -36,6 +39,12 @@ DETALLE_GESTION_CERRADA = (
 DETALLE_COLA_NO_VALIDA = (
     "No se ha transferido: la cola no es válida. Usa gestion, asistencia, nueva_reserva o minibus."
 )
+DETALLE_MODO_VIRTUAL = (
+    "No se ha transferido: de diez de la noche a ocho de la mañana no hay compañeros en esa cola. No lo vuelvas a "
+    "intentar con ella; si es una avería o un accidente, transfiere a la cola asistencia. Si no, sigue MODO DE "
+    "ATENCIÓN: dile que a esta hora no hay compañeros y que puede volver a llamar a partir de las ocho de la "
+    "mañana, y no digas que le pasas con nadie."
+)
 
 # Todas las horas son de Madrid; entre paréntesis, el desfase respecto a UTC de ese día
 SABADO_03 = datetime(2026, 10, 24, 1, 0, tzinfo=UTC)  # sábado 24/10 03:00 (UTC+2)
@@ -47,12 +56,19 @@ MARTES_08_00 = datetime(2026, 10, 20, 6, 0, tzinfo=UTC)
 MARTES_20_59 = datetime(2026, 10, 20, 18, 59, tzinfo=UTC)
 MARTES_21_00 = datetime(2026, 10, 20, 19, 0, tzinfo=UTC)
 MARTES_21_02 = datetime(2026, 10, 20, 19, 2, tzinfo=UTC)  # la llamada empezó a las 20:55 con Gestión abierta
+MARTES_21_30 = datetime(2026, 10, 20, 19, 30, tzinfo=UTC)  # Gestión cerrada, pero aún no es modo virtual
+MARTES_21_59 = datetime(2026, 10, 20, 19, 59, tzinfo=UTC)
+MARTES_22_00 = datetime(2026, 10, 20, 20, 0, tzinfo=UTC)  # empieza el modo virtual
+MARTES_22_30 = datetime(2026, 10, 20, 20, 30, tzinfo=UTC)
 MARTES_23_00 = datetime(2026, 10, 20, 21, 0, tzinfo=UTC)
 FESTIVO_12_OCT = datetime(2026, 10, 12, 8, 0, tzinfo=UTC)  # lunes, Fiesta Nacional, 10:00
 FESTIVO_8_DIC = datetime(2026, 12, 8, 9, 0, tzinfo=UTC)  # martes, Inmaculada, 10:00 (UTC+1)
 VIERNES_23_OCT_20_30 = datetime(2026, 10, 23, 18, 30, tzinfo=UTC)  # viernes 20:30 (UTC+2)
 LUNES_26_OCT_20_30 = datetime(2026, 10, 26, 19, 30, tzinfo=UTC)  # lunes 20:30, ya con UTC+1 (cambio de hora el 25/10)
 LUNES_26_OCT_21_30 = datetime(2026, 10, 26, 20, 30, tzinfo=UTC)  # lunes 21:30 (UTC+1)
+LUNES_26_OCT_22_00 = datetime(2026, 10, 26, 21, 0, tzinfo=UTC)  # lunes 22:00 (UTC+1): modo virtual
+FESTIVO_8_DIC_23_00 = datetime(2026, 12, 8, 22, 0, tzinfo=UTC)  # martes festivo, 23:00 (UTC+1)
+DOMINGO_18_OCT_23_00 = datetime(2026, 10, 18, 21, 0, tzinfo=UTC)  # domingo 23:00 (UTC+2)
 
 
 def entrada(cola, **extra):
@@ -93,15 +109,54 @@ CASOS = [
      {"transferir": True, "numero": "sip:1@x"}),
     ("gestión lunes 21:30 tras el cambio de hora cerrada", entrada("gestion"), LUNES_26_OCT_21_30,
      {"transferir": False, "resultado": "gestion_cerrada"}),
-    # El resto de colas no dependen del horario: el modo virtual lo controla el prompt
-    ("minibús a las 23:00", entrada("minibus"), MARTES_23_00,
+    # Modo virtual (de 22:00 a 08:00, hora peninsular, calculado al ejecutarse): solo se transfiere a asistencia
+    ("minibús a las 23:00: modo virtual", entrada("minibus"), MARTES_23_00,
+     {"transferir": False, "numero": "", "resultado": "modo_virtual", "detalle": DETALLE_MODO_VIRTUAL}),
+    ("nueva reserva a las 23:00: modo virtual", entrada("nueva_reserva"), MARTES_23_00,
+     {"transferir": False, "numero": "", "resultado": "modo_virtual", "detalle": DETALLE_MODO_VIRTUAL}),
+    ("asistencia a las 23:00 se transfiere", entrada("asistencia"), MARTES_23_00,
+     {"transferir": True, "numero": "sip:2@x", "resultado": "transferir", "detalle": ""}),
+    ("nueva reserva a las 07:59: modo virtual", entrada("nueva_reserva"), MARTES_07_59,
+     {"transferir": False, "numero": "", "resultado": "modo_virtual"}),
+    ("minibús a las 08:00 se transfiere", entrada("minibus"), MARTES_08_00,
      {"transferir": True, "numero": "sip:4@x", "resultado": "transferir"}),
-    ("nueva reserva a las 23:00", entrada("nueva_reserva"), MARTES_23_00,
-     {"transferir": True, "numero": "sip:3@x", "resultado": "transferir"}),
-    ("minibús en domingo", entrada("minibus"), DOMINGO_10, {"transferir": True, "numero": "sip:4@x"}),
-    ("nueva reserva en festivo", entrada("nueva_reserva"), FESTIVO_8_DIC, {"transferir": True, "numero": "sip:3@x"}),
-    ("asistencia en festivo a las 23:00", entrada("asistencia"), MARTES_23_00,
+    ("minibús a las 21:59 se transfiere (Gestión ya cerrada, aún no es modo virtual)", entrada("minibus"),
+     MARTES_21_59, {"transferir": True, "numero": "sip:4@x", "resultado": "transferir"}),
+    ("nueva reserva a las 21:30 se transfiere", entrada("nueva_reserva"), MARTES_21_30,
+     {"transferir": True, "numero": "sip:3@x"}),
+    ("minibús a las 22:00: modo virtual", entrada("minibus"), MARTES_22_00,
+     {"transferir": False, "resultado": "modo_virtual"}),
+    ("minibús lunes 22:00 tras el cambio de hora (UTC+1): modo virtual", entrada("minibus"), LUNES_26_OCT_22_00,
+     {"transferir": False, "resultado": "modo_virtual"}),
+    ("minibús lunes 21:30 tras el cambio de hora (UTC+1) se transfiere", entrada("minibus"), LUNES_26_OCT_21_30,
+     {"transferir": True, "numero": "sip:4@x"}),
+    ("asistencia sábado 03:00 en modo virtual se transfiere", entrada("asistencia"), SABADO_03,
      {"transferir": True, "numero": "sip:2@x"}),
+    # Gestión en modo virtual: las dos redes dicen «no transferir»; gana gestion_cerrada (su detalle remite a COLA
+    # DE GESTIÓN CERRADA, que da el horario real de Gestión; «a partir de las ocho» sería falso el fin de semana)
+    ("gestión a las 22:30 entre semana: gestion_cerrada, no modo_virtual", entrada("gestion"), MARTES_22_30,
+     {"transferir": False, "numero": "", "resultado": "gestion_cerrada", "detalle": DETALLE_GESTION_CERRADA}),
+    ("gestión a las 07:59: gestion_cerrada", entrada("gestion"), MARTES_07_59,
+     {"transferir": False, "resultado": "gestion_cerrada"}),
+    ("gestión domingo 23:00: gestion_cerrada", entrada("gestion"), DOMINGO_18_OCT_23_00,
+     {"transferir": False, "resultado": "gestion_cerrada"}),
+    # Festivos: el modo virtual va solo por la hora; de día las demás colas se transfieren
+    ("minibús en domingo 10:00", entrada("minibus"), DOMINGO_10, {"transferir": True, "numero": "sip:4@x"}),
+    ("nueva reserva en festivo 10:00", entrada("nueva_reserva"), FESTIVO_8_DIC,
+     {"transferir": True, "numero": "sip:3@x"}),
+    ("nueva reserva en festivo a las 23:00: modo virtual", entrada("nueva_reserva"), FESTIVO_8_DIC_23_00,
+     {"transferir": False, "numero": "", "resultado": "modo_virtual"}),
+    ("gestión en festivo a las 23:00: gestion_cerrada", entrada("gestion"), FESTIVO_8_DIC_23_00,
+     {"transferir": False, "resultado": "gestion_cerrada"}),
+    ("asistencia en festivo a las 23:00", entrada("asistencia"), FESTIVO_8_DIC_23_00,
+     {"transferir": True, "numero": "sip:2@x"}),
+    # El modo virtual manda sobre la URI: sin URI de minibús de noche sigue siendo modo_virtual
+    ("minibús de noche sin URI: modo_virtual", entrada("minibus", cola_horario_minibus=""), MARTES_23_00,
+     {"transferir": False, "numero": "", "resultado": "modo_virtual"}),
+    ("«MINIBUS » de noche también se normaliza", entrada("MINIBUS "), MARTES_23_00,
+     {"transferir": False, "resultado": "modo_virtual"}),
+    ("cola no válida de noche sigue siendo cola_no_valida", entrada("otra"), MARTES_23_00,
+     {"transferir": False, "resultado": "cola_no_valida"}),
     # Normalización de la cola
     ("«GESTION » con mayúsculas y espacios", entrada("GESTION "), MARTES_10,
      {"transferir": True, "numero": "sip:1@x", "resultado": "transferir"}),
@@ -165,7 +220,7 @@ for nombre, datos, ahora, esperado in CASOS:
 # Las cuatro salidas, con sus tipos, en todos los resultados
 total += 1
 formas = [preparar(entrada("gestion"), MARTES_10), preparar(entrada("gestion"), MARTES_21_02),
-          preparar(entrada(""), MARTES_10)]
+          preparar(entrada(""), MARTES_10), preparar(entrada("minibus"), MARTES_23_00)]
 if any(set(o) != SALIDAS or not isinstance(o["transferir"], bool) or not isinstance(o["numero"], str)
        or not isinstance(o["detalle"], str) for o in formas):
     fallos += 1
@@ -175,7 +230,8 @@ if any(set(o) != SALIDAS or not isinstance(o["transferir"], bool) or not isinsta
 total += 1
 if preparar(entrada("gestion"), MARTES_10)["detalle"] != "" \
         or not preparar(entrada(""), MARTES_10)["detalle"] \
-        or not preparar(entrada("gestion"), MARTES_21_02)["detalle"]:
+        or not preparar(entrada("gestion"), MARTES_21_02)["detalle"] \
+        or not preparar(entrada("minibus"), MARTES_23_00)["detalle"]:
     fallos += 1
     print("FALLO detalle: debe ir vacío al transferir y lleno si no")
 
@@ -198,6 +254,13 @@ if (GESTION_INICIO, GESTION_FIN) != (contexto_llamada.GESTION_INICIO, contexto_l
     print("FALLO horario de Gestión: copia %r, original %r"
           % ((GESTION_INICIO, GESTION_FIN), (contexto_llamada.GESTION_INICIO, contexto_llamada.GESTION_FIN)))
 
+total += 1
+if (CALLCENTER_INICIO, CALLCENTER_FIN) != (contexto_llamada.CALLCENTER_INICIO, contexto_llamada.CALLCENTER_FIN):
+    fallos += 1
+    print("FALLO horario del modo virtual: copia %r, original %r"
+          % ((CALLCENTER_INICIO, CALLCENTER_FIN),
+             (contexto_llamada.CALLCENTER_INICIO, contexto_llamada.CALLCENTER_FIN)))
+
 for nombre, inicio, dias in RANGOS_EQUIVALENCIA:
     total += 1
     t = inicio
@@ -208,6 +271,7 @@ for nombre, inicio, dias in RANGOS_EQUIVALENCIA:
         revisados += 1
         original = contexto_llamada.gestion_abierta_en(t)
         copia = gestion_abierta_en(t)
+        virtual = contexto_llamada.modo_virtual_en(t)
         # La copia de hora_madrid: mismo instante y mismo desfase
         misma_hora = (hora_madrid(t) == contexto_llamada.hora_madrid(t)
                       and hora_madrid(t).utcoffset() == contexto_llamada.hora_madrid(t).utcoffset())
@@ -215,7 +279,13 @@ for nombre, inicio, dias in RANGOS_EQUIVALENCIA:
         out = preparar(entrada("gestion"), t)
         resultado_esperado = "transferir" if original else "gestion_cerrada"
         coherente = out["transferir"] == original and out["resultado"] == resultado_esperado
-        if copia != original or not misma_hora or not coherente:
+        # Minibús y nueva reserva: no se transfieren justo cuando el original dice modo virtual; asistencia, siempre
+        for cola, uri in (("minibus", "sip:4@x"), ("nueva_reserva", "sip:3@x")):
+            out = preparar(entrada(cola), t)
+            esperado_cola = ("modo_virtual", "") if virtual else ("transferir", uri)
+            coherente = coherente and (out["resultado"], out["numero"]) == esperado_cola
+        coherente = coherente and preparar(entrada("asistencia"), t)["transferir"] is True
+        if copia != original or modo_virtual_en(t) != virtual or not misma_hora or not coherente:
             distintos.append(t.strftime("%Y-%m-%d %H:%M UTC"))
         t += timedelta(minutes=15)
     if distintos or revisados != dias * 96:
