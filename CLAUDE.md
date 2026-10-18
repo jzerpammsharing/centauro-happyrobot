@@ -36,7 +36,7 @@ Workflows de la carpeta de Centauro en HappyRobot (folder `019d8144-ce27-7aaf-b9
 | Caso | Carpeta | Workflows | Estado de la documentación |
 |---|---|---|---|
 | Minibús | `casos/minibus/` | Centauro Minibus SPAIN, ITALY y Portugal | Completa |
-| Prolongaciones | `casos/prolongaciones/` | Centauro Prolongacion Spain | Completa (V11) |
+| Prolongaciones | `casos/prolongaciones/` | Centauro Prolongacion Spain | Completa (V11; v12 en borrador, D-008) |
 | Reembolsos | `casos/reembolsos/` | Centauro Reembolsos, Centauro Reembolsos WhatsApp y Centauro Reembolsos · Datos por WhatsApp | Parcial: WhatsApp documentado (spec, D-001, pruebas); faltan el detalle del bot V4 y sus colas |
 
 Para añadir un caso:
@@ -51,6 +51,8 @@ Para añadir un caso:
 | `CLAUDE.md` | Esta guía común |
 | `docs/decisiones.md` | Decisiones que afectan a todos los casos |
 | `docs/extensiones.md` | Todas las colas y extensiones de RingCentral (una sola vez para todos) |
+| `docs/informes/` | Análisis que comparan varios casos |
+| `comun/bloques/` | Bloques de prompt comunes a varios bots (borrador; ver su README) |
 | `scripts/` | Utilidades de análisis reutilizables (Python, solo lectura) |
 | `casos/<caso>/CLAUDE.md` | Contexto del caso |
 | `casos/<caso>/docs/` | `decisiones.md`, `workflows.md`, `pendientes.md`, `informes/` |
