@@ -38,6 +38,7 @@ Workflows de la carpeta de Centauro en HappyRobot (folder `019d8144-ce27-7aaf-b9
 | Minibús | `casos/minibus/` | Centauro Minibus SPAIN, ITALY y Portugal | Completa |
 | Prolongaciones | `casos/prolongaciones/` | Centauro Prolongacion Spain | Completa (V11; v12 en borrador, D-008) |
 | Reembolsos | `casos/reembolsos/` | Centauro Reembolsos, Centauro Reembolsos WhatsApp y Centauro Reembolsos · Datos por WhatsApp | Parcial: WhatsApp documentado (spec, D-001, pruebas); faltan el detalle del bot V4 y sus colas |
+| Atención España (bot único) | `casos/atencion-es/` | Centauro Atención España (por crear; absorberá Minibús ES y Prolongación, C-004) | Spec en borrador (D-001), sin construir |
 
 Para añadir un caso:
 1. Crea `casos/<caso>/` con `CLAUDE.md`, `docs/decisiones.md`, `docs/workflows.md`,

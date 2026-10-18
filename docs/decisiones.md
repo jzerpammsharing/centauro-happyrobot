@@ -16,6 +16,25 @@ Plantilla:
 
 ---
 
+## C-004 · 2026-10-18 · Bot único de atención de España en un workflow nuevo, al que migran las opciones del menú
+- **Qué:** se crea «Centauro Atención España», un workflow nuevo duplicando Minibús ES v25, con un Triaje corto y
+  módulos especialistas (caso `casos/atencion-es/`, spec y D-001 allí). Las opciones del menú pasan a él una a una
+  moviendo su línea al workflow nuevo al pasar a producción: primero Prolongación, después Minibús ES; más
+  adelante, por decidir,
+  Gestión cuando está cerrada, el triaje de Nueva Reserva y Gestión en horario. Los workflows de Minibús ES y de
+  Prolongaciones siguen publicados, sin tocar, como control y vuelta atrás.
+- **Por qué:**
+  - el diseño marca el coste: 118 créditos por llamada en Prolongaciones V11 frente a 64 en Minibús v25;
+  - un workflow nuevo permite conectar y deshacer cada opción por separado, tener datos limpios (tabla de Twin,
+    extract y rutina propios) sin cambiar el esquema de los bots actuales, y no choca con el experimento de la
+    v25 (solo puede haber uno activo por workflow);
+  - descartado el fork de Minibús v25: mezclaría las llamadas de Prolongación en la tabla y la rutina de Minibús,
+    y su ventaja (un experimento de HappyRobot contra los bots actuales) solo valdría para la línea de Minibús.
+- **Afecta a:** Minibús ES (`casos/minibus/`) y Prolongaciones (`casos/prolongaciones/`), que dejarán de recibir
+  esas opciones cuando se conecten; las colas de `docs/extensiones.md` no cambian.
+- **Quién:** jzerpa.
+- **Estado:** aprobada (workflow nuevo); spec en revisión.
+
 ## C-003 · 2026-10-11 · Un solo repo para todos los casos de HappyRobot, con una carpeta por caso
 - **Qué:** el repo `centauro-happyrobot` reúne todos los casos de uso de Centauro en HappyRobot.
   Lo común (colas, reglas de transferencia, scripts, convenciones) está en la raíz; cada caso

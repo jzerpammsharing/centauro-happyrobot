@@ -20,7 +20,9 @@
       entorno *production* de Railway, que usa la API real de Centauro (logs del 17/10), también desde
       las pruebas de HappyRobot en *development*. Valorar apuntar las pruebas al entorno *staging* de
       Railway con `DATA_PROVIDER=mock`, para probar «coincide» sin enviar correos reales.
-- [ ] **Pista y comprobación del dominio del correo (mejora, decidido dejarla para después el 17/10).**
+- [ ] **Pista y comprobación del dominio del correo (mejora, decidido dejarla para después el 17/10).** El 18/10
+      se decide incluir la pista (identificar por número de reserva) en el bot único, `casos/atencion-es/`
+      (D-001, herramienta `pista_correo`); la v12 no cambia.
       `consultar_reserva` verificada devuelve `email_hint` (solo el dominio). Ningún endpoint devuelve el
       correo completo.
       - **Pista:** con identificación por número de reserva o DNI, Daniel podría decir «el correo de su
