@@ -23,8 +23,8 @@ Plantilla:
   `transfer_to_human_agent`. DEVOL-03 se parte en tres evals críticas: 03a (ofrece o transfiere; valen las dos), 03b
   (acepta la oferta → cola gestion, motivo otro) y 03c (Gestión cerrada: ni ofrece ni transfiere, da el horario).
   REQ-09 (objeto olvidado) pasa a aceptar también la oferta.
-- **Por qué:** con «ejecútala en ese mismo turno, sin preguntarle si quiere», gpt-4.1 y gpt-4.1-fast seguían
-  ofreciendo en vez de transferir (DEVOL-03 0/9 en las rondas 1 a 3). Ofrecer antes es aceptable para el cliente y
+- **Por qué:** con «ejecútala en ese mismo turno, sin preguntarle si quiere», los modelos seguían ofreciendo en vez
+  de transferir (DEVOL-03: gpt-4.1 0/9 en las rondas 1 a 3; gpt-4.1-fast 0/3). Ofrecer antes es aceptable para el cliente y
   no salta a una cola que no ha pedido (R21 de la revisión de la Tarea 9).
 - **Afecta a:** v2 (nodo «Consultas del alquiler» y su `transfer_to_human_agent`).
 - **Quién:** el responsable de la construcción, a propuesta de la revisión de la Tarea 9.

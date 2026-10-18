@@ -133,7 +133,8 @@ y en las copias de `prompts/atencion-es/v2/`):
   - FDS-02 (crítica, 0/3 con la expectativa corregida): no explica primero el servicio de espera por vuelo retrasado.
   - REQ-09, FDS-03 y ADV-3 (críticas, 2/3): REQ-09 por el juez (cuenta como promesa una frase de la sección); FDS-03
     («esté atento al correo») y ADV-3 («se calcula según las fechas nuevas») por pequeños inventos.
-  - DEVOL-03 queda resuelta con D-003 (ofrecer y transferir al sí): DEVOL-03a y 03b, 3/3.
+  - DEVOL-03 con Gestión abierta queda resuelta con D-003 (ofrecer y transferir al sí): DEVOL-03a y 03b, 3/3. La
+    variante con Gestión cerrada (DEVOL-03c) sigue abierta (arriba).
 - [ ] **Triaje: VIRT-T1 y la descripción de `buscar_punto_de_encuentro`.** En la ronda de arreglos 1 se añadió la
       excepción del modo virtual a esa descripción en el Triaje y VIRT-T1 (crítica) cayó de 3/3 a 0/3 (ejecutaba
       `transfer_to_human_agent` para una reserva nueva de noche); al quitarla volvió a 3/3. El Triaje se ha dejado sin
@@ -160,8 +161,9 @@ y en las copias de `prompts/atencion-es/v2/`):
   `{{persistent_id.variable}}` y la estructura se comprobó con `get_workflows`.
 - [ ] **Propuesta para decidir (R24): red de seguridad del modo virtual en «Preparar transferencia».** Igual que la de
       Gestión cerrada: de 22 a 8 h solo se transfiere a asistencia, aunque el modelo pida otra cola. No se ha hecho;
-      el arreglo de la Tarea 9 es la descripción de `buscar_punto_de_encuentro` (Consultas y Triaje) y la eval crítica
-      VIRT-C1. Si se hace, probarla con ADV-2 (Consultas) y «VIRTUAL · pide persona» (Triaje), que son las que fallan.
+      el arreglo de la Tarea 9 es la descripción de `buscar_punto_de_encuentro` de Consultas (en el Triaje se revirtió,
+      ver arriba) y la eval crítica VIRT-C1. Si se hace, probarla con ADV-2 (Consultas; 1/3 en la ronda 3 y 3/3 en la
+      4, con la descripción nueva) y «VIRTUAL · pide persona» (Triaje, 2/3 sin la excepción).
 - **El Python de `buscar_respuesta` se llama «Buscar respuesta»** (`workflows.md`); la Tarea 10 debe usar el mismo
   nombre en Prolongación.
 

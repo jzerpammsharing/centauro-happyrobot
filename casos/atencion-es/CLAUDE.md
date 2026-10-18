@@ -8,7 +8,7 @@ están en el `CLAUDE.md` de la raíz.
 El **bot único** de atención de Centauro España: una puerta de entrada corta (Triaje) y módulos especialistas
 entre los que el bot salta con Module Change. Va absorbiendo las opciones del menú telefónico una a una.
 
-- **Fase 1 (en diseño):** opciones de **Minibús** y de **Prolongación** de España. Hoy las atienden los workflows
+- **Fase 1 (en construcción, tareas 1–9 de 18):** opciones de **Minibús** y de **Prolongación** de España. Hoy las atienden los workflows
   de `casos/minibus/` (Minibús ES) y `casos/prolongaciones/`, que siguen publicados como vuelta atrás.
 - **Después, por decidir:** Gestión cuando está cerrada, triaje en Nueva Reserva, Gestión en horario.
 - **Spec:** `docs/specs/2026-10-18-bot-unico-arquitectura.md`. Decisiones: C-004 (raíz) y `docs/decisiones.md`.
@@ -28,7 +28,7 @@ ajustes, Twin, quitar el Paths «Entrada» en el editor): `docs/pendientes.md`.
 | `docs/workflows.md` | Ficha del workflow y tabla de versiones |
 | `docs/pendientes.md` | Incidencias abiertas, comprobaciones y mejoras |
 | `docs/specs/` | Specs (arquitectura del bot único) |
-| `docs/planes/` | Planes de construcción (`2026-10-18-bot-unico-construccion.md`) |
+| `docs/planes/` | Plan de construcción (`2026-10-18-bot-unico-construccion.md`) y registro de progreso de los subagentes (`2026-10-18-bot-unico-progreso.md`, copia para retomar en otro equipo) |
 | `prompts/atencion-es/<versión>/` | Copias de los prompts y de la configuración de los nodos |
 | `codigo/` | Python de los nodos y sus pruebas (al construir) |
 | `rutinas/` | Prompt de la rutina diaria de calidad (al construir) |
