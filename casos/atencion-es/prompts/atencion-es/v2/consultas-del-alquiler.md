@@ -98,8 +98,8 @@ mide (≤ 8.000 caracteres) es el texto anterior a esta sección, sin la cabecer
   `herramientas-consultas.md`).
 - `prolongar_alquiler` y `volver_al_triaje` los nombra el prompt pero las herramientas las crea la Tarea 12.
 - Este texto es el de la vuelta 3 de correcciones de evals más la ronda de arreglos 1 (D-003: ofrecer la transferencia
-  que manda la sección y transferir al sí; `docs/informes/evals-v2.md`). Modelo: `fast-gpt-4.1`; la
-  comparación de modelos del spec §7.3 queda pendiente (`docs/pendientes.md`).
+  que manda la sección y transferir al sí; `docs/informes/evals-v2.md`). Modelo: `fast-gpt-4.1`,
+  confirmado en la comparación de modelos del spec §7.3 (Tarea 9c, D-005).
 
 ```json
 {

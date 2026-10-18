@@ -462,10 +462,9 @@ como en la ronda 6).
 
 ### Modelos
 
-**Pendiente.** Por decisión del controlador (pedida por el responsable para acabar antes), la Tarea 9 no hace la
-comparación de modelos del spec §7.3 (gpt-4.1, gpt-4.1-fast y gpt-5.4; quedarse con el más barato a ≤ 3 puntos del mejor
-y sin fallos críticos). El nodo queda con `fast-gpt-4.1`. La comparación se hace en una sesión posterior, antes de la
-Tarea 16 (`docs/pendientes.md`).
+**Resuelto en la Tarea 9c (ronda 8, 18/10/2026): se queda `fast-gpt-4.1`** (D-005, que sustituye a D-002). La comparación
+va en «Tarea 9c, ronda 8» más abajo. Lo que sigue es lo que se vio en la Tarea 9, antes del cambio de alcance (D-002), y
+queda como histórico.
 
 Lo que llegó a verse antes del cambio de alcance:
 
@@ -493,3 +492,105 @@ fallidas:
 | FDS-08 | 1/2 | no da la salida de ir a la oficina si han pasado doce horas o no lo sabe |
 | ADV-2 | 1/2 | no dice «a partir de las ocho» y propone ir a la oficina |
 | ADV-3 | 1/2 | inventa «esos dos días extra» y «en la web o en la oficina» |
+
+### Tarea 9c: comparación de modelos de Consultas (ronda 8)
+
+18/10/2026 (domingo: Gestión cerrada todo el día por el reloj real). Spec §7.3: las mismas evals con `fast-gpt-4.1`
+(gpt-4.1, el actual), `fast-turbo-one` (gpt-4.1-fast) y `fast-gpt-5.4` (gpt-5.4), cada una 3 veces, con el prompt vigente
+(commit 23aa720: bloque común a 4.493/4.500 y Consultas a 7.988/8.000). Se ejecutan las 56 que cuentan (todas menos BR-05,
+que espera `prolongar_alquiler` de la Tarea 12): 19 críticas (las 18 de la 5b más VIRT-C2) y 37 del resto. Total, 168
+ejecuciones por modelo (504 en total); 111 del resto.
+
+**Cómo se hizo.** «Preparar transferencia» usa la hora real, así que no se hizo un modelo entero y después otro: se
+partió el juego en cuatro bloques de 14 evals y en cada bloque pasaron los tres modelos seguidos, en orden alterno (ida y
+vuelta: el modelo con el que acaba un bloque empieza el siguiente). Entre modelos se cambia el `model` del nodo con
+`update_workflow_nodes` y se espera a que terminen las ejecuciones (tardan unos segundos). El modelo de cada ejecución
+sale de su hora de creación: la API de ejecuciones no dice con qué modelo se hizo. Todo fue antes de las 22:00, así que
+nunca hubo modo virtual en «Preparar transferencia» (las dos evals VIRT de Consultas llevan el resultado de la
+herramienta como mensaje `tool` y no dependen del reloj).
+
+| Bloque | Evals | Orden y hora de creación (Madrid) |
+|---|---|---|
+| 1 | VIRT-C2, TEL-C1, VIRT-C1, DEVOL-03c, DEVOL-03b, PRO-6, PRO-5, PRO-4, ADV-6, ADV-4, ADV-2, BR-01, REQ-06, RECOG-04 | gpt-4.1 21:28-21:29; gpt-4.1-fast 21:30; gpt-5.4 21:31-21:32 |
+| 2 | ADV-3, PRO-3, ADV-5, REQ-11, REQ-05, REQ-04, BR-03, REQ-03, REQ-02, REQ-01, CARGO-06, CARGO-05, CARGO-04, CARGO-03 | gpt-5.4 21:33; gpt-4.1-fast 21:34; gpt-4.1 21:35 |
+| 3 | CARGO-02, DEVOL-03a, DEVOL-02, DEVOL-01, BR-04, FDS-03, REQ-10, REQ-09, REQ-08, REQ-07, RECOG-05, FDS-08, FDS-02, RECOG-03 | gpt-4.1 21:36-21:37; gpt-4.1-fast 21:37-21:38; gpt-5.4 21:39 |
+| 4 | RECOG-02, RECOG-01, NOINI-09, NOINI-08, GC-C1, NOINI-06, NOINI-07, NOINI-05, NOINI-04, NOINI-03, NOINI-02, NOINI-01, CARGO-01, BR-02 | gpt-5.4 21:40; gpt-4.1-fast 21:41; gpt-4.1 21:42 |
+
+(Horas exactas: bloque 1, 19:28:12-19:29:20, 19:30:26-19:30:51 y 19:31:47-19:32:11 UTC; bloque 2, 19:33:06-19:33:31,
+19:34:27-19:34:50 y 19:35:33-19:35:59; bloque 3, 19:36:40-19:37:03, 19:37:48-19:38:18 y 19:39:03-19:39:26; bloque 4,
+19:40:07-19:40:31, 19:41:16-19:41:40 y 19:42:30-19:42:55. Madrid es UTC+2.)
+
+**Resultado.** Criterio de la ficha: el más barato que quede a ≤ 3 puntos del mejor y sin fallos críticos.
+
+| Modelo | Total (168) | Resto (111) | Críticas (57 ejecuciones) | Críticas por debajo de 3/3 | A cuántos puntos del mejor (total / resto) |
+|---|---|---|---|---|---|
+| `fast-gpt-4.1` (gpt-4.1) | 148 (88,1 %) | 102 (91,9 %) | 46/57 | 6: TEL-C1 0/3, FDS-02 0/3, DEVOL-03a 1/3, DEVOL-03c 2/3, FDS-03 2/3, GC-C1 2/3 | 3,0 / 1,8 |
+| `fast-turbo-one` (gpt-4.1-fast) | 145 (86,3 %) | 98 (88,3 %) | 47/57 | 5: TEL-C1 0/3, FDS-02 0/3, DEVOL-03c 1/3, DEVOL-03a 2/3, FDS-03 2/3 | 4,8 / 5,4 |
+| `fast-gpt-5.4` (gpt-5.4) | **153 (91,1 %)** | **104 (93,7 %)** | 49/57 | 6: VIRT-C1 2/3, DEVOL-03c 1/3, DEVOL-03a 2/3, FDS-03 2/3, FDS-02 1/3, GC-C1 2/3 | 0 / 0 |
+
+Ningún modelo llega a 3/3 en todas las críticas (la puerta 0 de la Tarea 16 sigue cerrada para Consultas). Se aplica
+el criterio al resto: gpt-5.4 es el mejor (93,7 %); gpt-4.1 queda a 1,8 puntos (2,98 con el total, dentro de los 3);
+gpt-4.1-fast queda a 5,4 (4,8 con el total), fuera. Entre gpt-4.1 y gpt-5.4 el más barato es gpt-4.1 (ver «Precios»).
+**Elegido: `fast-gpt-4.1`**, que es el que ya tenía el nodo.
+
+**Precios.** No hay tarifa de HappyRobot por modelo en su documentación (`search_documentation`, 18/10/2026: solo la
+tabla de modelos de AI Extract, sin precios). El orden sale de las mediciones del repo (`specs/2026-10-18-bot-unico-arquitectura.md`,
+§1 y §9, de 120 llamadas reales): Triaje con gpt-4.1-fast, 2,1 créditos por respuesta; Consultas con gpt-4.1, 2–2,5;
+gpt-5.4 con un prompt de unos 22.000 caracteres, 4–5, y con 61.000 caracteres (V11), 12,4. Los créditos dependen del modelo y
+del tamaño del prompt y no se midió gpt-5.4 con un prompt de 8.000 caracteres, así que «gpt-5.4 cuesta bastante más que
+gpt-4.1» es una estimación; gpt-4.1 frente a gpt-4.1-fast no se pudo ordenar con esos datos (2,1 y 2–2,5 con prompts de
+tamaño parecido), pero no hace falta: gpt-4.1-fast no cumple la regla de los 3 puntos.
+
+**Por eval** (pasadas de 3; modelos en el orden gpt-4.1 / gpt-4.1-fast / gpt-5.4; las críticas, en negrita):
+
+| Eval | gpt-4.1 | gpt-4.1-fast | gpt-5.4 |
+|---|---|---|---|
+| **VIRT-C2** | 3 | 3 | 3 |
+| **TEL-C1** | 0 | 0 | 3 |
+| **VIRT-C1** | 3 | 3 | 2 |
+| **DEVOL-03c** | 2 | 1 | 1 |
+| **DEVOL-03b** | 3 | 3 | 3 |
+| **DEVOL-03a** | 1 | 2 | 2 |
+| **FDS-03** | 2 | 2 | 2 |
+| **FDS-02** | 0 | 0 | 1 |
+| **GC-C1** | 2 | 3 | 2 |
+| **PRO-4, REQ-06, ADV-3, REQ-05, CARGO-05, REQ-09, REQ-08, RECOG-05, FDS-08, NOINI-06** | 3 cada una | 3 cada una | 3 cada una |
+| ADV-6 | 3 | 3 | **0** |
+| REQ-03 | 1 | 1 | 3 |
+| RECOG-01 | 1 | 1 | 3 |
+| NOINI-03 | 1 | 1 | 1 |
+| NOINI-08 | 2 | 2 | 3 |
+| BR-04 | 2 | 3 | 3 |
+| BR-02 | 2 | 3 | 3 |
+| DEVOL-01 | 3 | **0** | 3 |
+| DEVOL-02 | 3 | 2 | 3 |
+| CARGO-06 | 3 | 2 | 3 |
+| NOINI-04 | 3 | 2 | 3 |
+| CARGO-03 | 3 | 3 | 2 |
+| NOINI-02 | 3 | 3 | 2 |
+| Las otras 24 del resto | 3 cada una | 3 cada una | 3 cada una |
+
+Motivos del juez en lo que más pesa:
+
+- **TEL-C1:** gpt-4.1 y gpt-4.1-fast siguen dando el número de España «para Portugal» (6 de 6; también con «en España» en el
+  bloque común). gpt-5.4 es el único que dice que no tiene el teléfono de Portugal y remite a centauro punto net (3 de 3).
+- **FDS-02:** gpt-4.1 y gpt-4.1-fast empiezan por «fuera de horario no se recoge» o por las doce horas y no por el servicio de
+  espera (6 de 6); gpt-5.4 lo hace en 1 de 3.
+- **ADV-6 con gpt-5.4 (0/3):** llama a `buscar_respuesta` en vez de `buscar_punto_de_encuentro`. Es de modelo, pero de la
+  descripción de la herramienta de Consultas: con gpt-5.4 habría que reforzarla.
+- **DEVOL-03a / 03c / FDS-03 / GC-C1:** mezcla de invento pequeño del bot («solo si lo acordó», «esté atento», «puede cancelar
+  desde el área de cliente») y del juez; ninguno de los tres modelos lo arregla. DEVOL-03a con gpt-4.1 dio 1/3 ahora y 3/3 en la
+  5b (con el bloque común de entonces, casi igual): con tres ejecuciones la dispersión es grande.
+- **NOINI-03 (1/3 en los tres modelos):** dice que el reembolso se pide «desde el área de cliente» en vez de «Mis reservas y
+  facturas» → «Reembolso Cupón» (como en la R4). Es de contenido, no de modelo.
+- **REQ-03 y RECOG-01 (1/3 con los dos gpt-4.1, 3/3 con gpt-5.4):** inventos pequeños («los dos juntos con DNI y carnet»,
+  «no tiene que avisar») que gpt-5.4 no hace.
+- **DEVOL-01 con gpt-4.1-fast (0/3):** dice que con una agencia no se devuelve nada.
+
+**Eval mal planteada, a apuntar (sin tocarla):** FDS-03 y FDS-02 dependen de frases que pide el juez («avisa a la oficina»,
+«servicio de espera primero») y fallan a la vez que el bot dice algo razonable; no se tocaron (la ficha prohíbe tocar prompt y
+evals). NOINI-03 falla igual con los tres modelos, así que no discrimina entre ellos.
+
+**Qué no se midió.** Tres ejecuciones por eval y modelo es poco: 1 de 3 y 2 de 3 no se distinguen bien. El modo virtual de
+«Preparar transferencia» no se vio con la hora real (todo antes de las 22:00). No se midió la latencia ni los créditos por
+respuesta de cada modelo con este prompt.

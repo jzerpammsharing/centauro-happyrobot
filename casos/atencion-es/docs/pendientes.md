@@ -117,11 +117,10 @@ y en las copias de `prompts/atencion-es/v2/`):
   patrón de transferencia del Triaje. Los Module Change de `buscar_punto_de_encuentro` e `informacion_oficina` siguen
   como estaban. Ficheros: `prompts/atencion-es/v2/consultas-del-alquiler.md`, `herramientas-consultas.md`,
   `buscar-respuesta.md`.
-- [ ] **Elegir el modelo de Consultas, antes de la Tarea 16.** La comparación del spec §7.3 (gpt-4.1, gpt-4.1-fast y
-      gpt-5.4; el más barato a ≤ 3 puntos del mejor y sin fallos críticos) no se hizo en la Tarea 9 por decisión del
-      controlador. El nodo está con `fast-gpt-4.1`. Lo que se llegó a ver (gpt-4.1-fast con el prompt de la vuelta 2,
-      136 ejecuciones: 89,0 % frente al 86,9 % de gpt-4.1 con el mismo prompt) está en `informes/evals-v2.md`. Hay que
-      repetirlo con el prompt vigente (el de la ronda de arreglos 1) y los tres modelos.
+- [x] **Elegir el modelo de Consultas** (hecho en la Tarea 9c, 18/10/2026; D-005). Comparación del spec §7.3 con el
+      prompt vigente (23aa720), 56 evals ×3 por modelo, intercalando los modelos (`informes/evals-v2.md`, «Tarea 9c»):
+      resto gpt-5.4 93,7 %, gpt-4.1 91,9 %, gpt-4.1-fast 88,3 %. Se queda `fast-gpt-4.1`. Ningún modelo pasa todas las
+      críticas: lo abierto sigue en la lista de abajo.
 - [ ] **Evals de Consultas que no cumplen** tras la Tarea 9b (ronda 5, 18/10/2026 20:17, `fast-gpt-4.1`; detalle en
       `informes/evals-v2.md`, «Tarea 9b»). Una sola vuelta de arreglos; sin más: quedan para la sesión de elección de
       modelo y la puerta 0.
@@ -135,6 +134,12 @@ y en las copias de `prompts/atencion-es/v2/`):
   - GC-C1 (crítica, **0/3 en la ronda 5b**, cifra oficial; el juez suspendía por «Gestión está cerrada ahora» y
     «puede llamar», que manda el bloque común). Aparte, como dato: con la expectativa aclarada (ratificada por el
     controlador, R31), 2/3 en la 5c; la fallida dice que la reserva nueva se hace desde el área de cliente.
+  - **Tarea 9c (ronda 8, 21:28-21:43, tres modelos; D-005):** críticas por debajo de 3/3 con `fast-gpt-4.1` (el elegido):
+    TEL-C1 0/3, FDS-02 0/3, DEVOL-03a 1/3, DEVOL-03c 2/3, FDS-03 2/3 y GC-C1 2/3. TEL-C1 solo la pasa gpt-5.4 (3/3): con
+    gpt-4.1 es de modelo, no de contenido. Para la puerta 0 hay tres salidas: reforzar el prompt de Consultas (7.988/8.000, sin
+    sitio), subir a gpt-5.4 (más caro; hay que arreglar ADV-6, 0/3 con ese modelo) o aceptar que TEL-C1 y FDS-02 no son
+    críticas para este modelo. DEVOL-03a/03c, FDS-03 y GC-C1 fallan con los tres modelos: mezcla de inventos pequeños del bot y
+    del juez. NOINI-03 falla (1/3) con los tres: es de contenido («área de cliente» en vez de «Mis reservas y facturas»).
   - Resueltas en la Tarea 9b: REQ-09 3/3 (expectativa), ADV-3 3/3, DEVOL-03a/03b 3/3. GC-C1 3/3 en la ronda 6.
   - DEVOL-03c sigue en 1/3 en la ronda 6 (ofrece un compañero o no da el horario de Gestión).
 - [x] **VIRT-T1 (Triaje, crítica)**: cayó a 1/3 en la ronda 6 al nombrar `modo_virtual` en CÓMO TRANSFERIR. Corregido

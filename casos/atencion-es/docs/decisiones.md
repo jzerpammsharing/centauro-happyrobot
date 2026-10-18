@@ -16,6 +16,30 @@ Plantilla:
 
 ---
 
+## D-005 · 2026-10-18 · Consultas del alquiler se queda con gpt-4.1 (comparación de modelos del spec §7.3)
+- **Qué:** el módulo «Consultas del alquiler» de la v2 se queda con `fast-gpt-4.1` (gpt-4.1). Sustituye a D-002 (provisional).
+  No cambia ningún nodo: el modelo ya era ese.
+- **Por qué:** se pasaron las mismas 56 evals (19 críticas y 37 del resto; BR-05 no cuenta, es de la Tarea 12), 3 veces
+  cada una, con los tres modelos y el prompt vigente (23aa720), intercalando los modelos por bloques para que la hora real no
+  favoreciera a ninguno (`informes/evals-v2.md`, «Tarea 9c»). Resto: gpt-5.4 93,7 % (104/111), gpt-4.1 91,9 % (102/111),
+  gpt-4.1-fast 88,3 % (98/111). Total (168): 91,1 %, 88,1 % y 86,3 %. Ningún modelo cumple «sin fallos críticos» (6, 6 y 5
+  críticas por debajo de 3/3), así que se aplica el criterio al resto: el más barato a ≤ 3 puntos del mejor. gpt-4.1 queda a
+  1,8 puntos del mejor (2,98 con el total); gpt-4.1-fast, a 5,4 (4,8), fuera. Entre gpt-4.1 y gpt-5.4 el más barato es
+  gpt-4.1: el orden de precios sale de las mediciones del repo (spec §1 y §9: gpt-4.1-fast 2,1 créditos por respuesta;
+  Consultas con gpt-4.1, 2–2,5; gpt-5.4 con 22.000 caracteres, 4–5), porque HappyRobot no publica tarifa por modelo en su
+  documentación.
+- **Críticas por debajo de 3/3 (pasan a la puerta 0, Tarea 16):** con gpt-4.1: TEL-C1 0/3, FDS-02 0/3, DEVOL-03a 1/3,
+  DEVOL-03c 2/3, FDS-03 2/3 y GC-C1 2/3. Con gpt-4.1-fast: TEL-C1 0/3, FDS-02 0/3, DEVOL-03c 1/3, DEVOL-03a 2/3 y FDS-03
+  2/3. Con gpt-5.4: VIRT-C1 2/3, DEVOL-03c 1/3, DEVOL-03a 2/3, FDS-03 2/3, FDS-02 1/3 y GC-C1 2/3. Solo gpt-5.4 pasa TEL-C1
+  (3/3); gpt-4.1 y gpt-4.1-fast dan el número de España «para Portugal» en 6 de 6.
+- **Riesgo si me equivoco:** gpt-5.4 saca 1,8 puntos más en el resto y es el único que pasa TEL-C1; si negocio quiere
+  TEL-C1 resuelta con el modelo y no con el contenido (quitar la crítica o reforzar el prompt), habría que subir a gpt-5.4 y
+  arreglar ADV-6 (0/3 con gpt-5.4: llama a `buscar_respuesta` en vez de `buscar_punto_de_encuentro`). Tres ejecuciones por eval
+  dejan mucha dispersión (DEVOL-03a con gpt-4.1: 3/3 en la 5b y 1/3 aquí).
+- **Afecta a:** v2 (nodo «Consultas del alquiler»); en la Tarea 10, Prolongación sigue con `fast-gpt-5.4` (otra decisión).
+- **Quién:** el responsable de la construcción (punto 1 de R25), con las evals de la Tarea 9c.
+- **Estado:** aplicada en v2 (sin cambios en el nodo; las críticas abiertas, en `pendientes.md`).
+
 ## D-004 · 2026-10-18 · Red de seguridad del modo virtual en «Preparar transferencia»
 - **Qué:** de 22:00 a 8:00 (hora peninsular, calculada al ejecutarse el nodo, como la de Gestión), «Preparar
   transferencia» solo transfiere a `asistencia`. Si el modelo pide `minibus` o `nueva_reserva`, no transfiere y
@@ -61,7 +85,7 @@ Plantilla:
   ejecuciones) y gpt-4.1-fast 89,0 % (136); los dos fallan la crítica DEVOL-03 (`docs/informes/evals-v2.md`).
 - **Afecta a:** v2 (nodo «Consultas del alquiler»).
 - **Quién:** el responsable de la construcción, a través del controlador de la Tarea 9.
-- **Estado:** aplicada en v2 (provisional; pendiente en `pendientes.md`).
+- **Estado:** sustituida por D-005 (18/10/2026, Tarea 9c).
 
 ## D-001 · 2026-10-18 · Arquitectura del bot único y plan de migración (fase 1: Minibús + Prolongación)
 - **Qué:** spec `specs/2026-10-18-bot-unico-arquitectura.md`. Resumen:

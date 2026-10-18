@@ -111,7 +111,7 @@ del prompt). **Aviso para la Tarea 10:** el nodo igual que se cree en Prolongaci
 
 Modelos de la v1/v2 (heredados de la v25): Triaje, Punto de encuentro `fast-turbo-one` (gpt-4.1-fast); Información de
 oficina `fast-gpt-4.1`; Prolongación y consultas `fast-gpt-5.4`; los dos extract `gpt-5.6-luna`. En la v2, Consultas
-del alquiler pasa a `fast-gpt-4.1` (Tarea 9); la elección de modelo del spec §7.3 está pendiente (`pendientes.md`).
+del alquiler pasa a `fast-gpt-4.1` (Tarea 9) y se confirma tras la comparación del spec §7.3 (Tarea 9c, D-005).
 
 ### Cuidado al editar por API (duplicado)
 
