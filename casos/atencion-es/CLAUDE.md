@@ -15,7 +15,10 @@ entre los que el bot salta con Module Change. Va absorbiendo las opciones del me
 
 | Workflow | workflow_id | slug | Estado (18/10/2026) |
 |---|---|---|---|
-| Centauro Atención España | por crear (duplicando Minibús ES v25, `k2in5n9kk01x`) | — | Spec en borrador, sin construir |
+| Centauro Atención España | `01a14f1b-4ea9-7827-a4f3-4cfb06a896f6` | `rntn68r0a8gh` | Creado el 18/10/2026 duplicando Minibús ES v25. v1 `veavliy3k6jx` (copia de referencia) y v2 `x8xd0llbdp3j` (en construcción); sin líneas ni publicar |
+
+Versiones, flujo de nodos y ids por nodo: `docs/workflows.md`. Qué copió el duplicado y qué falta (evals, líneas,
+ajustes, Twin, quitar el Paths «Entrada» en el editor): `docs/pendientes.md`.
 
 ## 2. Carpetas del caso
 
@@ -40,6 +43,10 @@ entre los que el bot salta con Module Change. Va absorbiendo las opciones del me
 - **Transferencias:** el modelo elige la `cola`, no la extensión. Con Gestión cerrada, el código no transfiere
   aunque el modelo lo pida (red de seguridad, spec §5.8).
 - **Module Change:** no se pueden crear por API; los crea una persona en el editor.
+- **Borrar un nodo por API borra todo su subárbol** y no hay forma de reenganchar un nodo a otro padre: no borrar
+  nodos con hijos (comprobado el 18/10/2026; `docs/pendientes.md`).
+- **Prompts del duplicado:** el markdown de `get_node_details` conserva los `group_id` antiguos de Minibús ES;
+  al actualizar un prompt, escribir `{{persistent_id.variable}}` con los ids de `docs/workflows.md`.
 - **MCP de Centauro:** va contra la API real aunque la credencial se llame «Stagin». No hacer refresh de los
   servidores MCP en HappyRobot.
 - **Medición:** la misma para este workflow y para los bots actuales (`scripts/medir_bots.py`, al construir).
