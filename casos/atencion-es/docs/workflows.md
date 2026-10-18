@@ -102,6 +102,10 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | ¿Enviar WhatsApp? (Paths) | `01a14f1d-0392-7a3a-9987-9e9a6a9ab190` | `d7bea790-20cc-431d-b696-edd7f09b51e3` |
 | Enviar WhatsApp del punto de encuentro | `01a14f1d-0395-7934-834b-0382a080f15d` | `cbb87a1f-4994-49ea-872b-501640029b45` |
 
+**Tarea 9b (18/10/2026):** los dos «Preparar transferencia» (Triaje y Consultas) llevan la red de seguridad del modo
+virtual (resultado `modo_virtual`, D-004) y «Buscar respuesta» el código regenerado tras C-005 (sin los teléfonos de
+asistencia de otros países; «No digas que no está permitido» en la oficina cerrada). Los ids no cambian.
+
 El Python de `buscar_respuesta` se llama **«Buscar respuesta»** (no «Consultas del alquiler», para no repetir el nombre
 del prompt). **Aviso para la Tarea 10:** el nodo igual que se cree en Prolongación debe llevar el mismo nombre.
 

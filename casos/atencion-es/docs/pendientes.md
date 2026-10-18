@@ -122,25 +122,24 @@ y en las copias de `prompts/atencion-es/v2/`):
       controlador. El nodo está con `fast-gpt-4.1`. Lo que se llegó a ver (gpt-4.1-fast con el prompt de la vuelta 2,
       136 ejecuciones: 89,0 % frente al 86,9 % de gpt-4.1 con el mismo prompt) está en `informes/evals-v2.md`. Hay que
       repetirlo con el prompt vigente (el de la ronda de arreglos 1) y los tres modelos.
-- [ ] **Evals de Consultas que no cumplen** tras la ronda de arreglos 1 (ronda 4, `fast-gpt-4.1`; resto 100/111,
-      90,1 %; detalle y motivos del juez en `informes/evals-v2.md`). Sin más vueltas de prompt: quedan para la sesión
-      de elección de modelo y la puerta 0.
-  - TEL-C1 (crítica, 0/3): da el número de asistencia de Portugal que trae la sección `telefonos`, pese a la regla de
-    los cuatro teléfonos. Decidir si se quitan del bloque `comun/bloques/consultas-alquiler.md` los teléfonos de
-    otros países o si se pueden dar.
-  - DEVOL-03c (crítica, 0/3): con Gestión cerrada dice que no está permitido dejar el coche fuera y no da el horario
-    de Gestión.
-  - FDS-02 (crítica, 0/3 con la expectativa corregida): no explica primero el servicio de espera por vuelo retrasado.
-  - REQ-09, FDS-03 y ADV-3 (críticas, 2/3): REQ-09 por el juez (cuenta como promesa una frase de la sección); FDS-03
-    («esté atento al correo») y ADV-3 («se calcula según las fechas nuevas») por pequeños inventos.
-  - DEVOL-03 con Gestión abierta queda resuelta con D-003 (ofrecer y transferir al sí): DEVOL-03a y 03b, 3/3. La
-    variante con Gestión cerrada (DEVOL-03c) sigue abierta (arriba).
-- [ ] **Triaje: VIRT-T1 y la descripción de `buscar_punto_de_encuentro`.** En la ronda de arreglos 1 se añadió la
-      excepción del modo virtual a esa descripción en el Triaje y VIRT-T1 (crítica) cayó de 3/3 a 0/3 (ejecutaba
-      `transfer_to_human_agent` para una reserva nueva de noche); al quitarla volvió a 3/3. El Triaje se ha dejado sin
-      la excepción (Consultas la mantiene). Decidir si se hace la red de seguridad de abajo (R24) en lugar de tocar
-      descripciones. «VIRTUAL · avería» da 1/3 con o sin la excepción porque el juez cuenta el reintento tras el fallo:
-      revisar su expectativa.
+- [ ] **Evals de Consultas que no cumplen** tras la Tarea 9b (ronda 5, 18/10/2026 20:17, `fast-gpt-4.1`; detalle en
+      `informes/evals-v2.md`, «Tarea 9b»). Una sola vuelta de arreglos; sin más: quedan para la sesión de elección de
+      modelo y la puerta 0.
+  - TEL-C1 (crítica, 0/3): los teléfonos de asistencia de otros países ya no están en el bloque (C-005) y el bot ya no
+    da el de Portugal, pero da el de España diciendo que sirve allí. Propuesta: «Asistencia en carretera en España» en
+    el bloque de reglas comunes (`comun/bloques/reglas-comunes.md`, +10 caracteres: 4.494/4.500) y copiarlo en los
+    módulos.
+  - DEVOL-03c (crítica, 1/3): ya no dice «no está permitido» (C-005), pero con Gestión cerrada a veces dice «solo si lo
+    acordó» o no da el horario de Gestión.
+  - FDS-02 (crítica, 0/3): no explica primero el servicio de espera por vuelo retrasado. Depende del modelo.
+  - FDS-03 (crítica, 2/3): «esté atento al correo» (invento del bot).
+  - GC-C1 (crítica, 2/3 con la expectativa aclarada en la Tarea 9b; 0/3 antes, por el juez): la fallida dice que la
+    reserva nueva se hace desde el área de cliente.
+  - Resueltas en la Tarea 9b: REQ-09 3/3 (expectativa), ADV-3 3/3, DEVOL-03a/03b 3/3.
+- [x] **Triaje: VIRT-T1 y la descripción de `buscar_punto_de_encuentro`** (cerrado en la Tarea 9b). La excepción del
+      modo virtual no se vuelve a poner en el Triaje (con ella VIRT-T1 caía a 0/3); en su lugar, la red de seguridad del
+      modo virtual de «Preparar transferencia» (D-004). VIRT-T1 3/3 en la 5b. «VIRTUAL · avería»: expectativa aclarada
+      (el reintento tras el fallo es correcto), 3/3.
 - **Evals de Consultas:** 56 en el nodo (55 cuentan; BR-05 espera `prolongar_alquiler` y se ejecuta en la Tarea 12).
   Quedan para la Tarea 10 las de Minibús ES v25 ADV-1, PRO-1 y PRO-2 (empiezan en una prolongación). Para el juez:
   - No ve el prompt: lo que el bot puede decir porque está en el bloque común (horario de gestión, «si es urgente, que
@@ -159,11 +158,14 @@ y en las copias de `prompts/atencion-es/v2/`):
 - **`fix_broken_vars` no se ejecutó en la Tarea 9** (R23), ni en simulación: el `dry_run` hace un test-all de la
   versión y la v2 tiene el nodo «Enviar WhatsApp del punto de encuentro». Las variables se escribieron con
   `{{persistent_id.variable}}` y la estructura se comprobó con `get_workflows`.
-- [ ] **Propuesta para decidir (R24): red de seguridad del modo virtual en «Preparar transferencia».** Igual que la de
-      Gestión cerrada: de 22 a 8 h solo se transfiere a asistencia, aunque el modelo pida otra cola. No se ha hecho;
-      el arreglo de la Tarea 9 es la descripción de `buscar_punto_de_encuentro` de Consultas (en el Triaje se revirtió,
-      ver arriba) y la eval crítica VIRT-C1. Si se hace, probarla con ADV-2 (Consultas; 1/3 en la ronda 3 y 3/3 en la
-      4, con la descripción nueva) y «VIRTUAL · pide persona» (Triaje, 2/3 sin la excepción).
+- [x] **R24: red de seguridad del modo virtual en «Preparar transferencia»** — hecha en la Tarea 9b (D-004): de 22 a
+      8 h solo se transfiere a asistencia; minibus y nueva_reserva devuelven `modo_virtual`; gestion de noche,
+      `gestion_cerrada`. Pegada en los dos «Preparar transferencia» de la v2. **No se ha visto `modo_virtual` con
+      `test_node`** (las pruebas fueron a las 20:06–20:07, antes del modo virtual): lo cubren las pruebas locales (71).
+      Comprobarlo con `test_node` (cola fija `minibus`) una noche, o en la puerta 0. La Tarea 10 copia el mismo código.
+- [ ] **Bloque de consultas, C-005:** los teléfonos de asistencia de Portugal, Italia y Grecia vuelven cuando negocio los
+      valide (punto 7 de «Qué falta decidir»); siguen por decidir los de reservas nuevas de otros países y el correo
+      del departamento de flotas.
 - **El Python de `buscar_respuesta` se llama «Buscar respuesta»** (`workflows.md`); la Tarea 10 debe usar el mismo
   nombre en Prolongación.
 

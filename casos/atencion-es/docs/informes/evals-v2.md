@@ -83,6 +83,8 @@ Nodo «Consultas del alquiler» `01a14f1d-0397-7b22-b5ce-bcb398a7605e` (persiste
 permitidas (ronda 3) quedaban dos críticas por debajo de 3/3: DEVOL-03 (0/3) y FDS-02 (2/3), con el resto en 102/111
 (91,9 %). Tras la ronda de arreglos 1 de la revisión (ronda 4, con evals nuevas y más estrictas) quedan seis: DEVOL-03c,
 FDS-02 y TEL-C1 a 0/3, y REQ-09, FDS-03 y ADV-3 a 2/3; el resto, 100/111 (90,1 %). Detalle en «Ronda de arreglos 1».
+Tras la Tarea 9b (ronda 5, críticas 45/54; 47/54 con GC-C1 y FDS-03 repetidas) quedan por debajo de 3/3 TEL-C1, FDS-02,
+DEVOL-03c, FDS-03 y GC-C1: ver «Tarea 9b».
 
 ### El juego de evals
 
@@ -348,6 +350,73 @@ Con la excepción del modo virtual en la descripción de `buscar_punto_de_encuen
 0/3; sin ella vuelve a 3/3. **El Triaje se ha dejado sin la excepción** (la descripción de la Tarea 8), y la de
 Consultas la mantiene (allí VIRT-C1 y ADV-2 dan 3/3). La red de seguridad del modo virtual en «Preparar transferencia»
 (R24) queda como propuesta en `pendientes.md`.
+
+### Tarea 9b: arreglos previos a la Tarea 10 (ronda 5)
+
+18/10/2026 (domingo: Gestión cerrada todo el día por el reloj real; todas las rondas antes de las 22:00, así que
+«Preparar transferencia» no estaba en modo virtual). Modelos sin cambiar (Consultas `fast-gpt-4.1`, Triaje
+`fast-turbo-one`). Cambios: C-005 (bloque de consultas: fuera los teléfonos de asistencia de otros países; «No digas que
+no está permitido» en la oficina cerrada), D-004 (red de seguridad del modo virtual) y expectativas del juez.
+
+**Evals cambiadas:**
+
+- **Conversación rehecha** (TEL-C1, DEVOL-03a y DEVOL-03c): llevaban dentro, como mensaje `tool`, la sección
+  `telefonos` o `devolucion` de antes de C-005 (lo confirmaron dos ejecuciones de diagnóstico a las 20:09: el bot seguía
+  dando el número de Portugal que ya no está en el código). `get` no devuelve la conversación (R11), así que se
+  rehicieron con un solo turno del cliente y el bot ejecuta `buscar_respuesta` de verdad (cada mensaje necesita
+  `turn_index`). Variables, sin tocar. DEVOL-03b no se tocó (empieza en la aceptación de la oferta).
+- **Expectativa:** TEL-C1 y DEVOL-03c (lo que trae ahora la sección), DEVOL-03a (añade «no digas que no está
+  permitido»), REQ-09 (puede decir que un compañero toma los datos y avisa a la oficina y nombrar el objeto; lo de
+  después de la primera llamada no cuenta), FDS-03 («contactará con la oficina» vale; «esté atento al correo» no está
+  en la sección; puede decir que Gestión está cerrada ahora), «VIRTUAL · avería» del Triaje (el reintento tras el
+  fallo es correcto) y GC-C1 (puede decir que Gestión está cerrada ahora y que llame en su horario).
+
+**Rondas** (hora de creación de las ejecuciones; Madrid):
+
+| Ronda | Hora | Qué se ejecuta |
+|---|---|---|
+| 5a | 20:12 | Las 13 de la ficha ×3, tras C-005, D-004 y las expectativas |
+| Arreglo | 20:16 | Una sola vuelta: en el bloque, «Asistencia en carretera de otros países: no tienes esos teléfonos…» y «ni que solo se puede si lo acordó»; expectativa de REQ-09 |
+| 5b | 20:17 | Pasada completa de las críticas: 18 de Consultas y 5 del Triaje ×3 |
+| 5c | 20:21 | GC-C1 y FDS-03 ×3, tras aclarar su expectativa (el juez suspendía por «Gestión está cerrada ahora», que manda el bloque común) |
+
+| Eval | Crítica | R4 | 5a (20:12) | **5b (20:17)** | Motivo del juez en las fallidas de la 5b |
+|---|---|---|---|---|---|
+| TEL-C1 Pide el teléfono de asistencia de Portugal | sí | 0/3 | 0/3 | **0/3** | ya no da el de Portugal, pero da el de España diciendo que sirve en Portugal (×3) |
+| DEVOL-03a Oficina cerrada sin acordarlo: depende de la oficina; ofrece Gestión o transfiere | sí | 3/3 | 1/3 | **3/3** | |
+| DEVOL-03b Acepta la oferta: cola gestion, otro | sí | 3/3 | 3/3 | **3/3** | |
+| DEVOL-03c Gestión cerrada: oficina cerrada sin acordarlo → horario de Gestión | sí | 0/3 | 1/3 | **1/3** | una dice que «solo es posible si lo acordó» y ofrece mirar el horario de la oficina; otra no da el horario de Gestión |
+| REQ-09 Objeto olvidado: cola gestion, otro | sí | 2/3 | 1/3 | **3/3** | |
+| FDS-03 Sábado noche, objeto olvidado | sí | 2/3 | 2/3 | **2/3** | el juez lee «Gestión está cerrada ahora» como inventado (5c: 2/3, la fallida dice que esté atento al correo) |
+| FDS-02 Sábado noche, vuelo retrasado | sí | 0/3 | 0/3 | **0/3** | no explica primero el servicio de espera; ofrece mirar el horario de la oficina (×3) |
+| ADV-2 · queja del minibús en modo virtual | | 3/3 | 3/3 | — | |
+| ADV-3 · precio y teléfono: ninguno | sí | 2/3 | 2/3 | **3/3** | |
+| VIRT-C1 Modo virtual, el minibús no llega e insiste | sí | 3/3 | 3/3 | **3/3** | |
+| NOINI-06, RECOG-05, CARGO-05, REQ-05, REQ-06, REQ-08, FDS-08, PRO-4 | sí | 3/3 cada una | — | **3/3 cada una** | |
+| GC-C1 Gestión cerrada: reserva no iniciada, prefiere un compañero | sí | 3/3 | — | **0/3** | «puede llamar» y «está cerrada ahora» como inventos (5c, con la expectativa aclarada: 2/3; la fallida dice que la reserva nueva se hace desde el área de cliente) |
+| **Triaje** VIRT-T1 · reserva nueva de noche → a partir de las ocho | sí | 3/3 | 2/3 | **3/3** | |
+| **Triaje** VIRTUAL · pide hablar con una persona | | 2/3 | 3/3 | — | |
+| **Triaje** VIRTUAL · avería → cola asistencia | | 1/3 | 3/3 | — | |
+| **Triaje** GC-T1, GC-T2, COLA-T1, FEST-T1 | sí | 3/3 cada una | — | **3/3 cada una** | |
+
+**Totales de la 5b:** Consultas, críticas 45/54 (por debajo de 3/3: TEL-C1 0/3, FDS-02 0/3, GC-C1 0/3, DEVOL-03c 1/3,
+FDS-03 2/3); Triaje, críticas 15/15. Con la 5c (GC-C1 y FDS-03 con la expectativa aclarada) Consultas queda en 47/54.
+
+**Criterio de la ficha** (TEL-C1, DEVOL-03c, REQ-09, FDS-03 y ADV-3 a 3/3): cumplen REQ-09 y ADV-3; **no cumplen
+TEL-C1, DEVOL-03c ni FDS-03**. Tras la única vuelta de arreglos permitida no se siguió iterando:
+
+- **TEL-C1:** el número de Portugal ya no sale (ni del código ni de la conversación), pero el bot da el de asistencia
+  de España como si sirviera en Portugal, también después de añadir a la sección «no le digas que el de España sirve
+  allí». Probable causa: el bloque de reglas comunes llama a ese número «Asistencia en carretera, veinticuatro horas»,
+  sin decir que es el de España, y el bot puede contestar desde su prompt sin llamar a `buscar_respuesta`. Propuesta:
+  «Asistencia en carretera en España» en el bloque de reglas comunes (+10 caracteres: 4.494/4.500; Consultas
+  7.989/8.000), que obliga a copiarlo en los módulos.
+- **DEVOL-03c:** ya no dice «no está permitido» (el invento de la R4), pero con Gestión cerrada a veces dice «solo si
+  lo acordó» o no da el horario de Gestión. Es de modelo: el prompt ya manda dar el horario con Gestión cerrada.
+- **FDS-03:** el invento real que queda es «esté atento al correo» (1 de 3 en la 5b y en la 5c).
+- **GC-C1** (fuera de la lista de la ficha, crítica): cayó a 0/3 en la 5b por el juez (la misma respuesta pasaba en la
+  R4); con la expectativa aclarada, 2/3.
+- **FDS-02** no es obligatoria aquí (depende del modelo): 0/3.
 
 ### Modelos
 
