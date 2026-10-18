@@ -33,8 +33,8 @@ prompt independiente, así que las reglas que valen para todos se copian al prin
 | MODO DE ATENCIÓN | MODO DE ATENCIÓN de la v25, sin lo propio de cada módulo. Vale para las dos líneas (spec §5.2). En un caso de gestión manda COLA DE GESTIÓN CERRADA: «vuelva a llamar a partir de las ocho» sería falso de viernes a domingo por la noche y en vísperas de festivo |
 | GESTIÓN CERRADA: REGLA DE MÁXIMA PRIORIDAD | La de la V11, con la cola `gestion` en vez de la extensión. «Algo que solo puede hacer gestión» en vez de «una persona»: en la línea de Minibús, quien pide una persona va a la cola de Minibús (spec §5.5) |
 | COLA DE GESTIÓN CERRADA | La de la V11 y la v25, con «salvo festivos» (spec §5.2) y Asistencia también en modo virtual. Va con este título porque el texto que devuelve «Preparar transferencia» con `gestion_cerrada` dice «sigue con COLA DE GESTIÓN CERRADA» |
-| TELÉFONOS QUE PUEDES DAR | Los cuatro de la V11, en palabras. El horario de Benidorm y Torrevieja ya no va aquí: lo da `informacion_oficina`. Los teléfonos de otros países no van: están pendientes de validar por negocio (`consultas-alquiler.md`, «Qué falta decidir», punto 7). «Repítelos una vez» es una nota del equipo (`consultas-alquiler.md`) |
-| CÓMO TRANSFERIR | Nuevo, del patrón de la spec §5.8: `cola`, `motivo_transferencia` y `resumen_para_agente`, la frase de aviso dentro de la herramienta y los resultados de «Preparar transferencia» (`casos/atencion-es/codigo/preparar_transferencia.py`); un segundo `cola_no_valida` cuenta como segundo fallo. «Si solo la ofreces, espera al sí» y «nunca prometas una transferencia sin ejecutarla» salen de la V11 y de la v25 |
+| TELÉFONOS QUE PUEDES DAR | Los cuatro de la V11, en palabras. El horario de Benidorm y Torrevieja ya no va aquí: lo da `informacion_oficina`. Los teléfonos de otros países no van: están pendientes de validar por negocio (`consultas-alquiler.md`, «Qué falta decidir», punto 7). «Repítelos una vez» es una nota del equipo (`consultas-alquiler.md`). «En España» (18/10/2026, Tarea 9b, R30): sin ello el bot daba el de asistencia como válido en otros países |
+| CÓMO TRANSFERIR | Nuevo, del patrón de la spec §5.8: `cola`, `motivo_transferencia` y `resumen_para_agente`, la frase de aviso dentro de la herramienta y los resultados de «Preparar transferencia» (`casos/atencion-es/codigo/preparar_transferencia.py`); un segundo `cola_no_valida` cuenta como segundo fallo. `modo_virtual` (D-004) va con `gestion_cerrada`: no se reintenta y se sigue el detalle, que remite a COLA DE GESTIÓN CERRADA o a MODO DE ATENCIÓN; para que cupiera con «en España», «sigue COLA DE GESTIÓN CERRADA» pasó a «sigue su detalle» (Tarea 9b, R32) «Si solo la ofreces, espera al sí» y «nunca prometas una transferencia sin ejecutarla» salen de la V11 y de la v25 |
 | SI LA TRANSFERENCIA FALLA | La de la V11 (reintento, segundo fallo, uno uno dos, teléfonos de asistencia y de reservas), sin el parámetro de la extensión |
 | CAMBIOS DE MÓDULO | Nuevo, de la spec §5.4 y §5.6: no anunciar el cambio ni saludar ni repetir. El límite se cuenta por cambios de tema (volver al Triaje y entrar en otro módulo es uno): al tercero se transfiere, o se da el horario si no hay a quién |
 
@@ -67,13 +67,13 @@ Gestión de reservas atiende de lunes a viernes de ocho de la mañana a nueve de
 **TELÉFONOS QUE PUEDES DAR**
 
 Solo estos, si hacen falta; dilos despacio y repítelos una vez.
-- Asistencia en carretera, veinticuatro horas: "más treinta y cuatro, nueve seis seis, tres seis cinco, tres seis cinco".
+- Asistencia en carretera en España, veinticuatro horas: "más treinta y cuatro, nueve seis seis, tres seis cinco, tres seis cinco".
 - Reservas nuevas, si pide un número: "más treinta y cuatro, nueve seis seis, tres seis cero, tres seis cero", opción uno.
 - Solo para el servicio de entrega: Benidorm, "más treinta y cuatro, nueve seis, seis ocho tres, cero siete, cero siete"; Torrevieja, "más treinta y cuatro, nueve seis, seis siete cero, tres cinco, tres cuatro".
 
 **CÓMO TRANSFERIR**
 
-Usa transfer_to_human_agent con cola (gestion, asistencia, nueva_reserva o minibus), motivo_transferencia y resumen_para_agente (en español, sin datos personales). La frase de aviso va dentro de la herramienta: ejecútala al decidir transferir, sin decir antes «le paso», y después no digas nada más. Nunca prometas una transferencia sin ejecutarla; si solo la ofreces, espera al sí. Si devuelve gestion_cerrada, no reintentes: sigue COLA DE GESTIÓN CERRADA. Si devuelve cola_no_valida, repítela una vez con la cola correcta; si se repite, es un segundo fallo.
+Usa transfer_to_human_agent con cola (gestion, asistencia, nueva_reserva o minibus), motivo_transferencia y resumen_para_agente (en español, sin datos personales). La frase de aviso va dentro de la herramienta: ejecútala al decidir transferir, sin decir antes «le paso», y después no digas nada más. Nunca prometas una transferencia sin ejecutarla; si solo la ofreces, espera al sí. Si devuelve gestion_cerrada o modo_virtual, no reintentes: sigue su detalle. Si devuelve cola_no_valida, repítela una vez con la cola correcta; si se repite, es un segundo fallo.
 
 **SI LA TRANSFERENCIA FALLA**
 

@@ -125,17 +125,23 @@ y en las copias de `prompts/atencion-es/v2/`):
 - [ ] **Evals de Consultas que no cumplen** tras la Tarea 9b (ronda 5, 18/10/2026 20:17, `fast-gpt-4.1`; detalle en
       `informes/evals-v2.md`, «Tarea 9b»). Una sola vuelta de arreglos; sin más: quedan para la sesión de elección de
       modelo y la puerta 0.
-  - TEL-C1 (crítica, 0/3): los teléfonos de asistencia de otros países ya no están en el bloque (C-005) y el bot ya no
-    da el de Portugal, pero da el de España diciendo que sirve allí. Propuesta: «Asistencia en carretera en España» en
-    el bloque de reglas comunes (`comun/bloques/reglas-comunes.md`, +10 caracteres: 4.494/4.500) y copiarlo en los
-    módulos.
+  - TEL-C1 (crítica, 0/3 en la 5b y en la ronda 6): el bot ya no da el de Portugal, pero sigue diciendo que el de
+    España sirve allí, también con «Asistencia en carretera en España» en el bloque común (R30, ronda 6).
   - DEVOL-03c (crítica, 1/3): ya no dice «no está permitido» (C-005), pero con Gestión cerrada a veces dice «solo si lo
     acordó» o no da el horario de Gestión.
   - FDS-02 (crítica, 0/3): no explica primero el servicio de espera por vuelo retrasado. Depende del modelo.
-  - FDS-03 (crítica, 2/3): «esté atento al correo» (invento del bot).
-  - GC-C1 (crítica, 2/3 con la expectativa aclarada en la Tarea 9b; 0/3 antes, por el juez): la fallida dice que la
-    reserva nueva se hace desde el área de cliente.
-  - Resueltas en la Tarea 9b: REQ-09 3/3 (expectativa), ADV-3 3/3, DEVOL-03a/03b 3/3.
+  - FDS-03 (crítica, **2/3 en la ronda 5b**, cifra oficial; la fallida, por «Gestión está cerrada ahora»). Aparte, como
+    dato: con la expectativa aclarada, 2/3 en la 5c; la fallida dice «esté atento al correo» (invento del bot).
+  - GC-C1 (crítica, **0/3 en la ronda 5b**, cifra oficial; el juez suspendía por «Gestión está cerrada ahora» y
+    «puede llamar», que manda el bloque común). Aparte, como dato: con la expectativa aclarada (ratificada por el
+    controlador, R31), 2/3 en la 5c; la fallida dice que la reserva nueva se hace desde el área de cliente.
+  - Resueltas en la Tarea 9b: REQ-09 3/3 (expectativa), ADV-3 3/3, DEVOL-03a/03b 3/3. GC-C1 3/3 en la ronda 6.
+  - DEVOL-03c sigue en 1/3 en la ronda 6 (ofrece un compañero o no da el horario de Gestión).
+- [ ] **VIRT-T1 (Triaje, crítica) cae a 1/3 en la ronda 6** (3/3 en la 5b) tras añadir `modo_virtual` a CÓMO TRANSFERIR
+      del bloque común (R32): de noche ejecuta `transfer_to_human_agent` y deja que decida el código. La transferencia
+      no llega a hacerse (D-004) y VIRT-T2/VIRT-C2 (respuesta al resultado `modo_virtual`) dan 3/3, pero el cliente oye
+      la frase de aviso de la herramienta. Decidir si se reescribe la regla (por ejemplo, nombrar `modo_virtual` solo
+      en el detalle) o se acepta.
 - [x] **Triaje: VIRT-T1 y la descripción de `buscar_punto_de_encuentro`** (cerrado en la Tarea 9b). La excepción del
       modo virtual no se vuelve a poner en el Triaje (con ella VIRT-T1 caía a 0/3); en su lugar, la red de seguridad del
       modo virtual de «Preparar transferencia» (D-004). VIRT-T1 3/3 en la 5b. «VIRTUAL · avería»: expectativa aclarada
@@ -160,9 +166,10 @@ y en las copias de `prompts/atencion-es/v2/`):
   `{{persistent_id.variable}}` y la estructura se comprobó con `get_workflows`.
 - [x] **R24: red de seguridad del modo virtual en «Preparar transferencia»** — hecha en la Tarea 9b (D-004): de 22 a
       8 h solo se transfiere a asistencia; minibus y nueva_reserva devuelven `modo_virtual`; gestion de noche,
-      `gestion_cerrada`. Pegada en los dos «Preparar transferencia» de la v2. **No se ha visto `modo_virtual` con
-      `test_node`** (las pruebas fueron a las 20:06–20:07, antes del modo virtual): lo cubren las pruebas locales (71).
-      Comprobarlo con `test_node` (cola fija `minibus`) una noche, o en la puerta 0. La Tarea 10 copia el mismo código.
+      `gestion_cerrada`. Pegada en los dos «Preparar transferencia» de la v2. La Tarea 10 copia el mismo código.
+- [ ] **Comprobar `modo_virtual` con `test_node` después de las 22:00** (`cola` fija `minibus` en un «Preparar
+      transferencia» y después otra vez la variable). En la Tarea 9b las pruebas fueron a las 20:06–20:07; lo cubren las
+      pruebas locales (71) y las evals VIRT-C2 y VIRT-T2, que dan el resultado como mensaje `tool`.
 - [ ] **Bloque de consultas, C-005:** los teléfonos de asistencia de Portugal, Italia y Grecia vuelven cuando negocio los
       valide (punto 7 de «Qué falta decidir»); siguen por decidir los de reservas nuevas de otros países y el correo
       del departamento de flotas.

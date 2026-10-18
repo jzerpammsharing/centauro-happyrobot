@@ -1,10 +1,12 @@
-<!-- workflow: 01a14f1b-4ea9-7827-a4f3-4cfb06a896f6 · versión: v2 (x8xd0llbdp3j) · nodo: Preparar transferencia (Triaje) · copiado: 2026-10-18 (Tarea 9b) -->
+<!-- workflow: 01a14f1b-4ea9-7827-a4f3-4cfb06a896f6 · versión: v2 (x8xd0llbdp3j) · nodos: Preparar transferencia (Triaje y Consultas del alquiler) · copiado: 2026-10-18 (Tarea 9b) -->
 
-# Preparar transferencia (código Python) · Triaje
+# Preparar transferencia (código Python) · Triaje y Consultas del alquiler
 
 - Tipo: action (Python Sandbox), event_id `019dde7b-3500-7a3c-8f5e-1c2d4e6a8b9c`, execution_profile `standard`
-- ID = persistent_id en la v2: `01a14f64-277b-7226-8e39-a8ef0274949f` (creado en la Tarea 8)
-- Padre: herramienta `transfer_to_human_agent` del Triaje (`17c682a0-82d2-42f6-88fa-817d8cba0783`)
+- Triaje: ID = persistent_id en la v2 `01a14f64-277b-7226-8e39-a8ef0274949f` (creado en la Tarea 8); padre, la
+  herramienta `transfer_to_human_agent` del Triaje (`17c682a0-82d2-42f6-88fa-817d8cba0783`)
+- Consultas del alquiler: ID = persistent_id en la v2 `01a14fa7-1147-724b-af62-e10108d91bce` (Tarea 9); padre, la
+  herramienta `transfer_to_human_agent` de Consultas (`fbe2e40e-4915-4f44-9bac-59c318862e97`)
 - Hijo: Paths «¿Transferir?» (ver `transfer.md`)
 - Código: `casos/atencion-es/codigo/preparar_transferencia.py` tal cual. Las Tareas 9 a 11 crean un nodo igual en la
   herramienta de transferencia de cada módulo (cambia solo el persistent_id de la herramienta en `cola`).

@@ -21,7 +21,9 @@ Plantilla:
   - **Punto 7:** se quitan del bloque los teléfonos de asistencia en carretera de Portugal, Italia y Grecia hasta que
     negocio valide los números; vuelven cuando estén validados. Siguen por decidir los de reservas nuevas en otros
     países y el correo y el teléfono del departamento de flotas. En su lugar, la sección dice que el bot no tiene esos
-    teléfonos y que no diga que el de España sirve allí (añadido en la Tarea 9b al ver que el bot lo decía).
+    teléfonos y que no diga que el de España sirve allí (añadido en la Tarea 9b al ver que el bot lo decía); el bloque
+    de reglas comunes dice además «Asistencia en carretera en España» (R30). **Pendiente de validar con negocio:**
+    «remítele a centauro punto net» para la asistencia de otros países.
   - **Punto 3 (resuelto):** devolver con la oficina cerrada «depende de la oficina; se acuerda al recoger el coche»,
     como dice el bloque. El bot nunca dice que no está permitido ni cita la norma de Minibús v25 («por norma, fuera
     del horario no se puede»); si no lo acordó al recoger, se transfiere a Gestión, y con Gestión cerrada se da su

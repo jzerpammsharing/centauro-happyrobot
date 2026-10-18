@@ -418,6 +418,30 @@ TEL-C1, DEVOL-03c ni FDS-03**. Tras la única vuelta de arreglos permitida no se
   R4); con la expectativa aclarada, 2/3.
 - **FDS-02** no es obligatoria aquí (depende del modelo): 0/3.
 
+### Tarea 9b, ronda de arreglos 1 (ronda 6)
+
+Cambios (R30–R32): bloque de reglas comunes con «Asistencia en carretera en España» y, en CÓMO TRANSFERIR, «Si
+devuelve gestion_cerrada o modo_virtual, no reintentes: sigue su detalle» (antes «sigue COLA DE GESTIÓN CERRADA»);
+subido a Triaje y Consultas (4.496/4.500; Triaje 8.225, Consultas 7.991). Evals críticas nuevas con el resultado de la
+herramienta como mensaje `tool`, así que no dependen del reloj: **VIRT-C2** (Consultas, `01a1504a-4d30-…`, minibus →
+`modo_virtual`) y **VIRT-T2** (Triaje, `01a1504a-8e46-…`, nueva_reserva → `modo_virtual`). Ronda 6 a las **20:34**
+(antes de las 22:00).
+
+| Eval | Crítica | 5b | **R6 (20:34)** | Motivo del juez en las fallidas |
+|---|---|---|---|---|
+| VIRT-C2 · `modo_virtual`: no reintenta, MODO DE ATENCIÓN | sí | nueva | **3/3** | |
+| VIRT-T2 · `modo_virtual`: no reintenta, MODO DE ATENCIÓN | sí | nueva | **3/3** | |
+| TEL-C1 | sí | 0/3 | **0/3** | sigue diciendo que el número de España sirve para Portugal «y le atenderán en su idioma» (×3) |
+| VIRT-T1 (Triaje) | sí | 3/3 | **1/3** | ejecuta transfer_to_human_agent en modo virtual (×2) |
+| VIRT-C1 | sí | 3/3 | **3/3** | |
+| GC-C1 | sí | 0/3 (5c: 2/3) | **3/3** | |
+| DEVOL-03c | sí | 1/3 | **1/3** | ofrece que un compañero lo revise y no da el horario de Gestión; otra omite el aviso de gastos y daños e inventa que Málaga lo revisa |
+
+Una sola vuelta; no se siguió iterando. **VIRT-T1 empeora (3/3 → 1/3)**: con «modo_virtual» nombrado en CÓMO TRANSFERIR,
+el Triaje ejecuta la transferencia de noche y deja que el código decida. La red de seguridad de D-004 impide la
+transferencia real, y VIRT-T2 muestra que después lo resuelve bien; pero el cliente oiría antes la frase de aviso de la
+herramienta («le paso con un compañero…»). **TEL-C1 sigue en 0/3** también con «en España».
+
 ### Modelos
 
 **Pendiente.** Por decisión del controlador (pedida por el responsable para acabar antes), la Tarea 9 no hace la
