@@ -107,7 +107,7 @@ y en las copias de `prompts/atencion-es/v2/`):
     suspende por el texto posterior.
   - Cambiar una eval **no** reinicia su lista de ejecuciones (comprobado en la Tarea 9): las de cada ronda se cuentan
     por la hora de creación.
-- **Prompt «Prolongación»** provisional (una línea) bajo `prolongar_alquiler`, hasta la Tarea 10.
+- [x] **Prompt «Prolongación»** provisional (una línea) bajo `prolongar_alquiler`: sustituido en la Tarea 10.
 
 ## Comprobaciones de la Tarea 9 (18/10/2026)
 
@@ -179,6 +179,38 @@ y en las copias de `prompts/atencion-es/v2/`):
       del departamento de flotas.
 - **El Python de `buscar_respuesta` se llama «Buscar respuesta»** (`workflows.md`); la Tarea 10 debe usar el mismo
   nombre en Prolongación.
+
+## Comprobaciones de la Tarea 10 (18/10/2026)
+
+- **Prolongación** construido: prompt de 21.978/22.000 caracteres (`fast-gpt-5.4`), `enviar_correo_contrasena` (cadena
+  de la v12), `pista_correo`, `buscar_respuesta` y la transferencia. Ids en `workflows.md`.
+- [ ] **Evals de Prolongación que no cumplen** (ronda 10, 18/10/2026 23:28–23:42; detalle y motivos en
+      `informes/evals-v2.md`, «Prolongación (Tarea 10)»). Críticas 60/72, resto 84,5 %. Hecha la única vuelta de arreglos
+      que permite la ficha; sin más iteraciones. Críticas por debajo de 3/3:
+  - CORREO-09 (0/3): tras dos envíos que no llegan da el plan B en vez de transferir a `gestion` / `error_tecnico`.
+    Regresión de la vuelta de arreglos (el plan B de la reserva no iniciada); en la ronda 9 daba 3/3.
+  - FDS-06 (0/3) y FDS-01 (1/3): con gestión cerrada no dice que está cerrada ni su horario (o añade el área de cliente
+    sin pregunta).
+  - HOR-C1 (1/3): con gestión cerrada ejecuta `transfer_to_human_agent` (la red de seguridad no transfiere, pero el
+    turno queda mal).
+  - FDS-05 (2/3, «would you like me to connect you») y BORDE-09 (2/3, no repite el teléfono).
+  - Del resto a 0/3: PISTA-04 (pide otra vez un dato en vez de enviar), PROL-05 (pregunta si seguimos), PROL-06 (vuelve
+    a preguntar por la cuenta), TARDE-02 (confirma la cifra), ASEG-03 (no remite a la aseguradora), CIERRE-01 (no
+    termina con la despedida), CORREO-20 (da los pasos antes de tiempo) y CORREO-04 (entorno: la cadena real devuelve
+    `no_coincide` y el bot transfiere después).
+  - Para la próxima vuelta: «da ya los pasos» y el plan B nuevo chocan con CORREO-20 y CORREO-09; el prompt está a 22
+    caracteres del máximo, así que cualquier arreglo pide sacar más texto a `buscar_respuesta`.
+- [ ] **Mejora de la spec §5.7 sin hacer:** que «Enviar correo» no se ejecute si el correo no coincide. Pide un Paths con
+      «Resultado para el agente» en las dos ramas, y en HappyRobot un nodo tiene un solo padre (por API no se reengancha).
+      Hoy, si no coincide, el nodo se ejecuta con `email` vacío y el MCP lo rechaza (como en la v12). Se puede hacer en
+      el editor duplicando «Resultado para el agente» en cada rama.
+- [ ] **`pista_correo`: ramas sin confirmar.** El Paso 3 (22:54, datos inventados) solo vio `no_verificado`
+      (`encontrada: false`, sin error). No se ha visto el texto real del MCP cuando no interpreta la reserva o el nombre
+      (`dato_no_interpretado`) ni el caso `verificado` con `email_hint`: este último solo con una reserva real, en la
+      puerta 0. Si el texto de error no casa, sale el detalle genérico (correcto, pero menos útil).
+- [ ] **Evals que esperan `volver_al_triaje`** (ESC-04, PRO-1, PRO-2): no se ejecutaron (R5); van en la Tarea 12.
+- **`fix_broken_vars` no se ejecutó en la Tarea 10** (R23). Variables escritas con `{{persistent_id.variable}}` y
+  comprobadas con `get_workflows` y `get_node_details`.
 
 ## Para la persona (editor de HappyRobot)
 

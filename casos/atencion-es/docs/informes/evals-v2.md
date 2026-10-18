@@ -594,3 +594,81 @@ evals). NOINI-03 falla igual con los tres modelos, así que no discrimina entre 
 **Qué no se midió.** Tres ejecuciones por eval y modelo es poco: 1 de 3 y 2 de 3 no se distinguen bien. El modo virtual de
 «Preparar transferencia» no se vio con la hora real (todo antes de las 22:00). No se midió la latencia ni los créditos por
 respuesta de cada modelo con este prompt.
+
+## Prolongación (Tarea 10)
+
+Nodo «Prolongación» `01a14f69-b09d-7689-ad9e-8e8de0fd6fb4`, modelo `fast-gpt-5.4`, prompt de 21.978/22.000 caracteres
+(`prompts/atencion-es/v2/prolongacion.md`). 100 evals en la carpeta «Bot único · Prolongación»
+(`01a150ce-7806-7daf-ae17-cc11a29300fc`) y sus 11 subcarpetas:
+
+- copiadas de Prolongaciones v12: Prolongación base (PROL-01 a 08), Devolver tarde y precio (TARDE-01 a 06), La web no
+  le deja (WEB-01 a 11), Aseguradora y empresa (ASEG-01 a 06), Correo de contraseña (CORREO-01 a 21), Cierre, Idiomas,
+  Escalado (ESC-01 a 09), Casos aprendidos y bordes (BORDE-01 a 09), Horario y fin de semana (HOR-01, HOR-02, HOR-C1 a
+  C4, HOR-A1, FDS-01, FDS-04 a 07);
+- de Minibús ES v25: ADV-1, PRO-1 y PRO-2 (carpeta «Prolongación · de la v25 (adaptadas)»);
+- nuevas: PISTA-01 a 04, NOINI-P1, BR-P1 y GC-P1.
+
+**No cuentan (R5):** ESC-04, PRO-1 y PRO-2 esperan `volver_al_triaje`, que crea la Tarea 12; no se ejecutaron. Cuentan
+97: **24 críticas** (GC-P1, ESC-02/03/05/06/09, BORDE-09, CORREO-09/10/11, ASEG-05, WEB-04, las HOR y las FDS) y 73
+del resto.
+
+**Adaptaciones al copiarlas:** las variables de la v2 (`e51cd732-….gestion_abierta`, `modo_virtual`, `idioma_nombre`;
+por defecto gestión cerrada); las tool_calls en formato OpenAI; la nota de transferencias (solo cuenta hasta la primera
+llamada). WEB-09 pasa a ofrecer el envío del correo (la v12 lo hacía así en el turno siguiente); IDIOMA-03 ofrece los
+cuatro idiomas del bloque común; BORDE-04 admite la sección de autoridades de `buscar_respuesta`; PISTA-04 usa un correo
+`example.com` para que la cadena real no consulte la API con un correo que pudiera existir.
+
+### Rondas (`fast-gpt-5.4`)
+
+| Ronda | Hora (Madrid) | Prompt | Críticas | Resto | Total |
+|---|---|---|---|---|---|
+| 9 (1.ª de Prolongación) | 18/10/2026 23:10–23:19 | versión 1 (21.931 caracteres) | 58/72 | 183/219 (83,6 %) | 241/291 |
+| 10 (2.ª, tras la vuelta de arreglos) | 18/10/2026 23:28–23:42 | versión 2 (21.978 caracteres) | 60/72 | 185/219 (84,5 %) | 245/291 |
+
+No cumple el criterio: 6 críticas por debajo de 3/3 y el resto en el 84,5 %. La ficha permite una ronda de arreglos;
+lo que sigue fallando queda aquí y en `pendientes.md`, sin más vueltas.
+
+**Vuelta de arreglos (entre las dos rondas):** plan B de la reserva no iniciada con las instrucciones de «¿Has olvidado
+tu contraseña?»; «cada pregunta, una vez»; «da ya los pasos, sin volver a preguntar si seguimos»; deletrear «letra a
+letra»; en PISTA, con el correo confirmado se envía con el nombre y la fecha que ya dio; línea de mapeo de los detalles
+movidos a `buscar_respuesta`; ESCALADO con «un dato concreto de su reserva» y, con gestión cerrada, decir en ese turno
+que está cerrada, su horario y que llame entonces; CIERRE termina con «Gracias a usted, que tenga buen día.». Se
+ajustaron las expectativas de ESC-09, BORDE-09 y HOR-C3 (el bloque común manda repetir el teléfono una vez; el
+reintento tras el fallo es del entorno), BORDE-01 («sin franquicia» es de Smart Cover, de la sección), CORREO-04 (la
+cadena real) y FDS-05.
+
+### Resultado por eval (las que no dan 3/3 en alguna ronda)
+
+| Eval | Crítica | Ronda 9 | Ronda 10 | Motivo del juez en la ronda 10 |
+|---|---|---|---|---|
+| CORREO-09 | sí | 3 | **0** | Tras dos envíos que no llegan no transfiere a `gestion` / `error_tecnico`: da el plan B. Regresión de la vuelta de arreglos (el plan B nuevo) |
+| FDS-06 | sí | 0 | **0** | Con gestión cerrada no dice que está cerrada ni su horario: da solo la alternativa |
+| FDS-01 | sí | 0 | **1** | En inglés, añade el área de cliente y no termina con pregunta |
+| HOR-C1 | sí | 3 | **1** | Con gestión cerrada ejecuta `transfer_to_human_agent` (la red de seguridad devuelve `gestion_cerrada` y no transfiere) |
+| FDS-05 | sí | 1 | **2** | Una vez pregunta «would you like me to connect you» |
+| BORDE-09 | sí | 2 | **2** | Una vez no repite el teléfono |
+| ESC-09 | sí | 2 | 3 | — (expectativa ajustada) |
+| HOR-02 | sí | 1 | 3 | — (ESCALADO, dato concreto de su reserva) |
+| HOR-C3 | sí | 1 | 3 | — (expectativa ajustada) |
+| PISTA-04 | no | 0 | 0 | Vuelve a pedir un dato que ya tiene en vez de ejecutar `enviar_correo_contrasena` |
+| PROL-05 | no | 0 | 0 | Vuelve a preguntar si seguimos en vez de dar ya los pasos |
+| PROL-06 | no | 0 | 0 | Tras decir que no tiene la tarifa, vuelve a preguntar por la cuenta |
+| TARDE-02 | no | 0 | 0 | Confirma la cifra («Sí») o pasa de dos frases sin pregunta |
+| ASEG-03 | no | 2 | 0 | No dice que la prolongación se pide a la aseguradora o mutua |
+| CIERRE-01 | no | 1 | 0 | Tras el recordatorio pregunta «¿algo más?» en vez de terminar con la despedida |
+| CORREO-04 | no | 2 | 0 | Entorno: la cadena real devuelve `no_coincide` con los datos inventados y el bot transfiere después; el juez cuenta esa transferencia |
+| CORREO-20 | no | 3 | 0 | Da también los pasos de prolongar en el mismo turno (efecto de «da ya los pasos») |
+| NOINI-P1 | no | 0 | 1 | No da completas las instrucciones de «¿Has olvidado tu contraseña?» |
+| TARDE-05 | no | 0 | 1 | No dice que el contrato no se prorroga solo ni los cincuenta euros |
+| BORDE-02 | no | 2 | 2 | Una vez da la penalización en vez de la web o la app y el precio |
+| TARDE-06 | no | 1 | 2 | Una vez usa el tema `la_web_no_le_deja` en vez de `detalles_prolongacion` |
+| TARDE-01, CORREO-14, CORREO-19 | no | 3 | 2 | Una vez no termina con pregunta |
+| CORREO-17 | no | 3 | 2 | Una vez no deletrea el punto |
+| CORREO-03, PROL-08, WEB-05 | no | 0 | 3 | — |
+| BORDE-01, CIERRE-02 | no | 2 | 3 | — |
+| Las otras 67 | | 3 | 3 | — |
+
+**Lectura.** Las dos reglas nuevas tiran en sentidos contrarios: «da ya los pasos» arregla poco en PROL-05 (sigue
+preguntando) y rompe CORREO-20 (da los pasos cuando aún tocaba preguntar); el plan B de la reserva no iniciada rompe
+CORREO-09 (crítica). Con gestión cerrada, gpt-5.4 sigue ofreciendo alternativas antes que decir el horario (FDS-01,
+FDS-06) y una vez intenta transferir (HOR-C1). Con tres ejecuciones, 1 de 3 y 2 de 3 no se distinguen bien.

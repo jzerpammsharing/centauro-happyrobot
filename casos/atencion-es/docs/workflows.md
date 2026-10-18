@@ -24,7 +24,7 @@ Module Change agrupados). La v2 empieza igual que la v1 salvo la rama «Fallback
 Los **persistent_id** son iguales en la v1 y la v2 (y son los que van en las variables `{{persistent_id.variable}}`);
 los **IDs de nodo** cambian de una versión a otra: localizar siempre por nombre.
 
-### Flujo de nodos de la v2 (18/10/2026, tras la Tarea 9)
+### Flujo de nodos de la v2 (18/10/2026, tras la Tarea 10)
 
 ```
 Inbound Call (sin líneas)
@@ -37,7 +37,7 @@ Inbound Call (sin líneas)
              │   ├ buscar_punto_de_encuentro → Punto de encuentro
              │   ├ informacion_oficina       → Información de oficina
              │   ├ consultas_alquiler        → Consultas del alquiler
-             │   ├ prolongar_alquiler        → Prolongación (prompt provisional hasta la Tarea 10)
+             │   ├ prolongar_alquiler        → Prolongación (Tarea 10)
              │   └ transfer_to_human_agent   → Preparar transferencia (Python) → ¿Transferir? (Paths)
              │                                   ├ Transferir → Initiate customer connection
              │                                   └ Fallback (vacía: no se transfiere)
@@ -45,6 +45,16 @@ Inbound Call (sin líneas)
              │                           transfer_to_human_agent → Initiate customer connection  (patrón v25)
              │      Información de oficina: consultas_alquiler (→ Module Change → Consultas del alquiler),
              │                           transfer_to_human_agent → Initiate customer connection  (patrón v25)
+             │      Prolongación (Tarea 10, fast-gpt-5.4):
+             │                           enviar_correo_contrasena → Comprobar correo (MCP consultar_reserva)
+             │                                   → Decidir envío (Python) → Enviar correo (MCP enviar_reset_contrasena)
+             │                                   → Resultado para el agente (Python)
+             │                           pista_correo → Identificar al cliente (MCP consultar_reserva)
+             │                                   → Pista del correo (Python, pista_correo.py)
+             │                           buscar_respuesta → Buscar respuesta (Python, consultas_alquiler.py)
+             │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir?
+             │                                   ├ Transferir → Initiate customer connection
+             │                                   └ Fallback (vacía)
              │      Consultas del alquiler (antes «Prolongación y consultas»; Tarea 9):
              │                           buscar_respuesta → Buscar respuesta (Python, consultas_alquiler.py)
              │                           buscar_punto_de_encuentro (→ Module Change → Punto de encuentro)
@@ -80,7 +90,22 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | Receive Customer Call | `01a14f1d-0394-725e-8b8f-bdd2b3ee34cc` | `300ae88d-ccb2-466c-a914-9f9090363a74` |
 | Triaje (antes «Triaje y horario») | `01a14f1d-0397-7925-af9e-b01d518bd921` | `c5a70932-117c-4360-9be8-adce260fe13e` |
 | prolongar_alquiler (herramienta del Triaje, Tarea 8) | `01a14f69-b092-7e6d-9203-c968520c1670` | `01a14f69-b092-7e6d-9203-c968520c1670` |
-| Prolongación (prompt provisional, Tarea 8) | `01a14f69-b09d-7689-ad9e-8e8de0fd6fb4` | `01a14f69-b09d-7689-ad9e-8e8de0fd6fb4` |
+| Prolongación (prompt; creado provisional en la Tarea 8, completo en la Tarea 10) | `01a14f69-b09d-7689-ad9e-8e8de0fd6fb4` | `01a14f69-b09d-7689-ad9e-8e8de0fd6fb4` |
+| enviar_correo_contrasena (Prolongación, Tarea 10) | `01a150c7-08df-73fd-abac-19c873b9533d` | `01a150c7-08df-73fd-abac-19c873b9533d` |
+| Comprobar correo (consultar_reserva) | `01a150c7-08ea-725d-a22c-f6dd3d5161d4` | `01a150c7-08ea-725d-a22c-f6dd3d5161d4` |
+| Decidir envío | `01a150c7-08fd-7f91-9dc8-5b5d5290896e` | `01a150c7-08fd-7f91-9dc8-5b5d5290896e` |
+| Enviar correo (enviar_reset_contrasena) | `01a150c7-090c-7f7b-b5f7-38aa1b1614d9` | `01a150c7-090c-7f7b-b5f7-38aa1b1614d9` |
+| Resultado para el agente | `01a150c7-091b-7abf-a101-539b1b7ec049` | `01a150c7-091b-7abf-a101-539b1b7ec049` |
+| pista_correo (Prolongación, Tarea 10) | `01a150c7-0928-79dc-a21c-4d9348ca038d` | `01a150c7-0928-79dc-a21c-4d9348ca038d` |
+| Identificar al cliente (consultar_reserva) | `01a150c7-0930-723c-89d9-eaeb76a0599e` | `01a150c7-0930-723c-89d9-eaeb76a0599e` |
+| Pista del correo | `01a150c7-0940-76a7-8129-f132e4373895` | `01a150c7-0940-76a7-8129-f132e4373895` |
+| buscar_respuesta (Prolongación) | `01a150c9-677e-791b-8f74-957f60586f02` | `01a150c9-677e-791b-8f74-957f60586f02` |
+| Buscar respuesta (Python, Prolongación) | `01a150c9-6786-7e05-95c4-8007aa1e06d4` | `01a150c9-6786-7e05-95c4-8007aa1e06d4` |
+| transfer_to_human_agent (Prolongación) | `01a150ca-b67d-726a-845b-19c18b2e891e` | `01a150ca-b67d-726a-845b-19c18b2e891e` |
+| Preparar transferencia (Prolongación) | `01a150ca-b684-7698-a2ff-ccdefe784483` | `01a150ca-b684-7698-a2ff-ccdefe784483` |
+| ¿Transferir? (Paths, Prolongación) | `01a150ca-dc54-7efe-8af0-9eab480b758a` | `01a150ca-dc54-7efe-8af0-9eab480b758a` |
+| Transferir (condición, Prolongación) | `01a150ca-dc5d-7979-b66d-fa2f4033c5b6` | `01a150ca-dc5d-7979-b66d-fa2f4033c5b6` |
+| Initiate customer connection (Prolongación; `outside_agent_transfer` false) | `01a150ca-dc8b-73ca-84c2-08eca941b971` | `01a150ca-dc8b-73ca-84c2-08eca941b971` |
 | transfer_to_human_agent (Triaje) | `01a14f1d-0397-721d-9dab-ad0e44f6e642` | `17c682a0-82d2-42f6-88fa-817d8cba0783` |
 | Preparar transferencia (Triaje) | `01a14f64-277b-7226-8e39-a8ef0274949f` | `01a14f64-277b-7226-8e39-a8ef0274949f` |
 | ¿Transferir? (Paths, Triaje) | `01a14f66-5245-7cb6-9718-59dd25ecc3f5` | `01a14f66-5245-7cb6-9718-59dd25ecc3f5` |
@@ -112,6 +137,13 @@ del prompt). **Aviso para la Tarea 10:** el nodo igual que se cree en Prolongaci
 Modelos de la v1/v2 (heredados de la v25): Triaje, Punto de encuentro `fast-turbo-one` (gpt-4.1-fast); Información de
 oficina `fast-gpt-4.1`; Prolongación y consultas `fast-gpt-5.4`; los dos extract `gpt-5.6-luna`. En la v2, Consultas
 del alquiler pasa a `fast-gpt-4.1` (Tarea 9) y se confirma tras la comparación del spec §7.3 (Tarea 9c, D-005).
+Prolongación (Tarea 10) usa `fast-gpt-5.4`, sin `initial_message`.
+
+**Tarea 10 (18/10/2026):** el prompt «Prolongación» deja de ser provisional (21.978 caracteres; copia en
+`prompts/atencion-es/v2/prolongacion.md`) y lleva sus cuatro herramientas, creadas por API: la cadena del correo de
+contraseña de Prolongaciones v12 (misma credencial «Centauro MCP» y mismo código), `pista_correo` (nueva, spec §5.7),
+`buscar_respuesta` (Python «Buscar respuesta», el mismo código que Consultas) y la transferencia con el patrón de
+Consultas. Detalle: `herramientas-prolongacion.md`, `enviar-correo-contrasena.md` y `pista-correo.md`.
 
 ### Cuidado al editar por API (duplicado)
 
