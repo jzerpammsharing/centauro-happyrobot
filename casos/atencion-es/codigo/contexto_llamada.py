@@ -8,6 +8,8 @@
 # - opcion_menu (minibus | prolongacion) e idioma salen de la línea marcada (to_number), con la tabla LINEAS. Una
 #   línea desconocida, un número oculto o una llamada web dan minibús en español, salvo que opcion_prueba diga
 #   otra cosa (solo se mira si la línea no está en LINEAS).
+# - origen_opcion dice de dónde sale opcion_menu: «linea» (la línea está en LINEAS), «prueba» (opcion_prueba
+#   válida) o «por_defecto» (ni lo uno ni lo otro). En producción, «por_defecto» indica una línea no reconocida.
 # - Horarios en hora peninsular (el horario de verano se calcula a mano): modo virtual de 22:00 a 08:00; Gestión
 #   abierta de lunes a viernes de 08:00 a 21:00, salvo festivos nacionales.
 # - Las demás salidas son las de «Calcular horario nocturno» de la v25 (spec §5.2).
@@ -202,13 +204,17 @@ def saludos(hora):
 # Línea marcada, idioma y mensaje inicial
 # ---------------------------------------------------------------
 def identificar_linea(digitos, opcion_prueba, lineas):
-    """(opción del menú, idioma) a partir de los dígitos del número marcado."""
+    """(opción del menú, idioma, origen) a partir de los dígitos del número marcado. El origen es «linea» (la
+    línea está en `lineas`), «prueba» (no está y opcion_prueba es válida) o «por_defecto» (no está y no hay
+    opcion_prueba válida)."""
     for clave, (opcion, idioma) in lineas.items():
         if clave and digitos.endswith(clave):
-            return opcion, idioma
+            return opcion, idioma, "linea"
     # Línea desconocida, número oculto o llamada web: minibús en español, salvo opcion_prueba
     prueba = str(opcion_prueba or "").strip().lower()
-    return (prueba if prueba in OPCIONES else "minibus"), "es"
+    if prueba in OPCIONES:
+        return prueba, "es", "prueba"
+    return "minibus", "es", "por_defecto"
 
 
 def mensaje_inicial(opcion, idioma, modo_virtual, saludo, saludo_en):
@@ -290,8 +296,9 @@ def contexto(input_data, ahora_utc=None, lineas=LINEAS):
     # Idioma de atención y opción del menú según el número marcado por el cliente. Nos quedamos solo con los
     # dígitos para que el formato no afecte.
     digitos = "".join(c for c in str(input_data.get("to_number") or "") if c.isdigit())
-    opcion, idioma = identificar_linea(digitos, input_data.get("opcion_prueba"), lineas)
+    opcion, idioma, origen = identificar_linea(digitos, input_data.get("opcion_prueba"), lineas)
     output["opcion_menu"] = opcion
+    output["origen_opcion"] = origen
     output["idioma"] = idioma
     output["idioma_nombre"] = "English" if idioma == "en" else "espanol"
     output["numero_marcado"] = digitos

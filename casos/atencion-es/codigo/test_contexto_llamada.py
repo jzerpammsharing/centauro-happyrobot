@@ -74,6 +74,31 @@ CASOS = [
      {"opcion_menu": "minibus", "idioma": "es"}),
     ("OPCION_PRUEBA vacía en la web → minibús es", {"to_number": "web", "from_number": "web", "opcion_prueba": ""},
      MARTES_10, {"opcion_menu": "minibus", "idioma": "es"}),
+    # origen_opcion: linea (la línea está en LINEAS), prueba (opcion_prueba válida) o por_defecto
+    ("origen: línea de Prolongación", PROLONGACION_ES, MARTES_10, {"origen_opcion": "linea"}),
+    ("origen: línea de Minibús inglesa", MINIBUS_EN, MARTES_10, {"origen_opcion": "linea"}),
+    ("origen: la línea conocida gana a opcion_prueba", {**MINIBUS_ES, "opcion_prueba": "prolongacion"}, MARTES_10,
+     {"origen_opcion": "linea"}),
+    ("origen: opcion_prueba válida", {"to_number": "web", "from_number": "web", "opcion_prueba": "prolongacion"},
+     MARTES_10, {"origen_opcion": "prueba", "opcion_menu": "prolongacion"}),
+    ("origen: opcion_prueba válida con mayúsculas y espacios",
+     {"to_number": "web", "from_number": "web", "opcion_prueba": " Prolongacion "}, MARTES_10,
+     {"origen_opcion": "prueba", "opcion_menu": "prolongacion"}),
+    ("origen: opcion_prueba minibus también cuenta como prueba",
+     {"to_number": "web", "from_number": "web", "opcion_prueba": "minibus"}, MARTES_10,
+     {"origen_opcion": "prueba", "opcion_menu": "minibus"}),
+    ("origen: línea desconocida sin opcion_prueba", {"to_number": "+34900000999", "from_number": "+34600000000"},
+     MARTES_10, {"origen_opcion": "por_defecto", "opcion_menu": "minibus", "idioma": "es"}),
+    ("origen: opcion_prueba vacía", {"to_number": "web", "from_number": "web", "opcion_prueba": ""}, MARTES_10,
+     {"origen_opcion": "por_defecto"}),
+    ("origen: opcion_prueba ausente y número oculto", {"to_number": "", "from_number": ""}, MARTES_10,
+     {"origen_opcion": "por_defecto", "opcion_menu": "minibus", "idioma": "es"}),
+    ("origen: opcion_prueba no válida (con tilde)",
+     {"to_number": "web", "from_number": "web", "opcion_prueba": "prolongación"}, MARTES_10,
+     {"origen_opcion": "por_defecto", "opcion_menu": "minibus", "idioma": "es"}),
+    ("origen: opcion_prueba no válida (otro valor)",
+     {"to_number": "web", "from_number": "web", "opcion_prueba": "gestion"}, MARTES_10,
+     {"origen_opcion": "por_defecto", "opcion_menu": "minibus"}),
     ("21:00 en punto cierra Gestión", PROLONGACION_ES, datetime(2026, 10, 20, 19, 0, tzinfo=UTC),
      {"gestion_abierta": False, "modo_virtual": False}),
     ("20:59 sigue abierta", PROLONGACION_ES, datetime(2026, 10, 20, 18, 59, tzinfo=UTC),
@@ -117,13 +142,13 @@ CASOS = [
       "saludo_localizado": "buenos dias", "idioma_nombre": "espanol", "festivo_nacional": False}),
 ]
 
-# Todas las salidas de la v25 más opcion_menu y festivo_nacional
+# Todas las salidas de la v25 más opcion_menu, origen_opcion y festivo_nacional
 SALIDAS = {
     "nocturno_wet", "nocturno_cet", "nocturno_eet", "nocturno_murcia",
     "hora_wet", "hora_cet", "hora_eet", "callcenter_abierto", "modo_virtual",
     "saludo", "saludo_en", "saludo_localizado", "idioma", "idioma_nombre", "numero_marcado",
     "mensaje_inicial", "recording_id", "telefono_dictado", "gestion_abierta", "whatsapp_disponible",
-    "horario_verano", "opcion_menu", "festivo_nacional",
+    "horario_verano", "opcion_menu", "origen_opcion", "festivo_nacional",
 }
 
 # (nombre, instante UTC, hora de Madrid esperada «AAAA-MM-DD HH:MM»)
@@ -168,10 +193,11 @@ if set(out) != SALIDAS:
     print("FALLO salidas: sobran %r, faltan %r" % (sorted(set(out) - SALIDAS), sorted(SALIDAS - set(out))))
 
 # Con las líneas del repo (marcadores, sin números reales) ninguna llamada reconoce la línea: minibús en español
+# y origen_opcion = por_defecto (la señal de que al pegar el código se olvidaron los números)
 total += 1
 out = contexto({"to_number": "+34900000222", "from_number": "+34600000000"}, MARTES_10)
-if out["opcion_menu"] != "minibus" or out["idioma"] != "es" or len(LINEAS) != 4 \
-        or any(clave.isdigit() for clave in LINEAS):
+if out["opcion_menu"] != "minibus" or out["idioma"] != "es" or out["origen_opcion"] != "por_defecto" \
+        or len(LINEAS) != 4 or any(clave.isdigit() for clave in LINEAS):
     fallos += 1
     print("FALLO LINEAS del repo: %r %r" % (LINEAS, out["opcion_menu"]))
 
