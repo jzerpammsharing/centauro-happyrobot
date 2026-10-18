@@ -1,5 +1,45 @@
 # Pendientes del caso Prolongaciones
 
+## v12 · envío del correo de contraseña (D-008, sin publicar)
+- [ ] **Probar el caso «coincide» de punta a punta.** Solo se ha probado «no coincide» (con datos de
+      prueba). Hace falta una reserva real en curso, con su nombre, fecha de nacimiento y un correo que
+      alguien del equipo pueda abrir. Comprobar que llega el correo, qué dice y que el enlace funciona.
+- [ ] **Confirmar qué contiene el correo de `ResetPassword`.** La API (`POST /api/v1/Customer/ResetPassword`)
+      solo responde `{aceptado: true}`. Ni el contrato ni el código del MCP dicen si el correo trae un
+      enlace para crear la contraseña o una contraseña. El prompt de la v12 da por hecho que es el mismo
+      correo de «¿Has olvidado tu contraseña?», con enlace («No le envío una contraseña: el correo trae un
+      enlace…», «dice "restablecer contraseña"»). Si trae otra cosa, hay que cambiar esas frases.
+      Comprobarlo con IT de Centauro o en la prueba del caso «coincide».
+- [ ] **Confirmar qué correo compara `consultar_reserva`.** Si la ficha de una reserva de Booking o de
+      mutua guarda un correo distinto del de la cuenta (el de la oficina), el bot dirá «no coincide» a
+      clientes que dan el correo bueno y los transferirá. Preguntar a Centauro o probar con una reserva
+      de agencia.
+- [ ] **Reservas que no han empezado:** con email, `consultar_reserva` solo devuelve reservas ya
+      iniciadas. Decidir si en ese caso se ofrece el envío (en septiembre los agentes lo hacían).
+- [ ] **No hay entorno de pruebas del MCP.** La credencial «Centauro MCP Credential Stagin» llega al
+      entorno *production* de Railway, que usa la API real de Centauro (logs del 17/10), también desde
+      las pruebas de HappyRobot en *development*. Valorar apuntar las pruebas al entorno *staging* de
+      Railway con `DATA_PROVIDER=mock`, para probar «coincide» sin enviar correos reales.
+- [ ] **Pista y comprobación del dominio del correo (mejora, decidido dejarla para después el 17/10).**
+      `consultar_reserva` verificada devuelve `email_hint` (solo el dominio). Ningún endpoint devuelve el
+      correo completo.
+      - **Pista:** con identificación por número de reserva o DNI, Daniel podría decir «el correo de su
+        reserva es de gmail» antes de pedirlo.
+      - **Comprobación propuesta:** si el dominio del correo dictado no coincide con `email_hint`, decirle
+        que el correo registrado no coincide y pasarle con un agente.
+      - **No existe un verificador de email.** Ni la API de Centauro ni el MCP comparan un correo con una
+        reserva. El email solo sirve como clave de búsqueda (`Booking/Search` con email + fecha de
+        nacimiento; el nombre lo compara el MCP). Si se envían número de reserva y email juntos, el MCP
+        descarta el email. Para la comprobación hay que identificar por número o DNI y comparar el
+        dominio en un nodo Python, o pedir a Centauro un endpoint que compruebe correo y reserva.
+- [ ] **Prueba por voz** (dictado del correo, deletreo, tiempo total de la llamada con el límite de 600 s).
+- [ ] **Evals de la V11 que cambian de expectativa con la v12:** PROL-03, PROL-04, ASEG-06, WEB-08 y
+      WEB-09 esperan las instrucciones de la web, «puede pedirlo otra vez» o la transferencia directa; la
+      v12 ofrece antes el envío del correo. Decidir si se actualizan (las evals son del workflow, no de la
+      versión) o se crean variantes. Detalle en `informes/2026-10-17-v12-correo-contrasena.md`.
+- [ ] **Antes de publicar:** rutina diaria (`rutinas/informe-prolongaciones.md`) con los campos nuevos
+      del extract y el CLAUDE.md del caso, que ya refleja la segunda herramienta.
+
 ## Incidencias abiertas
 - [ ] **Transferencias a Gestión con la cola cerrada (causa sin arreglar).**
   - **Qué pasa:** con Gestión cerrada, «Resolver colas» pone el texto «NO DISPONIBLE AHORA…» en

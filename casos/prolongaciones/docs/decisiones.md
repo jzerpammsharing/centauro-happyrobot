@@ -21,6 +21,45 @@ Plantilla:
 
 ---
 
+## D-008 · 2026-10-17 · v12: Daniel envía el correo de contraseña si el correo coincide (fase 1)
+- **Qué:** versión nueva `v12 · V11 + envío del correo de contraseña (fase 1)` (`mnhi8x9j8ce7`), fork
+  de la V11. Spec: `specs/2026-10-17-envio-correo-contrasena.md`.
+  - **Herramienta nueva `enviar_correo_contrasena`** (email, nombre completo, fecha de nacimiento), con
+    cuatro nodos en cadena sobre «Centauro MCP»: `consultar_reserva` buscando por el email dictado →
+    Python «Decidir envío» → `enviar_reset_contrasena` → Python «Resultado para el agente».
+  - **Regla de negocio:** el agente pide el correo que el cliente dio en la oficina; si coincide con el
+    de su alquiler (la consulta por ese email lo encuentra y verifica nombre y fecha), se llama a la API
+    actual y se envía; si no coincide, no se envía nada, se le dice que no coincide (sin decir qué dato
+    falla) y se le pasa con un agente (motivo nuevo `correo_no_coincide`). Con Gestión cerrada no
+    transfiere: plan B de la web y horario.
+  - **El «no se envía» no depende del modelo:** si no coincide, el email llega vacío al MCP de envío y
+    este lo rechaza por validación.
+  - **Prompt:** sección nueva «ENVÍO DEL CORREO DE CONTRASEÑA» con el guion y los imprevistos del
+    análisis de 21 llamadas reales de septiembre (decir que la cuenta ya existe, avisar de que el correo
+    dice «restablecer» pero sirve para crearla, esperar a que confirme que le ha llegado, «no le envío
+    una contraseña, sino un enlace»…). Las instrucciones de «¿Has olvidado tu contraseña?» quedan como
+    plan B. Se levanta la prohibición de pedir el correo, el nombre y la fecha solo para este envío;
+    nunca reserva, matrícula ni DNI. Como mucho dos envíos por llamada.
+  - **`transfer_to_human_agent`:** motivo `correo_no_coincide` y casos del correo en Gestión.
+  - **Extract:** 5 campos nuevos (`correo_contrasena_ofrecido`, `correo_contrasena_resultado`,
+    `envios_correo`, `correo_recibido_confirmado`, `motivo_no_envio`), `correo_no_coincide` en
+    `motivo_transferencia` y `pidio_dato_personal` sin contar los datos del envío aceptado. No se quita
+    ningún campo (los usa la rutina diaria).
+- **Por qué:**
+  - En septiembre, antes del bot, los agentes de Gestión enviaron este correo en 21 de 66 llamadas de
+    prolongación (11 a clientes de mutua que nunca habían entrado en centauro.net). La V11 solo puede
+    explicarlo y, si el correo no llega, transfiere a Gestión, que en fin de semana está cerrada.
+  - El MCP de envío (`enviar_reset_contrasena`) solo acepta `email` y no comprueba nada: sin la
+    comprobación previa, el bot enviaría a cualquier correo dictado y no sabría si es el de la cuenta.
+- **Descartado:** confirmar el correo con una pista enmascarada («el que empieza por jota eme»), como
+  proponía el brief: la API nunca devuelve el correo al agente virtual (solo el dominio, `email_hint`).
+- **Afecta a:** v12 (sin publicar).
+- **Quién:** jzerpa.
+- **Estado:** construida en el fork, sin publicar. Evals nuevas CORREO-01 a 21 en verde en su última
+  ejecución; la regresión solo falla en evals que cambian de expectativa por diseño o que ya fallaban en
+  la V11 (informe `informes/2026-10-17-v12-correo-contrasena.md`). Faltan la prueba del caso «coincide»
+  con una reserva real y la prueba por voz (ver pendientes).
+
 ## D-007 · 2026-10-11 · Rutina diaria: prompt en el repo, actualizado a la V11 y sin la comparación V8/V7
 - **Qué:** el prompt de la rutina diaria de calidad pasa al repo
   (`rutinas/informe-prolongaciones.md`), con estos cambios respecto al de la nube (del 09/10):
