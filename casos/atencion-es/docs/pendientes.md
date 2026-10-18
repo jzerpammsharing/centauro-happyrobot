@@ -10,7 +10,12 @@
       ajustes del workflow ni tabla de Twin.
 - [ ] Que un Module Change pueda volver al Triaje.
 - [ ] Que el módulo de destino ve el historial.
-- [ ] Cómo cortar la cadena de la transferencia sin transferir con Gestión cerrada, y qué recibe el agente.
+- [ ] Cómo cortar la cadena de la transferencia sin transferir con Gestión cerrada, y qué recibe el agente. **Forma
+      provisional elegida en la Tarea 8:** Paths «¿Transferir?» después de «Preparar transferencia» (rama «Fallback»
+      sin hijos); detalle en «Comprobaciones de la Tarea 8» y en `prompts/atencion-es/v2/transfer.md`. **Falta la
+      comprobación conversacional (Tarea 17):** llamada web con `OPCION_PRUEBA = prolongacion` y Gestión cerrada;
+      al pedir Gestión, el agente recibe `resultado: gestion_cerrada`, no sale ninguna llamada en RingCentral y el bot
+      sigue hablando.
 - [ ] Que el whisper es lo que mantiene al bot en la llamada tras transferir (confirmar con HappyRobot).
 - [ ] Que un nodo Python acepta el código de `buscar_respuesta`.
 - [ ] Que la tabla de Twin se crea sola con los campos del extract (18/10/2026: aún no existe la tabla del workflow
@@ -18,7 +23,9 @@
 - [ ] Horario real de las colas de Minibús y Nueva Reserva de noche (RingCentral, solo lectura).
 - [ ] Cómo se mueve una línea entre workflows (publicar el antiguo sin ella o despublicarlo; números que siguen
       en versiones antiguas y borradores).
-- [ ] Calendario de festivos nacionales de 2026 y 2027 en «Contexto de la llamada».
+- [x] Calendario de festivos nacionales de 2026 y 2027 en «Contexto de la llamada» (código de la Tarea 1, pegado en
+      la v2 en la Tarea 8, 18/10/2026). Hay que añadir 2028 antes de que acabe 2027 (aquí y en «Preparar
+      transferencia»).
 
 ## Comprobaciones de la Tarea 6 (18/10/2026)
 
@@ -59,6 +66,48 @@ las comprobaciones de los apartados 11.1 y 11.7 del spec:
   `add` solo inserta un nodo nuevo entre un padre y sus hijos). **Para las tareas siguientes: no borrar nunca un
   nodo con hijos esperando que se reenganchen.**
 
+## Comprobaciones de la Tarea 8 (18/10/2026)
+
+Entrada, transferencias y Triaje en la v2 (detalle en `.superpowers/sdd/2026-10-18-bot-unico-construccion/task-8-report.md`
+y en las copias de `prompts/atencion-es/v2/`):
+
+- **«Contexto de la llamada» y «Resolver colas»** pegados y renombrados (los persistent_id no cambian). `LINEAS` lleva
+  en HappyRobot los números reales de las cuatro líneas actuales (leídos de los triggers de Minibús ES v25 y de
+  Prolongaciones V11); en el repo siguen los marcadores y el trigger de la v2 sigue sin números. El comentario del
+  código de la v25 cita como línea española de Minibús una que ya no está en su trigger (desde la v22 la usa
+  Reembolsos): la que vale es la del trigger.
+- **Variable `OPCION_PRUEBA`**: HappyRobot no admite valores vacíos; vale `ninguna` (el código lo trata como vacía). Para
+  la Tarea 17, ponerla a `prolongacion` en *development*. La salida fijada del trigger de la v2 quedó con
+  `from_number` = `to_number` = `web` (solo afecta a `test_node`).
+- **Transferencia del Triaje** con el patrón nuevo (herramienta con `cola` → «Preparar transferencia» → Paths →
+  Transfer). Hallazgos para las Tareas 9 a 11:
+  - `test_node` de un Python no usa la salida fijada de una herramienta (los argumentos llegan vacíos): para probar
+    «Preparar transferencia» hay que poner `cola` como texto fijo y volver a dejar la variable.
+  - `test_node` no ejecuta un Paths («unable to find activityType=PathsExecutor»).
+  - Un Transfer creado por API trae `outside_agent_transfer: true` por defecto y falla con «whisper transfer not
+    supported for outside agent transfers»: hay que ponerlo a `false`.
+  - Un Transfer con número vacío **se ejecuta** en `test_node` (sale `transfer_succeeded: true`, simulado): por eso
+    se descartó cortar la cadena con el número vacío.
+  - En una herramienta, un `{{persistent_id.variable}}` dentro de un texto plano se queda literal: la variable tiene
+    que ir como nodo de variable de Plate.
+  - `execution` de la herramienta no se guarda por API; se queda el de por defecto.
+  - El Transfer antiguo del Triaje (`b4439401-…`) se borró (era una hoja) y se creó uno nuevo bajo la rama
+    «Transferir». **Para la Tarea 13:** el extract «Registrar resultado de la llamada» sigue leyendo
+    `17c682a0-….extension_destino` (el parámetro ya se llama `cola`) y `b4439401-….transfer_succeeded` (nodo borrado);
+    `fix_broken_vars` no lo detecta porque el extract pasa la prueba.
+- **Evals del Triaje** (37: 24 de la v25 adaptadas y 13 nuevas) en las carpetas «Bot único · Triaje» y «Triaje · de la
+  v25 (adaptadas)». Cosas del entorno de evals que conviene saber para las Tareas 9 a 12:
+  - `manage_custom_evals get` no devuelve `test_messages`, `variables` ni `expected_tool_calls`: las conversaciones
+    de la v25 se rehicieron a partir del nombre y del resultado esperado de cada eval.
+  - Las evals **ejecutan la cadena de la herramienta**: un salto pasa la conversación al módulo siguiente (su texto
+    aparece después de la llamada) y la transferencia ejecuta «Preparar transferencia» con la hora real (en fin de
+    semana, `cola = gestion` devuelve `gestion_cerrada`) y sin las salidas de «Resolver colas» si no se pasan como
+    variables (`cola_no_valida`). La transferencia nunca se completa, así que el bot reintenta y da el teléfono.
+    El resultado esperado tiene que decir que solo se valora el turno del módulo hasta la llamada; si no, el juez
+    suspende por el texto posterior.
+  - Al cambiar una eval se reinicia su lista de ejecuciones.
+- **Prompt «Prolongación»** provisional (una línea) bajo `prolongar_alquiler`, hasta la Tarea 10.
+
 ## Para la persona (editor de HappyRobot)
 
 - [ ] **Quitar el Paths «Entrada» y su condición «Siempre» de la v2** y dejar «Receive Customer Call» colgando
@@ -71,7 +120,8 @@ las comprobaciones de los apartados 11.1 y 11.7 del spec:
 - [ ] **Líneas telefónicas:** la v1 y la v2 no tienen números en el trigger. La tabla línea → opción del menú y los
       números se ponen al pasar a producción (puerta 0 del spec §8.4); ahora mismo no entra ninguna llamada por
       este workflow. Los números van como `<LINEA_PROLONGACION_ES>`, `<LINEA_PROLONGACION_EN>`,
-      `<LINEA_MINIBUS_ES>` y `<LINEA_MINIBUS_EN>` en el repo.
+      `<LINEA_MINIBUS_ES>` y `<LINEA_MINIBUS_EN>` en el repo; en `LINEAS` de «Contexto de la llamada» de la v2 ya
+      están los reales (Tarea 8). Si cambia alguna línea antes de producción, actualizar `LINEAS`.
 - [ ] **Bloquear la v1** (`manage_versions action=lock`) si se quiere proteger la referencia: el fork no la bloquea.
       No se hizo por no estar pedido.
 

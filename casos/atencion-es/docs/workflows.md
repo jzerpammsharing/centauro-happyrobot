@@ -24,27 +24,30 @@ Module Change agrupados). La v2 empieza igual que la v1 salvo la rama «Fallback
 Los **persistent_id** son iguales en la v1 y la v2 (y son los que van en las variables `{{persistent_id.variable}}`);
 los **IDs de nodo** cambian de una versión a otra: localizar siempre por nombre.
 
-### Flujo de nodos de la v2 (18/10/2026)
+### Flujo de nodos de la v2 (18/10/2026, tras la Tarea 8)
 
 ```
 Inbound Call (sin líneas)
- └ Calcular horario nocturno        (Python; idioma, modo virtual, gestion_abierta, telefono_dictado…)
-   └ Resolver colas por idioma      (Python; cola_* por idioma, URI SIP)
+ └ Contexto de la llamada           (Python; opcion_menu, idioma, modo virtual, gestion_abierta, festivo_nacional…)
+   └ Resolver colas                 (Python; cola_* por idioma, URI SIP; Gestión siempre con su extensión)
      └ Entrada (Paths)              ← PENDIENTE DE QUITAR a mano (ver pendientes.md)
        └ Siempre (condición)
          └ Receive Customer Call    (agente de voz «Shuttle Prompt»)
-             ├ Triaje y horario     (prompt, raíz del agente)
+             ├ Triaje               (prompt, raíz del agente; antes «Triaje y horario»)
              │   ├ buscar_punto_de_encuentro → Punto de encuentro
              │   ├ informacion_oficina       → Información de oficina
              │   ├ consultas_alquiler        → Prolongación y consultas
-             │   └ transfer_to_human_agent   → Initiate customer connection
+             │   ├ prolongar_alquiler        → Prolongación (prompt provisional hasta la Tarea 10)
+             │   └ transfer_to_human_agent   → Preparar transferencia (Python) → ¿Transferir? (Paths)
+             │                                   ├ Transferir → Initiate customer connection
+             │                                   └ Fallback (vacía: no se transfiere)
              │      Punto de encuentro:  consultas_alquiler (→ Module Change → Prolongación y consultas),
-             │                           transfer_to_human_agent → Initiate customer connection
+             │                           transfer_to_human_agent → Initiate customer connection  (patrón v25)
              │      Información de oficina: consultas_alquiler (→ Module Change → Prolongación y consultas),
-             │                           transfer_to_human_agent → Initiate customer connection
+             │                           transfer_to_human_agent → Initiate customer connection  (patrón v25)
              │      Prolongación y consultas: buscar_punto_de_encuentro (→ Module Change → Punto de encuentro),
              │                           informacion_oficina (→ Module Change → Información de oficina),
-             │                           transfer_to_human_agent → Initiate customer connection
+             │                           transfer_to_human_agent → Initiate customer connection  (patrón v25)
              └ Registrar resultado de la llamada (AI Extract, 29 campos)
                └ Registrar consultas del alquiler (AI Extract, 14 campos)
                  └ Preparar WhatsApp minibús (Python)
@@ -53,7 +56,11 @@ Inbound Call (sin líneas)
                        └ Fallback (vacía)
 ```
 
-La cadena objetivo del plan (Paso 5 de la Tarea 6) es Inbound Call → Calcular horario nocturno → Resolver colas →
+Variable del workflow: `OPCION_PRUEBA` (id `01a14f5f-012a-7715-b762-8f7d4acf1724`), `ninguna` en los tres entornos
+(HappyRobot no admite valores vacíos); con `prolongacion` en *development* una llamada web entra por la línea de
+Prolongación.
+
+La cadena objetivo del plan (Paso 5 de la Tarea 6) es Inbound Call → Contexto de la llamada → Resolver colas →
 Receive Customer Call. **Hoy en la v2 queda «Entrada» + «Siempre» entre «Resolver colas» y «Receive Customer
 Call»**: por API no se puede reenganchar el agente (borrar un nodo borra todo su subárbol; ver `pendientes.md`).
 
@@ -62,12 +69,19 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | Nodo | ID en la v2 | persistent_id |
 |---|---|---|
 | Inbound Call | `01a14f1d-0391-742b-90a7-7b69d9a953d9` | `33c2681a-9160-413c-8010-e455bd4023c6` |
-| Calcular horario nocturno | `01a14f1d-0393-7fb7-9e26-7687ebda282f` | `e51cd732-f403-4ef7-95d4-490347960a93` |
-| Resolver colas por idioma | `01a14f1d-0394-7f91-abea-664941d88ad0` | `081e2b5d-b260-41a6-bd2a-6f82b26193d1` |
+| Contexto de la llamada (antes «Calcular horario nocturno») | `01a14f1d-0393-7fb7-9e26-7687ebda282f` | `e51cd732-f403-4ef7-95d4-490347960a93` |
+| Resolver colas (antes «Resolver colas por idioma») | `01a14f1d-0394-7f91-abea-664941d88ad0` | `081e2b5d-b260-41a6-bd2a-6f82b26193d1` |
 | Entrada (Paths) | `01a14f1d-0392-7afe-b494-0165acee1a73` | `3380d3e5-8e28-4cd1-bc12-66646795e46c` |
 | Siempre (condición de «Entrada») | `01a14f1d-039a-75a0-9197-ac48a7b70c5f` | `34d2bf66-5e03-4e89-b1dc-02c4d7f5b3af` |
 | Receive Customer Call | `01a14f1d-0394-725e-8b8f-bdd2b3ee34cc` | `300ae88d-ccb2-466c-a914-9f9090363a74` |
-| Triaje y horario | `01a14f1d-0397-7925-af9e-b01d518bd921` | `c5a70932-117c-4360-9be8-adce260fe13e` |
+| Triaje (antes «Triaje y horario») | `01a14f1d-0397-7925-af9e-b01d518bd921` | `c5a70932-117c-4360-9be8-adce260fe13e` |
+| prolongar_alquiler (herramienta del Triaje, Tarea 8) | `01a14f69-b092-7e6d-9203-c968520c1670` | `01a14f69-b092-7e6d-9203-c968520c1670` |
+| Prolongación (prompt provisional, Tarea 8) | `01a14f69-b09d-7689-ad9e-8e8de0fd6fb4` | `01a14f69-b09d-7689-ad9e-8e8de0fd6fb4` |
+| transfer_to_human_agent (Triaje) | `01a14f1d-0397-721d-9dab-ad0e44f6e642` | `17c682a0-82d2-42f6-88fa-817d8cba0783` |
+| Preparar transferencia (Triaje) | `01a14f64-277b-7226-8e39-a8ef0274949f` | `01a14f64-277b-7226-8e39-a8ef0274949f` |
+| ¿Transferir? (Paths, Triaje) | `01a14f66-5245-7cb6-9718-59dd25ecc3f5` | `01a14f66-5245-7cb6-9718-59dd25ecc3f5` |
+| Transferir (condición) | `01a14f66-524e-78a8-a01b-fd9c184bbe1d` | `01a14f66-524e-78a8-a01b-fd9c184bbe1d` |
+| Initiate customer connection (Triaje; sustituye a `b4439401-…`, borrado) | `01a14f66-5252-70a4-81ad-fa8d1cc6b438` | `01a14f66-5252-70a4-81ad-fa8d1cc6b438` |
 | Punto de encuentro | `01a14f1d-0397-7c91-b2bc-a12efeed5595` | `a80fca22-b295-41e3-a735-a3c878af4eee` |
 | Información de oficina | `01a14f1d-0396-717d-8b6f-52f789dbe9a3` | `0c60218b-8901-47bd-95de-40e0e1af1296` |
 | Prolongación y consultas | `01a14f1d-0397-7b22-b5ce-bcb398a7605e` | `38378785-0846-4920-b41a-583f7c5773fb` |
@@ -96,5 +110,6 @@ oficina `fast-gpt-4.1`; Prolongación y consultas `fast-gpt-5.4`; los dos extrac
 | — | — | — | — |
 
 Ninguna: la v1 y la v2 tienen el trigger «Inbound Call» sin números, a propósito (dos workflows con la misma
-línea es justo lo que no se quiere hasta producción). La tabla línea → opción y los números se ponen al pasar a
-producción (`pendientes.md`, puerta 0).
+línea es justo lo que no se quiere hasta producción). Los números se ponen en el trigger al pasar a producción
+(`pendientes.md`, puerta 0). La tabla línea → opción (`LINEAS` de «Contexto de la llamada») ya lleva en la v2 los
+números reales de las cuatro líneas actuales (Tarea 8; en el repo siguen como marcadores).
