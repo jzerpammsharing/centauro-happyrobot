@@ -9,6 +9,7 @@ decidir si se adopta esta forma de trabajar (entonces irá a `docs/decisiones.md
 | Bloque | Lo usan hoy (copiado a mano) | Notas |
 |---|---|---|
 | `consultas-alquiler.md` | Prolongaciones (V11, de DEVOLVER TARDE a TELÉFONOS) y Minibús España (módulo «Prolongación y consultas») | Base: Prolongaciones V11. Marca lo que solo tiene Minibús, lo nuevo del artefacto «Respuestas de Daniel» y lo que falta decidir |
+| `reglas-comunes.md` | Nadie todavía. Va al principio de los cinco módulos del bot único de Atención España (v2, Tareas 8 a 11) | Identidad, voz, idioma, modo virtual, Gestión cerrada, teléfonos, transferencias y cambios de módulo. Sin notas `>`: las fuentes van en la cabecera y solo se copia el texto entre las líneas INICIO y FIN (4.500 caracteres como mucho). Lo comprueba `casos/atencion-es/codigo/comprobar_prompts.py` |
 
 ## Reglas
 - Las líneas que empiezan por `>` son notas (origen, contradicciones, lo que falta decidir) y **no van al
