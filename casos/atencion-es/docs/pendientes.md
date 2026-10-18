@@ -1,7 +1,8 @@
 # Pendientes del caso Atención España
 
 ## Antes de construir
-- [ ] Aprobar el spec (`specs/2026-10-18-bot-unico-arquitectura.md`) y pasar al plan de construcción.
+- [x] Aprobar el spec (`specs/2026-10-18-bot-unico-arquitectura.md`) (18/10/2026).
+- [ ] Revisar el plan de construcción (`planes/2026-10-18-bot-unico-construccion.md`) y elegir cómo se ejecuta.
 
 ## Al construir (comprobaciones del spec, §11)
 - [ ] Qué copia el duplicado de la v25: Module Change, evals, agente de voz.

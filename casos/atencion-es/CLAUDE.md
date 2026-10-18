@@ -25,6 +25,7 @@ entre los que el bot salta con Module Change. Va absorbiendo las opciones del me
 | `docs/workflows.md` | Ficha del workflow y tabla de versiones |
 | `docs/pendientes.md` | Incidencias abiertas, comprobaciones y mejoras |
 | `docs/specs/` | Specs (arquitectura del bot único) |
+| `docs/planes/` | Planes de construcción (`2026-10-18-bot-unico-construccion.md`) |
 | `prompts/atencion-es/<versión>/` | Copias de los prompts y de la configuración de los nodos |
 | `codigo/` | Python de los nodos y sus pruebas (al construir) |
 | `rutinas/` | Prompt de la rutina diaria de calidad (al construir) |
