@@ -89,8 +89,14 @@ caso("bloque: nombra las cuatro colas y los resultados gestion_cerrada y cola_no
                                "cola_no_valida", "transfer_to_human_agent", "motivo_transferencia",
                                "resumen_para_agente")))
 
-caso("bloque: francés con los cuatro idiomas",
-     "español, inglés, portugués o italiano" in BLOQUE)
+caso("bloque: dice los cuatro idiomas que atiende y, en francés, que se ofrecen nombrándolos",
+     "Atiendes en español, inglés, italiano y portugués" in BLOQUE and "nombrándolos" in BLOQUE)
+
+caso("bloque: en modo virtual, un caso de gestión sigue COLA DE GESTIÓN CERRADA",
+     "si es un caso de gestión, sigue COLA DE GESTIÓN CERRADA" in BLOQUE)
+
+caso("bloque: el límite de cambios se cuenta por tema y al tercero se transfiere",
+     "por tema" in BLOQUE and "al tercero transfiere" in BLOQUE)
 
 caso("bloque: los cuatro teléfonos de la V11 en palabras",
      all(t in BLOQUE for t in ("nueve seis seis, tres seis cinco, tres seis cinco",
@@ -194,25 +200,52 @@ with tempfile.TemporaryDirectory() as d:
          and any("2114" in x for x in lf), salida)
 
 with tempfile.TemporaryDirectory() as d:
-    escribir(d, "prolongacion.md", con_bloque(extra="Llame al 966365365."))
+    escribir(d, "prolongacion.md", con_bloque(extra="Llame al 900000111."))
     codigo, salida = ejecutar(d)
-    caso("número de 9 cifras seguidas: falla", codigo == 1 and "966365365" in salida, salida)
+    caso("número de 9 cifras seguidas: falla", codigo == 1 and "900000111" in salida, salida)
 
 with tempfile.TemporaryDirectory() as d:
-    escribir(d, "prolongacion.md", con_bloque(extra="Llame al +34 966 365 365."))
+    escribir(d, "prolongacion.md", con_bloque(extra="Llame al +34 900 000 111."))
     codigo, salida = ejecutar(d)
-    caso("número de 9 o más cifras con espacios: falla", codigo == 1 and "966 365 365" in salida, salida)
+    caso("número de 9 o más cifras con espacios: falla", codigo == 1 and "900 000 111" in salida, salida)
 
 with tempfile.TemporaryDirectory() as d:
     escribir(d, "prolongacion.md", con_bloque(extra="Las colas son 18057/18061 y el código 1234 5678."))
     codigo, salida = ejecutar(d)
     caso("8 cifras o cifras separadas por una barra: pasa", codigo == 0, salida)
 
+# --- Textos prohibidos en los demás ficheros (herramientas, saltos…), salvo las copias de código ----------
+
+with tempfile.TemporaryDirectory() as d:
+    escribir(d, "herramientas-triaje.md", "Rellena extension_destino con la extensión.\n")
+    escribir(d, "saltos.md", "Si la cola dice NO DISPONIBLE, no saltes.\n")
+    escribir(d, "registrar-resultado.md", "La cola de asistencia era la 2115.\n")
+    codigo, salida = ejecutar(d)
+    lf = lineas_de_fallo(salida)
+    caso("herramientas-*.md, saltos.md y otros ficheros: se revisan los textos prohibidos",
+         codigo == 1 and len(lf) == 3 and any("herramientas-triaje.md" in x and "extension_destino" in x for x in lf)
+         and any("saltos.md" in x and "NO DISPONIBLE" in x for x in lf)
+         and any("registrar-resultado.md" in x and "2115" in x for x in lf), salida)
+
+with tempfile.TemporaryDirectory() as d:
+    for nombre in comprobar_prompts.EXCLUIDOS:
+        escribir(d, nombre, "# NO DISPONIBLE AHORA, extension_destino, menú 2114, prueba 900000111\n")
+    codigo, salida = ejecutar(d)
+    caso("copias de código o configuración (EXCLUIDOS): no se revisan",
+         codigo == 0 and "resolver-colas.md" in salida and "No se revisan" in salida, salida)
+
+with tempfile.TemporaryDirectory() as d:
+    escribir(d, "herramientas-triaje.md",
+             cabecera + "- persistent_id: `%s`\n\nDescripción: transfiere con la cola que corresponda.%s"
+             % (ID_CONTEXTO, configuracion))
+    codigo, salida = ejecutar(d)
+    caso("un UUID con nueve cifras seguidas no cuenta como teléfono", codigo == 0, salida)
+
 # --- Módulos que faltan: sin y con --completo ----------------------------------------------------------------
 
 with tempfile.TemporaryDirectory() as d:
     escribir(d, "triaje.md", con_bloque())
-    escribir(d, "herramientas-triaje.md", "Otro fichero, que no es un módulo: NO DISPONIBLE 966365365.\n")
+    escribir(d, "herramientas-triaje.md", "Descripción de una herramienta, sin textos prohibidos.\n")
     codigo, salida = ejecutar(d)
     pendientes = [m for m in MODULOS[1:] if m in salida]
     caso("sin --completo: los módulos que faltan son pendientes y no fallan",

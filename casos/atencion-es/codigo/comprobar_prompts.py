@@ -14,14 +14,15 @@ En cada prompt de módulo que existe en la carpeta comprueba:
   INICIO y FIN) tal cual, empezando en una línea;
 - que no contiene «NO DISPONIBLE», «extension_destino», las extensiones de los menús automáticos 2114, 2115 y
   2119 ni nueve o más cifras seguidas, con o sin espacios (los teléfonos se escriben en palabras).
-Al propio bloque le comprueba el tamaño (4.500 como mucho) y los mismos textos prohibidos. Los demás ficheros de
-la carpeta (herramientas, código, configuración) no se revisan.
+Los textos prohibidos se buscan también en los demás ficheros .md de la carpeta (herramientas-*.md, saltos.md,
+extract…: también los lee el modelo), salvo en las copias de código o configuración de EXCLUIDOS. Al propio
+bloque le comprueba el tamaño (4.500 como mucho) y los mismos textos prohibidos.
 
 Qué cuenta como prompt: el fichero sin la cabecera «<!-- … -->» del principio ni la sección «## Configuración»
 del final, si las lleva, y sin espacios al final de las líneas. Los marcadores de variables se comparan y se
 miden normalizados: {{ index . "<id>.<variable>" }} (como lo copia HappyRobot) y {{<persistent_id>.<variable>}}
 (como se escribe por API) cuentan como {{<variable>}}, así que vale tanto el fichero fuente del repo como uno
-copiado de HappyRobot, y los dos miden lo mismo.
+copiado de HappyRobot, y los dos miden lo mismo. Al buscar cifras no cuentan los identificadores (UUID).
 
 Un módulo que falta se lista como pendiente y no es un fallo; con --completo, sí lo es.
 Sale con 0 si todo cumple; con 1 y la lista de fallos si algo no cumple; con 2 si no encuentra la carpeta o el
@@ -47,12 +48,25 @@ MODULOS = {
 }
 MAX_BLOQUE = 4500
 
+# Copias de nodos de código o de configuración: no las lee el modelo y pueden nombrar lo prohibido (por ejemplo,
+# los comentarios de resolver_colas.py), así que no se revisan
+EXCLUIDOS = {
+    "contexto-de-la-llamada.md",
+    "resolver-colas.md",
+    "preparar-transferencia.md",
+    "transfer.md",
+    "buscar-respuesta.md",
+    "enviar-correo-contrasena.md",
+    "pista-correo.md",
+}
+
 # Las dos líneas de reglas-comunes.md entre las que está el texto que se copia en cada módulo
 INICIO_BLOQUE = "----- INICIO DEL TEXTO QUE SE COPIA EN CADA MÓDULO -----"
 FIN_BLOQUE = "----- FIN DEL TEXTO QUE SE COPIA -----"
 
 UUID = r"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"
 RE_INDEX = re.compile(r'\{\{-?\s*index\s+\.\s+"[^".]+\.([^"]+)"\s*-?\}\}')  # {{ index . "<id>.<variable>" }}
+RE_UUID = re.compile(UUID)
 RE_PERSISTENT = re.compile(r"\{\{\s*" + UUID + r"\.([^{}\s]+)\s*\}\}")  # {{<persistent_id>.<variable>}}
 RE_MARCADOR = re.compile(r"\{\{\s*([A-Za-z0-9_.]+)\s*\}\}")  # {{ variable }} -> {{variable}}
 RE_CONFIGURACION = re.compile(r"^##\s+Configuración\s*$")
@@ -135,6 +149,7 @@ def texto_del_bloque(ruta=RUTA_BLOQUE):
 def textos_prohibidos(nombre, lineas):
     fallos = []
     for numero, linea in lineas:
+        linea = RE_UUID.sub("#", linea)  # un identificador no es un teléfono
         for patron, descripcion in PROHIBIDOS:
             m = patron.search(linea)
             if m:
@@ -223,6 +238,19 @@ def comprobar(carpeta, completo=False, ruta_bloque=RUTA_BLOQUE):
             fallos.append(mensaje)
         fallos += textos_prohibidos(nombre, lineas)
 
+    otros = sorted(n for n in os.listdir(carpeta)
+                   if n.endswith(".md") and n not in MODULOS and os.path.isfile(os.path.join(carpeta, n)))
+    for nombre in otros:
+        if nombre in EXCLUIDOS:
+            continue
+        with open(os.path.join(carpeta, nombre), encoding="utf-8") as f:
+            fallos += textos_prohibidos(nombre, lineas_del_prompt(f.read()))
+    revisados = [n for n in otros if n not in EXCLUIDOS]
+    excluidos = [n for n in otros if n in EXCLUIDOS]
+    if revisados:
+        informe.append("Otros ficheros, solo textos prohibidos: %s" % ", ".join(revisados))
+    if excluidos:
+        informe.append("No se revisan (copias de código o configuración): %s" % ", ".join(excluidos))
     if pendientes and not completo:
         informe.append("Pendientes, no cuentan como fallo sin --completo: %s" % ", ".join(pendientes))
     return informe, fallos
