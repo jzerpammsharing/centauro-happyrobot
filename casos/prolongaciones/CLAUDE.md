@@ -21,7 +21,7 @@ del menú telefónico de Centauro España.
 
 | Workflow | País | workflow_id | slug | Producción (11/10/2026) |
 |---|---|---|---|---|
-| Centauro Prolongacion Spain | ES | `01a0d9de-b1cd-7bc9-bafc-f5117bd57249` | `tiz1bci7y0dh` | Version 11 (`2g1bxzyzazpp`) |
+| Centauro Prolongacion Spain | ES | `01a0d9de-b1cd-7bc9-bafc-f5117bd57249` | `tiz1bci7y0dh` | Version 11 (`2g1bxzyzazpp`). Borrador sin publicar: v12 (`mnhi8x9j8ce7`, envío del correo de contraseña, D-008) |
 
 - **Ficha del workflow** (flujo, comportamiento esperado, campos del extract, versiones):
   `docs/workflows.md`.
@@ -37,15 +37,22 @@ del menú telefónico de Centauro España.
 | `docs/workflows.md` | Ficha del workflow y tabla de versiones |
 | `docs/pendientes.md` | Incidencias abiertas y mejoras propuestas |
 | `docs/informes/` | Análisis puntuales (comparaciones de versiones) |
+| `docs/specs/` | Specs de cambios grandes (envío del correo de contraseña, v12) |
 | `prompts/prolongacion-es/<versión>/` | Copias de los prompts y de la configuración de los nodos |
+| `codigo/` | Código de los nodos Python de `enviar_correo_contrasena` y sus pruebas (`python3 -I casos/prolongaciones/codigo/test_correo_contrasena.py`) |
 | `rutinas/informe-prolongaciones.md` | Prompt de la rutina diaria de calidad |
 
 ## 3. Reglas propias de Prolongaciones
 
 ### Workflow
-- **Estructura.** Un solo módulo de prompt («Prolongacion») y una sola herramienta
-  (`transfer_to_human_agent`). No hay herramientas de consulta ni herramientas que devuelvan vacío a
-  propósito, al contrario que en Minibús. Si un análisis ve una herramienta distinta, es un error.
+- **Estructura.** Un solo módulo de prompt («Prolongacion»).
+  - Hasta la V11, una sola herramienta (`transfer_to_human_agent`). No hay herramientas de consulta ni
+    herramientas que devuelvan vacío a propósito, al contrario que en Minibús. En la V11, cualquier
+    otra herramienta es un error.
+  - Desde la v12 (sin publicar, D-008) hay una segunda: `enviar_correo_contrasena`. Consulta
+    «Centauro MCP» con el correo dictado y solo envía el correo de contraseña si coincide con el del
+    alquiler. El agente recibe solo `resultado` (enviado / no_coincide / dato_no_interpretado /
+    no_disponible), nunca el correo de la ficha. El código de sus nodos Python está en `codigo/`.
 - **Horario.** El bot atiende siempre: no tiene horario nocturno ni derivación. Solo la cola de
   Gestión tiene horario: lunes a viernes de 08:00 a 21:00, hora peninsular. Lo calcula
   `gestion_abierta` en «Calcular idioma y saludo».
