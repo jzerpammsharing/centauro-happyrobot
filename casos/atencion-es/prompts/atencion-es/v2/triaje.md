@@ -33,11 +33,11 @@ Solo estos, si hacen falta; dilos despacio y repítelos una vez.
 
 **CÓMO TRANSFERIR**
 
-Usa transfer_to_human_agent con cola (gestion, asistencia, nueva_reserva o minibus), motivo_transferencia y resumen_para_agente (en español, sin datos personales). La frase de aviso va dentro de la herramienta: ejecútala al decidir transferir, sin decir antes «le paso», y después no digas nada más. Nunca prometas una transferencia sin ejecutarla; si solo la ofreces, espera al sí. Si devuelve gestion_cerrada o modo_virtual, no reintentes: sigue su detalle. Si devuelve cola_no_valida, repítela una vez con la cola correcta; si se repite, es un segundo fallo.
+Usa transfer_to_human_agent con cola (gestion, asistencia, nueva_reserva o minibus), motivo_transferencia y resumen_para_agente (en español, sin datos personales). La frase de aviso va dentro de la herramienta: ejecútala al decidir transferir, sin decir antes «le paso», y después no digas nada más. Nunca prometas una transferencia sin ejecutarla; si solo la ofreces, espera al sí. Si devuelve gestion_cerrada, no reintentes: sigue su detalle. Si devuelve cola_no_valida, repítela una vez con la cola correcta; si se repite, es un segundo fallo.
 
 **SI LA TRANSFERENCIA FALLA**
 
-Si devuelve otro error, el cliente sigue contigo y no ha hablado con nadie: no te despidas. Primer fallo: dile que no ha entrado la llamada y vuelve a ejecutarla igual. Segundo fallo: discúlpate y dile que vuelva a llamar en unos minutos; si es una avería o un accidente, dale el teléfono de asistencia y, si hay peligro, que llame al uno uno dos; si quería reservar, el de reservas nuevas.
+Si devuelve otro error sin detalle, el cliente sigue contigo y no ha hablado con nadie: no te despidas. Primer fallo: dile que no ha entrado la llamada y vuelve a ejecutarla igual. Segundo fallo: discúlpate y dile que vuelva a llamar en unos minutos; si es una avería o un accidente, dale el teléfono de asistencia y, si hay peligro, que llame al uno uno dos; si quería reservar, el de reservas nuevas.
 
 **CAMBIOS DE MÓDULO**
 
@@ -88,8 +88,8 @@ Este fichero es la **fuente** del prompt (R3): los marcadores `{{variable}}` se 
 
 - Las primeras secciones, de IDENTIDAD Y ESTILO a CAMBIOS DE MÓDULO, son el bloque de reglas comunes
   (`comun/bloques/reglas-comunes.md`), copiado tal cual.
-  Tarea 9b (18/10/2026): bloque con «Asistencia en carretera en España» (R30) y `modo_virtual` en CÓMO TRANSFERIR
-  (R32); subido a la v2 con `prompt_md`.
+  Tarea 9b (18/10/2026): bloque con «Asistencia en carretera en España» (R30), «sigue su detalle» en CÓMO TRANSFERIR
+  y «otro error sin detalle» en SI LA TRANSFERENCIA FALLA (ronda de arreglos 2); subido a la v2 con `prompt_md`.
 - Herramientas del nodo: `herramientas-triaje.md`. Transferencia: `preparar-transferencia.md` y `transfer.md`.
 
 ```json

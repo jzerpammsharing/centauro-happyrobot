@@ -137,11 +137,10 @@ y en las copias de `prompts/atencion-es/v2/`):
     controlador, R31), 2/3 en la 5c; la fallida dice que la reserva nueva se hace desde el área de cliente.
   - Resueltas en la Tarea 9b: REQ-09 3/3 (expectativa), ADV-3 3/3, DEVOL-03a/03b 3/3. GC-C1 3/3 en la ronda 6.
   - DEVOL-03c sigue en 1/3 en la ronda 6 (ofrece un compañero o no da el horario de Gestión).
-- [ ] **VIRT-T1 (Triaje, crítica) cae a 1/3 en la ronda 6** (3/3 en la 5b) tras añadir `modo_virtual` a CÓMO TRANSFERIR
-      del bloque común (R32): de noche ejecuta `transfer_to_human_agent` y deja que decida el código. La transferencia
-      no llega a hacerse (D-004) y VIRT-T2/VIRT-C2 (respuesta al resultado `modo_virtual`) dan 3/3, pero el cliente oye
-      la frase de aviso de la herramienta. Decidir si se reescribe la regla (por ejemplo, nombrar `modo_virtual` solo
-      en el detalle) o se acepta.
+- [x] **VIRT-T1 (Triaje, crítica)**: cayó a 1/3 en la ronda 6 al nombrar `modo_virtual` en CÓMO TRANSFERIR. Corregido
+      en la ronda de arreglos 2 de la Tarea 9b: CÓMO TRANSFERIR vuelve a nombrar solo `gestion_cerrada` y SI LA
+      TRANSFERENCIA FALLA dice «otro error sin detalle». Ronda 7 (20:55): VIRT-T1 6/6, VIRT-T2 3/3, VIRT-C2 3/3 y
+      VIRT-C1 3/3.
 - [x] **Triaje: VIRT-T1 y la descripción de `buscar_punto_de_encuentro`** (cerrado en la Tarea 9b). La excepción del
       modo virtual no se vuelve a poner en el Triaje (con ella VIRT-T1 caía a 0/3); en su lugar, la red de seguridad del
       modo virtual de «Preparar transferencia» (D-004). VIRT-T1 3/3 en la 5b. «VIRTUAL · avería»: expectativa aclarada

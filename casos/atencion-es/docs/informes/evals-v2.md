@@ -442,6 +442,24 @@ el Triaje ejecuta la transferencia de noche y deja que el código decida. La red
 transferencia real, y VIRT-T2 muestra que después lo resuelve bien; pero el cliente oiría antes la frase de aviso de la
 herramienta («le paso con un compañero…»). **TEL-C1 sigue en 0/3** también con «en España».
 
+### Tarea 9b, ronda de arreglos 2 (ronda 7)
+
+Cambio en el bloque de reglas comunes, para corregir la regresión de VIRT-T1: CÓMO TRANSFERIR vuelve a nombrar solo
+`gestion_cerrada` («Si devuelve gestion_cerrada, no reintentes: sigue su detalle.») y SI LA TRANSFERENCIA FALLA dice «Si
+devuelve otro error sin detalle…», así que un resultado con detalle, como `modo_virtual`, se sigue y no se reintenta.
+Bloque 4.493/4.500; Triaje 8.222; Consultas 7.988. Subido a los dos prompts de la v2. Ronda 7 a las **20:55** (antes de
+las 22:00).
+
+| Eval | Crítica | R6 | **R7 (20:55)** |
+|---|---|---|---|
+| VIRT-T1 (Triaje), ×6 | sí | 1/3 | **6/6** |
+| VIRT-T2 (Triaje) | sí | 3/3 | **3/3** |
+| VIRT-C2 (Consultas) | sí | 3/3 | **3/3** |
+| VIRT-C1 (Consultas) | sí | 3/3 | **3/3** |
+
+Cumple el criterio de la ronda (VIRT-T1 al menos 5/6; VIRT-T2 y VIRT-C2 3/3). TEL-C1 y DEVOL-03c no se repitieron (siguen
+como en la ronda 6).
+
 ### Modelos
 
 **Pendiente.** Por decisión del controlador (pedida por el responsable para acabar antes), la Tarea 9 no hace la
