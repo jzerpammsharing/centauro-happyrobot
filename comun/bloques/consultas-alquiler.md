@@ -34,13 +34,17 @@ cambie una respuesta, se cambia aquí y se copia a los demás.
 ## Qué falta decidir (negocio)
 1. **Cancelar gratis:** ¿24 o 48 horas antes de la recogida?
 2. **Devolver antes:** ¿el límite es menos de 29 o menos de 30 días?
-3. **Devolver con la oficina cerrada:** ¿solo Alicante aeropuerto, o también Madrid aeropuerto y otras?
+3. **Devolver con la oficina cerrada:** resuelto el 18/10/2026 por el responsable (C-005): vale el texto del bloque
+   (depende de la oficina; se acuerda al recoger el coche) y el bot nunca dice que no está permitido. Queda para
+   negocio, sin cambiar el texto, la lista de oficinas que lo admiten (Alicante aeropuerto, Madrid aeropuerto…).
 4. **Horario en festivos:** ¿las oficinas abren todos los festivos en su horario (equipo) o el bot no lo sabe
    (Información de oficina de Minibús)?
 5. **Cadenas de nieve:** ¿solo Barcelona y Madrid, o también Grecia (y en Italia incluidas)?
 6. **Adelantar una reserva de Booking:** ¿se mantiene la alternativa del alquiler directo?
-7. **Teléfonos de otros países y el correo del departamento de flotas:** validar los números (el de Grecia
-   sale con una errata) y si el bot los puede dar.
+7. **Teléfonos de otros países y el correo del departamento de flotas:** validar los números y si el bot los puede
+   dar. Los de asistencia en carretera de Portugal, Italia y Grecia se quitaron del bloque el 18/10/2026 (decisión
+   del responsable, C-005) y vuelven cuando negocio los valide (el de Grecia salía con una errata). Siguen por
+   decidir los de reservas nuevas en otros países y el correo y el teléfono del departamento de flotas.
 
 ## Bloque
 
@@ -270,9 +274,11 @@ Devolver en una ciudad y recoger otro coche en otra el mismo día: sí se puede;
 
 > Nuevo. Equipo (12/10).
 
-Con la oficina cerrada: depende de la oficina; algunas tienen buzón de llaves y otras no lo permiten. Se acuerda al recoger el coche, y allí le dan las instrucciones. Si deja el coche fuera de las instalaciones de Centauro, responde de los gastos y daños. Si no lo acordó al recoger, transfiere a GESTIÓN DE RESERVA con motivo_transferencia otro.
+Con la oficina cerrada: depende de la oficina; algunas tienen buzón de llaves y otras no lo permiten. Se acuerda al recoger el coche, y allí le dan las instrucciones. No digas que no está permitido ni que solo se puede si lo acordó: depende de la oficina. Si deja el coche fuera de las instalaciones de Centauro, responde de los gastos y daños. Si no lo acordó al recoger, transfiere a GESTIÓN DE RESERVA con motivo_transferencia otro.
 
-> **DECIDIR: qué oficinas admiten devolver fuera de horario.** Minibús v25: «por norma, fuera del horario de la oficina no se puede devolver el coche; la excepción es Alicante aeropuerto…». Equipo (08/10): en algunas oficinas, como Alicante aeropuerto o Madrid aeropuerto, se puede reservar una hora de devolución fuera de horario; si la web dice «La hora seleccionada está fuera del horario de la sucursal», esa oficina no lo permite; se puede preguntar al recoger, sin garantía. Madrid aeropuerto contradice a Minibús. Para «¿dónde dejo las llaves?» el equipo marcó «que la pase a un agente» (12/10), como el texto.
+> **Resuelto el 18/10/2026 (decisión del responsable, C-005 en `docs/decisiones.md`):** vale este texto. El bot nunca dice que no está permitido ni cita la norma de Minibús v25; si no lo acordó al recoger, GESTIÓN DE RESERVA, y con Gestión cerrada, el horario de Gestión (COLA DE GESTIÓN CERRADA). Se añade «No digas que no está permitido ni que solo se puede si lo acordó: depende de la oficina» porque el bot lo inventaba (DEVOL-03c, 0/3 en la ronda 4; «solo si lo acordó», DEVOL-03a en la ronda 5). Debajo, la contradicción original, que queda para negocio solo como lista de oficinas.
+>
+> **Antes DECIDIR: qué oficinas admiten devolver fuera de horario.** Minibús v25: «por norma, fuera del horario de la oficina no se puede devolver el coche; la excepción es Alicante aeropuerto…». Equipo (08/10): en algunas oficinas, como Alicante aeropuerto o Madrid aeropuerto, se puede reservar una hora de devolución fuera de horario; si la web dice «La hora seleccionada está fuera del horario de la sucursal», esa oficina no lo permite; se puede preguntar al recoger, sin garantía. Madrid aeropuerto contradice a Minibús. Para «¿dónde dejo las llaves?» el equipo marcó «que la pase a un agente» (12/10), como el texto.
 
 Volver desde la oficina de devolución: no tienes información del transporte público. Si la oficina tiene minibús de cortesía, puede usarlo gratis para volver al aeropuerto, dentro del horario de la oficina.
 
@@ -469,9 +475,9 @@ Cuando des un teléfono o un correo, dilo despacio y repítelo una vez.
 
 Asistencia en carretera en España, veinticuatro horas, para averías o accidentes: "más treinta y cuatro, nueve seis seis, tres seis cinco, tres seis cinco".
 
-Asistencia en carretera de otros países, si el alquiler es allí: Portugal, "más tres cinco uno, tres cero ocho, ocho uno cero, ocho uno seis"; Italia, "más tres nueve, cero seis, nueve cuatro ocho cero, seis ocho cero cero"; Grecia, "más tres cero, dos uno cero, nueve cuatro seis, uno tres tres tres".
+Asistencia en carretera de otros países: no tienes esos teléfonos. Si el alquiler es en otro país, dile que no tienes ese número y remítele a centauro punto net; no le digas que el de España sirve allí.
 
-> Nuevo. Equipo (09/10 y siguientes) y lista «Teléfonos» del artefacto. El de Grecia sale en tres formatos; uno (12/10) empieza por +31, que es el prefijo de Países Bajos: errata. Validar los tres.
+> **Quitado el 18/10/2026 (decisión del responsable, C-005 en `docs/decisiones.md`): asistencia en carretera de otros países.** Los teléfonos de Portugal, Italia y Grecia se quitan del bloque hasta que negocio valide los números; vuelven cuando estén validados. Venían del equipo (09/10 y siguientes) y de la lista «Teléfonos» del artefacto: el de Grecia sale en tres formatos y uno (12/10) empieza por +31, que es el prefijo de Países Bajos (errata). Los números están en la historia de git de este fichero (antes de C-005). Mientras tanto, el bot no tiene ese dato: la frase de arriba se añadió en la Tarea 9b porque, sin ella, el bot daba el número de España diciendo que servía en Portugal (TEL-C1, 0/3 en la ronda 5).
 
 Reservas nuevas: "más treinta y cuatro, nueve seis seis, tres seis cero, tres seis cero", opción uno. Dalo solo si el cliente pide un número para reservar; si quiere reservar ahora, transfiere a NUEVA RESERVA.
 

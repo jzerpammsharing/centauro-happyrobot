@@ -1,4 +1,4 @@
-<!-- workflow: 01a14f1b-4ea9-7827-a4f3-4cfb06a896f6 · versión: v2 (x8xd0llbdp3j) · nodo: Buscar respuesta (Consultas del alquiler) · copiado: 2026-10-18 -->
+<!-- workflow: 01a14f1b-4ea9-7827-a4f3-4cfb06a896f6 · versión: v2 (x8xd0llbdp3j) · nodo: Buscar respuesta (Consultas del alquiler) · copiado: 2026-10-18 (Tarea 9b) -->
 
 # Buscar respuesta (código Python) · Consultas del alquiler
 
@@ -9,8 +9,10 @@
 - Hijo: action (Python Sandbox) «Buscar respuesta», event_id `019dde7b-3500-7a3c-8f5e-1c2d4e6a8b9c`,
   execution_profile `standard`; ID = persistent_id en la v2 `01a14fa1-5c44-7c37-821c-1d01c0bd41eb` (creado en la
   Tarea 9). No tiene hijos: el agente recibe su salida como resultado de la herramienta.
-- Código: `casos/atencion-es/codigo/consultas_alquiler.py` tal cual (39.173 caracteres; comprobado igual al fichero
-  el 18/10/2026). El nodo lo aceptó entero: no hizo falta partir `SECCIONES` (spec §11.6).
+- Código: `casos/atencion-es/codigo/consultas_alquiler.py` tal cual (39.162 caracteres; regenerado y pegado en la
+  Tarea 9b, 18/10/2026, tras C-005: sin los teléfonos de asistencia de otros países, con «no tienes esos
+  teléfonos» en su lugar y con «No digas que no está permitido…» en la oficina cerrada). El nodo lo aceptó entero: no hizo falta partir `SECCIONES`
+  (spec §11.6).
 - La Tarea 10 crea una herramienta igual en Prolongación (mismo código; cambia el persistent_id de la herramienta en
   las entradas).
 
@@ -138,7 +140,7 @@ SECCIONES = {
         'Si lo devuelve antes: en reservas hechas directamente con Centauro de menos de veintinueve días, el sistema devuelve los periodos completos de veinticuatro horas que no use. Con veintinueve días o más no se devuelve nada. Si reservó con una agencia o intermediario, Centauro no hace ese reembolso: tiene que consultarlo con la agencia.\n\n'
         'En otra oficina: se puede devolver en otra oficina de Centauro si se indicó al hacer la reserva. Si la web no deja reservar ese trayecto, no está permitido. El precio depende del trayecto; con el alquiler ya en curso, el recargo se paga en la oficina de devolución.\n\n'
         'Devolver en una ciudad y recoger otro coche en otra el mismo día: sí se puede; no hay ninguna restricción.\n\n'
-        'Con la oficina cerrada: depende de la oficina; algunas tienen buzón de llaves y otras no lo permiten. Se acuerda al recoger el coche, y allí le dan las instrucciones. Si deja el coche fuera de las instalaciones de Centauro, responde de los gastos y daños. Si no lo acordó al recoger, transfiere a GESTIÓN DE RESERVA con motivo_transferencia otro.\n\n'
+        'Con la oficina cerrada: depende de la oficina; algunas tienen buzón de llaves y otras no lo permiten. Se acuerda al recoger el coche, y allí le dan las instrucciones. No digas que no está permitido ni que solo se puede si lo acordó: depende de la oficina. Si deja el coche fuera de las instalaciones de Centauro, responde de los gastos y daños. Si no lo acordó al recoger, transfiere a GESTIÓN DE RESERVA con motivo_transferencia otro.\n\n'
         'Volver desde la oficina de devolución: no tienes información del transporte público. Si la oficina tiene minibús de cortesía, puede usarlo gratis para volver al aeropuerto, dentro del horario de la oficina.'
     ),
     'cargos_y_reembolsos': (
@@ -207,7 +209,7 @@ SECCIONES = {
         'Son preguntas que no son de prolongación, pero que puedes responder tú. Responde solo con lo que pone aquí, en una o dos frases por turno, y no añadas nada que no esté escrito. Si el cliente necesita después que alguien mire o cambie su reserva, transfiere a GESTIÓN DE RESERVA.\n\n'
         'Cuando des un teléfono o un correo, dilo despacio y repítelo una vez.\n\n'
         'Asistencia en carretera en España, veinticuatro horas, para averías o accidentes: "más treinta y cuatro, nueve seis seis, tres seis cinco, tres seis cinco".\n\n'
-        'Asistencia en carretera de otros países, si el alquiler es allí: Portugal, "más tres cinco uno, tres cero ocho, ocho uno cero, ocho uno seis"; Italia, "más tres nueve, cero seis, nueve cuatro ocho cero, seis ocho cero cero"; Grecia, "más tres cero, dos uno cero, nueve cuatro seis, uno tres tres tres".\n\n'
+        'Asistencia en carretera de otros países: no tienes esos teléfonos. Si el alquiler es en otro país, dile que no tienes ese número y remítele a centauro punto net; no le digas que el de España sirve allí.\n\n'
         'Reservas nuevas: "más treinta y cuatro, nueve seis seis, tres seis cero, tres seis cero", opción uno. Dalo solo si el cliente pide un número para reservar; si quiere reservar ahora, transfiere a NUEVA RESERVA.\n\n'
         'Reservas nuevas en otros países, opción "Nuevas reservas": Portugal, "más tres cinco uno, tres cero ocho, ocho uno cero, siete siete siete"; Italia, "más tres nueve, cero seis, ocho tres seis seis, dos nueve cinco nueve"; Grecia, "más tres cero, dos uno uno, uno nueve ocho, cinco tres uno cero".\n\n'
         'Oficina de Benidorm, solo para el servicio de entrega: "más treinta y cuatro, nueve seis, seis ocho tres, cero siete, cero siete", de lunes a viernes de ocho de la mañana a siete de la tarde y los sábados de nueve a dos.\n\n'

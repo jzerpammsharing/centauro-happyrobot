@@ -16,6 +16,26 @@ Plantilla:
 
 ---
 
+## C-005 · 2026-10-18 · Bloque de consultas: fuera los teléfonos de asistencia de otros países y la oficina cerrada «depende de la oficina»
+- **Qué:** dos decisiones sobre `comun/bloques/consultas-alquiler.md` («Qué falta decidir», puntos 7 y 3):
+  - **Punto 7:** se quitan del bloque los teléfonos de asistencia en carretera de Portugal, Italia y Grecia hasta que
+    negocio valide los números; vuelven cuando estén validados. Siguen por decidir los de reservas nuevas en otros
+    países y el correo y el teléfono del departamento de flotas. En su lugar, la sección dice que el bot no tiene esos
+    teléfonos y que no diga que el de España sirve allí (añadido en la Tarea 9b al ver que el bot lo decía).
+  - **Punto 3 (resuelto):** devolver con la oficina cerrada «depende de la oficina; se acuerda al recoger el coche»,
+    como dice el bloque. El bot nunca dice que no está permitido ni cita la norma de Minibús v25 («por norma, fuera
+    del horario no se puede»); si no lo acordó al recoger, se transfiere a Gestión, y con Gestión cerrada se da su
+    horario. Se añade al texto «No digas que no está permitido ni que solo se puede si lo acordó: depende de la
+    oficina».
+- **Por qué:** en el bot único (Atención España v2, ronda 4 de evals) el bot de Consultas daba el número de Portugal
+  que traía la sección aunque el prompt solo permite cuatro teléfonos (TEL-C1 0/3), y con Gestión cerrada inventaba
+  que no está permitido dejar el coche fuera (DEVOL-03c 0/3). Dar un número sin validar (el de Grecia tenía una
+  errata) es peor que remitir a la web.
+- **Afecta a:** los bots que usen el bloque: hoy, el bot único de Atención España (`buscar_respuesta`, generado del
+  bloque; Consultas del alquiler y, desde la Tarea 10, Prolongación). Prolongaciones V11 y Minibús ES v25 no cambian.
+- **Quién:** jzerpa (responsable), 18/10/2026.
+- **Estado:** aplicada en el bloque y en Atención España v2 (`casos/atencion-es/docs/informes/evals-v2.md`, ronda 5).
+
 ## C-004 · 2026-10-18 · Bot único de atención de España en un workflow nuevo, al que migran las opciones del menú
 - **Qué:** se crea «Centauro Atención España», un workflow nuevo duplicando Minibús ES v25, con un Triaje corto y
   módulos especialistas (caso `casos/atencion-es/`, spec y D-001 allí). Las opciones del menú pasan a él una a una
