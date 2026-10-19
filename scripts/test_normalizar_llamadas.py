@@ -96,6 +96,22 @@ ll = una(registro(intento_gestion_cerrada="si",
                   paradas=[{"resultado": "gestion_cerrada", "cola": "gestion", "ts": "2026-10-16T19:10:00Z"}]))
 comprobar("extract y parada no se duplican", len(ll["transferencias"]), 1)
 
+# Fix 1: la transferencia sintética solo en el bot único y sin intento real a gestion
+NO_DISP = [{"ext": "NO DISPONIBLE AHORA: la cola de Gestión está cerrada", "ts": "2026-10-10T08:01:00Z",
+            "error": "invalid phone number for Number: +1NO DISPONIBLE"}]
+ll = una(registro(workflow="prolongaciones", intentos=NO_DISP, intento_gestion_cerrada="si"))
+comprobar("bot antiguo con NO DISPONIBLE: una sola transferencia", len(ll["transferencias"]), 1)
+comprobar("bot antiguo: la real, con su error", ll["transferencias"][0]["error"].startswith("invalid phone number"), True)
+ll = una(registro(workflow="minibus", intento_gestion_cerrada="si"))
+comprobar("bot antiguo sin intentos: sin sintética", ll["transferencias"], [])
+ll = una(registro(intento_gestion_cerrada="si",
+                  intentos=[{"cola": "gestion", "ts": "2026-10-16T09:35:00Z", "error": "whisper_transfer_no_bridge"}]))
+comprobar("bot único con intento real a gestion: sin sintética", len(ll["transferencias"]), 1)
+ll = una(registro(intento_gestion_cerrada="si",
+                  intentos=[{"cola": "asistencia", "ts": "2026-10-16T09:35:00Z", "error": ""}]))
+comprobar("bot único con intento a otra cola: sintética añadida", [t["error"] for t in ll["transferencias"]],
+          ["gestion_cerrada", ""])
+
 # --- créditos ---
 comprobar("créditos del fichero", una(registro(), creditos={"r1": 61.5})["creditos"], 61.5)
 comprobar("sin créditos, null", una(registro(), creditos={})["creditos"], None)

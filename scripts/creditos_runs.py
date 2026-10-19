@@ -9,6 +9,7 @@ Petición: GET <base>/billing/usage/runs/{run_id} con la cabecera `Authorization
 HappyRobot: SDK, apartado Billing, `getRunCredits`; la cabecera es la del resto de la API pública).
 - La clave se lee SOLO de la variable de entorno HAPPYROBOT_API_KEY. Nunca va en el repo ni en la salida.
 - La base es https://platform.happyrobot.ai; se puede cambiar con HAPPYROBOT_API_BASE.
+- No sigue redirecciones (un 3xx deja el run en null): la clave no sale nunca hacia otro host.
 - Un 429 se reintenta hasta 4 veces (esperas de 2, 4, 8 y 16 s). Un 401/403 corta todo (clave mal). Cualquier otro
   error deja ese run en null y sigue.
 Sin la clave, sale con código 2 y un mensaje claro: la rutina pone entonces `creditos` = null en todas las llamadas.
@@ -34,11 +35,21 @@ class ErrorHttp(Exception):
         self.codigo = codigo
 
 
+class SinRedirecciones(urllib.request.HTTPRedirectHandler):
+    """No sigue redirecciones: así la cabecera Authorization nunca viaja a otro host."""
+
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        raise ErrorHttp(code, "redirección no seguida")
+
+
+ABRIDOR = urllib.request.build_opener(SinRedirecciones)
+
+
 def http_urllib(url, cabeceras):
-    """Cliente HTTP real (urllib). Devuelve el JSON decodificado o lanza ErrorHttp."""
+    """Cliente HTTP real (urllib, sin seguir redirecciones). Devuelve el JSON decodificado o lanza ErrorHttp."""
     peticion = urllib.request.Request(url, headers=cabeceras, method="GET")
     try:
-        with urllib.request.urlopen(peticion, timeout=30) as respuesta:
+        with ABRIDOR.open(peticion, timeout=30) as respuesta:
             return json.loads(respuesta.read().decode("utf-8"))
     except urllib.error.HTTPError as e:
         raise ErrorHttp(e.code, e.reason)

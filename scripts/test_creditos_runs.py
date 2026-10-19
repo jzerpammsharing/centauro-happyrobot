@@ -8,8 +8,10 @@ import sys
 import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from creditos_runs import (BASE_POR_DEFECTO, ErrorHttp, creditos_de_respuesta, leer_ids, main,  # noqa: E402
-                           obtener_creditos)
+import urllib.request  # noqa: E402
+
+from creditos_runs import (BASE_POR_DEFECTO, ErrorHttp, SinRedirecciones, creditos_de_respuesta, leer_ids,  # noqa: E402
+                           main, obtener_creditos)
 
 fallos = 0
 total = 0
@@ -93,6 +95,17 @@ comprobar("401 no sigue con más runs", len(http.peticiones), 1)
 
 http = HttpFalso({"run-1": ValueError("json roto")})
 comprobar("respuesta ilegible deja null", obtener_creditos(["run-1"], "k", http=http, base="b"), {"run-1": None})
+
+# --- el cliente real no sigue redirecciones (la cabecera Authorization no sale del host) ---
+peticion = urllib.request.Request("https://platform.happyrobot.ai/billing/usage/runs/x",
+                                  headers={"Authorization": "Bearer k"})
+try:
+    SinRedirecciones().redirect_request(peticion, None, 302, "Found", {}, "https://otro.ejemplo/x")
+    comprobar("redirección rechazada", "seguida", "rechazada")
+except ErrorHttp as e:
+    comprobar("redirección rechazada con su código", e.codigo, 302)
+comprobar("el abridor usa el manejador sin redirecciones",
+          any(isinstance(h, SinRedirecciones) for h in __import__("creditos_runs").ABRIDOR.handlers), True)
 
 # --- main ---
 with tempfile.TemporaryDirectory() as d:

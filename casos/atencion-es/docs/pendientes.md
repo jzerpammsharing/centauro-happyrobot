@@ -511,6 +511,13 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
       `saltos` = null en los bots actuales y el % con 3 o más saltos solo se mide en el bot único.
 - [ ] **`llego_agente` en la prueba** salió de las patas salientes de la 19236 (pata grabada = cogió un agente). La
       rutina usa además los registros de cola (`Accepted`/`Missed`), que no se descargaron en la prueba.
+- [x] **Hash del número (ronda de arreglos 1):** `from_hash` es un sha256 sin sal de los últimos 9 dígitos, recortado a 10
+      caracteres. Con la lista de números posibles se podría deshacer: es un dato seudonimizado que solo vive en
+      `datos/` (no se versiona) y nunca sale al artefacto, al informe ni al repo. Si algún día hay que guardarlo fuera,
+      usar un HMAC con una sal secreta en el entorno.
+- [x] **Margen del emparejamiento con RingCentral:** la rutina empareja a ±10 s (§4 del `CLAUDE.md` raíz).
+      `scripts/emparejar_ringcentral.py`, que usan otros casos, sigue a ±15 s y la rutina solo lo usa como
+      comprobación (un intento que solo casa entre 10 y 15 s deja `llego_agente` en null).
 - [ ] **El bot único no tiene runs** (ni web): las evals y `test_node` no crean runs. La puerta 0 «medición con los runs
       de prueba» queda «sin datos» hasta las llamadas de prueba de la Tarea 17.
 

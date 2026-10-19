@@ -80,6 +80,21 @@ d4 = documento([llamada("v", workflow="prolongaciones")], avisos, fecha="2026-10
 comprobar("sin runs del bot: medición pendiente", {x["id"]: x for x in d4["puertas"]}["p0_medicion"]["estado"],
           "sin_datos")
 
+# Fix 2: la puerta 0 se mide con las llamadas de prueba del bot único (§8.4)
+pruebas = [llamada("t%d" % i, creditos=70) for i in range(2)] + [llamada("tm", opcion="minibus", creditos=40)]
+d8 = documento([llamada("v", workflow="prolongaciones")], avisos, fecha="2026-10-06", fin=FIN, fase=0,
+               generado="x", pruebas=pruebas)
+p = {x["id"]: x for x in d8["puertas"]}
+comprobar("pruebas: créditos de prolongación de las pruebas", (p["p0_creditos"]["estado"], p["p0_creditos"]["valor"]),
+          ("cumple", 70.0))
+comprobar("pruebas: medición con runs de prueba", p["p0_medicion"]["estado"], "cumple")
+comprobar("pruebas: resumen en el documento", d8["pruebas"]["llamadas"], 3)
+comprobar("pruebas: no se mezclan con las reales", d8["llamadas"], 1)
+caras_p = [llamada("tc", creditos=95)]
+d9 = documento([], avisos, fecha="2026-10-06", fin=FIN, fase=0, generado="x", pruebas=caras_p)
+comprobar("pruebas caras: no cumple", {x["id"]: x for x in d9["puertas"]}["p0_creditos"]["estado"], "no_cumple")
+comprobar("sin pruebas: campo vacío", d2.get("pruebas"), None)
+
 # Puerta 1: el bot único frente a la V11 en la opción de prolongación
 nuevo = [llamada("n%d" % i, creditos=60) for i in range(4)]  # 4 resueltas
 v11 = [llamada("o%d" % i, workflow="prolongaciones", version="V11", creditos=118,
@@ -127,6 +142,11 @@ with tempfile.TemporaryDirectory() as d:
     filas = {(f["workflow"], f["franja"]): f for f in json.load(open(salida))["filas"]}
     comprobar("contexto: rellamada del día siguiente", filas[("prolongaciones", "todas")]["rellamadas_48h"], 1)
     comprobar("contexto: no se mide", filas[("prolongaciones", "todas")]["llamadas"], 2)
+    ruta_pruebas = os.path.join(d, "llamadas_pruebas.json")
+    json.dump([llamada("tp", creditos=50)], open(ruta_pruebas, "w"))
+    main([ruta, "--fecha", "2026-10-06", "--fin", FIN, "--pruebas", ruta_pruebas, "-o", salida])
+    p = {x["id"]: x for x in json.load(open(salida))["puertas"]}
+    comprobar("main --pruebas: créditos de la prueba", p["p0_creditos"]["valor"], 50.0)
 
 print("%d/%d casos correctos" % (total - fallos, total))
 sys.exit(1 if fallos else 0)

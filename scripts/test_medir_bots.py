@@ -1,11 +1,15 @@
 # scripts/test_medir_bots.py
 # Ejecutar: python3 -I scripts/test_medir_bots.py
+import io
+import json
 import os
 import sys
+import tempfile
+from contextlib import redirect_stdout
 from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from medir_bots import franja, indicadores, rellamadas, resuelta  # noqa: E402
+from medir_bots import franja, indicadores, main, rellamadas, resuelta  # noqa: E402
 
 UTC = timezone.utc
 BASE = datetime(2026, 10, 5, 10, 0, tzinfo=UTC)  # lunes
@@ -113,6 +117,19 @@ res = indicadores(dia, FIN, contexto=despues)["por_opcion"]["atencion/prolongaci
 comprobar("contexto: la rellamada del día siguiente cuenta", res["rellamadas_48h"], 1)
 comprobar("contexto: no se mide", res["llamadas"], 1)
 comprobar("contexto: la llamada ya no es resuelta", res["resolucion_real"], 0.0)
+
+# --contexto con varios ficheros separados por comas
+with tempfile.TemporaryDirectory() as d:
+    rutas = [os.path.join(d, n) for n in ("dia.json", "antes.json", "despues.json")]
+    json.dump([llamada("d1", BASE)], open(rutas[0], "w"))
+    json.dump([llamada("d0", BASE - timedelta(hours=30), hash_="h000000009")], open(rutas[1], "w"))
+    json.dump([llamada("d2", BASE + timedelta(hours=20))], open(rutas[2], "w"))
+    with redirect_stdout(io.StringIO()):
+        rc = main([rutas[0], "--fin", "2026-10-20T00:00:00Z", "--contexto", rutas[1] + "," + rutas[2]])
+    res = json.load(open(os.path.join(d, "dia.indicadores.json")))["por_opcion"]["atencion/prolongacion"]
+    comprobar("--contexto con varios ficheros: sale con 0", rc, 0)
+    comprobar("--contexto con varios ficheros: rellamada del segundo", res["rellamadas_48h"], 1)
+    comprobar("--contexto con varios ficheros: solo mide el día", res["llamadas"], 1)
 
 print("%d/%d casos correctos" % (total - fallos, total))
 sys.exit(1 if fallos else 0)

@@ -16,8 +16,8 @@ Reglas (Tarea 15, R43):
 - `opcion_menu` nunca vacía: en los bots antiguos, la de su línea (prolongaciones → prolongacion, minibus → minibus);
   en el bot único, si viene vacía, minibus (línea desconocida, Tarea 1).
 - Colas con un solo nombre: `gestion_reserva` (bots antiguos) = `gestion` (bot único); las extensiones se traducen.
-- Un intento parado por «Preparar transferencia» con `gestion_cerrada` o `modo_virtual` (o, si no hay dato del nodo,
-  `intento_gestion_cerrada` = si del extract) entra en `transferencias` con `error` igual a ese resultado: así la
+- Un intento parado por «Preparar transferencia» con `gestion_cerrada` o `modo_virtual` (o, en el bot único y si no hay
+  ningún intento a gestion, `intento_gestion_cerrada` = si del extract) entra en `transferencias` con `error` igual a ese resultado: así la
   llamada no cuenta como resuelta.
 - `llego_agente`: el dato de RingCentral si lo hay; si no, true si algún intento conectó (error vacío o
   `transfer_result_timeout`), false si todos fallaron por una causa conocida, null en otro caso.
@@ -86,7 +86,10 @@ def _transferencias(reg):
     for p in paradas:
         resultado.append({"cola": cola_comun(p.get("cola")) if p.get("cola") else "gestion",
                           "ts": inicio_utc(p.get("ts") or reg["inicio"]), "error": p["resultado"]})
-    if reg.get("intento_gestion_cerrada") == "si" and not any(p["resultado"] == "gestion_cerrada" for p in paradas):
+    # Sintética solo en el bot único y solo si no hay ya ningún intento (real o parado) a gestion: en los bots
+    # antiguos el intento a Gestión cerrada ya viene como intento real («NO DISPONIBLE»)
+    if (reg.get("workflow") == "atencion" and reg.get("intento_gestion_cerrada") == "si"
+            and not any(t["cola"] == "gestion" for t in resultado)):
         resultado.append({"cola": "gestion", "ts": inicio_utc(reg["inicio"]), "error": "gestion_cerrada"})
     resultado.sort(key=lambda t: t["ts"])
     return resultado

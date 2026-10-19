@@ -7,7 +7,7 @@ Uso: python3 -I scripts/medir_bots.py <llamadas.json> [--fin AAAA-MM-DDTHH:MM:SS
   "creditos" (número o null), "saltos", "duracion_s" y "motivo".
 - --fin: instante de referencia (por defecto, ahora). Las llamadas de las 48 h anteriores a `fin` no entran en
   la resolución real, porque todavía pueden recibir una rellamada.
-- --contexto: llamadas de otros días (mismo formato) que solo sirven para buscar rellamadas; no se miden.
+- --contexto: uno o varios ficheros separados por comas con llamadas de otros días (mismo formato) que solo sirven para buscar rellamadas; no se miden.
 - Imprime una tabla y escribe <llamadas>.indicadores.json junto al fichero de entrada.
 
 Solo lectura y sin dependencias externas. Ningún indicador depende del nombre de las colas: solo se cuenta si hubo
@@ -159,8 +159,9 @@ def main(argv):
     contexto = []
     if "--contexto" in args:
         i = args.index("--contexto")
-        with open(args[i + 1]) as f:
-            contexto = json.load(f)
+        for ruta_contexto in filter(None, args[i + 1].split(",")):
+            with open(ruta_contexto) as f:
+                contexto += json.load(f)
         del args[i:i + 2]
     if len(args) != 1:
         print("Uso: python3 -I medir_bots.py <llamadas.json> [--fin AAAA-MM-DDTHH:MM:SSZ] [--contexto otras.json]")

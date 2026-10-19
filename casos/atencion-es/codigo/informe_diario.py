@@ -1,9 +1,11 @@
 """Documento diario del artefacto «Calidad Atención España» (colección `informes`, doc_id = AAAA-MM-DD).
 
 Uso: python3 -I casos/atencion-es/codigo/informe_diario.py <llamadas.json> --fecha AAAA-MM-DD [--fin ISO] [--fase N]
-     [--contexto a.json,b.json] -o <informe.json>
+     [--contexto a.json,b.json] [--pruebas llamadas_pruebas.json] -o <informe.json>
 - llamadas.json: el de scripts/normalizar_llamadas.py (los tres workflows del día); lee <llamadas>.avisos.json si existe.
 - --contexto: llamadas.json de los días de alrededor (separados por comas), solo para buscar rellamadas.
+- --pruebas: llamadas de prueba del bot único (normalizar_llamadas.py --pruebas); se miden aparte (`pruebas` del
+  documento) y alimentan la puerta 0 (créditos de prolongación y medición con los runs de prueba).
 - --fin: instante de referencia de la resolución real (por defecto, ahora); --fase: 0, 1 o 2 (spec §8.2; por defecto 0).
 - Escribe el documento listo para `ArtifactData set`. La rutina rellena después `resumen`, `alerta`, `incidencias` y,
   los lunes, `auditoria`, y conserva los campos que escriben las personas.
@@ -125,12 +127,13 @@ def _comparar(prefijo, nuevo, control, prohibidas):
     return items
 
 
-def puertas(filas, prohibidas, fase):
-    """Estado de las puertas de §8.4 con las cifras del día: cumple | no_cumple | sin_datos | manual."""
+def puertas(filas, prohibidas, fase, filas_pruebas=None):
+    """Estado de las puertas de §8.4 con las cifras del día: cumple | no_cumple | sin_datos | manual.
+    En la fase 0, `filas_pruebas` (las llamadas de prueba del bot único) alimentan créditos y medición."""
     if fase == 0:
-        prol = _fila(filas, "atencion", "prolongacion")
+        prol = _fila(filas_pruebas or filas, "atencion", "prolongacion")
         creditos = (prol or {}).get("creditos_llamada")
-        hay_bot = any(f["workflow"] == "atencion" for f in filas)
+        hay_bot = any(f["workflow"] == "atencion" for f in list(filas) + list(filas_pruebas or []))
         return [
             _manual("p0_evals", "Evals: críticas 3 de 3 y resto ≥ 90 %"),
             _manual("p0_voz", "25 llamadas de prueba por voz con guion, sin fallos críticos"),
@@ -170,17 +173,19 @@ def puertas(filas, prohibidas, fase):
     return items
 
 
-def documento(llamadas, avisos, fecha, fin, fase=0, generado=None, contexto=None):
-    """`contexto`: llamadas de los días de alrededor, solo para buscar rellamadas."""
+def documento(llamadas, avisos, fecha, fin, fase=0, generado=None, contexto=None, pruebas=None):
+    """`contexto`: llamadas de los días de alrededor, solo para buscar rellamadas. `pruebas`: llamadas de prueba del
+    bot único (normalizadas con --pruebas), que se miden aparte y alimentan la puerta 0."""
     fin_dt = medir._a_fecha(fin) if isinstance(fin, str) else fin
     resultado = medir.indicadores(llamadas, fin_dt, contexto)
     filas = _filas(resultado)
     prohibidas = transferencias_prohibidas(llamadas)
+    filas_pruebas = _filas(medir.indicadores(pruebas, fin_dt)) if pruebas else None
     versiones = {}
     for ll in llamadas:
         cuenta = versiones.setdefault(ll["workflow"], {})
         cuenta[ll.get("version") or "?"] = cuenta.get(ll.get("version") or "?", 0) + 1
-    return {
+    doc = {
         "fecha": fecha,
         "generado": generado or datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
         "fin_resolucion": resultado["fin"],
@@ -190,25 +195,28 @@ def documento(llamadas, avisos, fecha, fin, fase=0, generado=None, contexto=None
         "avisos": dict(avisos or {}),
         "filas": filas,
         "prohibidas": prohibidas,
-        "puertas": puertas(filas, prohibidas, fase),
+        "puertas": puertas(filas, prohibidas, fase, filas_pruebas),
         "muestra": "",
         "resumen": "",
         "alerta": "",
         "incidencias": [],
     }
+    if pruebas:
+        doc["pruebas"] = {"llamadas": len(pruebas), "filas": filas_pruebas}
+    return doc
 
 
 def main(argv):
     args = list(argv)
     opciones = {}
-    for nombre in ("--fecha", "--fin", "--fase", "--contexto", "-o"):
+    for nombre in ("--fecha", "--fin", "--fase", "--contexto", "--pruebas", "-o"):
         if nombre in args:
             i = args.index(nombre)
             opciones[nombre] = args[i + 1]
             del args[i:i + 2]
     if len(args) != 1 or "--fecha" not in opciones or "-o" not in opciones:
         print("Uso: python3 -I informe_diario.py <llamadas.json> --fecha AAAA-MM-DD [--fin ISO] [--fase N] "
-              "[--contexto a.json,b.json] -o <informe.json>")
+              "[--contexto a.json,b.json] [--pruebas llamadas_pruebas.json] -o <informe.json>")
         return 2
     with open(args[0]) as f:
         llamadas = json.load(f)
@@ -219,8 +227,13 @@ def main(argv):
         if os.path.exists(ruta):
             with open(ruta) as f:
                 contexto += json.load(f)
+    pruebas = []
+    if opciones.get("--pruebas") and os.path.exists(opciones["--pruebas"]):
+        with open(opciones["--pruebas"]) as f:
+            pruebas = json.load(f)
     fin = opciones.get("--fin") or datetime.now(UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
-    doc = documento(llamadas, avisos, opciones["--fecha"], fin, int(opciones.get("--fase", "0")), contexto=contexto)
+    doc = documento(llamadas, avisos, opciones["--fecha"], fin, int(opciones.get("--fase", "0")), contexto=contexto,
+                    pruebas=pruebas)
     with open(opciones["-o"], "w") as f:
         json.dump(doc, f, indent=1, ensure_ascii=False)
     estados = ", ".join("%s=%s" % (p["id"], p["estado"]) for p in doc["puertas"])
