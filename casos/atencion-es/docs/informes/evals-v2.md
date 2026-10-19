@@ -1105,3 +1105,25 @@ solo lo dicho antes de la primera llamada y esa llamada»). Prompt de Punto de e
 
 Críticas: **26/27**. Una sola vuelta: PE-NOCT-3 queda abierta en `pendientes.md` (no se puede ver con qué valores se
 resolvieron las variables en la ejecución; propuesta de eval de control).
+
+### Ronda de arreglos 5 (ronda 22, 19/10/2026, 22:19–22:21, lunes; la última)
+
+Reloj real en modo virtual; las evals lo fijan por variable. Cambios: en Punto de encuentro, los tres primeros
+párrafos de SI «EL BUS TARDA DEMASIADO» condicionados a «Si PRIMERO dio false» (R38; MODO DE ATENCIÓN, del bloque
+común, sin tocar). Evals: GC-PE1 y GC-IO1, «sin decir nada al cliente antes (el campo `pregunta` de la llamada no
+cuenta como texto previo)»; ADV-8, el orden «primero el punto y luego la herramienta» es el esperado y el punto dicho
+antes de la llamada cuenta. Nuevas de control, no críticas: PE-NOCT-3b (`01a155d1-9ceb-…`) y PE-NOCT-3c
+(`01a155d1-9fb8-…`). Prompt: 36.250 caracteres.
+
+| Eval | Ronda 21 | Ronda 22 | Motivo del juez (ronda 22) |
+|---|---|---|---|
+| GC-IO1 (crítica) | 2/3 | **3/3** | — |
+| Las otras ocho críticas | 3/3 | 3/3 | — |
+| ADV-8 | 2/3 | 2/3 | En una dice antes de la llamada que consultará el precio |
+| PE-NOCT-1 / PE-NOCT-2 | 3/3 / 3/3 | 3/3 / 3/3 | — |
+| PE-NOCT-3 (queja, virtual true, cet true) | 0/3 | 0/3 | Da el punto P6 y no llama a `consultas_alquiler` |
+| PE-NOCT-3b (queja, virtual false, cet true; control) | — | 0/3 | Transfiere a minibus en vez del aviso de cierre |
+| PE-NOCT-3c (sin queja, virtual true, cet true; control) | — | 1/3 | En dos da el punto P6 |
+
+Críticas: **27/27**. Falla la combinación Valencia (LISTA 1) + `nocturno_cet` true en las tres variantes, también sin
+queja; Atenas (LISTA 3) funciona. Diagnóstico y propuesta en `pendientes.md`.

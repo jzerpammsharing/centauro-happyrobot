@@ -155,7 +155,7 @@ contraseña de Prolongaciones v12 (misma credencial «Centauro MCP» y mismo có
 `buscar_respuesta` (Python «Buscar respuesta», el mismo código que Consultas) y la transferencia con el patrón de
 Consultas. Detalle: `herramientas-prolongacion.md`, `enviar-correo-contrasena.md` y `pista-correo.md`.
 
-**Tarea 11 (19/10/2026):** «Punto de encuentro» (34.595 caracteres; 35.073 tras la ronda de arreglos 1, 35.489 tras la 2, 35.801 tras la 3 y 36.159 tras la 4) e «Información de oficina» (33.210; 33.379; 33.571; 33.727; sin cambios en la 4) llevan el
+**Tarea 11 (19/10/2026):** «Punto de encuentro» (34.595 caracteres; 35.073 tras la ronda de arreglos 1, 35.489 tras la 2, 35.801 tras la 3, 36.159 tras la 4 y 36.250 tras la 5) e «Información de oficina» (33.210; 33.379; 33.571; 33.727; sin cambios en la 4 ni en la 5) llevan el
 bloque de reglas comunes; Punto de encuentro, además, las LISTAS 1 a 4 de `nocturno_*` (aviso de oficina de
 aeropuerto cerrada) y la sección de interrupciones de la v25. Modelos sin cambios. Copias en
 `prompts/atencion-es/v2/punto-de-encuentro.md`, `informacion-de-oficina.md` y sus `herramientas-*.md`. Las dos

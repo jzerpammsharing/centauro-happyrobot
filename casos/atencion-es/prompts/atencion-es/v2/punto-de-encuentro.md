@@ -256,11 +256,11 @@ En Almería, Gran Canaria, Menorca y Tenerife Sur NO hay minibús de cortesía. 
 
 **SI "EL BUS TARDA DEMASIADO"**
 
-Compara lo que dice haber esperado con la frecuencia de su aeropuerto:
+Si PRIMERO dio false, compara lo que dice haber esperado con la frecuencia de su aeropuerto (si dio true, sigue PRIMERO):
 
-Si lleva MENOS que la frecuencia (por ejemplo "llevo cinco minutos" y pasa cada diez o quince): tranquilízale y recuérdale la frecuencia con calma. Verifica de paso que espera en el punto correcto dándole la referencia del cartel.
+Si PRIMERO dio false y lleva MENOS que la frecuencia (por ejemplo "llevo cinco minutos" y pasa cada diez o quince): tranquilízale y recuérdale la frecuencia con calma. Verifica de paso que espera en el punto correcto dándole la referencia del cartel.
 
-Si lleva IGUAL O MÁS que la frecuencia (por ejemplo "llevo veinte minutos"): NO le repitas la frecuencia bajo ningún concepto; a alguien que lleva veinte minutos, decirle "pasa cada quince" le enfada más. Valida ("lo entiendo, veinte minutos es demasiado") y di que le pasas ahora mismo con un compañero para que vea qué está pasando; entonces ejecuta transfer_to_human_agent a la cola minibus. No prometas que "llamarán a la sucursal" ni a un conductor: la promesa es la transferencia, que sí ocurre de verdad.
+Si PRIMERO dio false y lleva IGUAL O MÁS que la frecuencia (por ejemplo "llevo veinte minutos"): NO le repitas la frecuencia bajo ningún concepto; a alguien que lleva veinte minutos, decirle "pasa cada quince" le enfada más. Valida ("lo entiendo, veinte minutos es demasiado") y di que le pasas ahora mismo con un compañero para que vea qué está pasando; entonces ejecuta transfer_to_human_agent a la cola minibus. No prometas que "llamarán a la sucursal" ni a un conductor: la promesa es la transferencia, que sí ocurre de verdad.
 
 Si además está enfadado o puede perder una conexión: transfiere directamente, sin intentar calmarlo tú.
 

@@ -370,6 +370,19 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
       se resolvieron las variables en la ejecución (`get` no las devuelve, `list_runs` solo da el veredicto y el run de
       la eval no existe en `monitor_runs`). Siguiente paso propuesto: una eval de control «Valencia, ¿dónde está el
       minibús?» con `nocturno_cet` true y sin queja, para saber si el modelo lee el valor en LISTA 1.
+- [ ] **Ronda 22 (ronda de arreglos 5, la última; 22:19–22:21, lunes, reloj en modo virtual; las evals lo fijan por
+      variable):** críticas **27/27** (GC-IO1 3/3 con la aclaración de que la `pregunta` no es texto previo). ADV-8 2/3
+      (dispersión: en una nombra que consultará el precio antes de la llamada; prompt sin tocar). PE-NOCT-1 3/3,
+      PE-NOCT-2 3/3. **Sigue abierto PE-NOCT-3 (R38)**, con «EL BUS TARDA DEMASIADO» ya condicionado a PRIMERO false:
+      - PE-NOCT-3 (queja + vuelo, `modo_virtual` true, `nocturno_cet` true): 0/3, da el punto P6.
+      - PE-NOCT-3b (queja + vuelo, `modo_virtual` false, `nocturno_cet` true): 0/3, transfiere a minibus (dos veces).
+      - PE-NOCT-3c (sin queja, «¿dónde cojo el minibús?», `modo_virtual` true, `nocturno_cet` true): 1/3; en 2 da el P6.
+      Diagnóstico: falla con Valencia y la LISTA 1 aunque no haya queja ni modo virtual de por medio, mientras que
+      PE-NOCT-1 (Atenas, LISTA 3) pasa 3/3. El modelo (`fast-turbo-one`) no aplica PRIMERO de forma fiable en un
+      aeropuerto español; con queja, la regla de la queja (transferir o el consejo del modo virtual) gana siempre.
+      Propuesta: que el código decida el cierre (por ejemplo, que «Contexto de la llamada» o el Triaje pase
+      `oficina_cerrada` del aeropuerto ya resuelto, en lugar de que el modelo busque en las cuatro listas), o subir
+      Punto de encuentro a un modelo que razone. Fuera del alcance de la Tarea 11.
 - [ ] **Resto por debajo del 90 % (89,2 %, ronda 17):** PE-NOCT-1 1/3 (pregunta la puerta de Atenas antes de dar el
       aviso de cierre: la regla de las terminales de QUÉ HACER AHORA compite con PRIMERO), Sevilla falso meeting point
       1/3 y caseta 2/3 (añade dónde espera el minibús), ADV-8 2/3, Madrid ambiguo 2/3, Sevilla a medianoche 2/3, Sants
