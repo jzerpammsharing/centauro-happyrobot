@@ -70,8 +70,8 @@ Inbound Call (sin líneas)
              │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir?
              │                                   ├ Transferir → Initiate customer connection
              │                                   └ Fallback (vacía)
-             └ Registrar resultado de la llamada (AI Extract, 29 campos)
-               └ Registrar consultas del alquiler (AI Extract, 14 campos)
+             └ Registrar resultado de la llamada (AI Extract único, 46 campos; Tarea 13)
+               └ Registrar consultas del alquiler (AI Extract sin uso desde la Tarea 13; lo borra una persona, R42)
                  └ Preparar WhatsApp minibús (Python)
                    └ ¿Enviar WhatsApp? (Paths)
                        ├ Enviar → Enviar WhatsApp del punto de encuentro
@@ -152,7 +152,7 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | Module Change (prolongar_alquiler de Consultas → Prolongación; creado en el editor) | `01a155ee-138f-7765-954f-20ec0b421975` | = ID de nodo |
 | Module Change (informacion_oficina de Prolongación → Información de oficina; creado en el editor) | `01a155ec-665d-7f0f-86b1-c070b229aa53` | = ID de nodo |
 | Registrar resultado de la llamada | `01a14f1d-0395-7611-80cf-234e9e9fcf11` | `aea14d45-81de-4a98-aaae-d45c89421f34` |
-| Registrar consultas del alquiler | `01a14f1d-0396-7b8c-ac8b-76817e8d62e8` | `15bf240b-4db7-47cc-86c5-963eaf6955b3` |
+| Registrar consultas del alquiler (sin uso desde la Tarea 13; por borrar en el editor) | `01a14f1d-0396-7b8c-ac8b-76817e8d62e8` | `15bf240b-4db7-47cc-86c5-963eaf6955b3` |
 | Preparar WhatsApp minibús | `01a14f1d-0394-7fed-89b7-f4b8a5e640aa` | `4bd059bb-837c-4242-845f-7fc802c0f937` |
 | ¿Enviar WhatsApp? (Paths) | `01a14f1d-0392-7a3a-9987-9e9a6a9ab190` | `d7bea790-20cc-431d-b696-edd7f09b51e3` |
 | Enviar WhatsApp del punto de encuentro | `01a14f1d-0395-7934-834b-0382a080f15d` | `cbb87a1f-4994-49ea-872b-501640029b45` |
@@ -193,6 +193,16 @@ el «enfadado o puede perder una conexión» llevan la excepción de PRIMERO (36
 31 evals en «Bot único · Saltos» (`saltos.md`, `informes/evals-v2.md`). La comprobación en una llamada queda para la
 Tarea 17 (`pendientes.md`). Ronda de arreglos 2: viñeta de ESCALADO de Información de oficina y descripción de su
 `consultas_alquiler` (D-009); el prompt pasa a 33.871 caracteres.
+
+**Tarea 13 (19/10/2026):** «Registrar resultado de la llamada» pasa a ser el extract único del spec §5.12 (46 campos:
+los 45 de la tabla y `origen_opcion`; GPT-5.6 Luna). Lee la transcripción, «Contexto de la llamada», los parámetros y
+salidas de las herramientas de los cinco módulos (`cola`, `motivo_transferencia`, `resultado` de «Preparar
+transferencia», `transfer_succeeded` de los cinco Transfer, `buscar_respuesta`, `enviar_correo_contrasena`,
+`pista_correo` y las de salto) y el `callCount` de los 12 Module Change. «Preparar WhatsApp minibús» lee
+`whatsapp_aceptado`, `punto_whatsapp` e `idioma_cliente` de este extract (`aea14d45-…`), aunque sigue colgando de
+«Registrar consultas del alquiler» hasta que una persona la mueva (R42, `pendientes.md`). En «Receive Customer Call»,
+`transcription_context` ampliado y `business_hours_setting_name` vacío; la voz ya era solo «Pablo Galvez HR». Copias en
+`prompts/atencion-es/v2/registrar-resultado.md` y `receive-customer-call.md`.
 
 ### Cuidado al editar por API (duplicado)
 

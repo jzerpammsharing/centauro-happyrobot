@@ -98,9 +98,10 @@ y en las copias de `prompts/atencion-es/v2/`):
     que ir como nodo de variable de Plate.
   - `execution` de la herramienta no se guarda por API; se queda el de por defecto.
   - El Transfer antiguo del Triaje (`b4439401-…`) se borró (era una hoja) y se creó uno nuevo bajo la rama
-    «Transferir». **Para la Tarea 13:** el extract «Registrar resultado de la llamada» sigue leyendo
+    «Transferir». **Resuelto en la Tarea 13:** el extract «Registrar resultado de la llamada» leía
     `17c682a0-….extension_destino` (el parámetro ya se llama `cola`) y `b4439401-….transfer_succeeded` (nodo borrado);
-    `fix_broken_vars` no lo detecta porque el extract pasa la prueba.
+    `fix_broken_vars` no lo detectaba porque el extract pasa la prueba. Ahora lee `cola`, `motivo_transferencia`, el
+    `resultado` de «Preparar transferencia» y el Transfer nuevo.
 - **Evals del Triaje** (37: 24 de la v25 adaptadas y 13 nuevas) en las carpetas «Bot único · Triaje» y «Triaje · de la
   v25 (adaptadas)». Cosas del entorno de evals que conviene saber para las Tareas 9 a 12:
   - `manage_custom_evals get` no devuelve `test_messages`, `variables` ni `expected_tool_calls`: las conversaciones
@@ -166,7 +167,8 @@ y en las copias de `prompts/atencion-es/v2/`):
     respuesta llevan una nota común (texto en `informes/evals-v2.md`).
 - `prolongar_alquiler` y `volver_al_triaje` los nombra el prompt de Consultas, pero las herramientas las crea la Tarea
   12: hasta entonces el bot no puede llamarlas (en una llamada real no saltaría).
-- **Para la Tarea 13:** el extract «Registrar consultas del alquiler» lee `fbe2e40e-….extension_destino` (parámetro
+- **Resuelto en la Tarea 13** (el extract único ya no lee estas variables; «Registrar consultas del alquiler» queda sin
+  uso hasta que lo borre una persona, ver «Para la persona»): el extract «Registrar consultas del alquiler» lee `fbe2e40e-….extension_destino` (parámetro
   quitado de `transfer_to_human_agent` de Consultas) y `1dce23f2-….transfer_succeeded` (el Transfer de Consultas
   borrado en la Tarea 9): `hubo_transferencia_consultas` y `cola_destino_consultas` saldrán siempre «no» / «ninguna»
   hasta que se rehaga. Al rehacerlo, seguir con `invento_condicion` los inventos que se vieron en evals (REQ-03 y
@@ -449,7 +451,46 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
       bueno). Vigilar.
 - [ ] **En una llamada (Tarea 17):** §11.2 y §11.3 (arriba, «Al construir»).
 
+## Comprobaciones de la Tarea 13 (19/10/2026)
+
+- [x] **Extract único** «Registrar resultado de la llamada» (`aea14d45-…`): 46 campos (los 45 de §5.12 y
+      `origen_opcion`), entrada con la transcripción, «Contexto de la llamada» y los parámetros y salidas de las
+      herramientas de los cinco módulos, más el `callCount` de los 12 Module Change. Copia en
+      `prompts/atencion-es/v2/registrar-resultado.md`. Las referencias rotas que se arrastraban (Tareas 8 y 9) ya no
+      están.
+- [x] **Rama de WhatsApp:** «Preparar WhatsApp minibús» lee `whatsapp_aceptado`, `punto_whatsapp` e `idioma_cliente`
+      del extract único. Comprobado con `get_available_variables`: las 46 salidas `response.*` del extract son
+      visibles desde ese nodo.
+- [x] **«Receive Customer Call»:** `transcription_context` ampliado y `business_hours_setting_name` vacío (R12). La voz
+      ya era solo «Pablo Galvez HR». Copia en `receive-customer-call.md`.
+- [x] **`test_node` del extract** con una llamada inventada (Triaje → Consultas → Prolongación, un salto y una
+      transferencia a asistencia): los 46 campos con un valor permitido. Para la prueba se pusieron salidas de prueba
+      (`set_custom_output`) en 11 nodos: «Receive Customer Call», `consultas_alquiler` del Triaje, `buscar_respuesta` y
+      «Buscar respuesta» de Consultas, `prolongar_alquiler` de Consultas y su Module Change, la transferencia de
+      Prolongación («transfer_to_human_agent», «Preparar transferencia», «Initiate customer connection»), «Resultado
+      para el agente» y «Pista del correo» (estas dos, vacías). Son solo datos de prueba de la v2; un `test_node` de esos
+      nodos los vuelve a escribir.
+- [x] **`fix_broken_vars` no se ejecutó** (R41), ni en simulación: las variables del extract, de «Preparar WhatsApp
+      minibús» y de «Receive Customer Call» se comprobaron una a una con `get_available_variables` (97 referencias del
+      extract, 0 rotas).
+- [ ] **`invento_condicion` no existe en §5.12:** los inventos de las evals (REQ-03, DEVOL-01 y FDS-03, «esté atento al
+      correo») se siguen con `invento_informacion`, que los cita como ejemplos. Si se quiere separar «condición
+      inventada» de otros inventos, añadir el campo al spec antes.
+- [ ] **Punto de encuentro e Información de oficina** siguen con el Transfer de la v25 sin «Preparar transferencia»
+      (R35): el extract lo tiene en cuenta (`hubo_transferencia` = si con `cola` informada; `intento_gestion_cerrada`
+      con `gestion_abierta` false). Cuando se cree su cadena, añadir al extract el `resultado` de sus «Preparar
+      transferencia» y el `transfer_succeeded` de sus Transfer nuevos.
+- [ ] **`medir_bots.py` y la rutina** deben leer los nombres y valores de `registrar-resultado.md` (spec §5.12). La cola
+      va como `gestion` (no `gestion_reserva` como en la v25 y la v12).
+
 ## Para la persona (editor de HappyRobot)
+
+- [ ] **Mover la rama de WhatsApp y borrar «Registrar consultas del alquiler»** (Tarea 13, R42). Por API no se puede:
+      `delete` borra el subárbol y no hay cambio de padre. En el editor de la v2: mover «Preparar WhatsApp minibús» (con
+      «¿Enviar WhatsApp?» y lo que cuelga) para que cuelgue de «Registrar resultado de la llamada» y, después, borrar
+      «Registrar consultas del alquiler» (`01a14f1d-0396-7b8c-ac8b-76817e8d62e8`), que ya no alimenta nada (sus
+      variables siguen rotas y gasta una llamada al modelo por llamada). Comprobar después con `get_workflows` que
+      «Preparar WhatsApp minibús» tiene como padre `01a14f1d-0395-7611-80cf-234e9e9fcf11`.
 
 - [x] **Crear los 8 Module Change de la Tarea 12** (hecho por el responsable el 19/10/2026; comprobado por API: 12
       `module-change`, todos al destino de la tabla de `saltos.md`).

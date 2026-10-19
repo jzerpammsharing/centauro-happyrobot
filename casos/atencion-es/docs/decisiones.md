@@ -16,6 +16,25 @@ Plantilla:
 
 ---
 
+## D-010 · 2026-10-19 · Extract único: valores que el spec no fija
+- **Qué:** en «Registrar resultado de la llamada» (Tarea 13, spec §5.12), donde la tabla del spec da solo el nombre del
+  campo: (1) `cola_destino` usa los nombres de cola del bot único (`gestion`, `asistencia`, `nueva_reserva`, `minibus`,
+  `ninguna`), no `gestion_reserva` de la v25 y la v12. (2) `saltos` es la suma de los `callCount` de los 12 Module
+  Change: la primera entrada desde el Triaje no cuenta, y volver al Triaje y entrar en otro módulo cuenta uno (como en
+  CAMBIOS DE MÓDULO de las reglas comunes). (3) `hubo_transferencia` = si solo si se intentó de verdad («Preparar
+  transferencia» = `transferir`, o cola informada en los dos módulos que aún no tienen «Preparar transferencia»); un
+  intento parado por Gestión cerrada va en `intento_gestion_cerrada`. (4) Los campos del correo de contraseña toman los
+  valores de la v12, y `motivo_no_envio` añade `reserva_no_iniciada` (spec §5.7). (5) Los copiados de la entrada
+  booleanos van como `si`/`no`, como `modo_virtual` en la v25. (6) Se añade `origen_opcion` (ruling de la Tarea 1).
+  (7) `invento_condicion` no está en §5.12: los inventos vistos en evals (REQ-03, DEVOL-01, FDS-03) van como ejemplos
+  de `invento_informacion`.
+- **Por qué:** una sola forma de nombrar las colas en el bot único (la misma que `cola` de las herramientas); los
+  `callCount` son el único dato técnico que cuenta todos los cambios de módulo (los parámetros de una herramienta solo
+  guardan la última llamada); el spec manda sobre la ficha y no tiene `invento_condicion`.
+- **Afecta a:** v2.
+- **Quién:** agente (Tarea 13); revisa jzerpa en el PR.
+- **Estado:** aplicada en v2.
+
 ## D-009 · 2026-10-19 · Saltos: «a qué hora pasa el minibús» va a Punto de encuentro y evals de salto ajustadas
 - **Qué:** (1) la descripción de `buscar_punto_de_encuentro` de Información de oficina (`01a155d9-5db4-…`, Tarea 12)
   añade «También si pregunta a qué hora pasa el minibús, si hay minibús a una hora concreta o por el de vuelta: no lo
