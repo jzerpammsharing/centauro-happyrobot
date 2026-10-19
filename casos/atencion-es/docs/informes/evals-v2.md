@@ -1127,3 +1127,22 @@ antes de la llamada cuenta. Nuevas de control, no críticas: PE-NOCT-3b (`01a155
 
 Críticas: **27/27**. Falla la combinación Valencia (LISTA 1) + `nocturno_cet` true en las tres variantes, también sin
 queja; Atenas (LISTA 3) funciona. Diagnóstico y propuesta en `pendientes.md`.
+
+### Arrastre de la Tarea 11 en la Tarea 12 (ronda 23, 19/10/2026, 22:30–22:31, lunes)
+
+Reloj real en modo virtual; las evals lo fijan por variable. Cambio en Punto de encuentro: «Si PRIMERO dio false y
+además está enfadado o puede perder una conexión: transfiere directamente… (si dio true, sigue PRIMERO)» y, en la
+viñeta de la queja de ESCALADO, «La queja del minibús no se transfiere si PRIMERO dio true: entonces sigue PRIMERO».
+Prompt: 36.382 caracteres, subido a las 22:29 y comparado con el fuente (igual; 8 variables `e51cd732-…`). En la v2 ya
+estaban creadas, sin hijo, las herramientas de salto de la Tarea 12 (`informacion_oficina` y `volver_al_triaje` en
+este módulo).
+
+| Eval | Ronda 22 | Ronda 23 | Motivo del juez (ronda 23) |
+|---|---|---|---|
+| GC-PE1, VIRT-PE1, PDE-5, ADV-7, «DÍA · 25 minutos», «Idioma · EN · 25 minutos» (críticas) | 3/3 | 3/3 | — |
+| PE-NOCT-3 | 0/3 | 0/3 | Da el punto de encuentro y no llama a `consultas_alquiler` recoger_tarde |
+| PE-NOCT-3b (control) | 0/3 | 0/3 | Transfiere a minibus (dos llamadas) en vez del aviso de cierre |
+
+Críticas de Punto de encuentro: **18/18**. PE-NOCT-3 y 3b no cambian: la excepción en el texto no basta (R38;
+propuesta en `pendientes.md`).
+

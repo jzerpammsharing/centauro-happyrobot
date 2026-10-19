@@ -43,10 +43,12 @@ Inbound Call (sin líneas)
              │                                   └ Fallback (vacía: no se transfiere)
              │      Punto de encuentro (Tarea 11, fast-turbo-one; aviso de oficina cerrada con nocturno_*):
              │                           consultas_alquiler (→ Module Change → Consultas del alquiler),
+             │                           informacion_oficina, volver_al_triaje (Tarea 12; Module Change POR CREAR, saltos.md),
              │                           transfer_to_human_agent (cola…) → Initiate customer connection de la v25
              │                                   (PENDIENTE: Preparar transferencia → ¿Transferir? → Transfer; pendientes.md)
              │      Información de oficina (Tarea 11, fast-gpt-4.1):
              │                           consultas_alquiler (→ Module Change → Consultas del alquiler),
+             │                           buscar_punto_de_encuentro, volver_al_triaje (Tarea 12; Module Change POR CREAR),
              │                           transfer_to_human_agent (cola…) → Initiate customer connection de la v25
              │                                   (PENDIENTE, igual que Punto de encuentro)
              │      Prolongación (Tarea 10, fast-gpt-5.4):
@@ -56,6 +58,7 @@ Inbound Call (sin líneas)
              │                           pista_correo → Identificar al cliente (MCP consultar_reserva)
              │                                   → Pista del correo (Python, pista_correo.py)
              │                           buscar_respuesta → Buscar respuesta (Python, consultas_alquiler.py)
+             │                           informacion_oficina, volver_al_triaje (Tarea 12; Module Change POR CREAR)
              │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir?
              │                                   ├ Transferir → Initiate customer connection
              │                                   └ Fallback (vacía)
@@ -63,6 +66,7 @@ Inbound Call (sin líneas)
              │                           buscar_respuesta → Buscar respuesta (Python, consultas_alquiler.py)
              │                           buscar_punto_de_encuentro (→ Module Change → Punto de encuentro)
              │                           informacion_oficina (→ Module Change → Información de oficina)
+             │                           prolongar_alquiler, volver_al_triaje (Tarea 12; Module Change POR CREAR)
              │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir?
              │                                   ├ Transferir → Initiate customer connection
              │                                   └ Fallback (vacía)
@@ -131,6 +135,14 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | ¿Transferir? (Paths, Consultas) | `01a14fa7-420e-78db-a46a-1afc6823c0ac` | `01a14fa7-420e-78db-a46a-1afc6823c0ac` |
 | Transferir (condición, Consultas) | `01a14fa7-421d-7c4b-ab14-17edc7ed95df` | `01a14fa7-421d-7c4b-ab14-17edc7ed95df` |
 | Initiate customer connection (Consultas; sustituye a `01a14f1d-0396-7a17-…`, borrado) | `01a14fa7-4228-7812-a6b7-aa42c035b190` | `01a14fa7-4228-7812-a6b7-aa42c035b190` |
+| volver_al_triaje (Punto de encuentro, Tarea 12; sin hijo hasta el Module Change) | `01a155d9-5d9b-7fd6-bfaa-6b87ccd6ac42` | = ID de nodo |
+| volver_al_triaje (Información de oficina, Tarea 12) | `01a155d9-5da4-74b3-a7c4-3bb6257242d6` | = ID de nodo |
+| volver_al_triaje (Prolongación, Tarea 12) | `01a155d9-5da8-738a-8af4-ada5f82ebdd7` | = ID de nodo |
+| volver_al_triaje (Consultas, Tarea 12) | `01a155d9-5dac-7449-b143-4392c795602f` | = ID de nodo |
+| informacion_oficina (Punto de encuentro, Tarea 12) | `01a155d9-5db0-7106-ab47-43027e0f8647` | = ID de nodo |
+| buscar_punto_de_encuentro (Información de oficina, Tarea 12) | `01a155d9-5db4-757d-ac17-fc1adb754b0f` | = ID de nodo |
+| prolongar_alquiler (Consultas, Tarea 12) | `01a155d9-5db8-7b78-8ecd-d52451c7ed84` | = ID de nodo |
+| informacion_oficina (Prolongación, Tarea 12) | `01a155d9-5dbb-704a-b119-2db7b00a6fa2` | = ID de nodo |
 | Registrar resultado de la llamada | `01a14f1d-0395-7611-80cf-234e9e9fcf11` | `aea14d45-81de-4a98-aaae-d45c89421f34` |
 | Registrar consultas del alquiler | `01a14f1d-0396-7b8c-ac8b-76817e8d62e8` | `15bf240b-4db7-47cc-86c5-963eaf6955b3` |
 | Preparar WhatsApp minibús | `01a14f1d-0394-7fed-89b7-f4b8a5e640aa` | `4bd059bb-837c-4242-845f-7fc802c0f937` |
@@ -155,13 +167,18 @@ contraseña de Prolongaciones v12 (misma credencial «Centauro MCP» y mismo có
 `buscar_respuesta` (Python «Buscar respuesta», el mismo código que Consultas) y la transferencia con el patrón de
 Consultas. Detalle: `herramientas-prolongacion.md`, `enviar-correo-contrasena.md` y `pista-correo.md`.
 
-**Tarea 11 (19/10/2026):** «Punto de encuentro» (34.595 caracteres; 35.073 tras la ronda de arreglos 1, 35.489 tras la 2, 35.801 tras la 3, 36.159 tras la 4 y 36.250 tras la 5) e «Información de oficina» (33.210; 33.379; 33.571; 33.727; sin cambios en la 4 ni en la 5) llevan el
+**Tarea 11 (19/10/2026):** «Punto de encuentro» (34.595 caracteres; 35.073 tras la ronda de arreglos 1, 35.489 tras la 2, 35.801 tras la 3, 36.159 tras la 4, 36.250 tras la 5 y 36.382 en la Tarea 12) e «Información de oficina» (33.210; 33.379; 33.571; 33.727; sin cambios en la 4 ni en la 5) llevan el
 bloque de reglas comunes; Punto de encuentro, además, las LISTAS 1 a 4 de `nocturno_*` (aviso de oficina de
 aeropuerto cerrada) y la sección de interrupciones de la v25. Modelos sin cambios. Copias en
 `prompts/atencion-es/v2/punto-de-encuentro.md`, `informacion-de-oficina.md` y sus `herramientas-*.md`. Las dos
 `transfer_to_human_agent` tienen ya `cola`, `motivo_transferencia` y `resumen_para_agente`, pero la cadena «Preparar
 transferencia» → «¿Transferir?» → Transfer **no está creada**: el borrado de los Transfer de la v25 lo rechazó el
 sistema de permisos (`pendientes.md`, «Comprobaciones de la Tarea 11»). D-008.
+
+**Tarea 12, Paso 1 (19/10/2026):** las 8 herramientas de salto (spec §5.6) creadas por API a las 22:27, sin hijo
+(`message: none`, `motivo` obligatorio y los parámetros de la v25). Sus 8 Module Change los crea el responsable en el
+editor; tabla de los 12 saltos y lista exacta en `prompts/atencion-es/v2/saltos.md`. En Punto de encuentro, la queja y
+el «enfadado o puede perder una conexión» llevan la excepción de PRIMERO (36.382 caracteres).
 
 ### Cuidado al editar por API (duplicado)
 

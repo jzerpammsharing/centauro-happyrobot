@@ -393,7 +393,16 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
       cliente en la web o la app. Cambiar un dato ya acordado que no sea alargar (el buzón de llaves…) es un caso de
       gestión. R37 (ronda de arreglos 2): se quitó el ejemplo «otra hora el mismo día». ADV-11 exige
       `consultas_alquiler`.
-- [ ] **Saltos que nombra el prompt y aún no existen** (Tarea 12): `informacion_oficina` y `volver_al_triaje` en Punto
+- [ ] **Ronda 23 (Tarea 12, 19/10/2026, 22:30–22:31; reloj en modo virtual, las evals lo fijan por variable):** la
+      queja y el «enfadado o puede perder una conexión» de Punto de encuentro llevan ya la excepción de PRIMERO (arrastre
+      de la Tarea 11; prompt 36.382 caracteres, subido a las 22:29). Críticas de Punto de encuentro (GC-PE1, VIRT-PE1,
+      PDE-5, ADV-7, «DÍA · 25 minutos», «Idioma · EN · 25 minutos») **18/18**. **PE-NOCT-3 0/3** (da el punto P6, sin
+      `consultas_alquiler`) y **PE-NOCT-3b 0/3** (transfiere a minibus dos veces): el texto no basta; sigue la propuesta
+      de que el código decida el cierre.
+- [ ] **Saltos que nombra el prompt** (Tarea 12): las 8 herramientas se crearon por API el 19/10/2026 a las 22:27, sin
+      hijo; **faltan sus 8 Module Change**, que crea el responsable en el editor (lista en
+      `prompts/atencion-es/v2/saltos.md`). Mientras falten, llamar a una de ellas no cambia de módulo. Antes de la Tarea 12:
+      `informacion_oficina` y `volver_al_triaje` en Punto
       de encuentro; `buscar_punto_de_encuentro` y `volver_al_triaje` en Información de oficina. Hasta entonces,
       Información de oficina contesta o llama a `consultas_alquiler` cuando le preguntan por el minibús (ADV-12,
       «VIRTUAL · pregunta por el minibús» y «ES · pregunta por el minibús (Palma)», 0/3, no cuentan).
@@ -408,6 +417,10 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
   `e51cd732-…`.
 
 ## Para la persona (editor de HappyRobot)
+
+- [ ] **Crear los 8 Module Change de la Tarea 12** bajo las herramientas de salto nuevas (lista exacta, con IDs, en
+      `prompts/atencion-es/v2/saltos.md`, sección «Lista para el responsable»). Avisar al agente al terminar: el Paso 3
+      comprueba con `get_workflows` que hay 12 `module-change` y que apuntan donde dice la tabla.
 
 - [ ] **Quitar el Paths «Entrada» y su condición «Siempre» de la v2** y dejar «Receive Customer Call» colgando
       directamente de «Resolver colas por idioma» (Paso 5 de la Tarea 6, no hecho por API). Hay que hacerlo en el
