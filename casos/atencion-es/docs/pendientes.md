@@ -344,10 +344,13 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
     adaptar la eval a R36 (esperar `consultas_alquiler` y no valorar lo posterior).
   - «Idioma · EN · 25 minutos» (crítica) 2/3: en una el resumen no termina con «El cliente habla inglés».
   - PE-NOCT-3 (nueva) 0/3: con PRIMERO true, ante «el minibús no pasa y mi vuelo llegó tarde» da el punto P6 de
-    Valencia en vez del aviso de cierre y no llama a `consultas_alquiler`. Causa (revisión): la viñeta 2 de EN MODO
+    Valencia en vez del aviso de cierre y no llama a `consultas_alquiler`. Causa parcial (revisión): la viñeta 2 de EN MODO
     VIRTUAL («si el minibús no llega… que espere en el punto indicado»). La ronda de arreglos 3 puso «Si PRIMERO dio
     true, esta sección no se aplica» al principio de EN MODO VIRTUAL y sigue a 0/3 en la ronda 20 (da el punto P6 y no
-    llama a la herramienta).
+    llama a la herramienta). Causa añadida en la ronda de arreglos 4 (las variables de la eval están bien:
+    `nocturno_cet` y `modo_virtual` true en la llamada `create`): «SI EL VALOR ES true» solo nombraba el vuelo
+    retrasado, no la queja de que el minibús no pasa, y el último párrafo de SI «EL BUS TARDA DEMASIADO» («como mucho,
+    una frase con el cartel») no estaba condicionado a PRIMERO.
   - ADV-8 1/3: anuncia que consulta el precio sin ejecutar la herramienta.
   - Arreglados: PE-NOCT-1 3/3 (0/3 en la ronda 18).
 - [ ] **Ronda 20 (ronda de arreglos 3, 21:53–21:58, lunes; a las 22:00 empieza el modo virtual por el reloj, pero
@@ -358,6 +361,15 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
       el texto), PE-NOCT-3 0/3 (arriba) y ADV-8 0/3 (ahora ejecuta `consultas_alquiler` antes de dar el punto y el juez,
       por la nota «valora solo lo dicho antes de la primera llamada», no ve el punto: la nota de la eval choca con la
       regla nueva «da el punto y ejecuta la herramienta en ese mismo turno»).
+- [ ] **Ronda 21 (ronda de arreglos 4, 22:10–22:11, lunes; el reloj ya estaba en modo virtual, pero estas evals
+      fijan `modo_virtual` por variable y estos módulos aún no tienen «Preparar transferencia»):** críticas 26/27.
+      GC-PE1 3/3 y GC-IO1 2/3, reescritas por R36 (esperan `consultas_alquiler` prolongar); el fallo de GC-IO1 es del
+      juez, que toma la `pregunta` de la llamada por «texto previo». ADV-8 2/3 (en una nombra que consulta el precio y
+      hace una segunda llamada). PE-NOCT-1 3/3, PE-NOCT-2 3/3. **PE-NOCT-3 sigue 0/3** (da el punto P6 y no llama a
+      `consultas_alquiler`) aunque «SI EL VALOR ES true» ya cubre la queja del minibús: no se puede ver con qué valores
+      se resolvieron las variables en la ejecución (`get` no las devuelve, `list_runs` solo da el veredicto y el run de
+      la eval no existe en `monitor_runs`). Siguiente paso propuesto: una eval de control «Valencia, ¿dónde está el
+      minibús?» con `nocturno_cet` true y sin queja, para saber si el modelo lee el valor en LISTA 1.
 - [ ] **Resto por debajo del 90 % (89,2 %, ronda 17):** PE-NOCT-1 1/3 (pregunta la puerta de Atenas antes de dar el
       aviso de cierre: la regla de las terminales de QUÉ HACER AHORA compite con PRIMERO), Sevilla falso meeting point
       1/3 y caseta 2/3 (añade dónde espera el minibús), ADV-8 2/3, Madrid ambiguo 2/3, Sevilla a medianoche 2/3, Sants

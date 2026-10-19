@@ -1051,7 +1051,7 @@ Hora: a las 22:00 empieza el modo virtual por el reloj real. No afecta a estas e
 y estos dos módulos todavía no tienen «Preparar transferencia» (R35).
 
 Causas reales (revisión): ADV-11 la provocaba el esquema de `transfer_to_human_agent` («la hora o el día de
-devolución» como caso de gestión), no el bloque común; PE-NOCT-3, la viñeta 2 de EN MODO VIRTUAL. Las líneas de las
+devolución» como caso de gestión), no el bloque común; PE-NOCT-3, en parte, la viñeta 2 de EN MODO VIRTUAL (causa parcial: ver la ronda de arreglos 4). Las líneas de las
 rondas 18 y 19 que lo atribuían a otra cosa quedan como histórico.
 
 Cambios: esquemas de las dos `transfer_to_human_agent` («un dato ya acordado que no sea alargar el alquiler»,
@@ -1072,3 +1072,36 @@ según R36 y ADV-8 acepta la frecuencia. Prompts: 35.801 y 33.727 caracteres.
 | ADV-8 | 1/3 | 0/3 | Ejecuta `consultas_alquiler` antes de dar el punto; el juez, por la nota «solo lo anterior a la primera llamada», no ve el punto |
 
 Críticas: **26/27**.
+
+### Ronda de arreglos 4 (ronda 21, 19/10/2026, 22:10–22:11, lunes)
+
+Hora: el reloj real ya estaba en modo virtual (desde las 22:00). No afecta a estas evals: fijan `modo_virtual` por
+variable y estos dos módulos todavía no tienen «Preparar transferencia» (R35).
+
+Variables de PE-NOCT-3: la llamada `create` (registro de sesiones, 16:10 UTC) fija `nocturno_cet`, `nocturno_wet`,
+`nocturno_eet` y `nocturno_murcia` a true, `modo_virtual` true, `gestion_abierta` false e `idioma_nombre` espanol,
+con las claves `e51cd732-….*` que usan las demás evals (PE-NOCT-1 pasa con ellas). La eval está bien. La causa de
+la ronda 20 (viñeta 2 de EN MODO VIRTUAL) queda como causa parcial; la de esta ronda: «SI EL VALOR ES true» solo
+nombraba el vuelo retrasado, no la queja de que el minibús no pasa, y el último párrafo de SI «EL BUS TARDA
+DEMASIADO» («como mucho, una frase con el cartel») no dependía de PRIMERO.
+
+Cambios: en Punto de encuentro, «Vale también si se queja de que el minibús no pasa, no llega o se ha ido…» en «SI EL
+VALOR ES true» y «Si PRIMERO dio false y…» al principio del último párrafo de SI «EL BUS TARDA DEMASIADO»; OTRAS
+HERRAMIENTAS con la excepción explícita a «sin decir nada antes» (primero el punto y después, en el mismo turno, la
+herramienta una sola vez) y la viñeta de `consultas_alquiler` («si también pidió el punto, justo después de darlo»);
+en las dos `transfer_to_human_agent`, `resumen_para_agente` dice «Una o dos frases». Evals: GC-PE1 y GC-IO1 reescritas
+por R36 (esperan `consultas_alquiler` prolongar; aceptan que antes pregunte una vez si antes o más tarde; nota «valora
+solo lo dicho antes de la primera llamada y esa llamada»). Prompt de Punto de encuentro: 36.159 caracteres.
+
+| Eval | Ronda 20 | Ronda 21 | Motivo del juez (ronda 21) |
+|---|---|---|---|
+| GC-PE1 (crítica; reescrita por R36) | 3/3 | 3/3 | — |
+| GC-IO1 (crítica; reescrita por R36) | 2/3 | 2/3 | Error del juez: toma la `pregunta` de la llamada a `consultas_alquiler` por «texto previo» |
+| ADV-11, «VIRTUAL · cambiar hora», «Idioma · EN · 25 minutos», VIRT-PE1, PDE-5, ADV-7, «DÍA · 25 minutos» (críticas) | 3/3 | 3/3 | — |
+| ADV-8 | 0/3 | **2/3** | En una nombra que consulta el precio y hace una llamada de más a `consultas_alquiler` |
+| PE-NOCT-1 | 3/3 (ronda 19) | 3/3 | — |
+| PE-NOCT-2 | 3/3 (ronda 19) | 3/3 | — |
+| PE-NOCT-3 | 0/3 | **0/3** | Da el punto P6 de Valencia y no llama a `consultas_alquiler` recoger_tarde |
+
+Críticas: **26/27**. Una sola vuelta: PE-NOCT-3 queda abierta en `pendientes.md` (no se puede ver con qué valores se
+resolvieron las variables en la ejecución; propuesta de eval de control).
