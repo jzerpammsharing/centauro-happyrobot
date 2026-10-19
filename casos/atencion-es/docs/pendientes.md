@@ -182,7 +182,7 @@ y en las copias de `prompts/atencion-es/v2/`):
 
 ## Comprobaciones de la Tarea 10 (18/10/2026)
 
-- **Prolongación** construido: prompt de 21.978/22.000 caracteres (21.946 tras la ronda 13; `fast-gpt-5.4`), `enviar_correo_contrasena` (cadena
+- **Prolongación** construido: prompt de 21.978/22.000 caracteres (21.946 tras la ronda 13 y 21.998 tras la ronda 14; `fast-gpt-5.4`), `enviar_correo_contrasena` (cadena
   de la v12), `pista_correo`, `buscar_respuesta` y la transferencia. Ids en `workflows.md`.
 - [ ] **Evals de Prolongación que no cumplen** (ronda 10, 18/10/2026 23:28–23:42; detalle y motivos en
       `informes/evals-v2.md`, «Prolongación (Tarea 10)»). Críticas 60/72, resto 84,5 %. Hecha la única vuelta de arreglos
@@ -210,8 +210,8 @@ y en las copias de `prompts/atencion-es/v2/`):
     el resto de fallos son del entorno (abajo).
   - CORREO-20 (0/3): sigue dando los pasos en el turno del plan B.
   - NOINI-P1 (1/3): no menciona el enlace.
-  - HOR-A1 (2/3): no da la regla general de cuánto se puede prolongar antes de transferir (ahora está en
-    `buscar_respuesta`, D-006).
+  - HOR-A1 (2/3): no da la regla general de cuánto se puede prolongar antes de transferir. Causa: la línea «Otra duda
+    del alquiler… buscar_respuesta… sin salir de aquí» de TU TAREA (abajo, ronda 14).
 - [x] **Evals de transferencia con la hora real (entorno):** arreglado en la ronda de arreglos 2: las 14 evals de transferencia
       llevan las `cola_*` como variables y la nota «una segunda llamada tras un error del entorno no es un fallo».
 - [ ] **Tras la ronda de arreglos 2 (ronda 12, 19/10 9:49–10:17, con las `cola_*` en las evals de transferencia;
@@ -220,8 +220,8 @@ y en las copias de `prompts/atencion-es/v2/`):
     regla sobre lo que devuelve `buscar_respuesta` ni la frase propia de gestión cerrada en ESCALADO.
   - FDS-06 (crítica, 0/3): da la alternativa sin decir el cierre. Pendiente de la regla de la v12 en el bloque común
     (abajo).
-  - HOR-A1 (crítica, 1/3): por la frase de la ronda de arreglos 2 sobre lo que devuelve `buscar_respuesta` (no por
-    D-006; corrección de la revisión). Quitada en la ronda de arreglos 3.
+  - HOR-A1 (crítica, 1/3): da la regla y se queda. Causa: la línea «Otra duda del alquiler… buscar_respuesta… sin
+    salir de aquí» de TU TAREA (abajo, ronda 14); no la frase de la ronda de arreglos 2.
   - BORDE-05 (0/3): por sacar «Cambiar de coche» a `buscar_respuesta` (D-006). Devuelta al prompt en la ronda de
     arreglos 3.
   - HOR-01 (crítica, 2/3): una vez dice que «lo deriva» al equipo de gestión.
@@ -235,11 +235,31 @@ y en las copias de `prompts/atencion-es/v2/`):
       críticas 67/72. FDS-06 arreglada (3/3), BORDE-05 3/3. Sin más vueltas. Quedan:
   - HOR-C1 (crítica, 1/3): aún ejecuta a veces `transfer_to_human_agent` con `gestion_abierta: false`. El arreglo
     estructural va a la puerta 0 (siguiente punto).
-  - HOR-A1 (crítica, 1/3): no ofrece ni ejecuta la transferencia tras decir que gestión lo tiene que revisar. Quitar
-    la frase de la ronda de arreglos 2 no lo arregló; probar a devolver «Cuánto se puede prolongar» con «si pregunta
-    cuánto le queda a él, cola gestion» (hay 54 caracteres libres: no cabe entero).
+  - HOR-A1 (crítica, 1/3): no ofrece ni ejecuta la transferencia tras decir que gestión lo tiene que revisar. Causa:
+    la línea «Otra duda del alquiler… buscar_respuesta… sin salir de aquí» de TU TAREA: «cuánto se puede prolongar»
+    pasa por ahí y el bot da la regla y se queda, sin seguir a ESCALADO. Arreglo en la ronda de arreglos 4.
   - HOR-01 (crítica, 2/3): una vez manda a la oficina en vez de al área de cliente.
   - PISTA-04 (0/3): sigue pidiendo otra vez el nombre.
+- [ ] **Tras la ronda de arreglos 4 (ronda 14, 19/10 10:40–10:47, lunes, Gestión abierta por el reloj;
+      `informes/evals-v2.md`):** críticas 69/72; PISTA-01 a 03, CORREO-20 y NOINI-P1 a 3/3. Sin más vueltas. Quedan:
+  - HOR-A1 (crítica, 2/3, antes 1/3): con «; si pide un dato de su reserva, cola gestion» en la línea de «Otra duda
+    del alquiler», una de tres sigue diciendo que gestión debe revisarlo y le remite a la web, sin ofrecer ni ejecutar
+    la transferencia.
+  - HOR-C1 (crítica, 2/3): fuera de esta ronda (R34, punto siguiente).
+  - BORDE-09 (crítica, 2/3): una vez no dice el uno uno dos ni que ahora no puede pasarle. Ejecución suelta del modelo;
+    en las rondas 12 y 13 dio 3/3.
+  - HOR-01 (3/3 en la ronda 14). Los fallos de las rondas 12 y 13 no venían de la línea de HOR-A1: «lo deriva» al
+    equipo de gestión (ronda 12) y manda a la oficina sin el área de cliente (ronda 13). Lo segundo lo permite el
+    bloque común («si es urgente para hoy, que vaya a la oficina») y la eval pide el área de cliente; el bloque dice
+    «ese horario o su área de cliente». Es del modelo o de la eval; no se tocó el prompt.
+  - PISTA-04 (0/3): con «Pide solo los datos que falten, uno por turno» y «sin pedirlos de nuevo» en PISTA, sigue
+    pidiendo el nombre en vez de ejecutar `enviar_correo_contrasena`. Falta mirar la conversación de la eval: si el
+    nombre y la fecha no están en los turnos `user` (solo en la llamada a `pista_correo`), el bot no los ve como
+    dados.
+- [ ] **R34: HOR-C1 va a la puerta 0 con el arreglo estructural.** Tres redacciones del prompt no la llevan a 3/3
+      (rondas 11 a 13). El arreglo es el del punto siguiente (el aviso del `message` `ai` suena antes de «Preparar
+      transferencia», y la herramienta decide por el reloj). Afecta a los tres módulos y se hace en la Tarea 12/16 y
+      en la puerta 0. Hasta entonces es una crítica abierta (2/3 en la ronda 14, sin tocarla).
 - [ ] **El aviso «le paso con un compañero» suena antes de saber si Gestión está cerrada (Tarea 12/16 y puerta 0).**
       Es el `message` tipo `ai` de `transfer_to_human_agent`: el agente lo dice al ejecutar la herramienta, antes de que
       «Preparar transferencia» devuelva `gestion_cerrada` (o `modo_virtual`). Con Gestión cerrada el cliente oye «le

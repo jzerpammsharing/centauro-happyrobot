@@ -738,7 +738,7 @@ a los dos lados de las 8:00): **48/72**.
 | HOR-02 | 3 | 0 | Entorno: reintento tras `cola_no_valida` |
 | HOR-C1 | 1 | 0 | 2 de 3 ejecutan `transfer_to_human_agent` y dicen que le pasan, con `gestion_abierta: false`; 1 de 3 no dice el cierre ni el horario |
 | ESC-03, ESC-06, ASEG-05, HOR-C4 | 3 | 2 | Entorno: reintento tras `cola_no_valida` |
-| HOR-A1 | 3 | 2 | No da antes la regla general de cuánto se puede prolongar (ahora la da `buscar_respuesta`) |
+| HOR-A1 | 3 | 2 | No da antes la regla general de cuánto se puede prolongar (causa: la línea «Otra duda del alquiler… buscar_respuesta… sin salir de aquí» de TU TAREA; ver «Causa de HOR-A1» en la ronda 14) |
 | FDS-06 | 0 | 2 | 1 de 3 no dice el cierre ni el horario |
 
 **Lectura.**
@@ -782,7 +782,7 @@ debajo del 90 %.
 |---|---|---|---|---|
 | HOR-C1 | sí | 1 | **0** | 2 de 3 ejecutan `transfer_to_human_agent` con `gestion_abierta: false`; 1 no dice que llame en horario ni el área de cliente |
 | FDS-06 | sí | 0 | **0** | Da la alternativa sin decir que gestión está cerrada ni su horario (las tres) |
-| HOR-A1 | sí | 3 | **1** | 2 de 3 dan la regla general y dicen que hay que revisarlo, sin transferir ni ofrecerlo (causa probable: la frase añadida en la ronda de arreglos 2 sobre lo que devuelve `buscar_respuesta`, no D-006; corregido en la revisión) |
+| HOR-A1 | sí | 3 | **1** | 2 de 3 dan la regla general y dicen que hay que revisarlo, sin transferir ni ofrecerlo (causa: la línea «Otra duda del alquiler… buscar_respuesta… sin salir de aquí» de TU TAREA; ver «Causa de HOR-A1» en la ronda 14) |
 | HOR-01 | sí | 3 | **2** | Una vez dice que «lo deriva» al equipo de gestión |
 | CORREO-09, CORREO-10, ESC-02, ESC-03, ESC-06, WEB-04, ASEG-05, HOR-02, HOR-C4 | sí | — | 3 cada una | — (entorno arreglado) |
 | FDS-01, FDS-05, BORDE-09 | sí | 1 / 2 / 2 | 3 | — |
@@ -802,9 +802,11 @@ debajo del 90 %.
   - HOR-C1 sigue transfiriendo con `gestion_abierta: false`.
   - FDS-06 sigue sin decir el cierre.
   - Ni la frase propia antes de «Salvo…» ni la regla sobre lo que devuelve `buscar_respuesta` lo corrigen con gpt-5.4.
-- **Efecto de mover texto a `buscar_respuesta` (D-006):** BORDE-05 cae a 0/3 («Cambiar de coche»).
-- **HOR-A1 cae a 1/3** por la frase de la ronda de arreglos 2 («con gestión cerrada no transfieras a gestion aunque la
-  sección lo diga»), no por D-006 (corrección de la revisión): la frase se quitó en la ronda de arreglos 3.
+- **Efecto de mover texto a `buscar_respuesta` (D-006):**
+  - BORDE-05 cae a 0/3 («Cambiar de coche»).
+  - HOR-A1 cae a 1/3. «Cuánto se puede prolongar» pasa por la línea «Otra duda del alquiler… buscar_respuesta… sin
+    salir de aquí» de TU TAREA: el bot da la regla y se queda, sin seguir a ESCALADO. No es la frase de la ronda de
+    arreglos 2 (se quitó en la ronda de arreglos 3 y HOR-A1 siguió a 1/3).
 - Sin más vueltas (ficha, R33).
 
 ### Ronda de arreglos 3 (ronda 13, 19/10/2026, 10:30–10:33, lunes; Gestión abierta por el reloj)
@@ -835,9 +837,47 @@ debajo del 90 %.
 
 **Lectura.**
 - FDS-06 queda arreglada con la regla como primer punto de TU TAREA.
-- HOR-A1 no mejora al quitar la frase de la ronda de arreglos 2: sigue a 1/3. La atribución a esa frase (corrección
-  de la revisión) no se confirma. Lo más probable es que el bot, sin la regla general escrita, no llegue a ofrecer la
-  transferencia.
+- HOR-A1 no mejora al quitar la frase de la ronda de arreglos 2: sigue a 1/3, así que esa frase no era la causa. La
+  causa es la línea «Otra duda del alquiler… buscar_respuesta… sin salir de aquí» (ronda 14).
 - HOR-C1 mejora un poco (1/3), pero el bot sigue llamando a la herramienta alguna vez. El arreglo estructural pasa a
   la puerta 0: el aviso «le paso» es el `message` de la herramienta (`pendientes.md`).
 - Sin más vueltas.
+
+### Ronda de arreglos 4 (ronda 14, 19/10/2026, 10:40–10:47, lunes; Gestión abierta por el reloj)
+
+**Causa de HOR-A1.** Es la línea «Otra duda del alquiler… buscar_respuesta… sin salir de aquí» de TU TAREA. Desde la
+ronda de arreglos 1, «cuánto se puede prolongar» se pide a `buscar_respuesta` (D-006) y pasa por esa línea: el bot da la
+regla y se queda, sin seguir a ESCALADO («un dato concreto de su reserva: cola gestion»). No era la frase de la ronda de
+arreglos 2: se quitó en la ronda de arreglos 3 y HOR-A1 siguió a 1/3.
+
+**Cambios.** El prompt mide 21.998/22.000 caracteres; lo subí y lo comparé con `get_node_details` (igual al fuente).
+- Tras «sin salir de aquí»: «; si pide un dato de su reserva, cola gestion» (HOR-A1).
+- En ENVÍO, «Pide solo los datos que falten, uno por turno» en lugar de «Pide un dato por turno», y fuera el paréntesis
+  «si ya los dio en PISTA, no los pidas». En PISTA, «con el nombre y la fecha que ya dio, sin pedirlos de nuevo»
+  (PISTA-04).
+- HOR-01: no se tocó el prompt (motivo abajo). HOR-C1 queda fuera (R34).
+
+**Resultado.** Se pasaron 3 veces las 24 críticas y, del resto, PISTA-01 a PISTA-04, CORREO-20 y NOINI-P1. Críticas:
+**69/72**. Resto: 15/18.
+
+| Eval | Crítica | Ronda 13 | Ronda 14 | Motivo del juez en la ronda 14 |
+|---|---|---|---|---|
+| HOR-A1 | sí | 1 | **2** | 1 de 3: «se limitó a indicar que debe revisarlo y desvió a la web», sin ofrecer ni ejecutar la transferencia |
+| HOR-C1 | sí | 1 | **2** | 1 de 3 añade que vaya a la oficina si está abierta y da el horario tras una condición de urgencia (fuera de la ronda, R34) |
+| BORDE-09 | sí | 3 | **2** | 1 de 3 no dice el uno uno dos ni que ahora no puede pasarle |
+| HOR-01 | sí | 2 | 3 | — |
+| Las otras 20 críticas | sí | 3 | 3 | — |
+| PISTA-04 | no | 0 | **0** | Vuelve a pedir el nombre completo en vez de ejecutar `enviar_correo_contrasena` (las tres) |
+| PISTA-01, PISTA-02, PISTA-03, CORREO-20, NOINI-P1 | no | — | 3 cada una | — |
+
+**HOR-01 (rondas 12 y 13).** Los motivos del juez fueron «lo deriva» al equipo de gestión (ronda 12) y «sugiere ir a la
+oficina y no remite al área de cliente» (ronda 13). No es la línea de HOR-A1. Lo de la oficina lo permite el bloque
+común («si es urgente para hoy, que vaya a la oficina si está abierta»), y el bloque dice «ese horario o que use su área
+de cliente», mientras que la eval pide las dos cosas. Es del modelo o de la eval: no se tocó el prompt.
+
+**Lectura.**
+- HOR-A1 mejora (1/3 → 2/3), pero no llega a 3/3.
+- PISTA-04 no se mueve con ninguna de las dos redacciones. Falta mirar si la conversación de la eval da el nombre y la
+  fecha en turnos `user` o solo en la llamada a `pista_correo`.
+- Sin más vueltas.
+

@@ -53,7 +53,7 @@ Sin saludar ni presentarte, contesta a lo último que ha pedido. No tienes acces
 - Coche de sustitución, aseguradora, mutua o empresa: COCHE DE ASEGURADORA O DE EMPRESA.
 - Solo dice "modificar" o "cambiar" su reserva: pregunta una vez si ya tiene el coche.
 - Reserva que aún no ha empezado: buscar_respuesta con reserva_no_iniciada. Si le falta la contraseña, sin envío ni transferencia, di: "En centauro punto net o en la app, entre en 'Mi cuenta', escriba el correo con el que hizo la reserva y pulse '¿Has olvidado tu contraseña?'. Le llegará un enlace para crear una nueva."
-- Otra duda del alquiler (fianza, combustible, cargos, recoger tarde, devolver antes o en otra oficina, requisitos, durante el alquiler, teléfonos): buscar_respuesta con su tema, sin decir nada antes, y responde solo con lo que devuelva, en una o dos frases, sin salir de aquí.
+- Otra duda del alquiler (fianza, combustible, cargos, recoger tarde, devolver antes o en otra oficina, requisitos, durante el alquiler, teléfonos): buscar_respuesta con su tema, sin decir nada antes, y responde solo con lo que devuelva, en una o dos frases, sin salir de aquí; si pide un dato de su reserva, cola gestion.
 - Horario, dirección o dónde devolver en una oficina: informacion_oficina.
 - Minibús o algo que no es de su alquiler: volver_al_triaje con el motivo.
 
@@ -73,7 +73,7 @@ Si dice que no, que no la recuerda o que ya no consigue entrar: "No se preocupe:
 
 **ENVÍO DEL CORREO DE CONTRASEÑA**
 
-Solo si necesita entrar, no puede y acepta. Pide un dato por turno: el correo que dio en la oficina, que repites una vez deletreando letra a letra lo de antes de la arroba ("ele, gomez, arroba gmail punto com. ¿Es correcto?"); su nombre completo; su fecha de nacimiento (si ya los dio en PISTA, no los pidas). No pidas reserva, matrícula ni DNI. Con los tres y el correo confirmado, enviar_correo_contrasena. Según resultado:
+Solo si necesita entrar, no puede y acepta. Pide solo los datos que falten, uno por turno: el correo que dio en la oficina, que repites una vez deletreando letra a letra lo de antes de la arroba ("ele, gomez, arroba gmail punto com. ¿Es correcto?"); su nombre completo; su fecha de nacimiento. No pidas reserva, matrícula ni DNI. Con los tres y el correo confirmado, enviar_correo_contrasena. Según resultado:
 - enviado: "Ya se lo he enviado. Le llegará un correo de Centauro que dice 'restablecer contraseña'; aunque nunca haya tenido una, sirve para crearla. ¿Le ha llegado?" Si llega: "Pulse el enlace y escriba la contraseña que quiera. Luego entre con su correo y esa contraseña. ¿Seguimos con los pasos para prolongar?" Si no: puede tardar un par de minutos, que mire en no deseado y promociones; si sigue sin llegar, ofrece reenviarlo una vez; si tampoco, sin plan B: transfiere en ese turno a GESTIÓN DE RESERVA con motivo error_tecnico.
 - no_coincide: "Con esos datos no me coincide, así que no puedo enviárselo." y en ese turno cola gestion, motivo correo_no_coincide. Nunca digas qué dato falla ni pruebes otro correo. Con gestión cerrada no anuncies transferencia: en el turno siguiente, el plan B y el horario de gestión.
 - dato_no_interpretado: pide solo el dato del detalle y repite una vez.
@@ -82,7 +82,7 @@ Como mucho dos ejecuciones. Si pide la contraseña: el correo trae un enlace par
 
 **PISTA DEL CORREO**
 
-Si no sabe con qué correo está su alquiler, ofrece comprobarlo: pide número de reserva, nombre completo y fecha de nacimiento, uno por turno, y ejecuta pista_correo. Si verificado, dile solo el dominio ("es una dirección de gmail") y pídele el correo para enviar_correo_contrasena; nada más de la reserva. Con el correo confirmado, enviar_correo_contrasena con el nombre y la fecha que ya dio. Si no_verificado, sin decir qué falla, ofrece repetir una vez o el plan B. Si no, sigue su detalle.
+Si no sabe con qué correo está su alquiler, ofrece comprobarlo: pide número de reserva, nombre completo y fecha de nacimiento, uno por turno, y ejecuta pista_correo. Si verificado, dile solo el dominio ("es una dirección de gmail") y pídele el correo para enviar_correo_contrasena; nada más de la reserva. Con el correo confirmado, enviar_correo_contrasena con el nombre y la fecha que ya dio, sin pedirlos de nuevo. Si no_verificado, sin decir qué falla, ofrece repetir una vez o el plan B. Si no, sigue su detalle.
 
 **DEVOLVER TARDE (aviso, solo si viene al caso)**
 
@@ -174,7 +174,7 @@ mide (≤ 22.000 caracteres) es el texto anterior a esta sección, sin la cabece
   LA WEB NO LE DEJA son el texto de `comun/bloques/consultas-alquiler.md`, con estos cambios para caber en 22.000:
   - Fuera, y disponibles por `buscar_respuesta` (detalles_prolongacion, la_web_no_le_deja, devolucion): «Pagar la
     prolongación», «el mismo día», «¿Está bien hecha?», «Contrato ya vencido» (y vencido sin poder prolongar), «Devolver
-    antes de la nueva fecha», «Le falta parte del depósito», «Cambiar a un coche más grande», «Otra reserva para esas
+    antes de la nueva fecha», «Le falta parte del depósito», «Otra reserva para esas
     fechas», «Si pregunta por esa reserva nueva», «Si ya lo prolongó antes», «Si le han cobrado y no se ha confirmado»,
     «¿Necesita el número de reserva?» y «Usuario bloqueado». En la vuelta de arreglos (tras la ronda 1) salieron también
     «Condiciones» y «fecha u hora no válida». Una línea al final de LA WEB NO LE DEJA lo remite, con el tema de cada uno.
@@ -207,10 +207,16 @@ mide (≤ 22.000 caracteres) es el texto anterior a esta sección, sin la cabece
   lista de ESCALADO a una frase propia delante de «Salvo…» (FDS-06); el reenvío que no llega «transfiere en ese turno a
   GESTIÓN DE RESERVA con motivo error_tecnico» (CORREO-09). Tamaño: 21.692 caracteres.
 - Ronda de arreglos 3 (19/10/2026, ~10:30): fuera la frase de gestión cerrada para lo que devuelve buscar_respuesta
-  (causa probable de HOR-A1); la regla de gestión cerrada sale de ESCALADO y pasa a primer punto de TU TAREA, con la
+  (no era la causa de HOR-A1: ver la ronda de arreglos 4); la regla de gestión cerrada sale de ESCALADO y pasa a primer punto de TU TAREA, con la
   condición delante; «Cambiar de coche» vuelve a DETALLES QUE PUEDES DAR (D-006); en ENVÍO, «si ya los dio en PISTA, no
   los pidas». La descripción de transfer_to_human_agent empieza por «Gestión ahora: {{gestion_abierta}}. Si Gestión
   ahora es false y el caso es de gestión, no la llames» (no cuenta para los 22.000). Tamaño: 21.946 caracteres.
+- Ronda de arreglos 4 (19/10/2026, 10:40): la causa de HOR-A1 es la línea «Otra duda del alquiler… buscar_respuesta…
+  sin salir de aquí»: «cuánto se puede prolongar» pasa por ahí (D-006) y el bot da la regla y se queda, sin seguir a
+  ESCALADO. Arreglo: tras «sin salir de aquí», «; si pide un dato de su reserva, cola gestion». En ENVÍO, «Pide solo los
+  datos que falten, uno por turno» en lugar de «Pide un dato por turno» y fuera el paréntesis «si ya los dio en PISTA,
+  no los pidas»; en PISTA, «con el nombre y la fecha que ya dio, sin pedirlos de nuevo» (PISTA-04). Tamaño: 21.998
+  caracteres.
 
 ```json
 {
