@@ -182,7 +182,7 @@ y en las copias de `prompts/atencion-es/v2/`):
 
 ## Comprobaciones de la Tarea 10 (18/10/2026)
 
-- **Prolongación** construido: prompt de 21.978/22.000 caracteres (21.692 tras la ronda 12; `fast-gpt-5.4`), `enviar_correo_contrasena` (cadena
+- **Prolongación** construido: prompt de 21.978/22.000 caracteres (21.946 tras la ronda 13; `fast-gpt-5.4`), `enviar_correo_contrasena` (cadena
   de la v12), `pista_correo`, `buscar_respuesta` y la transferencia. Ids en `workflows.md`.
 - [ ] **Evals de Prolongación que no cumplen** (ronda 10, 18/10/2026 23:28–23:42; detalle y motivos en
       `informes/evals-v2.md`, «Prolongación (Tarea 10)»). Críticas 60/72, resto 84,5 %. Hecha la única vuelta de arreglos
@@ -220,9 +220,10 @@ y en las copias de `prompts/atencion-es/v2/`):
     regla sobre lo que devuelve `buscar_respuesta` ni la frase propia de gestión cerrada en ESCALADO.
   - FDS-06 (crítica, 0/3): da la alternativa sin decir el cierre. Pendiente de la regla de la v12 en el bloque común
     (abajo).
-  - HOR-A1 (crítica, 1/3) y BORDE-05 (0/3): efecto de sacar «Cuánto se puede prolongar» y «Cambiar de coche» a
-    `buscar_respuesta` (D-006): el bot no la llama o no transfiere después. Para la próxima vuelta, devolver esas dos
-    líneas al prompt (hay 308 caracteres libres) o reforzar la línea de mapeo.
+  - HOR-A1 (crítica, 1/3): por la frase de la ronda de arreglos 2 sobre lo que devuelve `buscar_respuesta` (no por
+    D-006; corrección de la revisión). Quitada en la ronda de arreglos 3.
+  - BORDE-05 (0/3): por sacar «Cambiar de coche» a `buscar_respuesta` (D-006). Devuelta al prompt en la ronda de
+    arreglos 3.
   - HOR-01 (crítica, 2/3): una vez dice que «lo deriva» al equipo de gestión.
   - **PROL-05 (0/3 en las rondas 9, 10 y 12):** tras una respuesta que no es sí/no, vuelve a preguntar si seguimos en
     vez de dar los pasos. Se quitó la cláusula «da ya los pasos» porque rompía CORREO-20 (ahora 3/3); PROL-05 queda
@@ -230,6 +231,24 @@ y en las copias de `prompts/atencion-es/v2/`):
   - Del resto a 0/3: PISTA-04 (pide otra vez un dato en vez de enviar), PROL-06 (vuelve a preguntar por la cuenta) y
     TARDE-02 (añade cortesía y penalización en vez de «es la tarifa vigente»). WEB-08 (1/3) suspende porque el juez
     exige una pregunta que la expectativa no pide.
+- [ ] **Tras la ronda de arreglos 3 (ronda 13, 19/10 10:30–10:33, Gestión abierta por el reloj; `informes/evals-v2.md`):**
+      críticas 67/72. FDS-06 arreglada (3/3), BORDE-05 3/3. Sin más vueltas. Quedan:
+  - HOR-C1 (crítica, 1/3): aún ejecuta a veces `transfer_to_human_agent` con `gestion_abierta: false`. El arreglo
+    estructural va a la puerta 0 (siguiente punto).
+  - HOR-A1 (crítica, 1/3): no ofrece ni ejecuta la transferencia tras decir que gestión lo tiene que revisar. Quitar
+    la frase de la ronda de arreglos 2 no lo arregló; probar a devolver «Cuánto se puede prolongar» con «si pregunta
+    cuánto le queda a él, cola gestion» (hay 54 caracteres libres: no cabe entero).
+  - HOR-01 (crítica, 2/3): una vez manda a la oficina en vez de al área de cliente.
+  - PISTA-04 (0/3): sigue pidiendo otra vez el nombre.
+- [ ] **El aviso «le paso con un compañero» suena antes de saber si Gestión está cerrada (Tarea 12/16 y puerta 0).**
+      Es el `message` tipo `ai` de `transfer_to_human_agent`: el agente lo dice al ejecutar la herramienta, antes de que
+      «Preparar transferencia» devuelva `gestion_cerrada` (o `modo_virtual`). Con Gestión cerrada el cliente oye «le
+      paso» y después «no he podido». Afecta a los tres módulos con transferencia (Triaje, Consultas y Prolongación).
+      Salidas posibles: `message` tipo `none` y que el agente diga el aviso solo tras `transferir`, o un Paths antes del
+      mensaje. HOR-C1 (0/3 en la ronda 12) depende de esto: el arreglo estructural pasa a la puerta 0.
+- [ ] **Hora real en las evals que esperan Gestión cerrada:** con `gestion_abierta: false` en la eval pero el reloj en
+      horario de Gestión, «Preparar transferencia» sí transfiere (usa el reloj, no la variable). Las evals HOR-C*, FDS-*
+      y GC-P1 no deben medirse por la cadena real: el juez solo puede valorar la decisión del bot.
 - [ ] **Mejora de la spec §5.7 sin hacer:** que «Enviar correo» no se ejecute si el correo no coincide. Se puede hacer
       por API: un Paths nuevo bajo «Decidir envío» (`estado` = `coincide` / resto) con un «Resultado para el agente» en
       cada rama (en la rama de envío, después de «Enviar correo»; en la otra, solo con la salida de «Decidir envío»). Lo

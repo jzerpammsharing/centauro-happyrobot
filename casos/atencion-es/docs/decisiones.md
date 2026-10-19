@@ -37,7 +37,7 @@ Plantilla:
   `la_web_no_le_deja`: pagar, el mismo día, ¿está bien hecha?, contrato vencido (y vencido sin poder prolongar),
   devolver antes de la nueva fecha, le falta depósito, cambiar a un coche más grande, otra reserva y esa reserva nueva,
   si ya lo prolongó antes, cobrado sin confirmar, ¿número de reserva?, usuario bloqueado, condiciones, fecha u hora no
-  válida y, desde la ronda de arreglos 1 (19/10), «Cuánto se puede prolongar» y «Cambiar de coche». Una línea al final
+  válida y, desde la ronda de arreglos 1 (19/10), «Cuánto se puede prolongar». «Cambiar de coche» salió en la ronda de arreglos 1 y volvió al prompt en la ronda de arreglos 3 (19/10): fuera, el bot no llamaba a la herramienta (BORDE-05 a 0/3 en la ronda 12). Una línea al final
   de LA WEB NO LE DEJA dice qué tema lleva cada uno.
 - **Por qué:** el texto entero del bloque no cabe con el bloque común, el correo de contraseña y la pista (spec §5.4 y
   §5.9: el conocimiento llega por `buscar_respuesta`, no copiado). Los textos son los mismos (`consultas_alquiler.py`).

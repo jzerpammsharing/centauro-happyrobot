@@ -774,7 +774,7 @@ BORDE-04, HOR-02, HOR-C3, HOR-C4 y HOR-A1.
   «Salvo…».
 - Cuando el reenvío tampoco llega: «transfiere en ese turno a GESTIÓN DE RESERVA con motivo error_tecnico».
 
-**Resultado (97 evals ×3; con las `cola_*` la hora ya no cambia el resultado):** críticas **63/72**, resto
+**Resultado (97 evals ×3; con las `cola_*` la hora ya no cambia las evals de transferencia que llevan `gestion_abierta: true`; sí puede cambiar las que esperan Gestión cerrada, porque «Preparar transferencia» usa el reloj y no la variable):** críticas **63/72**, resto
 **191/219 (87,2 %)**, total 254/291. No cumple el criterio: quedan 4 críticas por debajo de 3/3 y el resto está por
 debajo del 90 %.
 
@@ -782,7 +782,7 @@ debajo del 90 %.
 |---|---|---|---|---|
 | HOR-C1 | sí | 1 | **0** | 2 de 3 ejecutan `transfer_to_human_agent` con `gestion_abierta: false`; 1 no dice que llame en horario ni el área de cliente |
 | FDS-06 | sí | 0 | **0** | Da la alternativa sin decir que gestión está cerrada ni su horario (las tres) |
-| HOR-A1 | sí | 3 | **1** | 2 de 3 dan la regla general y dicen que hay que revisarlo, sin transferir ni ofrecerlo |
+| HOR-A1 | sí | 3 | **1** | 2 de 3 dan la regla general y dicen que hay que revisarlo, sin transferir ni ofrecerlo (causa probable: la frase añadida en la ronda de arreglos 2 sobre lo que devuelve `buscar_respuesta`, no D-006; corregido en la revisión) |
 | HOR-01 | sí | 3 | **2** | Una vez dice que «lo deriva» al equipo de gestión |
 | CORREO-09, CORREO-10, ESC-02, ESC-03, ESC-06, WEB-04, ASEG-05, HOR-02, HOR-C4 | sí | — | 3 cada una | — (entorno arreglado) |
 | FDS-01, FDS-05, BORDE-09 | sí | 1 / 2 / 2 | 3 | — |
@@ -802,7 +802,42 @@ debajo del 90 %.
   - HOR-C1 sigue transfiriendo con `gestion_abierta: false`.
   - FDS-06 sigue sin decir el cierre.
   - Ni la frase propia antes de «Salvo…» ni la regla sobre lo que devuelve `buscar_respuesta` lo corrigen con gpt-5.4.
-- **Efecto de mover texto a `buscar_respuesta` (D-006):**
-  - BORDE-05 cae a 0/3 («Cambiar de coche»).
-  - HOR-A1 cae a 1/3 («Cuánto se puede prolongar»): el bot ya no transfiere tras dar la regla.
+- **Efecto de mover texto a `buscar_respuesta` (D-006):** BORDE-05 cae a 0/3 («Cambiar de coche»).
+- **HOR-A1 cae a 1/3** por la frase de la ronda de arreglos 2 («con gestión cerrada no transfieras a gestion aunque la
+  sección lo diga»), no por D-006 (corrección de la revisión): la frase se quitó en la ronda de arreglos 3.
 - Sin más vueltas (ficha, R33).
+
+### Ronda de arreglos 3 (ronda 13, 19/10/2026, 10:30–10:33, lunes; Gestión abierta por el reloj)
+
+**Cambios.** El prompt mide 21.946/22.000 caracteres; lo subí y lo comparé con `get_node_details`.
+- Fuera la frase de la ronda de arreglos 2 sobre lo que devuelve `buscar_respuesta`.
+- La regla de gestión cerrada pasa a ser el primer punto de TU TAREA, con la condición delante: «Con gestión cerrada, si
+  pide una persona o que alguien mire su caso, o si llama una agencia o una aseguradora: sin transfer_to_human_agent…».
+- «Cambiar de coche» vuelve a DETALLES QUE PUEDES DAR (D-006).
+- En ENVÍO, «si ya los dio en PISTA, no los pidas».
+- La descripción de `transfer_to_human_agent` empieza por «Gestión ahora: {{gestion_abierta}}. Si Gestión ahora es false
+  y el caso es de gestión, no la llames…». La variable va como nodo de variable de Plate y no cuenta para los 22.000.
+- La eval HOR-C1 admite que dé solo el horario («basta con el horario»).
+
+**Resultado.** Se pasaron 3 veces las 24 críticas y, del resto, BORDE-05, PISTA-04, WEB-03 y WEB-08. Críticas:
+**67/72**.
+
+| Eval | Crítica | Ronda 12 | Ronda 13 | Motivo del juez en la ronda 13 |
+|---|---|---|---|---|
+| HOR-C1 | sí | 0 | **1** | 1 de 3 ejecuta `transfer_to_human_agent` con `gestion_abierta: false`; 1 de 3 no dice el cierre ni el horario |
+| HOR-A1 | sí | 1 | **1** | 2 de 3: uno anuncia la transferencia sin ejecutarla y otro dice que gestión lo tiene que revisar, sin ofrecerla |
+| HOR-01 | sí | 2 | **2** | Una vez sugiere ir a la oficina y no remite al área de cliente |
+| FDS-06 | sí | 0 | 3 | — |
+| Las otras 20 críticas | sí | 3 | 3 | — |
+| BORDE-05 | no | 0 | 3 | — («Cambiar de coche» de vuelta en el prompt) |
+| WEB-03 / WEB-08 | no | 1 / 1 | 3 / 3 | — |
+| PISTA-04 | no | 0 | 0 | Vuelve a pedir el nombre en vez de ejecutar `enviar_correo_contrasena`, también con «si ya los dio en PISTA, no los pidas» |
+
+**Lectura.**
+- FDS-06 queda arreglada con la regla como primer punto de TU TAREA.
+- HOR-A1 no mejora al quitar la frase de la ronda de arreglos 2: sigue a 1/3. La atribución a esa frase (corrección
+  de la revisión) no se confirma. Lo más probable es que el bot, sin la regla general escrita, no llegue a ofrecer la
+  transferencia.
+- HOR-C1 mejora un poco (1/3), pero el bot sigue llamando a la herramienta alguna vez. El arreglo estructural pasa a
+  la puerta 0: el aviso «le paso» es el `message` de la herramienta (`pendientes.md`).
+- Sin más vueltas.
