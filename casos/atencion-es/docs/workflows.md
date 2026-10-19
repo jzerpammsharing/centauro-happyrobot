@@ -139,7 +139,7 @@ oficina `fast-gpt-4.1`; Prolongación y consultas `fast-gpt-5.4`; los dos extrac
 del alquiler pasa a `fast-gpt-4.1` (Tarea 9) y se confirma tras la comparación del spec §7.3 (Tarea 9c, D-005).
 Prolongación (Tarea 10) usa `fast-gpt-5.4`, sin `initial_message`.
 
-**Tarea 10 (18/10/2026):** el prompt «Prolongación» deja de ser provisional (21.978 caracteres; 21.946 tras la ronda de arreglos 3 y 21.998 tras la ronda de arreglos 4, del 19/10; copia en
+**Tarea 10 (18/10/2026):** el prompt «Prolongación» deja de ser provisional (21.978 caracteres; 21.946 tras la ronda de arreglos 3 y 21.998 tras la ronda de arreglos 4 y 21.994 tras la 5, del 19/10; copia en
 `prompts/atencion-es/v2/prolongacion.md`) y lleva sus cuatro herramientas, creadas por API: la cadena del correo de
 contraseña de Prolongaciones v12 (misma credencial «Centauro MCP» y mismo código), `pista_correo` (nueva, spec §5.7),
 `buscar_respuesta` (Python «Buscar respuesta», el mismo código que Consultas) y la transferencia con el patrón de
