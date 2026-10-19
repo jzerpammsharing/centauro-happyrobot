@@ -16,6 +16,37 @@ Plantilla:
 
 ---
 
+## D-007 · 2026-10-19 · Prolongación: reserva que aún no ha empezado, sin envío ni transferencia
+- **Qué:** en el prompt «Prolongación» de la v2, si la reserva aún no ha empezado, el bot ejecuta `buscar_respuesta`
+  con `reserva_no_iniciada` y, si al cliente le falta la contraseña, le da una instrucción propia: centauro punto net o
+  la app, «Mi cuenta», el correo con el que hizo la reserva y «¿Has olvidado tu contraseña?»; le llegará un enlace para
+  crear una nueva. No ofrece el envío del correo de contraseña ni transfiere. No usa el plan B de EXPLICACIÓN (que habla
+  del correo de la recogida y acaba en «¿Seguimos con los pasos para prolongar?»).
+- **Por qué:** el envío (`enviar_correo_contrasena`) comprueba el correo contra el alquiler en curso (spec §5.7); con
+  una reserva futura no hay recogida ni correo de la oficina. Con el plan B de EXPLICACIÓN, NOINI-P1 daba 0/3 y 1/3
+  (rondas 9 y 10) y el plan B nuevo rompió CORREO-09 (3/3 → 0/3). Ronda 11: `informes/evals-v2.md`.
+- **Afecta a:** v2 (nodo «Prolongación»).
+- **Quién:** el responsable de la construcción, con la revisión de la Tarea 10 (ronda de arreglos 1, R33).
+- **Estado:** aplicada en v2.
+
+## D-006 · 2026-10-18 · Prolongación: detalles poco frecuentes por `buscar_respuesta`
+- **Qué:** el prompt «Prolongación» (máximo 22.000 caracteres) no copia enteras DETALLES QUE PUEDES DAR ni LA WEB NO LE
+  DEJA de `comun/bloques/consultas-alquiler.md`. Quedan en el prompt los casos frecuentes (precio, importe que muestra
+  la web, penalización, prolongar en una oficina, precio caro, condiciones generales; disponibilidad, pago, correo que
+  no llega, no ve la reserva) y el resto se pide a `buscar_respuesta` con `detalles_prolongacion` o
+  `la_web_no_le_deja`: pagar, el mismo día, ¿está bien hecha?, contrato vencido (y vencido sin poder prolongar),
+  devolver antes de la nueva fecha, le falta depósito, cambiar a un coche más grande, otra reserva y esa reserva nueva,
+  si ya lo prolongó antes, cobrado sin confirmar, ¿número de reserva?, usuario bloqueado, condiciones, fecha u hora no
+  válida y, desde la ronda de arreglos 1 (19/10), «Cuánto se puede prolongar» y «Cambiar de coche». Una línea al final
+  de LA WEB NO LE DEJA dice qué tema lleva cada uno.
+- **Por qué:** el texto entero del bloque no cabe con el bloque común, el correo de contraseña y la pista (spec §5.4 y
+  §5.9: el conocimiento llega por `buscar_respuesta`, no copiado). Los textos son los mismos (`consultas_alquiler.py`).
+- **Riesgo:** el bot tiene que llamar a la herramienta con el tema correcto; TARDE-06 usó una vez `la_web_no_le_deja`
+  en vez de `detalles_prolongacion` (ronda 10).
+- **Afecta a:** v2 (nodo «Prolongación»).
+- **Quién:** el responsable de la construcción (Tarea 10).
+- **Estado:** aplicada en v2.
+
 ## D-005 · 2026-10-18 · Consultas del alquiler se queda con gpt-4.1 (comparación de modelos del spec §7.3)
 - **Qué:** el módulo «Consultas del alquiler» de la v2 se queda con `fast-gpt-4.1` (gpt-4.1). Sustituye a D-002 (provisional).
   No cambia ningún nodo: el modelo ya era ese.

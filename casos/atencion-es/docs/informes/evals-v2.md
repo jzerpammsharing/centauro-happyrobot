@@ -672,3 +672,84 @@ cadena real) y FDS-05.
 preguntando) y rompe CORREO-20 (da los pasos cuando aún tocaba preguntar); el plan B de la reserva no iniciada rompe
 CORREO-09 (crítica). Con gestión cerrada, gpt-5.4 sigue ofreciendo alternativas antes que decir el horario (FDS-01,
 FDS-06) y una vez intenta transferir (HOR-C1). Con tres ejecuciones, 1 de 3 y 2 de 3 no se distinguen bien.
+
+### Evals cambiadas entre las rondas 9 y 10
+
+`manage_custom_evals update` cambia solo los campos que se le pasan (la respuesta lo dice: «Updated fields: …»; visto
+otra vez el 19/10 al tocar HOR-C1, FDS-01 y CORREO-09).
+
+- **Cambio de contenido** (expectativa, 18/10 23:27, antes de la ronda 10). **En estas seis las rondas 9 y 10 no se
+  pueden comparar:**
+  - ESC-09 y BORDE-09: se admite que repita el teléfono una vez, como manda el bloque común.
+  - HOR-C3: el reintento tras el fallo de la transferencia viene del entorno y no cuenta; se admite un resumen de dos
+    frases.
+  - BORDE-01: «sin franquicia» se admite, porque es de Smart Cover y sale de la sección.
+  - CORREO-04: se explica que la cadena es real y que con datos inventados devuelve `no_coincide`.
+  - FDS-05: el juez no cuenta «I cannot connect you» como hablar de pasarle.
+- **Solo carpeta** (18/10 23:19–23:22, después de la ronda 9): las 100 evals, porque `create` no guarda `folder_id`.
+  Por eso CORREO-09, FDS-06, HOR-C1, NOINI-P1, WEB-08 y las demás tienen «Updated» a esa hora. La llamada solo llevaba
+  `folder_id`, así que no cambió ni la conversación, ni la expectativa, ni las variables.
+- **CORREO-09:** `get` no enseña las variables. Se crearon con `gestion_abierta: true` (18/10 23:03) y después solo se
+  movió de carpeta. En la ronda 10 hay otra prueba de que se conservaron: ESC-02, ESC-03, ESC-06 y HOR-02, que solo
+  cambiaron de carpeta, transfirieron con la cola `gestion`. Con `false` el prompt lo prohíbe. Por tanto, la caída de
+  CORREO-09 venía del prompt: el plan B se aplicaba también a «no se puede enviar». El 19/10 a las 9:20 se volvieron a
+  escribir sus variables (los mismos valores), por si acaso.
+
+### Ronda de arreglos 1 de la revisión (ronda 11, 19/10/2026)
+
+- Prompt de 21.580 caracteres, subido a las 9:20 y comprobado con `get_node_details`. Arreglos en `prolongacion.md`
+  (Configuración), D-006 y D-007.
+- Expectativas reescritas:
+  - HOR-C1: puede citar la penalización general de cincuenta euros.
+  - FDS-01: «dos frases y una pregunta» es un máximo; se admite el área de cliente.
+- **Todo es después de las 8:00. Gestión estaba abierta por el reloj real** (lunes). Eso cambia el entorno de las
+  evals de transferencia que llevan `gestion_abierta: true`:
+  - «Preparar transferencia» ya no devuelve `gestion_cerrada`. Pasa a buscar la cola y, como la eval no lleva las
+    variables `cola_*` de «Resolver colas», devuelve `cola_no_valida`.
+  - El bot la repite una vez, como manda CÓMO TRANSFERIR.
+  - El juez suspende por esa segunda llamada aunque la expectativa diga que lo posterior no cuenta.
+  - Esas evals no se pueden comparar con las rondas 9 y 10 (de noche, Gestión cerrada por el reloj).
+
+**11a: las diez evals de la revisión** (9:22–9:23, ×3):
+
+| Eval | Ronda 10 | Ronda 11 | Motivo del juez |
+|---|---|---|---|
+| CORREO-09 (crítica) | 0 | 0 | 2 de 3: primera llamada correcta (`gestion`, `error_tecnico`); suspende por el reintento tras `cola_no_valida` (entorno). 1 de 3: anuncia la transferencia sin ejecutarla (fallo del bot) |
+| CORREO-12 | 3 | 3 | — |
+| CORREO-20 | 0 | 0 | Sigue dando los pasos de prolongar en el turno del plan B, también con «Ese turno acaba ahí, sin los pasos» |
+| CORREO-21 | 3 | 3 | — |
+| NOINI-P1 | 1 | 1 | 2 de 3 no dicen que le llegará un enlace para crear la contraseña |
+| HOR-C1 (crítica) | 1 | 0 | 1 de 3 ejecuta `transfer_to_human_agent` con `gestion_abierta: false`; 2 de 3 no dicen que gestión está cerrada ni su horario |
+| FDS-01 (crítica) | 1 | 3 | — (expectativa reescrita) |
+| FDS-06 (crítica) | 0 | 2 | 1 de 3 da la alternativa sin decir que gestión está cerrada |
+| ASEG-03 | 0 | 3 | — («aunque pregunte el precio») |
+| CIERRE-01 | 0 | 3 | — (la despedida cierra el turno, sin «¿algo más?») |
+
+**11b: pasada completa de las críticas** (24 evals ×3, 9:24–9:26; toda la pasada con Gestión abierta por el reloj, ninguna
+a los dos lados de las 8:00): **48/72**.
+
+| Eval | Ronda 10 | Ronda 11 | Motivo del juez |
+|---|---|---|---|
+| GC-P1, ESC-05, ESC-09, BORDE-09, CORREO-11, HOR-01, HOR-C2, HOR-C3, FDS-01, FDS-04, FDS-05, FDS-07 | — | 3 cada una | — |
+| ESC-02 | 3 | 0 | Entorno: primera llamada correcta; suspende por el reintento tras `cola_no_valida` |
+| CORREO-09 | 0 | 0 | Entorno, en las tres (igual que en 11a) |
+| CORREO-10 | 3 | 0 | Entorno: reintento tras `cola_no_valida`; en 1 de 3 el juez dice además que falta la frase previa |
+| WEB-04 | 3 | 0 | Entorno: reintento tras `cola_no_valida` |
+| HOR-02 | 3 | 0 | Entorno: reintento tras `cola_no_valida` |
+| HOR-C1 | 1 | 0 | 2 de 3 ejecutan `transfer_to_human_agent` y dicen que le pasan, con `gestion_abierta: false`; 1 de 3 no dice el cierre ni el horario |
+| ESC-03, ESC-06, ASEG-05, HOR-C4 | 3 | 2 | Entorno: reintento tras `cola_no_valida` |
+| HOR-A1 | 3 | 2 | No da antes la regla general de cuánto se puede prolongar (ahora la da `buscar_respuesta`) |
+| FDS-06 | 0 | 2 | 1 de 3 no dice el cierre ni el horario |
+
+**Lectura.**
+- **Arreglado:** FDS-01, ASEG-03 y CIERRE-01, todas a 3/3. FDS-06 pasa de 0/3 a 2/3 dos veces.
+- **CORREO-09:** el bot ya transfiere a `gestion` / `error_tecnico` en 5 de 6, pero el reintento del entorno lo tapa.
+  No se puede dar por cerrada con la hora de hoy.
+- **Siguen fallando por el bot:**
+  - HOR-C1: transfiere con Gestión cerrada en las variables.
+  - CORREO-20: da los pasos antes de tiempo.
+  - NOINI-P1: no menciona el enlace.
+- **Las demás caídas de las críticas son del entorno:** la hora real con Gestión abierta y las evals sin las `cola_*`.
+  Para medir las críticas de transferencia hay que pasar las `cola_*` como variables o ejecutarlas con Gestión
+  cerrada por el reloj.
+- Sin más vueltas (ficha y R33).

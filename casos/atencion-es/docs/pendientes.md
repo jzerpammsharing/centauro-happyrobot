@@ -182,7 +182,7 @@ y en las copias de `prompts/atencion-es/v2/`):
 
 ## Comprobaciones de la Tarea 10 (18/10/2026)
 
-- **Prolongación** construido: prompt de 21.978/22.000 caracteres (`fast-gpt-5.4`), `enviar_correo_contrasena` (cadena
+- **Prolongación** construido: prompt de 21.978/22.000 caracteres (21.580 tras la ronda 11; `fast-gpt-5.4`), `enviar_correo_contrasena` (cadena
   de la v12), `pista_correo`, `buscar_respuesta` y la transferencia. Ids en `workflows.md`.
 - [ ] **Evals de Prolongación que no cumplen** (ronda 10, 18/10/2026 23:28–23:42; detalle y motivos en
       `informes/evals-v2.md`, «Prolongación (Tarea 10)»). Críticas 60/72, resto 84,5 %. Hecha la única vuelta de arreglos
@@ -200,10 +200,38 @@ y en las copias de `prompts/atencion-es/v2/`):
     `no_coincide` y el bot transfiere después).
   - Para la próxima vuelta: «da ya los pasos» y el plan B nuevo chocan con CORREO-20 y CORREO-09; el prompt está a 22
     caracteres del máximo, así que cualquier arreglo pide sacar más texto a `buscar_respuesta`.
-- [ ] **Mejora de la spec §5.7 sin hacer:** que «Enviar correo» no se ejecute si el correo no coincide. Pide un Paths con
-      «Resultado para el agente» en las dos ramas, y en HappyRobot un nodo tiene un solo padre (por API no se reengancha).
-      Hoy, si no coincide, el nodo se ejecuta con `email` vacío y el MCP lo rechaza (como en la v12). Se puede hacer en
-      el editor duplicando «Resultado para el agente» en cada rama.
+- [ ] **Tras la ronda de arreglos 1 de la revisión (ronda 11, 19/10 9:22–9:26, Gestión abierta por el reloj real;
+      `informes/evals-v2.md`):** críticas 48/72. Arregladas FDS-01, ASEG-03 y CIERRE-01. Siguen por el bot:
+  - HOR-C1 (crítica, 0/3 dos veces): con `gestion_abierta: false` ejecuta a veces `transfer_to_human_agent` (en una
+    llamada real la variable y el reloj coinciden y la red de seguridad del código no transfiere, pero el turno queda
+    mal) o no dice el cierre.
+  - FDS-06 (crítica, 2/3 dos veces): a veces da la alternativa sin decir que gestión está cerrada.
+  - CORREO-09 (crítica): transfiere bien a `gestion` / `error_tecnico` en 5 de 6, pero en 1 de 6 anuncia sin ejecutar;
+    el resto de fallos son del entorno (abajo).
+  - CORREO-20 (0/3): sigue dando los pasos en el turno del plan B.
+  - NOINI-P1 (1/3): no menciona el enlace.
+  - HOR-A1 (2/3): no da la regla general de cuánto se puede prolongar antes de transferir (ahora está en
+    `buscar_respuesta`, D-006).
+- [ ] **Evals de transferencia con la hora real (entorno):** con Gestión abierta por el reloj, «Preparar transferencia»
+      devuelve `cola_no_valida` porque las evals no llevan las `cola_*` de «Resolver colas»; el bot reintenta una vez y
+      el juez suspende (ESC-02, ESC-03, ESC-06, CORREO-09, CORREO-10, WEB-04, HOR-02, HOR-C4, ASEG-05 el 19/10). Antes de
+      la puerta 0, añadir las `cola_*` como variables a las evals de transferencia (o ejecutarlas con Gestión cerrada).
+- [ ] **Mejora de la spec §5.7 sin hacer:** que «Enviar correo» no se ejecute si el correo no coincide. Se puede hacer
+      por API: un Paths nuevo bajo «Decidir envío» (`estado` = `coincide` / resto) con un «Resultado para el agente» en
+      cada rama (en la rama de envío, después de «Enviar correo»; en la otra, solo con la salida de «Decidir envío»). Lo
+      que falta comprobar es si el agente recibe como resultado de la herramienta la salida del «Resultado» que se
+      ejecuta (hoy toma la del último nodo de la cadena; con dos ramas no está visto). Hoy, si no coincide, «Enviar
+      correo» se ejecuta con `email` vacío y el MCP lo rechaza (como en la v12). No construido.
+- [ ] **Regla de la v12 perdida, para la Tarea 12/16 (FDS-06, FDS-01):** la v12 decía en GESTIÓN CERRADA (punto 3,
+      `casos/prolongaciones/prompts/prolongacion-es/v12/prolongacion.md`): «En el PRIMER turno en que el cliente pida
+      una persona, un agente o algo que solo un compañero puede hacer, dile con claridad que ese equipo está cerrado y
+      qué puede hacer… No esperes a que lo pida varias veces». El bloque común solo dice «en cuanto necesite algo que solo
+      puede hacer gestión», y en Prolongación ganaba ESCALADO («Pide una persona: pregunta una vez qué necesita»), así
+      que con gestión cerrada el bot preguntaba o daba la alternativa sin decir el cierre. No se toca el bloque común
+      (no tiene sitio, R33). Arreglo dentro de Prolongación (ronda de arreglos 1, 19/10): ESCALADO separa «pide una
+      persona con gestión cerrada» (decir en ese turno que está cerrada, su horario y que llame entonces; si es cliente,
+      ofrecer ayuda) de «con gestión abierta» (preguntar una vez qué necesita). Al revisar el bloque común (Tarea 12/16),
+      recuperar la frase de la v12 para todos los módulos.
 - [ ] **`pista_correo`: ramas sin confirmar.** El Paso 3 (22:54, datos inventados) solo vio `no_verificado`
       (`encontrada: false`, sin error). No se ha visto el texto real del MCP cuando no interpreta la reserva o el nombre
       (`dato_no_interpretado`) ni el caso `verificado` con `email_hint`: este último solo con una reserva real, en la

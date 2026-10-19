@@ -16,13 +16,13 @@ credencial «Centauro MCP» (`01a0e1d8-9c92-7e58-8e25-caf109f1fadb`), mismo even
 | 3 | Enviar correo (enviar_reset_contrasena) | MCP Call | `01a150c7-090c-7f7b-b5f7-38aa1b1614d9` | `enviar_reset_contrasena` con `email` = `{{01a150c7-08fd-….email_envio}}` (vacío si no coincide: el MCP lo rechaza y no sale ningún correo) |
 | 4 | Resultado para el agente | Python Sandbox (`standard`) | `01a150c7-091b-7abf-a101-539b1b7ec049` | `casos/prolongaciones/codigo/resultado_envio.py` tal cual. Entradas: `estado` y `detalle` del nodo 2; `reset_result` y `reset_is_error` del nodo 3 |
 
-## Mejora de la spec §5.7 (que «Enviar correo» no se ejecute si no coincide): no se hace
+## Mejora de la spec §5.7 (que «Enviar correo» no se ejecute si no coincide): no se hace en la Tarea 10
 
-La ficha la condiciona a dos cosas: que en la Tarea 8 funcionara el Paths dentro de una herramienta (sí: «¿Transferir?»
-funciona en la transferencia) **y** que «Resultado para el agente» admita llegar desde las dos ramas. Lo segundo no se
-cumple: en HappyRobot cada nodo tiene un solo padre, y por API no se puede enganchar un nodo a dos ramas (`parent_id` no se
-cambia con `update`, ver «Comprobaciones de la Tarea 6»). Además `test_node` no ejecuta un Paths, así que no se podría
-probar. La cadena sigue como en la v12 y la mejora queda en `docs/pendientes.md`.
+Por API sí se puede: un Paths nuevo bajo «Decidir envío» (`estado` = `coincide` o no) con un «Resultado para el agente» en
+cada rama (en la de envío, detrás de «Enviar correo»). No hace falta enganchar un nodo a dos padres. Lo que no está
+comprobado es si el agente recibe como resultado de la herramienta la salida del «Resultado» de la rama que se ejecuta, y
+`test_node` no ejecuta un Paths, así que solo se vería con evals o una llamada de prueba. La cadena sigue como en la v12
+y la mejora queda en `docs/pendientes.md`.
 
 ## Paso 3: `test_node` con datos inventados (18/10/2026, 22:54, Madrid)
 
