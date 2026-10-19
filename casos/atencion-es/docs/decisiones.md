@@ -29,7 +29,11 @@ Plantilla:
   Minibús una pregunta que otro módulo responde es una transferencia evitable.
 - **Afecta a:** v2. Hasta la Tarea 12 esas herramientas no existen en estos dos nodos: en las evals, Información de
   oficina llama a `consultas_alquiler` o contesta cuando le preguntan por el minibús (ADV-12, «VIRTUAL · pregunta por
-  el minibús», «ES · pregunta por el minibús (Palma)», 0/3, no cuentan, R5).
+  el minibús», «ES · pregunta por el minibús (Palma)», 0/3, no cuentan, R5). **Hasta la Tarea 12 Información de
+  oficina empeora frente a la v1 en las preguntas del minibús**: la v1 transfería a Minibús y la v2 contesta o salta a
+  Consultas.
+- **Quién:** el agente de la Tarea 11, con el spec como autoridad; lo revisa el responsable.
+- **Estado:** aplicada en v2 (prompts); herramientas en la Tarea 12.
 
 ## D-007 · 2026-10-19 · Prolongación: reserva que aún no ha empezado, sin envío ni transferencia
 - **Qué:** en el prompt «Prolongación» de la v2, si la reserva aún no ha empezado, el bot ejecuta `buscar_respuesta`

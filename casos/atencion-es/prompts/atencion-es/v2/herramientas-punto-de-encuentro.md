@@ -13,7 +13,9 @@ Las herramientas del prompt «Punto de encuentro» (`a80fca22-b295-41e3-a735-a3c
 ## 1. consultas_alquiler (sin cambios)
 
 - Hijo: «Module Change» → «Consultas del alquiler» (viene del duplicado; no se toca, R5).
-- `message`: `{"type": "none"}`. Descripción y parámetros (`tema`, `pregunta`) los de la v25.
+- `message`: `{"type": "none"}`. Parámetros (`tema`, `pregunta`) los de la v25. Descripción: la de la v25 con una frase
+  delante (ronda de arreglos 1, ADV-7): «NO la uses si en el mismo turno se queja del minibús (se fue sin él, no pasa,
+  lleva esperando igual o más que la frecuencia): eso va primero y se transfiere a la cola minibus.»
 
 ## 2. transfer_to_human_agent
 
@@ -40,7 +42,7 @@ Las herramientas del prompt «Punto de encuentro» (`a80fca22-b295-41e3-a735-a3c
 |---|---|---|
 | consultas_alquiler → Module Change | `01a14f1d-0398-7a4b-84e7-313e054df714` → `01a14f1d-039b-7e6e-91ee-a0401da2c7e3` | `3f1c2be8-8768-455f-895b-047063ea7938` |
 | transfer_to_human_agent | `01a14f1d-0398-75cb-939a-e2f512c94a01` | `00435498-eccf-4110-9cf1-eb17821af3ed` |
-| → Initiate customer connection (v25, por sustituir) | `01a14f1d-0396-7961-a5d9-ee9de58e701b` | — |
+| → Initiate customer connection (v25, por sustituir) | `01a14f1d-0396-7961-a5d9-ee9de58e701b` | `37fb8053-214e-4357-be80-0fc8f832ecbc` |
 
 Cuando se cree «Preparar transferencia», su entrada `cola` es `{{00435498-eccf-4110-9cf1-eb17821af3ed.cola}}` y las
 cuatro `cola_*` de «Resolver colas» (`081e2b5d-…`); el whisper del Transfer lleva el `resumen_para_agente` de esta

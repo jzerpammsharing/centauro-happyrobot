@@ -315,22 +315,32 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
       (`01a14f1d-0396-7961-…` en Punto de encuentro y `01a14f1d-0396-788f-…` en Información de oficina), cuyo
       `number` lee el parámetro de la extensión que ya no existe y cuyo `fallback_number` es la cola de Minibús: en
       una llamada, **cualquier transferencia de estos módulos iría a Minibús y sin la red de seguridad de Gestión
-      cerrada ni del modo virtual**. El 19/10 a las 11:15 el sistema de permisos rechazó borrar esos dos Transfer
+      cerrada ni del modo virtual; también una avería, que iría a la cola Minibús y no a Asistencia**. R35: el
+      responsable no ha autorizado borrar los Transfer. El 19/10 a las 11:15 el sistema de permisos rechazó borrar esos dos Transfer
       (son hojas). Falta, con permiso de la persona o en el editor: borrar los dos Transfer y crear en cada herramienta
       Python «Preparar transferencia» (código de `codigo/preparar_transferencia.py`, `cola` =
       `{{00435498-eccf-4110-9cf1-eb17821af3ed.cola}}` / `{{62c5b6dd-5dde-4b3a-9a93-adb638c0bd66.cola}}` y las cuatro
       `cola_*`) → Paths «¿Transferir?» → «Transferir» (`transferir` es true) → Transfer con `number` y
-      `fallback_number` = `numero`, whisper con el `resumen_para_agente` de la herramienta y
+      `fallback_number` = `numero`, whisper «Llamada del asistente de atención.» + `resumen_para_agente` de la herramienta +
+      `telefono_dictado` (spec §5.8; el Transfer viejo dice «Llamada del asistente de minibús.») y
       `outside_agent_transfer: false`, como en Prolongación. Después, repetir las evals de transferencia y GC-PE1,
       GC-IO1 y VIRT-PE1.
 - [ ] **ADV-7 (crítica, 0/3 en las rondas 16 y 17):** con una queja del minibús y una pregunta de prolongar en el mismo
       turno, ejecuta `consultas_alquiler` antes de transferir a minibus, también con la regla «la queja va primero».
       Para la Tarea 16: probar a ponerlo en SI "EL BUS TARDA DEMASIADO" o en la descripción de `consultas_alquiler` de
       este nodo («NO la uses si en el mismo turno se queja del minibús»).
+- [ ] **Ronda 18 (ronda de arreglos 1, 17:58–18:00):** ADV-7 3/3 (arreglado). Quedan ADV-11 (crítica, 0/3: con
+      Gestión cerrada y «páseme con quien lo gestione» da el horario de gestión en vez de `consultas_alquiler`
+      prolongar; depende de R36) y PE-NOCT-1 0/3 (sigue preguntando la puerta de Atenas pese a «antes de preguntar la
+      terminal o la puerta»). ADV-8 2/3.
 - [ ] **Resto por debajo del 90 % (89,2 %, ronda 17):** PE-NOCT-1 1/3 (pregunta la puerta de Atenas antes de dar el
       aviso de cierre: la regla de las terminales de QUÉ HACER AHORA compite con PRIMERO), Sevilla falso meeting point
       1/3 y caseta 2/3 (añade dónde espera el minibús), ADV-8 2/3, Madrid ambiguo 2/3, Sevilla a medianoche 2/3, Sants
       2/3, PDE-2 2/3 (juez). Motivos en `informes/evals-v2.md`.
+- [ ] **R36 (para que lo confirme el responsable): «devolver más tarde».** Desde la ronda de arreglos 1, en los dos
+      módulos, quedarse el coche más tiempo (devolverlo otro día o más tarde, alargando el alquiler) es prolongar
+      (`consultas_alquiler`, tema `prolongar`), y cambiar un dato ya acordado sin alargar (otra hora el mismo día, el
+      buzón de llaves) es un caso de gestión. ADV-11 vuelve a exigir `consultas_alquiler`.
 - [ ] **Saltos que nombra el prompt y aún no existen** (Tarea 12): `informacion_oficina` y `volver_al_triaje` en Punto
       de encuentro; `buscar_punto_de_encuentro` y `volver_al_triaje` en Información de oficina. Hasta entonces,
       Información de oficina contesta o llama a `consultas_alquiler` cuando le preguntan por el minibús (ADV-12,

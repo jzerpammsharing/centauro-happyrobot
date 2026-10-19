@@ -935,7 +935,9 @@ oficina · de la v25 (adaptadas)» (`01a15372-d49f-…`) y «Bot único · Infor
   de la ficha (Atocha, Santa Justa).
 - **Cambios de expectativa:** `extension_destino` → `cola minibus`; «ES · pregunta por el minibús», «VIRTUAL ·
   pregunta por el minibús» y ADV-12 pasan a esperar `buscar_punto_de_encuentro` (D-008; **no cuentan hasta la Tarea
-  12**, R5); ADV-11 sin la cola «NO DISPONIBLE» de la v25 y con `gestion_abierta: false`.
+  12**). Esto amplía R5, que solo excluía las evals que esperan `volver_al_triaje`: aquí se excluyen también las que
+  esperan una herramienta de salto que crea la Tarea 12. ADV-11 sin la cola «NO DISPONIBLE» de la v25 y con
+  `gestion_abierta: false`.
 - **Nuevas (5):** PE-NOCT-1, PE-NOCT-2, GC-PE1, VIRT-PE1 y GC-IO1.
 - **Críticas (§7.3: Gestión cerrada, `cola` correcta; y el modo virtual, como en la Tarea 8):** GC-PE1, GC-IO1,
   VIRT-PE1, ADV-11, «VIRTUAL · cambiar hora de devolución», PDE-5, ADV-7, «DÍA · 25 minutos», «Idioma · EN · 25
@@ -989,3 +991,29 @@ minibús, PDE-1, PDE-3, PDE-4, IDO-1, Benidorm, Bari, Santa Justa en modo virtua
 
 **Criterio §7.3:** no se cumple. Críticas 24/27 (ADV-7 0/3) y resto 89,2 % (< 90 %). Era la única vuelta de
 arreglos: lo que falla queda en `pendientes.md` con su motivo.
+
+### Ronda de arreglos 1 de la revisión (ronda 18, 19/10/2026, 17:58–18:00, lunes; Gestión abierta por el reloj)
+
+Cambios: en Punto de encuentro, «Si en el mismo turno se queja del minibús…, no uses ninguna de estas: ESCALADO
+primero» al abrir OTRAS HERRAMIENTAS y la misma regla al principio de la descripción de su `consultas_alquiler` (se
+aplicaron las dos a la vez porque solo había una vuelta); PRIMERO antes de preguntar la terminal o la puerta, «Si
+PRIMERO dio false» y «salvo lo que diga PRIMERO»; «ejecútala en ese turno, sin decir antes que lo vas a consultar»;
+en los dos módulos, R36 (alargar el alquiler → prolongar; cambiar un dato ya acordado sin alargar → gestión). Evals:
+ADV-11 vuelve a exigir `consultas_alquiler` (prolongar) y PDE-2 aclara que el texto posterior a la herramienta es de
+otro módulo. Prompts: 35.073 y 33.379 caracteres.
+
+| Eval | Ronda 17 | Ronda 18 | Motivo del juez (ronda 18) |
+|---|---|---|---|
+| ADV-7 · queja + prolongar → cola minibus (crítica) | 0/3 | **3/3** | — |
+| ADV-11 · Gestión cerrada, devolver un día más tarde → consultas_alquiler prolongar (crítica; vuelve a exigir la herramienta, R36) | 3/3 (sin exigir herramienta) | **0/3** | No llama a `consultas_alquiler`: contesta que gestión está cerrada, con su horario y el área de cliente |
+| PE-NOCT-1 · Atenas 23:30 → aviso de cierre | 1/3 | **0/3** | Pregunta por qué puerta sale y ofrece el punto, en vez de decir que la oficina ha cerrado |
+| PE-NOCT-2 · Málaga 10:00 → punto | 3/3 | 3/3 | — |
+| ADV-8 · minibús y precio | 2/3 | 2/3 | En una no ejecuta `consultas_alquiler` (pregunta si quiere que lo consulte) |
+| PDE-2 · vuelo con retraso (nota del juez arreglada) | 2/3 | 3/3 | — |
+| GC-PE1, GC-IO1, VIRT-PE1, «VIRTUAL · cambiar hora», PDE-5, «DÍA · 25 minutos», «Idioma · EN · 25 minutos» (críticas) | 3/3 | 3/3 | — |
+
+Críticas de la ronda 18: **24/27** (ADV-11 0/3). La ronda 17 daba 24/27 con ADV-7 a 0/3. ADV-8 tuvo un 502 en un
+lanzamiento y se repitió: sus tres ejecuciones son de las 17:58, 17:59 y 18:00.
+
+Era la única vuelta: ADV-11 (con Gestión cerrada y «páseme con quien lo gestione», el bot da el horario de gestión en
+vez de prolongar) y PE-NOCT-1 quedan abiertas con el motivo del juez.
