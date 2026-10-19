@@ -1146,3 +1146,26 @@ este módulo).
 Críticas de Punto de encuentro: **18/18**. PE-NOCT-3 y 3b no cambian: la excepción en el texto no basta (R38;
 propuesta en `pendientes.md`).
 
+## Saltos (Tarea 12, Pasos 4 y 5; 19/10/2026, lunes)
+
+Carpeta «Bot único · Saltos» (`01a155f0-c997-…`): 31 evals nuevas (dos por cada una de las 12 filas de la tabla de
+`prompts/atencion-es/v2/saltos.md`, una SALTO-ENTRADA por módulo de destino, SALTO-PING crítica y SALTO-IDIOMA), más las 7
+que no contaban hasta la Tarea 12 (BR-05, ESC-04, PRO-1, PRO-2, ADV-12, «VIRTUAL · pregunta por el minibús» y «ES ·
+pregunta por el minibús (Palma)»). Tres ejecuciones de cada una con el version_id de la v2: 22:59–23:03 (el reloj real
+estaba en modo virtual; las evals fijan `modo_virtual` y `gestion_abierta` por variable).
+
+| Eval | Ronda 24 (22:59–23:03) | Vuelta de arreglos (23:07) | Motivo del juez |
+|---|---|---|---|
+| SALTO-PING (crítica) | 3/3 | — | — |
+| SALTO-01b, 02b, 03a, 04a, 04b, 05a, 05b, 06a, 06b, 07a, 07b, 08a, 08b, 09a, 09b, 10a, 10b, 11a, 11b, 12a, 12b | 3/3 | 06a y 06b 3/3 (control) | — |
+| SALTO-ENTRADA-TR, -PE, -IO, -PR, -CO; SALTO-IDIOMA | 3/3 | — | — |
+| SALTO-01a (PE, «borren mis datos») | 0/3 | **3/3** («otra consulta distinta») | Ronda 24: llama a `consultas_alquiler` |
+| SALTO-02a (IO, «borren mis datos») | 0/3 | **3/3** («otra consulta distinta») | Ronda 24: transfiere a gestión |
+| SALTO-03b (Prolongación) | 1/3 | **0/3** («otra consulta distinta») | Pregunta qué consulta es en vez de `volver_al_triaje` |
+| BR-05, ESC-04, PRO-1, «VIRTUAL · pregunta por el minibús», «ES · Palma» | 3/3 | — | — |
+| PRO-2 | 1/3 | **3/3** | Ronda 24: el juez exigía que el motivo dijera que el punto se da a cualquier hora (expectativa corregida) |
+| ADV-12 (IO, minibús de vuelta a las cinco) | 0/3 | **3/3** | Ronda 24: contestaba él el horario del minibús. Arreglo: descripción de `buscar_punto_de_encuentro` de IO |
+
+Resultado final: crítica 3/3; en total, 37 de las 38 evals a 3/3 (111/114, 97,4 %). Queda SALTO-03b, con su motivo en
+`pendientes.md` («Comprobaciones de la Tarea 12»).
+

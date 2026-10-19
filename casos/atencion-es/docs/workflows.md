@@ -43,12 +43,12 @@ Inbound Call (sin líneas)
              │                                   └ Fallback (vacía: no se transfiere)
              │      Punto de encuentro (Tarea 11, fast-turbo-one; aviso de oficina cerrada con nocturno_*):
              │                           consultas_alquiler (→ Module Change → Consultas del alquiler),
-             │                           informacion_oficina, volver_al_triaje (Tarea 12; Module Change POR CREAR, saltos.md),
+             │                           informacion_oficina, volver_al_triaje (Tarea 12; → Module Change, saltos.md),
              │                           transfer_to_human_agent (cola…) → Initiate customer connection de la v25
              │                                   (PENDIENTE: Preparar transferencia → ¿Transferir? → Transfer; pendientes.md)
              │      Información de oficina (Tarea 11, fast-gpt-4.1):
              │                           consultas_alquiler (→ Module Change → Consultas del alquiler),
-             │                           buscar_punto_de_encuentro, volver_al_triaje (Tarea 12; Module Change POR CREAR),
+             │                           buscar_punto_de_encuentro, volver_al_triaje (Tarea 12; → Module Change),
              │                           transfer_to_human_agent (cola…) → Initiate customer connection de la v25
              │                                   (PENDIENTE, igual que Punto de encuentro)
              │      Prolongación (Tarea 10, fast-gpt-5.4):
@@ -58,7 +58,7 @@ Inbound Call (sin líneas)
              │                           pista_correo → Identificar al cliente (MCP consultar_reserva)
              │                                   → Pista del correo (Python, pista_correo.py)
              │                           buscar_respuesta → Buscar respuesta (Python, consultas_alquiler.py)
-             │                           informacion_oficina, volver_al_triaje (Tarea 12; Module Change POR CREAR)
+             │                           informacion_oficina, volver_al_triaje (Tarea 12; → Module Change)
              │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir?
              │                                   ├ Transferir → Initiate customer connection
              │                                   └ Fallback (vacía)
@@ -66,7 +66,7 @@ Inbound Call (sin líneas)
              │                           buscar_respuesta → Buscar respuesta (Python, consultas_alquiler.py)
              │                           buscar_punto_de_encuentro (→ Module Change → Punto de encuentro)
              │                           informacion_oficina (→ Module Change → Información de oficina)
-             │                           prolongar_alquiler, volver_al_triaje (Tarea 12; Module Change POR CREAR)
+             │                           prolongar_alquiler, volver_al_triaje (Tarea 12; → Module Change)
              │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir?
              │                                   ├ Transferir → Initiate customer connection
              │                                   └ Fallback (vacía)
@@ -135,7 +135,7 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | ¿Transferir? (Paths, Consultas) | `01a14fa7-420e-78db-a46a-1afc6823c0ac` | `01a14fa7-420e-78db-a46a-1afc6823c0ac` |
 | Transferir (condición, Consultas) | `01a14fa7-421d-7c4b-ab14-17edc7ed95df` | `01a14fa7-421d-7c4b-ab14-17edc7ed95df` |
 | Initiate customer connection (Consultas; sustituye a `01a14f1d-0396-7a17-…`, borrado) | `01a14fa7-4228-7812-a6b7-aa42c035b190` | `01a14fa7-4228-7812-a6b7-aa42c035b190` |
-| volver_al_triaje (Punto de encuentro, Tarea 12; sin hijo hasta el Module Change) | `01a155d9-5d9b-7fd6-bfaa-6b87ccd6ac42` | = ID de nodo |
+| volver_al_triaje (Punto de encuentro, Tarea 12) | `01a155d9-5d9b-7fd6-bfaa-6b87ccd6ac42` | = ID de nodo |
 | volver_al_triaje (Información de oficina, Tarea 12) | `01a155d9-5da4-74b3-a7c4-3bb6257242d6` | = ID de nodo |
 | volver_al_triaje (Prolongación, Tarea 12) | `01a155d9-5da8-738a-8af4-ada5f82ebdd7` | = ID de nodo |
 | volver_al_triaje (Consultas, Tarea 12) | `01a155d9-5dac-7449-b143-4392c795602f` | = ID de nodo |
@@ -143,6 +143,14 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | buscar_punto_de_encuentro (Información de oficina, Tarea 12) | `01a155d9-5db4-757d-ac17-fc1adb754b0f` | = ID de nodo |
 | prolongar_alquiler (Consultas, Tarea 12) | `01a155d9-5db8-7b78-8ecd-d52451c7ed84` | = ID de nodo |
 | informacion_oficina (Prolongación, Tarea 12) | `01a155d9-5dbb-704a-b119-2db7b00a6fa2` | = ID de nodo |
+| Module Change (volver_al_triaje de Punto de encuentro → Triaje; creado en el editor) | `01a155e8-f3f3-7d25-a6cf-f788cbfee0b4` | = ID de nodo |
+| Module Change (volver_al_triaje de Información de oficina → Triaje; creado en el editor) | `01a155ec-a9e8-733d-a286-a38da5f0b411` | = ID de nodo |
+| Module Change (volver_al_triaje de Prolongación → Triaje; creado en el editor) | `01a155ec-37d2-7d99-b8b8-d4e83069c3ba` | = ID de nodo |
+| Module Change (volver_al_triaje de Consultas → Triaje; creado en el editor) | `01a155ed-9634-753f-b55c-de35edd40c1d` | = ID de nodo |
+| Module Change (informacion_oficina de Punto de encuentro → Información de oficina; creado en el editor) | `01a155e8-59fa-7a49-ba5b-ca96f22b2050` | = ID de nodo |
+| Module Change (buscar_punto_de_encuentro de Información de oficina → Punto de encuentro; creado en el editor) | `01a155ec-dcfc-730e-9c8c-daa3bfbc19ae` | = ID de nodo |
+| Module Change (prolongar_alquiler de Consultas → Prolongación; creado en el editor) | `01a155ee-138f-7765-954f-20ec0b421975` | = ID de nodo |
+| Module Change (informacion_oficina de Prolongación → Información de oficina; creado en el editor) | `01a155ec-665d-7f0f-86b1-c070b229aa53` | = ID de nodo |
 | Registrar resultado de la llamada | `01a14f1d-0395-7611-80cf-234e9e9fcf11` | `aea14d45-81de-4a98-aaae-d45c89421f34` |
 | Registrar consultas del alquiler | `01a14f1d-0396-7b8c-ac8b-76817e8d62e8` | `15bf240b-4db7-47cc-86c5-963eaf6955b3` |
 | Preparar WhatsApp minibús | `01a14f1d-0394-7fed-89b7-f4b8a5e640aa` | `4bd059bb-837c-4242-845f-7fc802c0f937` |
@@ -176,9 +184,14 @@ transferencia» → «¿Transferir?» → Transfer **no está creada**: el borra
 sistema de permisos (`pendientes.md`, «Comprobaciones de la Tarea 11»). D-008.
 
 **Tarea 12, Paso 1 (19/10/2026):** las 8 herramientas de salto (spec §5.6) creadas por API a las 22:27, sin hijo
-(`message: none`, `motivo` obligatorio y los parámetros de la v25). Sus 8 Module Change los crea el responsable en el
-editor; tabla de los 12 saltos y lista exacta en `prompts/atencion-es/v2/saltos.md`. En Punto de encuentro, la queja y
+(`message: none`, `motivo` obligatorio y los parámetros de la v25). Sus 8 Module Change los creó el responsable en el
+editor el mismo día (12 en total, comprobados por API); tabla de los 12 saltos y lista exacta en `prompts/atencion-es/v2/saltos.md`. En Punto de encuentro, la queja y
 el «enfadado o puede perder una conexión» llevan la excepción de PRIMERO (36.382 caracteres).
+
+**Tarea 12, Pasos 3 a 5 (19/10/2026):** 12 Module Change comprobados por API. La descripción de
+`buscar_punto_de_encuentro` de Información de oficina añade «a qué hora pasa el minibús… no lo contestes tú» (ADV-12).
+31 evals en «Bot único · Saltos» (`saltos.md`, `informes/evals-v2.md`). La comprobación en una llamada queda para la
+Tarea 17 (`pendientes.md`).
 
 ### Cuidado al editar por API (duplicado)
 

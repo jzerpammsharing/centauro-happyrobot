@@ -8,8 +8,14 @@
 - [x] Qué copia el duplicado de la v25: Module Change, evals, agente de voz (18/10/2026; detalle en «Comprobaciones de
       la Tarea 6»). Copia los 4 Module Change, el agente de voz y los 37 nodos; **no** copia evals, líneas del trigger,
       ajustes del workflow ni tabla de Twin.
-- [ ] Que un Module Change pueda volver al Triaje.
-- [ ] Que el módulo de destino ve el historial.
+- [ ] Que un Module Change pueda volver al Triaje. **Por configuración, sí** (Tarea 12, 19/10/2026): el editor deja
+      elegir el Triaje como destino y los 4 Module Change de `volver_al_triaje` tienen `moduleId` del Triaje
+      (`01a14f1d-0397-7925-…`, persistent `c5a70932-…`). En evals, el Triaje con el historial de otro módulo no saluda y
+      encamina (SALTO-ENTRADA-TR 3/3). **Falta verlo en una llamada** (Tarea 17): que el salto ocurre de verdad, que el
+      Triaje no saluda y que un salto a Prolongación sigue en inglés si se hablaba inglés.
+- [ ] Que el módulo de destino ve el historial. Las evals lo simulan (las SALTO-ENTRADA traen el historial y dan 3/3),
+      pero eso no prueba qué recibe el módulo en una llamada real. Para la llamada de prueba por web de la Tarea 17 (hay
+      que publicar en development y decidir `require_webcall_auth`: lo decide una persona, R4 y R13).
 - [ ] Cómo cortar la cadena de la transferencia sin transferir con Gestión cerrada, y qué recibe el agente. **Forma
       provisional elegida en la Tarea 8:** Paths «¿Transferir?» después de «Preparar transferencia» (rama «Fallback»
       sin hijos); detalle en «Comprobaciones de la Tarea 8» y en `prompts/atencion-es/v2/transfer.md`. **Falta la
@@ -399,9 +405,10 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
       PDE-5, ADV-7, «DÍA · 25 minutos», «Idioma · EN · 25 minutos») **18/18**. **PE-NOCT-3 0/3** (da el punto P6, sin
       `consultas_alquiler`) y **PE-NOCT-3b 0/3** (transfiere a minibus dos veces): el texto no basta; sigue la propuesta
       de que el código decida el cierre.
-- [ ] **Saltos que nombra el prompt** (Tarea 12): las 8 herramientas se crearon por API el 19/10/2026 a las 22:27, sin
-      hijo; **faltan sus 8 Module Change**, que crea el responsable en el editor (lista en
-      `prompts/atencion-es/v2/saltos.md`). Mientras falten, llamar a una de ellas no cambia de módulo. Antes de la Tarea 12:
+- [x] **Saltos que nombra el prompt** (Tarea 12): las 8 herramientas se crearon por API el 19/10/2026 a las 22:27 y
+      el responsable creó sus 8 Module Change en el editor (12 en total; `prompts/atencion-es/v2/saltos.md`). ADV-12,
+      «VIRTUAL · pregunta por el minibús» y «ES · pregunta por el minibús (Palma)» ya cuentan: 3/3 (ADV-12 tras añadir a
+      `buscar_punto_de_encuentro` de Información de oficina «a qué hora pasa el minibús… no lo contestes tú»). Antes de la Tarea 12:
       `informacion_oficina` y `volver_al_triaje` en Punto
       de encuentro; `buscar_punto_de_encuentro` y `volver_al_triaje` en Información de oficina. Hasta entonces,
       Información de oficina contesta o llama a `consultas_alquiler` cuando le preguntan por el minibús (ADV-12,
@@ -416,11 +423,24 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
   (Plate) muestra 8 nodos de variable en Punto de encuentro y 3 en Información de oficina, todos con `group_id`
   `e51cd732-…`.
 
+## Comprobaciones de la Tarea 12 (19/10/2026)
+
+- [ ] **SALTO-03b 0/3 (Prolongación, «tengo otra consulta distinta, que no es de mi alquiler»):** en vez de
+      `volver_al_triaje` pregunta qué consulta es (antes de la vuelta de arreglos, con «quiero que borren mis datos»,
+      llamaba a `buscar_respuesta` y ofrecía un compañero, 1/3). Punto de encuentro, Información de oficina y Consultas
+      saltan en el mismo caso (SALTO-01a/01b, 02a/02b, 04b, 3/3). Es el único modelo que razona (`fast-gpt-5.4`):
+      preguntar antes de saltar no es grave (al contestar, salta), pero cuesta un turno. Propuesta: en la línea de
+      `volver_al_triaje` del prompt de Prolongación, «también si solo dice que tiene otra consulta, sin decir cuál».
+- [ ] **«Borrar mis datos de cliente»** no es de ningún módulo: Punto de encuentro lo manda a `consultas_alquiler` y
+      Información de oficina transfiere a gestión. Falta decidir con negocio a dónde va (probablemente gestión).
+- [ ] **SALTO-ENTRADA-PE:** en una ejecución ofrece el WhatsApp con `whatsapp_disponible` false (el juez lo dio por
+      bueno). Vigilar.
+- [ ] **En una llamada (Tarea 17):** §11.2 y §11.3 (arriba, «Al construir»).
+
 ## Para la persona (editor de HappyRobot)
 
-- [ ] **Crear los 8 Module Change de la Tarea 12** bajo las herramientas de salto nuevas (lista exacta, con IDs, en
-      `prompts/atencion-es/v2/saltos.md`, sección «Lista para el responsable»). Avisar al agente al terminar: el Paso 3
-      comprueba con `get_workflows` que hay 12 `module-change` y que apuntan donde dice la tabla.
+- [x] **Crear los 8 Module Change de la Tarea 12** (hecho por el responsable el 19/10/2026; comprobado por API: 12
+      `module-change`, todos al destino de la tabla de `saltos.md`).
 
 - [ ] **Quitar el Paths «Entrada» y su condición «Siempre» de la v2** y dejar «Receive Customer Call» colgando
       directamente de «Resolver colas por idioma» (Paso 5 de la Tarea 6, no hecho por API). Hay que hacerlo en el
