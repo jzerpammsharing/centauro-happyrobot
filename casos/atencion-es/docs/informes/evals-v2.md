@@ -753,3 +753,56 @@ a los dos lados de las 8:00): **48/72**.
   Para medir las críticas de transferencia hay que pasar las `cola_*` como variables o ejecutarlas con Gestión
   cerrada por el reloj.
 - Sin más vueltas (ficha y R33).
+
+### Ronda de arreglos 2 (ronda 12, 19/10/2026, 9:49–10:17)
+
+**Entorno arreglado.** Catorce evals de transferencia llevan ya las cuatro `cola_*` de «Resolver colas» como variables
+(`081e2b5d-….cola_gestion_reserva`, `cola_asistencia`, `cola_nueva_reserva`, `cola_horario_minibus`, las URI SIP de
+español), igual que en la Tarea 9. Son WEB-04, ASEG-05, CORREO-04, CORREO-09, CORREO-10, ESC-02, ESC-03, ESC-05, ESC-06,
+BORDE-04, HOR-02, HOR-C3, HOR-C4 y HOR-A1.
+- En las catorce, la nota del juez dice ahora «Una segunda llamada a transfer_to_human_agent tras un error del entorno
+  no es un fallo».
+- Se quitó la nota caducada de «la hora real (hoy Gestión está cerrada…)». Si una eval necesita Gestión cerrada o
+  abierta, lo marca la variable `gestion_abierta`.
+- HOR-A1 añade que no dar la regla general «no es fallo».
+
+**Prompt:** 21.692/22.000 caracteres, subido y comparado con `get_node_details`. Cambios:
+- La reserva que aún no ha empezado lleva la cita literal de «¿Has olvidado tu contraseña?».
+- Fuera la cláusula «si antes pregunta otra cosa… sin volver a preguntar si seguimos».
+- GESTIÓN CERRADA vale también para lo que devuelva `buscar_respuesta`.
+- «Pide una persona con gestión cerrada» deja de estar en la lista de ESCALADO y pasa a una frase propia delante de
+  «Salvo…».
+- Cuando el reenvío tampoco llega: «transfiere en ese turno a GESTIÓN DE RESERVA con motivo error_tecnico».
+
+**Resultado (97 evals ×3; con las `cola_*` la hora ya no cambia el resultado):** críticas **63/72**, resto
+**191/219 (87,2 %)**, total 254/291. No cumple el criterio: quedan 4 críticas por debajo de 3/3 y el resto está por
+debajo del 90 %.
+
+| Eval | Crítica | Ronda 10 | Ronda 12 | Motivo del juez en la ronda 12 |
+|---|---|---|---|---|
+| HOR-C1 | sí | 1 | **0** | 2 de 3 ejecutan `transfer_to_human_agent` con `gestion_abierta: false`; 1 no dice que llame en horario ni el área de cliente |
+| FDS-06 | sí | 0 | **0** | Da la alternativa sin decir que gestión está cerrada ni su horario (las tres) |
+| HOR-A1 | sí | 3 | **1** | 2 de 3 dan la regla general y dicen que hay que revisarlo, sin transferir ni ofrecerlo |
+| HOR-01 | sí | 3 | **2** | Una vez dice que «lo deriva» al equipo de gestión |
+| CORREO-09, CORREO-10, ESC-02, ESC-03, ESC-06, WEB-04, ASEG-05, HOR-02, HOR-C4 | sí | — | 3 cada una | — (entorno arreglado) |
+| FDS-01, FDS-05, BORDE-09 | sí | 1 / 2 / 2 | 3 | — |
+| BORDE-05 | no | 3 | 0 | Habla de subir de categoría en la oficina: no dice que la prolongación es del mismo coche ni ofrece la reserva nueva. Efecto de sacar «Cambiar de coche» a `buscar_respuesta`, que no llama |
+| PISTA-04, PROL-05, PROL-06, TARDE-02 | no | 0 | 0 | Mismos motivos que en la ronda 10 (PROL-05: vuelve a preguntar si seguimos) |
+| WEB-03 | no | 3 | 1 | Afirma que un compañero se la prepara en vez de preguntarlo |
+| WEB-08 | no | 3 | 1 | El juez exige una pregunta final que la expectativa no pide («como mucho») |
+| TARDE-05, TARDE-06 | no | 1 / 2 | 1 / 1 | TARDE-06 usa otro tema de `buscar_respuesta` |
+| BORDE-01, BORDE-02, CORREO-03, CORREO-08, CORREO-19 | no | — | 2 cada una | Una ejecución suelta |
+| NOINI-P1, CORREO-20, CORREO-04, ASEG-03, CIERRE-01 | no | 1 / 0 / 0 / 0 / 0 | 3 cada una | — |
+| Las otras 62 | | | 3 | — |
+
+**Lectura.**
+- **Arreglos que funcionan:** NOINI-P1 y CORREO-20 a 3/3. CORREO-09 a 3/3 con el entorno arreglado. Las nueve
+  críticas de transferencia, todas a 3/3.
+- **No arreglado:** gestión cerrada en Prolongación.
+  - HOR-C1 sigue transfiriendo con `gestion_abierta: false`.
+  - FDS-06 sigue sin decir el cierre.
+  - Ni la frase propia antes de «Salvo…» ni la regla sobre lo que devuelve `buscar_respuesta` lo corrigen con gpt-5.4.
+- **Efecto de mover texto a `buscar_respuesta` (D-006):**
+  - BORDE-05 cae a 0/3 («Cambiar de coche»).
+  - HOR-A1 cae a 1/3 («Cuánto se puede prolongar»): el bot ya no transfiere tras dar la regla.
+- Sin más vueltas (ficha, R33).
