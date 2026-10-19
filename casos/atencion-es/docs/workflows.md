@@ -41,10 +41,14 @@ Inbound Call (sin líneas)
              │   └ transfer_to_human_agent   → Preparar transferencia (Python) → ¿Transferir? (Paths)
              │                                   ├ Transferir → Initiate customer connection
              │                                   └ Fallback (vacía: no se transfiere)
-             │      Punto de encuentro:  consultas_alquiler (→ Module Change → Consultas del alquiler),
-             │                           transfer_to_human_agent → Initiate customer connection  (patrón v25)
-             │      Información de oficina: consultas_alquiler (→ Module Change → Consultas del alquiler),
-             │                           transfer_to_human_agent → Initiate customer connection  (patrón v25)
+             │      Punto de encuentro (Tarea 11, fast-turbo-one; aviso de oficina cerrada con nocturno_*):
+             │                           consultas_alquiler (→ Module Change → Consultas del alquiler),
+             │                           transfer_to_human_agent (cola…) → Initiate customer connection de la v25
+             │                                   (PENDIENTE: Preparar transferencia → ¿Transferir? → Transfer; pendientes.md)
+             │      Información de oficina (Tarea 11, fast-gpt-4.1):
+             │                           consultas_alquiler (→ Module Change → Consultas del alquiler),
+             │                           transfer_to_human_agent (cola…) → Initiate customer connection de la v25
+             │                                   (PENDIENTE, igual que Punto de encuentro)
              │      Prolongación (Tarea 10, fast-gpt-5.4):
              │                           enviar_correo_contrasena → Comprobar correo (MCP consultar_reserva)
              │                                   → Decidir envío (Python) → Enviar correo (MCP enviar_reset_contrasena)
@@ -113,6 +117,12 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | Initiate customer connection (Triaje; sustituye a `b4439401-…`, borrado) | `01a14f66-5252-70a4-81ad-fa8d1cc6b438` | `01a14f66-5252-70a4-81ad-fa8d1cc6b438` |
 | Punto de encuentro | `01a14f1d-0397-7c91-b2bc-a12efeed5595` | `a80fca22-b295-41e3-a735-a3c878af4eee` |
 | Información de oficina | `01a14f1d-0396-717d-8b6f-52f789dbe9a3` | `0c60218b-8901-47bd-95de-40e0e1af1296` |
+| consultas_alquiler (Punto de encuentro) | `01a14f1d-0398-7a4b-84e7-313e054df714` | `3f1c2be8-8768-455f-895b-047063ea7938` |
+| transfer_to_human_agent (Punto de encuentro; parámetros nuevos en la Tarea 11) | `01a14f1d-0398-75cb-939a-e2f512c94a01` | `00435498-eccf-4110-9cf1-eb17821af3ed` |
+| Initiate customer connection de la v25 (Punto de encuentro; por sustituir) | `01a14f1d-0396-7961-a5d9-ee9de58e701b` | `37fb8053-214e-4357-be80-0fc8f832ecbc` |
+| consultas_alquiler (Información de oficina) | `01a14f1d-0398-71cd-be10-a50ab91d1f5d` | `6edd13ac-b226-4d1c-87dc-748b46ce5638` |
+| transfer_to_human_agent (Información de oficina; parámetros nuevos en la Tarea 11) | `01a14f1d-0399-7faf-a630-5c199b3e3efc` | `62c5b6dd-5dde-4b3a-9a93-adb638c0bd66` |
+| Initiate customer connection de la v25 (Información de oficina; por sustituir) | `01a14f1d-0396-788f-81ca-75cf199aabbd` | — |
 | Consultas del alquiler (antes «Prolongación y consultas») | `01a14f1d-0397-7b22-b5ce-bcb398a7605e` | `38378785-0846-4920-b41a-583f7c5773fb` |
 | buscar_respuesta (Consultas, Tarea 9) | `01a14fa1-5c34-7bff-9366-aa7e9e4e448a` | `01a14fa1-5c34-7bff-9366-aa7e9e4e448a` |
 | Buscar respuesta (Python, Consultas) | `01a14fa1-5c44-7c37-821c-1d01c0bd41eb` | `01a14fa1-5c44-7c37-821c-1d01c0bd41eb` |
@@ -144,6 +154,14 @@ Prolongación (Tarea 10) usa `fast-gpt-5.4`, sin `initial_message`.
 contraseña de Prolongaciones v12 (misma credencial «Centauro MCP» y mismo código), `pista_correo` (nueva, spec §5.7),
 `buscar_respuesta` (Python «Buscar respuesta», el mismo código que Consultas) y la transferencia con el patrón de
 Consultas. Detalle: `herramientas-prolongacion.md`, `enviar-correo-contrasena.md` y `pista-correo.md`.
+
+**Tarea 11 (19/10/2026):** «Punto de encuentro» (34.595 caracteres) e «Información de oficina» (33.210) llevan el
+bloque de reglas comunes; Punto de encuentro, además, las LISTAS 1 a 4 de `nocturno_*` (aviso de oficina de
+aeropuerto cerrada) y la sección de interrupciones de la v25. Modelos sin cambios. Copias en
+`prompts/atencion-es/v2/punto-de-encuentro.md`, `informacion-de-oficina.md` y sus `herramientas-*.md`. Las dos
+`transfer_to_human_agent` tienen ya `cola`, `motivo_transferencia` y `resumen_para_agente`, pero la cadena «Preparar
+transferencia» → «¿Transferir?» → Transfer **no está creada**: el borrado de los Transfer de la v25 lo rechazó el
+sistema de permisos (`pendientes.md`, «Comprobaciones de la Tarea 11»). D-008.
 
 ### Cuidado al editar por API (duplicado)
 

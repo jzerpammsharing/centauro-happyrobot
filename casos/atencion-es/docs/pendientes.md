@@ -303,6 +303,48 @@ y en las copias de `prompts/atencion-es/v2/`):
 - **`fix_broken_vars` no se ejecutó en la Tarea 10** (R23). Variables escritas con `{{persistent_id.variable}}` y
   comprobadas con `get_workflows` y `get_node_details`.
 
+## Comprobaciones de la Tarea 11 (19/10/2026)
+
+Punto de encuentro e Información de oficina con el bloque de reglas comunes (prompts subidos, 34.595 y 33.210
+caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-unico-construccion/task-11-report.md`,
+`prompts/atencion-es/v2/punto-de-encuentro.md`, `informacion-de-oficina.md` y sus `herramientas-*.md`.
+
+- [ ] **Transferencia de los dos módulos a medio hacer (bloqueante antes de cualquier llamada de prueba).** Las dos
+      `transfer_to_human_agent` ya tienen los parámetros nuevos (`cola`, `motivo_transferencia`, `resumen_para_agente`)
+      y la descripción que empieza por «Gestión ahora: [gestion_abierta]», pero siguen colgando del Transfer de la v25
+      (`01a14f1d-0396-7961-…` en Punto de encuentro y `01a14f1d-0396-788f-…` en Información de oficina), cuyo
+      `number` lee el parámetro de la extensión que ya no existe y cuyo `fallback_number` es la cola de Minibús: en
+      una llamada, **cualquier transferencia de estos módulos iría a Minibús y sin la red de seguridad de Gestión
+      cerrada ni del modo virtual**. El 19/10 a las 11:15 el sistema de permisos rechazó borrar esos dos Transfer
+      (son hojas). Falta, con permiso de la persona o en el editor: borrar los dos Transfer y crear en cada herramienta
+      Python «Preparar transferencia» (código de `codigo/preparar_transferencia.py`, `cola` =
+      `{{00435498-eccf-4110-9cf1-eb17821af3ed.cola}}` / `{{62c5b6dd-5dde-4b3a-9a93-adb638c0bd66.cola}}` y las cuatro
+      `cola_*`) → Paths «¿Transferir?» → «Transferir» (`transferir` es true) → Transfer con `number` y
+      `fallback_number` = `numero`, whisper con el `resumen_para_agente` de la herramienta y
+      `outside_agent_transfer: false`, como en Prolongación. Después, repetir las evals de transferencia y GC-PE1,
+      GC-IO1 y VIRT-PE1.
+- [ ] **ADV-7 (crítica, 0/3 en las rondas 16 y 17):** con una queja del minibús y una pregunta de prolongar en el mismo
+      turno, ejecuta `consultas_alquiler` antes de transferir a minibus, también con la regla «la queja va primero».
+      Para la Tarea 16: probar a ponerlo en SI "EL BUS TARDA DEMASIADO" o en la descripción de `consultas_alquiler` de
+      este nodo («NO la uses si en el mismo turno se queja del minibús»).
+- [ ] **Resto por debajo del 90 % (89,2 %, ronda 17):** PE-NOCT-1 1/3 (pregunta la puerta de Atenas antes de dar el
+      aviso de cierre: la regla de las terminales de QUÉ HACER AHORA compite con PRIMERO), Sevilla falso meeting point
+      1/3 y caseta 2/3 (añade dónde espera el minibús), ADV-8 2/3, Madrid ambiguo 2/3, Sevilla a medianoche 2/3, Sants
+      2/3, PDE-2 2/3 (juez). Motivos en `informes/evals-v2.md`.
+- [ ] **Saltos que nombra el prompt y aún no existen** (Tarea 12): `informacion_oficina` y `volver_al_triaje` en Punto
+      de encuentro; `buscar_punto_de_encuentro` y `volver_al_triaje` en Información de oficina. Hasta entonces,
+      Información de oficina contesta o llama a `consultas_alquiler` cuando le preguntan por el minibús (ADV-12,
+      «VIRTUAL · pregunta por el minibús» y «ES · pregunta por el minibús (Palma)», 0/3, no cuentan).
+- [ ] **`consultas_alquiler` de estos dos nodos** conserva la descripción y los temas de la v25 (incluido `prolongar`,
+      que en el Triaje ya va por `prolongar_alquiler`). No se tocó (R5: sus Module Change apuntan a Consultas). Revisar
+      en la Tarea 12 si el tema `prolongar` debe pasar a `prolongar_alquiler`.
+- **Evals:** 43 (25 + 18), de Minibús ES v25 (conversaciones recuperadas del registro de sesiones) y 5 nuevas.
+  `create` no guarda `folder_id`: hay que pasarlo después con `update`. Con `expected_tool_calls: []` el juez no
+  exige ninguna herramienta (ADV-8 y ADV-11 pasan con o sin `consultas_alquiler`).
+- **`fix_broken_vars` no se ejecutó** (R23). Variables escritas con `{{persistent_id.variable}}`; `get_node_details`
+  (Plate) muestra 8 nodos de variable en Punto de encuentro y 3 en Información de oficina, todos con `group_id`
+  `e51cd732-…`.
+
 ## Para la persona (editor de HappyRobot)
 
 - [ ] **Quitar el Paths «Entrada» y su condición «Siempre» de la v2** y dejar «Receive Customer Call» colgando

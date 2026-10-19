@@ -16,6 +16,21 @@ Plantilla:
 
 ---
 
+## D-008 · 2026-10-19 · Punto de encuentro e Información de oficina: saltos por herramienta y aviso de cierre en el módulo
+- **Qué:** en los dos módulos (Tarea 11), lo que en la v25 se transfería a la cola de MINIBÚS porque «no lo tienes en
+  esta parte de la llamada» pasa a la herramienta del módulo que lo sabe: en Información de oficina, el minibús o el
+  punto de encuentro de un aeropuerto van a `buscar_punto_de_encuentro`; en Punto de encuentro, una oficina que no es
+  de aeropuerto va a `informacion_oficina`. Lo que no es del módulo ni una duda del alquiler, a `volver_al_triaje`.
+  «Devolver en otra oficina» pasa a `consultas_alquiler` con el tema `devolucion` (deja de repetirse en los dos
+  prompts, C-005). El aviso de oficina de aeropuerto cerrada (LISTAS 1 a 4 de `nocturno_*`, Paso 2 y 3 del Triaje
+  de la v25) lo da Punto de encuentro, antes de dar el punto.
+- **Por qué:** spec §5.6 y §5.7 (matriz de saltos y herramientas por módulo) y §5.4 (las listas nocturnas pasan a
+  Punto de encuentro; desde la Tarea 8 el Triaje llama siempre a `buscar_punto_de_encuentro`). Mandar a la cola de
+  Minibús una pregunta que otro módulo responde es una transferencia evitable.
+- **Afecta a:** v2. Hasta la Tarea 12 esas herramientas no existen en estos dos nodos: en las evals, Información de
+  oficina llama a `consultas_alquiler` o contesta cuando le preguntan por el minibús (ADV-12, «VIRTUAL · pregunta por
+  el minibús», «ES · pregunta por el minibús (Palma)», 0/3, no cuentan, R5).
+
 ## D-007 · 2026-10-19 · Prolongación: reserva que aún no ha empezado, sin envío ni transferencia
 - **Qué:** en el prompt «Prolongación» de la v2, si la reserva aún no ha empezado, el bot ejecuta `buscar_respuesta`
   con `reserva_no_iniciada` y, si al cliente le falta la contraseña, le da una instrucción propia: centauro punto net o

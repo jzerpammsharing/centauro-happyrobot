@@ -919,3 +919,73 @@ Críticas: **73/75** (70/72 contando 3 ejecuciones de HOR-A1).
 - PISTA-04 sigue a 0/3 con la eval correcta. Queda con el motivo del juez.
 - Era la última ronda: lo que falla se queda así.
 
+
+## Punto de encuentro e Información de oficina (Tarea 11, 19/10/2026)
+
+43 evals: 25 en el nodo «Punto de encuentro» (`01a14f1d-0397-7c91-b2bc-a12efeed5595`, `fast-turbo-one`) y 18 en
+«Información de oficina» (`01a14f1d-0396-717d-8b6f-52f789dbe9a3`, `fast-gpt-4.1`). Carpetas: «Punto de encuentro ·
+de la v25 (adaptadas)» (`01a15372-c940-…`), «Bot único · Punto de encuentro» (`01a15372-d1d4-…`), «Información de
+oficina · de la v25 (adaptadas)» (`01a15372-d49f-…`) y «Bot único · Información de oficina» (`01a15372-d7e8-…`).
+
+- **De dónde vienen (R11):** las 21 de Punto de encuentro y las 17 de Información de oficina de Minibús ES v25.
+  `manage_custom_evals get` no devuelve las conversaciones, pero las llamadas `create` con que se hicieron (12/10 y
+  3-6/10) están en el registro de las sesiones de Claude Code: se reutilizaron sus `test_messages` tal cual, con las
+  variables cambiadas a `e51cd732-….*` y `081e2b5d-….cola_*` (las `cola_*` de español; de inglés en las dos de
+  idioma inglés). Se corrigieron dos turnos `assistant` del historial que daban un horario o una ruta que no es la
+  de la ficha (Atocha, Santa Justa).
+- **Cambios de expectativa:** `extension_destino` → `cola minibus`; «ES · pregunta por el minibús», «VIRTUAL ·
+  pregunta por el minibús» y ADV-12 pasan a esperar `buscar_punto_de_encuentro` (D-008; **no cuentan hasta la Tarea
+  12**, R5); ADV-11 sin la cola «NO DISPONIBLE» de la v25 y con `gestion_abierta: false`.
+- **Nuevas (5):** PE-NOCT-1, PE-NOCT-2, GC-PE1, VIRT-PE1 y GC-IO1.
+- **Críticas (§7.3: Gestión cerrada, `cola` correcta; y el modo virtual, como en la Tarea 8):** GC-PE1, GC-IO1,
+  VIRT-PE1, ADV-11, «VIRTUAL · cambiar hora de devolución», PDE-5, ADV-7, «DÍA · 25 minutos», «Idioma · EN · 25
+  minutos». 9 críticas, 31 del resto, 3 que no cuentan.
+- **Entorno:** el `transfer_to_human_agent` de estos dos módulos sigue colgando del Transfer de la v25 (el borrado lo
+  rechazó el sistema de permisos; `pendientes.md`): en las evals de transferencia el Transfer falla y el bot
+  reintenta. Las evals llevan la nota «Una segunda llamada a transfer_to_human_agent tras un error del entorno no es
+  un fallo» y valoran solo hasta la primera llamada. «Preparar transferencia» todavía no existe en estos módulos, así
+  que el reloj no influye.
+
+| Ronda | Hora (Madrid, lunes 19/10, Gestión abierta por el reloj) | Prompt | Críticas | Resto |
+|---|---|---|---|---|
+| 16 | 11:34–11:38 | inicial (PE 34.407, IO 33.095 caracteres) | 18/27 | 64/93 (68,8 %) |
+| 17 | 11:46 y 12:30–12:34 (la red se cayó entre medias; ver abajo) | vuelta de arreglos (PE 34.595, IO 33.210) | **24/27** | **83/93 (89,2 %)** |
+
+**Entre las rondas 16 y 17** cambiaron el prompt (una vuelta) y 13 evals:
+- Prompt: en ESCALADO de Punto de encuentro, «Si a la vez pregunta otra cosa, la queja va primero: transfiere sin
+  usar antes otras herramientas» (ADV-7); en los dos, «Si solo dice que quiere cambiar su reserva, sin más, no
+  transfieras: consultas_alquiler» (ADV-9: transfería a gestion); en Información de oficina, la pregunta de
+  CIUDADES CON VARIAS OFICINAS «sin nombrar las oficinas».
+- Evals: en 12, la nota del juez «Es fallo inventar datos que no se piden aquí» (mía, de la ronda 16) hacía que el
+  juez, que no ve el prompt, suspendiera por datos de la ficha (frecuencia, gratuito, 600 metros de Nápoles, calle
+  Viriat 43, carril y planta de Alicante, «salvo festivos», «vaya a la oficina si es urgente»). Se cambió por una
+  nota que nombra esos datos como permitidos. ADV-11 pasó de esperar `consultas_alquiler` a no fijar herramienta (la
+  expectativa ya admitía responder sin ella y el bot lo hacía bien: 0/3 → 3/3).
+- La ronda 17 se lanzó a las 11:46 (una ejecución de las 22 primeras evals); el resto dio error del clasificador de
+  permisos y la red se cayó. Al volver (12:30) se comprobó con `get_node_details` que los dos prompts subidos eran los
+  de la vuelta y con `manage_custom_evals get` que las expectativas estaban cambiadas, y se completaron las 3
+  ejecuciones de cada eval sin repetir escrituras.
+
+**Resultado de la ronda 17** (solo las que no dan 3/3):
+
+| Eval | Ronda 16 | Ronda 17 | Motivo del juez (ronda 17) |
+|---|---|---|---|
+| ADV-7 · prolongar y queja de 40 minutos → cola minibus (crítica) | 0/3 | **0/3** | Ejecuta `consultas_alquiler` (prolongar) antes de `transfer_to_human_agent`; la regla nueva no lo cambia |
+| PE-NOCT-1 · Atenas 23:30 → aviso de cierre | 3/3 | 1/3 | En dos pregunta por qué puerta sale (A o B) en vez de dar el aviso de cierre |
+| v18 · Sevilla perdido → falso meeting point | 1/3 | 1/3 | Añade «el minibús espera en el parking P2» y otra referencia |
+| v18 · Sevilla perdido → caseta uno | 3/3 | 2/3 | Añade que el minibús espera en el P2 |
+| ADV-8 · minibús y precio | 2/3 | 2/3 | Anuncia que consulta el precio sin ejecutar `consultas_alquiler` |
+| PDE-2 · vuelo con retraso | 2/3 | 2/3 | El juez valora el texto posterior a la herramienta pese a la nota (error del juez) |
+| ES · horario Madrid ambiguo | 1/3 | 2/3 | Dice «dos en estaciones de tren y varias en la ciudad» |
+| ES · Sevilla aeropuerto a medianoche | 2/3 | 2/3 | Ofrece el buzón de llaves como si fuera una excepción segura |
+| ES · cómo llegar a Sants | 0/3 | 2/3 | Ofrece además dónde se devuelve el coche |
+| No cuentan (Tarea 12): ADV-12, «VIRTUAL · pregunta por el minibús», «ES · pregunta por el minibús (Palma)» | 0/3 | 0/3 | Sin `buscar_punto_de_encuentro` en el nodo, llama a `consultas_alquiler` o contesta con el horario de la oficina |
+
+A 3/3 en la ronda 17 (y antes por debajo): GC-PE1 (1/3 → 3/3), GC-IO1 (2/3 → 3/3), ADV-11 (0/3 → 3/3), ADV-9 (1/3
+→ 3/3), PE-NOCT-2, Venecia, Nápoles, Palma, ADV-10, IDO-3, IDO-2, Alicante 24 horas y Málaga estación. Las demás,
+3/3 en las dos rondas: VIRT-PE1, PDE-5, «DÍA · 25 minutos», «Idioma · EN · 25 minutos», «VIRTUAL · cambiar hora de
+devolución», «VIRTUAL · 25 minutos», Catania, horario de Málaga tras el minibús, «Idioma · EN · Málaga», color del
+minibús, PDE-1, PDE-3, PDE-4, IDO-1, Benidorm, Bari, Santa Justa en modo virtual e «Idioma · EN · horario Málaga».
+
+**Criterio §7.3:** no se cumple. Críticas 24/27 (ADV-7 0/3) y resto 89,2 % (< 90 %). Era la única vuelta de
+arreglos: lo que falla queda en `pendientes.md` con su motivo.
