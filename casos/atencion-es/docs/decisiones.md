@@ -31,7 +31,13 @@ Plantilla:
 - **Afecta a:** v2, herramientas de salto y evals de «Bot único · Saltos». La devolución en aeropuertos con minibús
   (`informacion-de-oficina.md`, sección de devolución, punto 3) sigue siendo de Información de oficina: IDO-3,
   «Sevilla aeropuerto a medianoche» y «Alicante aeropuerto de madrugada» se pasaron en la ronda 25 para comprobarlo.
-- **Quién:** el agente de la Tarea 12 (vuelta de arreglos y ronda de arreglos 1); lo revisa el responsable.
+- **Ronda de arreglos 2 (23:29–23:30):** GC-IO1 (crítica) cayó a 0/3 con las herramientas nuevas de Información de
+  oficina («cambiar la hora de devolución» se iba a gestión). La viñeta de gestión de ESCALADO del prompt dice ahora
+  «Alargar el alquiler o cambiar la hora o el día de devolución no son de esta línea: consultas_alquiler (prolongar si es
+  más tarde, devolucion si es antes; si no lo dice, pregúntaselo una vez), también con gestión cerrada», y la
+  descripción de `consultas_alquiler` del nodo, «Alargar el alquiler o cambiar la hora o el día de devolución
+  (prolongar si es más tarde, devolucion si es antes) siempre va aquí». GC-IO1 vuelve a 3/3 (ronda 26).
+- **Quién:** el agente de la Tarea 12 (vuelta de arreglos y rondas de arreglos 1 y 2); lo revisa el responsable.
 - **Estado:** aplicada en v2.
 
 ## D-008 · 2026-10-19 · Punto de encuentro e Información de oficina: saltos por herramienta y aviso de cierre en el módulo

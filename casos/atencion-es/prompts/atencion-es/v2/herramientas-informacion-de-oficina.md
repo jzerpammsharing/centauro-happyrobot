@@ -14,8 +14,10 @@ Las herramientas del prompt «Información de oficina» (`0c60218b-8901-47bd-95d
 
 - Hijo: «Module Change» → «Consultas del alquiler» (viene del duplicado; no se toca, R5).
 - `message`: `{"type": "none"}`. Parámetros (`tema`, `pregunta`) los de la v25. Descripción: la de la v25 con dos
-  cambios (ronda de arreglos 2): «Alargar el alquiler (devolverlo otro día) siempre va aquí, también con gestión
-  cerrada.» y «…que alguien mire o cambie un dato concreto de su reserva sin alargarla».
+  cambios (ronda de arreglos 2 de la Tarea 11): «Alargar el alquiler (devolverlo otro día) siempre va aquí, también
+  con gestión cerrada.» y «…que alguien mire o cambie un dato concreto de su reserva sin alargarla». En la Tarea 12
+  (ronda de arreglos 2, 19/10/2026, D-009) la primera pasa a «Alargar el alquiler o cambiar la hora o el día de
+  devolución (prolongar si es más tarde, devolucion si es antes) siempre va aquí, también con gestión cerrada.»
 
 ## 2. transfer_to_human_agent
 

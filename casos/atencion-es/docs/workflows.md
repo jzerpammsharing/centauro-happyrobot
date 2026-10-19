@@ -191,7 +191,8 @@ el «enfadado o puede perder una conexión» llevan la excepción de PRIMERO (36
 **Tarea 12, Pasos 3 a 5 (19/10/2026):** 12 Module Change comprobados por API. La descripción de
 `buscar_punto_de_encuentro` de Información de oficina añade «a qué hora pasa el minibús… no lo contestes tú» (ADV-12).
 31 evals en «Bot único · Saltos» (`saltos.md`, `informes/evals-v2.md`). La comprobación en una llamada queda para la
-Tarea 17 (`pendientes.md`).
+Tarea 17 (`pendientes.md`). Ronda de arreglos 2: viñeta de ESCALADO de Información de oficina y descripción de su
+`consultas_alquiler` (D-009); el prompt pasa a 33.871 caracteres.
 
 ### Cuidado al editar por API (duplicado)
 
