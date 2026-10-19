@@ -9,8 +9,8 @@ consultas»). Un nodo `tool` solo define la función que ve el agente; lo que pa
   `{{e51cd732-f403-4ef7-95d4-490347960a93.gestion_abierta}}`, como nodo de variable de Plate.
 - `buscar_punto_de_encuentro`, `informacion_oficina` y `transfer_to_human_agent` vienen del duplicado (persistent_id
   = ID de nodo en la v1); `buscar_respuesta` es nueva (persistent_id = ID de nodo en la v2).
-- `prolongar_alquiler` y `volver_al_triaje` (spec §5.7) las crea la Tarea 12 con su Module Change; el prompt ya las
-  nombra.
+- `prolongar_alquiler` y `volver_al_triaje` (spec §5.7): creadas en la Tarea 12, cada una con su Module Change;
+  definición, ids y destinos en `saltos.md`.
 - Música de espera «holdacent»: asset `01a0fc02-a13d-77a2-8de3-82459eb2a2a6`; la URL firmada del nodo se sustituye
   aquí por `<URL_FIRMADA>`.
 

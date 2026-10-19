@@ -302,7 +302,7 @@ Información de oficina no tiene tamaño máximo; lo que se mide es el texto ant
   ahora OTRAS HERRAMIENTAS y ESCALADO, con `cola`. Oficinas y horarios sin cambios. El minibús o el punto de
   encuentro de un aeropuerto pasan de «transfiere a MINIBÚS» a `buscar_punto_de_encuentro` (spec §5.6 y §5.7);
   «devolver en otra oficina» pasa a `consultas_alquiler` con el tema `devolucion` (C-005).
-- `buscar_punto_de_encuentro` y `volver_al_triaje` los nombra el prompt, pero las herramientas las crea la Tarea 12.
+- `buscar_punto_de_encuentro` y `volver_al_triaje`: herramientas de salto con su Module Change, creadas en la Tarea 12 (definición, ids y destinos en `saltos.md`).
   El Module Change de `consultas_alquiler` viene del duplicado y no se toca.
 - Herramientas del nodo: `herramientas-informacion-de-oficina.md`.
 

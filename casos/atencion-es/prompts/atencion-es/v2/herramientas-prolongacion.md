@@ -8,8 +8,8 @@ crearon por API en la Tarea 10 (persistent_id = ID de nodo en la v2).
 
 - Fuente de las descripciones (R3): `{{gestion_abierta}}` se escribe al subir como
   `{{e51cd732-f403-4ef7-95d4-490347960a93.gestion_abierta}}`, como nodo de variable de Plate.
-- `informacion_oficina` (Module Change → Información de oficina) y `volver_al_triaje` (spec §5.7) las nombra el prompt
-  pero no existen todavía: las crea la Tarea 12 (el Module Change, una persona en el editor).
+- `informacion_oficina` (Module Change → Información de oficina) y `volver_al_triaje` (Module Change → Triaje) (spec
+  §5.7): creadas en la Tarea 12; definición, ids y destinos en `saltos.md`.
 - Música de espera «holdacent»: asset `01a0fc02-a13d-77a2-8de3-82459eb2a2a6`; la URL firmada del nodo se sustituye
   aquí por `<URL_FIRMADA>`.
 

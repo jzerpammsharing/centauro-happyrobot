@@ -16,6 +16,24 @@ Plantilla:
 
 ---
 
+## D-009 · 2026-10-19 · Saltos: «a qué hora pasa el minibús» va a Punto de encuentro y evals de salto ajustadas
+- **Qué:** (1) la descripción de `buscar_punto_de_encuentro` de Información de oficina (`01a155d9-5db4-…`, Tarea 12)
+  añade «También si pregunta a qué hora pasa el minibús, si hay minibús a una hora concreta o por el de vuelta: no lo
+  contestes tú, aunque sea fuera del horario de la oficina». (2) La de `volver_al_triaje` de Prolongación añade
+  «También si solo dice que tiene otra consulta o gestión, sin decir cuál: no le preguntes cuál, el triaje lo hace»
+  (va en la herramienta, no en el prompt, que está en el límite de 22.000). (3) Evals cambiadas: SALTO-01a, 02a y 03b
+  pasan de «quiero que borren mis datos de cliente» a «tengo otra consulta distinta»; la expectativa de PRO-2 ya no
+  exige que el motivo diga que el punto se da a cualquier hora.
+- **Por qué:** (1) ADV-12 daba 0/3: Información de oficina contestaba él si había minibús a las cinco (el horario del
+  minibús es de Punto de encuentro). (2) SALTO-03b daba 0/3: Prolongación preguntaba cuál era la consulta. (3) Borrar
+  datos no es de ningún módulo y los módulos, con razón, lo trataban como gestión o duda del alquiler; el motivo de
+  la llamada no es lo que se valora en PRO-2.
+- **Afecta a:** v2, herramientas de salto y evals de «Bot único · Saltos». La devolución en aeropuertos con minibús
+  (`informacion-de-oficina.md`, sección de devolución, punto 3) sigue siendo de Información de oficina: IDO-3,
+  «Sevilla aeropuerto a medianoche» y «Alicante aeropuerto de madrugada» se pasaron en la ronda 25 para comprobarlo.
+- **Quién:** el agente de la Tarea 12 (vuelta de arreglos y ronda de arreglos 1); lo revisa el responsable.
+- **Estado:** aplicada en v2.
+
 ## D-008 · 2026-10-19 · Punto de encuentro e Información de oficina: saltos por herramienta y aviso de cierre en el módulo
 - **Qué:** en los dos módulos (Tarea 11), lo que en la v25 se transfería a la cola de MINIBÚS porque «no lo tienes en
   esta parte de la llamada» pasa a la herramienta del módulo que lo sabe: en Información de oficina, el minibús o el
@@ -33,7 +51,10 @@ Plantilla:
   oficina empeora frente a la v1 en las preguntas del minibús**: la v1 transfería a Minibús y la v2 contesta o salta a
   Consultas.
 - **Quién:** el agente de la Tarea 11, con el spec como autoridad; lo revisa el responsable.
-- **Estado:** aplicada en v2 (prompts); herramientas en la Tarea 12.
+- **Estado:** aplicada en v2. Las herramientas `informacion_oficina`, `buscar_punto_de_encuentro` y `volver_al_triaje`
+  de estos dos módulos se crearon en la Tarea 12 (19/10/2026), con su Module Change (el responsable, en el editor);
+  ADV-12, «VIRTUAL · pregunta por el minibús» y «ES · pregunta por el minibús (Palma)» cuentan desde entonces y dan
+  3/3 (`prompts/atencion-es/v2/saltos.md`).
 
 ## D-007 · 2026-10-19 · Prolongación: reserva que aún no ha empezado, sin envío ni transferencia
 - **Qué:** en el prompt «Prolongación» de la v2, si la reserva aún no ha empezado, el bot ejecuta `buscar_respuesta`

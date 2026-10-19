@@ -96,7 +96,7 @@ mide (≤ 8.000 caracteres) es el texto anterior a esta sección, sin la cabecer
 - Herramientas del nodo: `herramientas-consultas.md`. Código de `buscar_respuesta`: `buscar-respuesta.md`.
   Transferencia: `preparar-transferencia.md` y `transfer.md` (mismo patrón que el Triaje; ids del módulo en
   `herramientas-consultas.md`).
-- `prolongar_alquiler` y `volver_al_triaje` los nombra el prompt pero las herramientas las crea la Tarea 12.
+- `prolongar_alquiler` y `volver_al_triaje`: herramientas de salto con su Module Change, creadas en la Tarea 12 (definición, ids y destinos en `saltos.md`).
 - Este texto es el de la vuelta 3 de correcciones de evals más la ronda de arreglos 1 (D-003: ofrecer la transferencia
   que manda la sección y transferir al sí; `docs/informes/evals-v2.md`). Modelo: `fast-gpt-4.1`,
   confirmado en la comparación de modelos del spec §7.3 (Tarea 9c, D-005).

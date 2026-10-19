@@ -185,7 +185,7 @@ mide (≤ 22.000 caracteres) es el texto anterior a esta sección, sin la cabece
   `buscar_respuesta`.
 - Herramientas: `herramientas-prolongacion.md`; cadenas: `enviar-correo-contrasena.md`, `pista-correo.md`;
   `buscar_respuesta`: `buscar-respuesta.md`; transferencia: `preparar-transferencia.md` y `transfer.md`.
-- `informacion_oficina` (Module Change) y `volver_al_triaje` los nombra el prompt; las herramientas son de la Tarea 12.
+- `informacion_oficina` y `volver_al_triaje`: herramientas de salto con su Module Change, creadas en la Tarea 12 (definición, ids y destinos en `saltos.md`).
 - Modelo `fast-gpt-5.4`, sin `initial_message`.
 - Vuelta de arreglos tras la ronda 1 de evals (18/10/2026, 23:25): plan B de la reserva no iniciada con las
   instrucciones de «¿Has olvidado tu contraseña?»; «cada pregunta, una vez»; «da ya los pasos, sin volver a preguntar si

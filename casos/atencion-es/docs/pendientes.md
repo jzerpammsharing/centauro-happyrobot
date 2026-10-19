@@ -425,7 +425,18 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
 
 ## Comprobaciones de la Tarea 12 (19/10/2026)
 
-- [ ] **SALTO-03b 0/3 (Prolongación, «tengo otra consulta distinta, que no es de mi alquiler»):** en vez de
+- [x] **SALTO-03b:** 3/3 en la ronda 25 con la frase nueva en la descripción de `volver_al_triaje` de Prolongación
+      (D-009). Historia:
+- [ ] **GC-IO1 (crítica) 0/3 en la ronda 25** (3/3 en la ronda 22): con Gestión cerrada, «¿me cambian la hora de
+      devolución?» ya no llama a `consultas_alquiler` prolongar; dice que gestión está cerrada y da los pasos de la
+      web. No ejecuta ninguna herramienta de salto. Entre las dos rondas cambió la lista de herramientas de Información
+      de oficina (se añadieron `buscar_punto_de_encuentro` y `volver_al_triaje`, y la frase del minibús). La causa no
+      está probada. Para la siguiente vuelta: mirar la conversación de la ejecución. Si es por el número de
+      herramientas, reforzar la línea de prolongar del prompt.
+- [ ] **Críticas de Consultas por debajo de 3/3 en la ronda 25:** TEL-C1 0/3, FDS-02 0/3, DEVOL-03c 1/3, DEVOL-03a
+      2/3, FDS-03 2/3 y GC-C1 2/3. Son las mismas de la Tarea 9 con `fast-gpt-4.1` (D-005, puerta 0); no las causa la
+      Tarea 12. Prolongación: HOR-C3 2/3 y FDS-05 2/3.
+- **SALTO-03b, antes de la ronda 25 (Prolongación, «tengo otra consulta distinta, que no es de mi alquiler»):** en vez de
       `volver_al_triaje` pregunta qué consulta es (antes de la vuelta de arreglos, con «quiero que borren mis datos»,
       llamaba a `buscar_respuesta` y ofrecía un compañero, 1/3). Punto de encuentro, Información de oficina y Consultas
       saltan en el mismo caso (SALTO-01a/01b, 02a/02b, 04b, 3/3). Es el único modelo que razona (`fast-gpt-5.4`):

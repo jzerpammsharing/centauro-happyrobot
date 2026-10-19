@@ -1169,3 +1169,17 @@ estaba en modo virtual; las evals fijan `modo_virtual` y `gestion_abierta` por v
 Resultado final: crítica 3/3; en total, 37 de las 38 evals a 3/3 (111/114, 97,4 %). Queda SALTO-03b, con su motivo en
 `pendientes.md` («Comprobaciones de la Tarea 12»).
 
+### Ronda 25 (Tarea 12, ronda de arreglos 1; 19/10/2026, 23:15–23:21, lunes; reloj real en modo virtual)
+
+Cambios antes de la ronda: descripción de `volver_al_triaje` de Prolongación («También si solo dice que tiene otra
+consulta o gestión, sin decir cuál…», 23:14) y eval nueva SALTO-PING-GC (crítica, Información de oficina, Gestión
+cerrada, `01a15604-9ce7-…`). 56 evals × 3, version_id de la v2.
+
+| Grupo | Resultado | Por debajo de 3/3 (motivo del juez) |
+|---|---|---|
+| Saltos: SALTO-PING, SALTO-ENTRADA-TR, SALTO-03b, SALTO-PING-GC | 12/12 | — (03b pasa de 0/3 a 3/3) |
+| Información de oficina: Sevilla a medianoche, IDO-3, Alicante de madrugada, Idioma EN Málaga, ADV-11, «VIRTUAL · cambiar hora» | 18/18 | — (la devolución en aeropuertos no cambia con la descripción nueva de `buscar_punto_de_encuentro`) |
+| GC-IO1 (crítica) | **0/3** | No llama a `consultas_alquiler` prolongar: dice que gestión está cerrada y da los pasos de la web. Daba 3/3 en la ronda 22; no ejecuta ninguna herramienta de salto |
+| Prolongación: 24 críticas, ADV-1 y CIERRE-03 | 76/78 | HOR-C3 2/3 (tras el error del entorno anuncia el reintento sin hacerlo); FDS-05 2/3 (ofrece pasarle con un compañero) |
+| Consultas: 19 críticas | 47/57 | TEL-C1 0/3 (sugiere la oficina de Lisboa o da el de España para Portugal); FDS-02 0/3 (no explica primero el servicio de espera); DEVOL-03c 1/3; DEVOL-03a 2/3; FDS-03 2/3; GC-C1 2/3. Son las mismas que no llegaban en la Tarea 9 (5b: TEL-C1 0/3, FDS-02 0/3, DEVOL-03c 1/3, FDS-03 2/3, GC-C1 0/3; D-005) |
+

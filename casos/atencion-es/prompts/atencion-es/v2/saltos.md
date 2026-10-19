@@ -10,6 +10,10 @@ Todas llevan `message: {"type": "none"}` y el parámetro obligatorio `motivo`; l
 entrada desde el Triaje llevan además los parámetros de la v25 (`tema`/`oficina`, `aeropuerto`/`terminal`, `situacion`).
 En HappyRobot el persistent_id de cada herramienta nueva es igual a su ID de nodo.
 
+**R40:** las 4 herramientas heredadas de la v25 con Module Change (filas a–d: `consultas_alquiler` de Punto de encuentro
+y de Información de oficina, `buscar_punto_de_encuentro` e `informacion_oficina` de Consultas) **no llevan `motivo`**:
+no se tocaron (R5). Las 8 nuevas sí.
+
 ## Las 12 filas
 
 | # | Herramienta | Módulo de origen (ID de nodo) | Herramienta: ID de nodo | Destino (ID de nodo · persistent_id) | Hijo |
@@ -62,7 +66,7 @@ Tras crearlos, `get_workflows` debe dar 12 nodos `module-change` (Paso 3).
 
 ### 3. `volver_al_triaje` en Prolongación
 
-**Descripción:** Úsala cuando el cliente pide el minibús o el punto de encuentro de un aeropuerto, u otra gestión que no es de su alquiler. Te lleva al triaje, que encamina la llamada con lo que el cliente ya ha dicho, sin saludar ni repetir preguntas. NO la uses para prolongar o para una duda del alquiler (eso es de aquí: buscar_respuesta), para el horario o la dirección de una oficina (informacion_oficina) ni para transferir (transfer_to_human_agent). Sirve a cualquier hora, también en modo virtual y con gestión cerrada. No digas nada antes ni después: la herramienta continúa la conversación.
+**Descripción:** Úsala cuando el cliente pide el minibús o el punto de encuentro de un aeropuerto, u otra gestión que no es de su alquiler. También si solo dice que tiene otra consulta o gestión, sin decir cuál: no le preguntes cuál, el triaje lo hace. Te lleva al triaje, que encamina la llamada con lo que el cliente ya ha dicho, sin saludar ni repetir preguntas. NO la uses para prolongar o para una duda del alquiler (eso es de aquí: buscar_respuesta), para el horario o la dirección de una oficina (informacion_oficina) ni para transferir (transfer_to_human_agent). Sirve a cualquier hora, también en modo virtual y con gestión cerrada. No digas nada antes ni después: la herramienta continúa la conversación.
 
 **Parámetros:**
 - `motivo` (obligatorio): Por qué cambias de módulo: lo que el cliente pide ahora, en una frase corta, con lo que ya ha dicho y sin datos personales (ni nombre, ni reserva, ni matrícula, ni correo, ni teléfono).
@@ -111,6 +115,8 @@ Tras crearlos, `get_workflows` debe dar 12 nodos `module-change` (Paso 3).
 
 La frase «También si pregunta a qué hora pasa el minibús…» de la herramienta 6 se añadió el 19/10/2026 a las 23:06, en
 la vuelta de arreglos de los Pasos 3 a 5 (ADV-12).
+La frase «También si solo dice que tiene otra consulta o gestión…» de la herramienta 3 se añadió el 19/10/2026 a las
+23:14, en la ronda de arreglos 1 (SALTO-03b). D-009.
 
 ## Evals (Pasos 4 y 5)
 
@@ -150,6 +156,7 @@ Carpeta «Bot único · Saltos» (`01a155f0-c997-7c47-9d1e-6aceb2c7b093`), 31 ev
 | SALTO-ENTRADA-PR | Prolongación | `01a155f5-90b6-73a1-b529-48a7e0672776` | sin herramienta |
 | SALTO-ENTRADA-CO | Consultas del alquiler | `01a155f5-92f7-7607-81cd-17c70ce1fded` | `buscar_respuesta` tema=cargos_y_reembolsos |
 | SALTO-PING (crítica) | Consultas del alquiler | `01a155f5-953e-747a-897e-e527995decbf` | `transfer_to_human_agent` cola=minibus |
+| SALTO-PING-GC (crítica) | Información de oficina | `01a15604-9ce7-72de-a2d0-e9ae4e669c28` | sin herramienta: horario de gestión y cierra (Gestión cerrada) |
 | SALTO-IDIOMA | Prolongación | `01a155f5-977f-7518-8ea2-6204ee41f9b9` | sin herramienta |
 
 SALTO-01a, SALTO-02a y SALTO-03b se crearon con «quiero que borren mis datos de la cuenta de cliente» y se cambiaron en la

@@ -7,8 +7,8 @@ Las herramientas del prompt «Punto de encuentro» (`a80fca22-b295-41e3-a735-a3c
 
 - Fuente de las descripciones (R3): `{{gestion_abierta}}` va en HappyRobot como nodo de variable de Plate con
   `group_id` `e51cd732-f403-4ef7-95d4-490347960a93`.
-- `informacion_oficina` y `volver_al_triaje` (spec §5.7) las crea la Tarea 12 con su Module Change; el prompt ya las
-  nombra.
+- `informacion_oficina` y `volver_al_triaje` (spec §5.7): creadas en la Tarea 12, cada una con su Module Change;
+  definición, ids y destinos en `saltos.md`.
 
 ## 1. consultas_alquiler (descripción cambiada en las rondas de arreglos 1 y 2)
 

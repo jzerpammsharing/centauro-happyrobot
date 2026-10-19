@@ -363,8 +363,8 @@ Punto de encuentro no tiene tamaño máximo; lo que se mide es el texto anterior
   ahora OTRAS HERRAMIENTAS y ESCALADO, con `cola`. Puntos de encuentro, horarios y oficinas sin cambios. En HORARIO
   Y DEVOLUCIÓN EN AEROPUERTOS, «devolver en otra oficina» pasa a `consultas_alquiler` con el tema `devolucion`
   (C-005) y los casos de gestión remiten a ESCALADO.
-- `informacion_oficina` y `volver_al_triaje`: herramientas creadas en la Tarea 12 (19/10/2026), con su Module Change
-  por crear en el editor (`saltos.md`). El Module Change de `consultas_alquiler` viene del duplicado y no se toca.
+- `informacion_oficina` y `volver_al_triaje`: herramientas creadas en la Tarea 12 (19/10/2026), cada una con su Module
+  Change (definición, ids y destinos en `saltos.md`). El Module Change de `consultas_alquiler` viene del duplicado y no se toca.
 - Tarea 12 (arrastre de la Tarea 11): el «enfadado o puede perder una conexión» de SI «EL BUS TARDA DEMASIADO» y la
   viñeta de la queja de ESCALADO llevan la excepción de PRIMERO.
 - Herramientas del nodo: `herramientas-punto-de-encuentro.md`.
