@@ -1044,3 +1044,31 @@ Críticas: **20/27** (24/27 en la ronda 18).
 
 Era la única vuelta: lo que falla queda en `pendientes.md` con el motivo del juez. La eval «VIRTUAL · cambiar hora de
 devolución» necesita adaptarse a R36 (el fallo es de la expectativa).
+
+### Ronda de arreglos 3 (ronda 20, 19/10/2026, 21:53–21:58, lunes)
+
+Hora: a las 22:00 empieza el modo virtual por el reloj real. No afecta a estas evals: fijan `modo_virtual` por variable
+y estos dos módulos todavía no tienen «Preparar transferencia» (R35).
+
+Causas reales (revisión): ADV-11 la provocaba el esquema de `transfer_to_human_agent` («la hora o el día de
+devolución» como caso de gestión), no el bloque común; PE-NOCT-3, la viñeta 2 de EN MODO VIRTUAL. Las líneas de las
+rondas 18 y 19 que lo atribuían a otra cosa quedan como histórico.
+
+Cambios: esquemas de las dos `transfer_to_human_agent` («un dato ya acordado que no sea alargar el alquiler»,
+«Alargar el alquiler no es de gestión: consultas_alquiler», última frase del resumen «El cliente habla <idioma>»); en
+Información de oficina, TU TAREA dice que alargar no es algo que solo pueda hacer gestión (aplicado a la vez que el
+esquema porque solo hay una vuelta); en Punto de encuentro, «Si PRIMERO dio true, esta sección no se aplica» al
+principio de EN MODO VIRTUAL y la regla de ADV-8 en OTRAS HERRAMIENTAS. Evals: «VIRTUAL · cambiar hora» reescrita
+según R36 y ADV-8 acepta la frecuencia. Prompts: 35.801 y 33.727 caracteres.
+
+| Eval | Ronda 19 | Ronda 20 | Motivo del juez (ronda 20) |
+|---|---|---|---|
+| ADV-11 (crítica) | 0/3 | **3/3** | — |
+| «VIRTUAL · cambiar hora de devolución» (crítica; eval reescrita) | 0/3 | **3/3** | — |
+| «Idioma · EN · 25 minutos» (crítica) | 2/3 | **3/3** | — |
+| GC-IO1 (crítica) | 3/3 | 2/3 | Llama a `consultas_alquiler` (aceptado) y luego no dice que gestión esté cerrada ni su horario |
+| GC-PE1, VIRT-PE1, PDE-5, ADV-7, «DÍA · 25 minutos» (críticas) | 3/3 | 3/3 | — |
+| PE-NOCT-3 | 0/3 | 0/3 | Da el punto de encuentro y no llama a `consultas_alquiler` recoger_tarde |
+| ADV-8 | 1/3 | 0/3 | Ejecuta `consultas_alquiler` antes de dar el punto; el juez, por la nota «solo lo anterior a la primera llamada», no ve el punto |
+
+Críticas: **26/27**.

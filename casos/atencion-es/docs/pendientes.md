@@ -335,20 +335,29 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
       terminal o la puerta»). ADV-8 2/3.
 - [ ] **Ronda 19 (ronda de arreglos 2, 18:25–18:27):** críticas 20/27.
   - ADV-11 (crítica) sigue a 0/3: con Gestión cerrada y «páseme con quien lo gestione» da el horario de gestión y el
-    área de cliente sin llamar a `consultas_alquiler`, pese a la regla nueva en el prompt y en la descripción de la
-    herramienta. Probablemente gana la regla de máxima prioridad del bloque común («en cuanto necesite algo que solo
-    puede hacer gestión»), que no se puede tocar en esta tarea: para la Tarea 16, decidir si el bloque debe decir que
-    alargar el alquiler no es de gestión.
+    área de cliente sin llamar a `consultas_alquiler`. Causa (revisión de la ronda de arreglos 3): el esquema de
+    `transfer_to_human_agent` ponía «la hora o el día de devolución» como caso de gestión, no el bloque común. Arreglado
+    en la ronda 20 (3/3).
   - «VIRTUAL · cambiar hora de devolución» (crítica) cae a 0/3 por la eval, no por el bot: con R36 el bot ya ejecuta
     `consultas_alquiler` (prolongar) y no transfiere, pero el juez valora el texto posterior de Consultas («puede
     retrasarla», «depende de disponibilidad») contra una expectativa que aún pide el horario de gestión. Hay que
     adaptar la eval a R36 (esperar `consultas_alquiler` y no valorar lo posterior).
   - «Idioma · EN · 25 minutos» (crítica) 2/3: en una el resumen no termina con «El cliente habla inglés».
   - PE-NOCT-3 (nueva) 0/3: con PRIMERO true, ante «el minibús no pasa y mi vuelo llegó tarde» da el punto P6 de
-    Valencia en vez del aviso de cierre y no llama a `consultas_alquiler`. La regla de queja del minibús sigue
-    ganando a PRIMERO.
+    Valencia en vez del aviso de cierre y no llama a `consultas_alquiler`. Causa (revisión): la viñeta 2 de EN MODO
+    VIRTUAL («si el minibús no llega… que espere en el punto indicado»). La ronda de arreglos 3 puso «Si PRIMERO dio
+    true, esta sección no se aplica» al principio de EN MODO VIRTUAL y sigue a 0/3 en la ronda 20 (da el punto P6 y no
+    llama a la herramienta).
   - ADV-8 1/3: anuncia que consulta el precio sin ejecutar la herramienta.
   - Arreglados: PE-NOCT-1 3/3 (0/3 en la ronda 18).
+- [ ] **Ronda 20 (ronda de arreglos 3, 21:53–21:58, lunes; a las 22:00 empieza el modo virtual por el reloj, pero
+      estas evals fijan `modo_virtual` por variable y estos módulos aún no tienen «Preparar transferencia»):** críticas
+      26/27. ADV-11 3/3, «VIRTUAL · cambiar hora» 3/3 (eval reescrita por R36), «Idioma · EN · 25 minutos» 3/3.
+      Quedan: GC-IO1 2/3 (con R36 ahora llama a `consultas_alquiler` prolongar ante «¿me cambian la hora de
+      devolución?» y en una el juez exige el horario de gestión: la eval tiene que aceptar ese camino, ya lo admitía en
+      el texto), PE-NOCT-3 0/3 (arriba) y ADV-8 0/3 (ahora ejecuta `consultas_alquiler` antes de dar el punto y el juez,
+      por la nota «valora solo lo dicho antes de la primera llamada», no ve el punto: la nota de la eval choca con la
+      regla nueva «da el punto y ejecuta la herramienta en ese mismo turno»).
 - [ ] **Resto por debajo del 90 % (89,2 %, ronda 17):** PE-NOCT-1 1/3 (pregunta la puerta de Atenas antes de dar el
       aviso de cierre: la regla de las terminales de QUÉ HACER AHORA compite con PRIMERO), Sevilla falso meeting point
       1/3 y caseta 2/3 (añade dónde espera el minibús), ADV-8 2/3, Madrid ambiguo 2/3, Sevilla a medianoche 2/3, Sants

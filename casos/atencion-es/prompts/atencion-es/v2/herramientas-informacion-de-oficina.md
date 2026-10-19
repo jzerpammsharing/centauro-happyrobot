@@ -10,7 +10,7 @@ Las herramientas del prompt «Información de oficina» (`0c60218b-8901-47bd-95d
 - `buscar_punto_de_encuentro` y `volver_al_triaje` (spec §5.7) las crea la Tarea 12 con su Module Change; el prompt
   ya las nombra.
 
-## 1. consultas_alquiler (sin cambios)
+## 1. consultas_alquiler (descripción cambiada en la ronda de arreglos 2)
 
 - Hijo: «Module Change» → «Consultas del alquiler» (viene del duplicado; no se toca, R5).
 - `message`: `{"type": "none"}`. Parámetros (`tema`, `pregunta`) los de la v25. Descripción: la de la v25 con dos
@@ -47,3 +47,9 @@ Las herramientas del prompt «Información de oficina» (`0c60218b-8901-47bd-95d
 Cuando se cree «Preparar transferencia», su entrada `cola` es `{{62c5b6dd-5dde-4b3a-9a93-adb638c0bd66.cola}}` y las
 cuatro `cola_*` de «Resolver colas» (`081e2b5d-…`); el whisper del Transfer lleva el `resumen_para_agente` de esta
 herramienta.
+
+**Ronda de arreglos 3 (19/10/2026).** En `transfer_to_human_agent`: el caso de gestión es «cambiar un dato ya acordado que
+no sea alargar el alquiler» (antes «la hora o el día de devolución», que hacía que el bot tratara alargar como caso de
+gestión: causa de ADV-11), en la descripción y en `cola`, con «Alargar el alquiler no es de gestión: consultas_alquiler»;
+y en `resumen_para_agente`, «Si el idioma de la llamada no es español, la ÚLTIMA frase es SIEMPRE «El cliente habla
+<idioma>»».
