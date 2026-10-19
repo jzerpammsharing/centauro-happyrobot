@@ -13,7 +13,9 @@ Las herramientas del prompt «Información de oficina» (`0c60218b-8901-47bd-95d
 ## 1. consultas_alquiler (sin cambios)
 
 - Hijo: «Module Change» → «Consultas del alquiler» (viene del duplicado; no se toca, R5).
-- `message`: `{"type": "none"}`. Descripción y parámetros (`tema`, `pregunta`) los de la v25.
+- `message`: `{"type": "none"}`. Parámetros (`tema`, `pregunta`) los de la v25. Descripción: la de la v25 con dos
+  cambios (ronda de arreglos 2): «Alargar el alquiler (devolverlo otro día) siempre va aquí, también con gestión
+  cerrada.» y «…que alguien mire o cambie un dato concreto de su reserva sin alargarla».
 
 ## 2. transfer_to_human_agent
 
@@ -40,7 +42,7 @@ Las herramientas del prompt «Información de oficina» (`0c60218b-8901-47bd-95d
 |---|---|---|
 | consultas_alquiler → Module Change | `01a14f1d-0398-71cd-be10-a50ab91d1f5d` → `01a14f1d-039b-7e2a-90f5-a43135ba4453` | `6edd13ac-b226-4d1c-87dc-748b46ce5638` |
 | transfer_to_human_agent | `01a14f1d-0399-7faf-a630-5c199b3e3efc` | `62c5b6dd-5dde-4b3a-9a93-adb638c0bd66` |
-| → Initiate customer connection (v25, por sustituir) | `01a14f1d-0396-788f-81ca-75cf199aabbd` | — |
+| → Initiate customer connection (v25, por sustituir) | `01a14f1d-0396-788f-81ca-75cf199aabbd` | `faec6a20-257a-4b8c-8c75-8dd336beead7` |
 
 Cuando se cree «Preparar transferencia», su entrada `cola` es `{{62c5b6dd-5dde-4b3a-9a93-adb638c0bd66.cola}}` y las
 cuatro `cola_*` de «Resolver colas» (`081e2b5d-…`); el whisper del Transfer lleva el `resumen_para_agente` de esta

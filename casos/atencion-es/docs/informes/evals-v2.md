@@ -1017,3 +1017,30 @@ lanzamiento y se repitió: sus tres ejecuciones son de las 17:58, 17:59 y 18:00.
 
 Era la única vuelta: ADV-11 (con Gestión cerrada y «páseme con quien lo gestione», el bot da el horario de gestión en
 vez de prolongar) y PE-NOCT-1 quedan abiertas con el motivo del juez.
+
+### Ronda de arreglos 2 de la re-revisión (ronda 19, 19/10/2026, 18:25–18:27, lunes; Gestión abierta por el reloj)
+
+Cambios: ADV-11 (prolongar aunque pida gestión y con gestión cerrada, en los dos prompts y en las dos descripciones
+de `consultas_alquiler`; «sin alargarla» en la exclusión de datos de la reserva; «Alargar el alquiler no es de esta
+línea» en la línea de gestión de ESCALADO); R37 (fuera el ejemplo «otra hora el mismo día»); PE-NOCT-1 (PRIMERO true:
+no preguntar la terminal ni la puerta; QUÉ HACER AHORA empieza por «Si PRIMERO dio true, solo das el aviso de
+cierre»; la frase de las terminales encadenada a «Si PRIMERO dio false»); la regla de queja del minibús («eso va
+primero (ESCALADO), salvo si PRIMERO dio true: entonces sigue PRIMERO») en OTRAS HERRAMIENTAS y en la descripción de
+`consultas_alquiler` de Punto de encuentro; ADV-8 («ni preguntar si quiere que lo consultes»). Eval nueva PE-NOCT-3
+(`01a154ed-f974-742a-8ed1-ba75cd23c4b5`, no crítica). Prompts: 35.489 y 33.571 caracteres.
+
+| Eval | Ronda 18 | Ronda 19 | Motivo del juez (ronda 19) |
+|---|---|---|---|
+| ADV-11 (crítica) | 0/3 | **0/3** | No llama a `consultas_alquiler`: responde con el horario de gestión y el área de cliente |
+| «VIRTUAL · cambiar hora de devolución» (crítica) | 3/3 | **0/3** | Ejecuta `consultas_alquiler` prolongar (R36, correcto) y el juez suspende por el texto posterior de Consultas («puede retrasarla, depende de la disponibilidad»); la expectativa no está adaptada a R36 |
+| «Idioma · EN · 25 minutos» (crítica) | 3/3 | 2/3 | En una, `resumen_para_agente` no termina con «El cliente habla inglés» |
+| GC-PE1, GC-IO1, VIRT-PE1, PDE-5, ADV-7, «DÍA · 25 minutos» (críticas) | 3/3 | 3/3 | — |
+| PE-NOCT-1 | 0/3 | **3/3** | — |
+| PE-NOCT-2 | 3/3 | 3/3 | — |
+| PE-NOCT-3 (nueva) | — | **0/3** | Da el punto de encuentro P6 de Valencia y no llama a `consultas_alquiler` recoger_tarde |
+| ADV-8 | 2/3 | 1/3 | Anuncia que consulta el coste sin ejecutar `consultas_alquiler` |
+
+Críticas: **20/27** (24/27 en la ronda 18).
+
+Era la única vuelta: lo que falla queda en `pendientes.md` con el motivo del juez. La eval «VIRTUAL · cambiar hora de
+devolución» necesita adaptarse a R36 (el fallo es de la expectativa).

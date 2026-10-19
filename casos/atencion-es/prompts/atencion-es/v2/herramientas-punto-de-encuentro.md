@@ -13,9 +13,11 @@ Las herramientas del prompt «Punto de encuentro» (`a80fca22-b295-41e3-a735-a3c
 ## 1. consultas_alquiler (sin cambios)
 
 - Hijo: «Module Change» → «Consultas del alquiler» (viene del duplicado; no se toca, R5).
-- `message`: `{"type": "none"}`. Parámetros (`tema`, `pregunta`) los de la v25. Descripción: la de la v25 con una frase
-  delante (ronda de arreglos 1, ADV-7): «NO la uses si en el mismo turno se queja del minibús (se fue sin él, no pasa,
-  lleva esperando igual o más que la frecuencia): eso va primero y se transfiere a la cola minibus.»
+- `message`: `{"type": "none"}`. Parámetros (`tema`, `pregunta`) los de la v25. Descripción: la de la v25 con tres
+  cambios (rondas de arreglos 1 y 2): delante, «NO la uses si en el mismo turno se queja del minibús (se fue sin él, no
+  pasa, lleva esperando igual o más que la frecuencia): eso va primero (ESCALADO), salvo si PRIMERO dio true: entonces
+  sigue PRIMERO.»; «Alargar el alquiler (devolverlo otro día) siempre va aquí, también con gestión cerrada.»; y «…que
+  alguien mire o cambie un dato concreto de su reserva sin alargarla».
 
 ## 2. transfer_to_human_agent
 

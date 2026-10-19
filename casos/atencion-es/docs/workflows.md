@@ -122,7 +122,7 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | Initiate customer connection de la v25 (Punto de encuentro; por sustituir) | `01a14f1d-0396-7961-a5d9-ee9de58e701b` | `37fb8053-214e-4357-be80-0fc8f832ecbc` |
 | consultas_alquiler (Información de oficina) | `01a14f1d-0398-71cd-be10-a50ab91d1f5d` | `6edd13ac-b226-4d1c-87dc-748b46ce5638` |
 | transfer_to_human_agent (Información de oficina; parámetros nuevos en la Tarea 11) | `01a14f1d-0399-7faf-a630-5c199b3e3efc` | `62c5b6dd-5dde-4b3a-9a93-adb638c0bd66` |
-| Initiate customer connection de la v25 (Información de oficina; por sustituir) | `01a14f1d-0396-788f-81ca-75cf199aabbd` | — |
+| Initiate customer connection de la v25 (Información de oficina; por sustituir) | `01a14f1d-0396-788f-81ca-75cf199aabbd` | `faec6a20-257a-4b8c-8c75-8dd336beead7` |
 | Consultas del alquiler (antes «Prolongación y consultas») | `01a14f1d-0397-7b22-b5ce-bcb398a7605e` | `38378785-0846-4920-b41a-583f7c5773fb` |
 | buscar_respuesta (Consultas, Tarea 9) | `01a14fa1-5c34-7bff-9366-aa7e9e4e448a` | `01a14fa1-5c34-7bff-9366-aa7e9e4e448a` |
 | Buscar respuesta (Python, Consultas) | `01a14fa1-5c44-7c37-821c-1d01c0bd41eb` | `01a14fa1-5c44-7c37-821c-1d01c0bd41eb` |
@@ -155,7 +155,7 @@ contraseña de Prolongaciones v12 (misma credencial «Centauro MCP» y mismo có
 `buscar_respuesta` (Python «Buscar respuesta», el mismo código que Consultas) y la transferencia con el patrón de
 Consultas. Detalle: `herramientas-prolongacion.md`, `enviar-correo-contrasena.md` y `pista-correo.md`.
 
-**Tarea 11 (19/10/2026):** «Punto de encuentro» (34.595 caracteres; 35.073 tras la ronda de arreglos 1) e «Información de oficina» (33.210; 33.379) llevan el
+**Tarea 11 (19/10/2026):** «Punto de encuentro» (34.595 caracteres; 35.073 tras la ronda de arreglos 1 y 35.489 tras la 2) e «Información de oficina» (33.210; 33.379; 33.571) llevan el
 bloque de reglas comunes; Punto de encuentro, además, las LISTAS 1 a 4 de `nocturno_*` (aviso de oficina de
 aeropuerto cerrada) y la sección de interrupciones de la v25. Modelos sin cambios. Copias en
 `prompts/atencion-es/v2/punto-de-encuentro.md`, `informacion-de-oficina.md` y sus `herramientas-*.md`. Las dos

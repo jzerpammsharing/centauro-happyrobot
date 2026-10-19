@@ -333,14 +333,32 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
       Gestión cerrada y «páseme con quien lo gestione» da el horario de gestión en vez de `consultas_alquiler`
       prolongar; depende de R36) y PE-NOCT-1 0/3 (sigue preguntando la puerta de Atenas pese a «antes de preguntar la
       terminal o la puerta»). ADV-8 2/3.
+- [ ] **Ronda 19 (ronda de arreglos 2, 18:25–18:27):** críticas 20/27.
+  - ADV-11 (crítica) sigue a 0/3: con Gestión cerrada y «páseme con quien lo gestione» da el horario de gestión y el
+    área de cliente sin llamar a `consultas_alquiler`, pese a la regla nueva en el prompt y en la descripción de la
+    herramienta. Probablemente gana la regla de máxima prioridad del bloque común («en cuanto necesite algo que solo
+    puede hacer gestión»), que no se puede tocar en esta tarea: para la Tarea 16, decidir si el bloque debe decir que
+    alargar el alquiler no es de gestión.
+  - «VIRTUAL · cambiar hora de devolución» (crítica) cae a 0/3 por la eval, no por el bot: con R36 el bot ya ejecuta
+    `consultas_alquiler` (prolongar) y no transfiere, pero el juez valora el texto posterior de Consultas («puede
+    retrasarla», «depende de disponibilidad») contra una expectativa que aún pide el horario de gestión. Hay que
+    adaptar la eval a R36 (esperar `consultas_alquiler` y no valorar lo posterior).
+  - «Idioma · EN · 25 minutos» (crítica) 2/3: en una el resumen no termina con «El cliente habla inglés».
+  - PE-NOCT-3 (nueva) 0/3: con PRIMERO true, ante «el minibús no pasa y mi vuelo llegó tarde» da el punto P6 de
+    Valencia en vez del aviso de cierre y no llama a `consultas_alquiler`. La regla de queja del minibús sigue
+    ganando a PRIMERO.
+  - ADV-8 1/3: anuncia que consulta el precio sin ejecutar la herramienta.
+  - Arreglados: PE-NOCT-1 3/3 (0/3 en la ronda 18).
 - [ ] **Resto por debajo del 90 % (89,2 %, ronda 17):** PE-NOCT-1 1/3 (pregunta la puerta de Atenas antes de dar el
       aviso de cierre: la regla de las terminales de QUÉ HACER AHORA compite con PRIMERO), Sevilla falso meeting point
       1/3 y caseta 2/3 (añade dónde espera el minibús), ADV-8 2/3, Madrid ambiguo 2/3, Sevilla a medianoche 2/3, Sants
       2/3, PDE-2 2/3 (juez). Motivos en `informes/evals-v2.md`.
-- [ ] **R36 (para que lo confirme el responsable): «devolver más tarde».** Desde la ronda de arreglos 1, en los dos
-      módulos, quedarse el coche más tiempo (devolverlo otro día o más tarde, alargando el alquiler) es prolongar
-      (`consultas_alquiler`, tema `prolongar`), y cambiar un dato ya acordado sin alargar (otra hora el mismo día, el
-      buzón de llaves) es un caso de gestión. ADV-11 vuelve a exigir `consultas_alquiler`.
+- [ ] **R36 (para que lo confirme el responsable): «devolver más tarde».** En los dos módulos, quedarse el coche más
+      tiempo (devolverlo otro día o más tarde, alargando el alquiler) es prolongar (`consultas_alquiler`, tema
+      `prolongar`), aunque pida que le pasen con alguien o con gestión y también con gestión cerrada: lo hace el
+      cliente en la web o la app. Cambiar un dato ya acordado que no sea alargar (el buzón de llaves…) es un caso de
+      gestión. R37 (ronda de arreglos 2): se quitó el ejemplo «otra hora el mismo día». ADV-11 exige
+      `consultas_alquiler`.
 - [ ] **Saltos que nombra el prompt y aún no existen** (Tarea 12): `informacion_oficina` y `volver_al_triaje` en Punto
       de encuentro; `buscar_punto_de_encuentro` y `volver_al_triaje` en Información de oficina. Hasta entonces,
       Información de oficina contesta o llama a `consultas_alquiler` cuando le preguntan por el minibús (ADV-12,
@@ -350,7 +368,7 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
       en la Tarea 12 si el tema `prolongar` debe pasar a `prolongar_alquiler`.
 - **Evals:** 43 (25 + 18), de Minibús ES v25 (conversaciones recuperadas del registro de sesiones) y 5 nuevas.
   `create` no guarda `folder_id`: hay que pasarlo después con `update`. Con `expected_tool_calls: []` el juez no
-  exige ninguna herramienta (ADV-8 y ADV-11 pasan con o sin `consultas_alquiler`).
+  exige ninguna herramienta (ADV-8 pasa con o sin `consultas_alquiler`).
 - **`fix_broken_vars` no se ejecutó** (R23). Variables escritas con `{{persistent_id.variable}}`; `get_node_details`
   (Plate) muestra 8 nodos de variable en Punto de encuentro y 3 en Información de oficina, todos con `group_id`
   `e51cd732-…`.
