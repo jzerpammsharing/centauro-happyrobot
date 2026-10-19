@@ -31,7 +31,7 @@ ajustes, Twin, quitar el Paths «Entrada» en el editor): `docs/pendientes.md`.
 | `docs/planes/` | Plan de construcción (`2026-10-18-bot-unico-construccion.md`) y registro de progreso de los subagentes (`2026-10-18-bot-unico-progreso.md`, copia para retomar en otro equipo) |
 | `prompts/atencion-es/<versión>/` | Copias de los prompts y de la configuración de los nodos |
 | `codigo/` | Python de los nodos y sus pruebas (al construir) |
-| `rutinas/` | Prompt de la rutina diaria de calidad (al construir) |
+| `rutinas/` | Prompt de la rutina diaria de calidad (`informe-atencion-es.md`) y fuente HTML del artefacto «Calidad Atención España» (`calidad-atencion-es.html`) |
 
 ## 3. Reglas propias del caso
 
@@ -49,5 +49,17 @@ ajustes, Twin, quitar el Paths «Entrada» en el editor): `docs/pendientes.md`.
   al actualizar un prompt, escribir `{{persistent_id.variable}}` con los ids de `docs/workflows.md`.
 - **MCP de Centauro:** va contra la API real aunque la credencial se llame «Stagin». No hacer refresh de los
   servidores MCP en HappyRobot.
-- **Medición:** la misma para este workflow y para los bots actuales (`scripts/medir_bots.py`, al construir).
+- **Medición:** la misma para este workflow y para los bots actuales (`scripts/medir_bots.py`).
   Resolución real y créditos por llamada resuelta son los indicadores principales (spec §6).
+
+## 4. Rutina diaria de calidad
+
+`rutinas/informe-atencion-es.md` (sin programar; lo decide una persona). Mide el día anterior del bot único, de
+Prolongaciones y de Minibús ES con la misma cadena: runs y outputs en HappyRobot (subagentes de ~23 runs, teléfonos
+solo en hash) → `scripts/creditos_runs.py` (necesita `HAPPYROBOT_API_KEY` en el entorno; sin ella, créditos null) →
+RingCentral (¿llegó a un agente?) → `scripts/normalizar_llamadas.py` → `scripts/medir_bots.py` →
+`codigo/informe_diario.py` (documento del día y puertas de §8.4). Los lunes, auditoría de 30 llamadas. D-011.
+
+| Artefacto | La rutina escribe en | Lo escriben personas |
+|---|---|---|
+| [Calidad Atención España](https://claude.ai/artifact/4YyyT2jrKTe1TjhGdApnh7) (privado; fuente `rutinas/calidad-atencion-es.html`) | `informes` (doc_id = AAAA-MM-DD) | cualquier campo de un documento que no salga de `informe_diario.py` ni de la sección 8 del prompt |

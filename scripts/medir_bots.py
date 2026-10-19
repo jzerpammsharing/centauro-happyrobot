@@ -1,12 +1,13 @@
 """Medición común de los bots de Centauro: resolución real y créditos por llamada resuelta.
 
-Uso: python3 -I scripts/medir_bots.py <llamadas.json> [--fin AAAA-MM-DDTHH:MM:SSZ]
+Uso: python3 -I scripts/medir_bots.py <llamadas.json> [--fin AAAA-MM-DDTHH:MM:SSZ] [--contexto otras.json]
 - llamadas.json: lista de llamadas ya normalizadas (las arma la rutina de medición), con "run_id",
   "workflow" (atencion | prolongaciones | minibus), "version", "inicio" (ISO UTC), "from_hash" (10 caracteres o ""),
   "opcion_menu", "turnos_cliente", "transferencias": [{"cola", "ts", "error"}], "llego_agente" (bool o null),
   "creditos" (número o null), "saltos", "duracion_s" y "motivo".
 - --fin: instante de referencia (por defecto, ahora). Las llamadas de las 48 h anteriores a `fin` no entran en
   la resolución real, porque todavía pueden recibir una rellamada.
+- --contexto: llamadas de otros días (mismo formato) que solo sirven para buscar rellamadas; no se miden.
 - Imprime una tabla y escribe <llamadas>.indicadores.json junto al fichero de entrada.
 
 Solo lectura y sin dependencias externas. Ningún indicador depende del nombre de las colas: solo se cuenta si hubo
@@ -116,10 +117,11 @@ def _grupo(llamadas, con_rellamada, fin):
     }
 
 
-def indicadores(llamadas, fin):
-    """Indicadores por (workflow, opción), por franja y por (workflow, opción, franja)."""
+def indicadores(llamadas, fin, contexto=None):
+    """Indicadores por (workflow, opción), por franja y por (workflow, opción, franja). `contexto`: llamadas de otros
+    días que solo cuentan para buscar rellamadas (no se miden)."""
     fin = _en_utc(fin)
-    con_rellamada = rellamadas(llamadas)
+    con_rellamada = rellamadas(list(llamadas) + list(contexto or []))
     claves = {
         "por_opcion": lambda ll: "%s/%s" % (ll["workflow"], ll["opcion_menu"]),
         "por_franja": lambda ll: franja(_a_fecha(ll["inicio"])),
@@ -154,13 +156,19 @@ def main(argv):
         i = args.index("--fin")
         fin = _a_fecha(args[i + 1])
         del args[i:i + 2]
+    contexto = []
+    if "--contexto" in args:
+        i = args.index("--contexto")
+        with open(args[i + 1]) as f:
+            contexto = json.load(f)
+        del args[i:i + 2]
     if len(args) != 1:
-        print("Uso: python3 -I medir_bots.py <llamadas.json> [--fin AAAA-MM-DDTHH:MM:SSZ]")
+        print("Uso: python3 -I medir_bots.py <llamadas.json> [--fin AAAA-MM-DDTHH:MM:SSZ] [--contexto otras.json]")
         return 2
     ruta = args[0]
     with open(ruta) as f:
         llamadas = json.load(f)
-    resultado = indicadores(llamadas, fin)
+    resultado = indicadores(llamadas, fin, contexto)
     print(tabla(resultado))
     salida = os.path.splitext(ruta)[0] + ".indicadores.json"
     with open(salida, "w") as f:

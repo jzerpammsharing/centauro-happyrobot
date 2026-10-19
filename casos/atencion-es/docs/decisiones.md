@@ -16,6 +16,25 @@ Plantilla:
 
 ---
 
+## D-011 · 2026-10-19 · Medición diaria: normalización en código, informe con puertas y artefacto propio
+- **Qué:** (1) La normalización de `llamadas.json` va en `scripts/normalizar_llamadas.py` con pruebas, no en el prompt
+  de la rutina: `inicio` en UTC con Z, `opcion_menu` siempre informada (bots antiguos: la de su línea; bot único sin
+  opción: minibus), colas con un solo nombre (`gestion_reserva` = `gestion`, extensiones traducidas) y los intentos
+  parados por «Preparar transferencia» con `gestion_cerrada` o `modo_virtual` como transferencias con ese `error`
+  (R43); `cola_no_valida` no se trata así. (2) `casos/atencion-es/codigo/informe_diario.py` arma el documento del día
+  y evalúa las puertas de §8.4 con las cifras del día, marcadas como orientativas (las puertas 1 y 2 se deciden con
+  dos semanas, §8.3); lo que no se mide en la rutina sale «a mano». (3) `medir_bots.py` acepta llamadas de contexto
+  (otros días) solo para buscar rellamadas. (4) El hash del número es el sha256 de sus últimos 9 dígitos, para que
+  `+34…`, `0034…` y el número sin prefijo coincidan entre bots. (5) El artefacto es una página propia con la capacidad
+  `db` (colección `informes`, doc_id = fecha, lectura `view`, escritura `admin`), no el tipo «Dashboard».
+- **Por qué:** (1) y (2) son reglas que tienen que dar lo mismo cada día; en código se prueban. (3) Una rellamada del
+  día siguiente no se ve midiendo un solo día. (4) Los bots reciben el número con prefijos distintos. (5) La ficha y la
+  rutina de Prolongaciones escriben un documento por día con `ArtifactData`; el tipo «Dashboard» guarda conjuntos de
+  datos y la página en su propio almacén y no encaja con esa escritura diaria.
+- **Afecta a:** rutina diaria (`rutinas/informe-atencion-es.md`), artefacto «Calidad Atención España», `scripts/`.
+- **Quién:** agente (Tarea 15); revisa jzerpa en el PR.
+- **Estado:** aplicada.
+
 ## D-010 · 2026-10-19 · Extract único: valores que el spec no fija
 - **Qué:** en «Registrar resultado de la llamada» (Tarea 13, spec §5.12), donde la tabla del spec da solo el nombre del
   campo: (1) `cola_destino` usa los nombres de cola del bot único (`gestion`, `asistencia`, `nueva_reserva`, `minibus`,

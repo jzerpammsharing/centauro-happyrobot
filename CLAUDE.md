@@ -54,7 +54,7 @@ Para añadir un caso:
 | `docs/extensiones.md` | Todas las colas y extensiones de RingCentral (una sola vez para todos) |
 | `docs/informes/` | Análisis que comparan varios casos |
 | `comun/bloques/` | Bloques de prompt comunes a varios bots (borrador; ver su README) |
-| `scripts/` | Utilidades de análisis reutilizables (Python, solo lectura). `medir_bots.py`: resolución real y créditos por llamada resuelta de los tres bots; pruebas en `scripts/test_medir_bots.py` (`python3 -I`) |
+| `scripts/` | Utilidades de análisis reutilizables (Python, solo lectura). `medir_bots.py`: resolución real y créditos por llamada resuelta de los tres bots; `normalizar_llamadas.py`: registros por run → `llamadas.json`; `creditos_runs.py`: créditos por run con la API de facturación (clave en `HAPPYROBOT_API_KEY`, nunca en el repo). Pruebas en `scripts/test_*.py` (`python3 -I`) |
 | `casos/<caso>/CLAUDE.md` | Contexto del caso |
 | `casos/<caso>/docs/` | `decisiones.md`, `workflows.md`, `pendientes.md`, `informes/` |
 | `casos/<caso>/prompts/<workflow>/<versión>/` | Copia de los prompts de cada versión, para tener histórico y diff |

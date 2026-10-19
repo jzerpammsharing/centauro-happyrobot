@@ -106,5 +106,13 @@ comprobar("por opción y franja", sorted(res["por_opcion_franja"]),
 # La rellamada se busca en todas las llamadas, no solo en el grupo
 comprobar("rellamada entre grupos cuenta en la fuente", resuelta(dos[0], rellamadas(dos)), False)
 
+# Rellamadas con llamadas de otros días (contexto) que no se miden
+dia = [llamada("d1", BASE)]
+despues = [llamada("d2", BASE + timedelta(hours=20))]
+res = indicadores(dia, FIN, contexto=despues)["por_opcion"]["atencion/prolongacion"]
+comprobar("contexto: la rellamada del día siguiente cuenta", res["rellamadas_48h"], 1)
+comprobar("contexto: no se mide", res["llamadas"], 1)
+comprobar("contexto: la llamada ya no es resuelta", res["resolucion_real"], 0.0)
+
 print("%d/%d casos correctos" % (total - fallos, total))
 sys.exit(1 if fallos else 0)

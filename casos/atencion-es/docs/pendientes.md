@@ -480,8 +480,39 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
       (R35): el extract lo tiene en cuenta (`hubo_transferencia` = si con `cola` informada; `intento_gestion_cerrada`
       con `gestion_abierta` false). Cuando se cree su cadena, añadir al extract el `resultado` de sus «Preparar
       transferencia» y el `transfer_succeeded` de sus Transfer nuevos.
-- [ ] **`medir_bots.py` y la rutina** deben leer los nombres y valores de `registrar-resultado.md` (spec §5.12). La cola
-      va como `gestion` (no `gestion_reserva` como en la v25 y la v12).
+- [x] **`medir_bots.py` y la rutina** deben leer los nombres y valores de `registrar-resultado.md` (spec §5.12). La cola
+      va como `gestion` (no `gestion_reserva` como en la v25 y la v12). Hecho en la Tarea 15: `normalizar_llamadas.py`
+      iguala `gestion_reserva` y `gestion` y la rutina lee `motivo_principal`, `saltos` e `intento_gestion_cerrada`.
+
+## Comprobaciones de la Tarea 15 (19/10/2026)
+
+- [ ] **Créditos por run sin probar contra la API: no hay `HAPPYROBOT_API_KEY`.** `scripts/creditos_runs.py` está hecho
+      y probado sin red (31 casos); sin clave sale con código 2 y la rutina deja `creditos` = null (en la prueba, 20 de
+      20 llamadas sin créditos, y el artefacto lo avisa). Para probarlo de verdad con 3 runs de la V11 hace falta:
+      1. una clave de API de HappyRobot del workspace de Centauro con permiso de lectura de facturación, puesta como
+         variable de entorno (`export HAPPYROBOT_API_KEY=…` en la sesión o en la configuración de la rutina; nunca en
+         el repo);
+      2. `python3 -I scripts/creditos_runs.py <fichero con 3 run_id de la V11> --crudo` para ver la forma real de la
+         respuesta (la documentación da la ruta, `GET /billing/usage/runs/{run_id}`, pero no los campos);
+      3. si la base no es `https://platform.happyrobot.ai` (la de los ejemplos de la API pública), ponerla en
+         `HAPPYROBOT_API_BASE`; si la respuesta no trae el total en `total_credits`, `credits` o `total` (ni partidas
+         con `credits`), añadir su campo a `creditos_de_respuesta` con una prueba;
+      4. comparar con lo conocido: unos 118 créditos por llamada en la V11 (spec §8.2).
+      Runs de la V11 del 16/10/2026 para la prueba: los tres primeros de la muestra (en
+      `datos/atencion-es-2026-10-19-prueba/ids_v11_3.txt`, no versionado).
+- [ ] **Separar los créditos por módulo y voz** (spec §6): la API por run da el total; si da partidas, añadir el
+      reparto al informe.
+- [ ] **La rutina no está programada** (lo decide una persona). Prompt: `rutinas/informe-atencion-es.md`; propuesta a
+      las 07:30 de Madrid sobre el día anterior.
+- [ ] **El artefacto [Calidad Atención España](https://claude.ai/artifact/4YyyT2jrKTe1TjhGdApnh7) es privado**: solo lo
+      ve su dueño hasta que lo comparta desde el menú Compartir. Tiene un documento de prueba (`informes/2026-10-16`,
+      muestra de 20 llamadas). Borrarlo o dejarlo lo decide el responsable; la rutina no borra documentos.
+- [ ] **Saltos de Minibús ES:** la v25 también salta entre módulos, pero su extract no los cuenta; la rutina deja
+      `saltos` = null en los bots actuales y el % con 3 o más saltos solo se mide en el bot único.
+- [ ] **`llego_agente` en la prueba** salió de las patas salientes de la 19236 (pata grabada = cogió un agente). La
+      rutina usa además los registros de cola (`Accepted`/`Missed`), que no se descargaron en la prueba.
+- [ ] **El bot único no tiene runs** (ni web): las evals y `test_node` no crean runs. La puerta 0 «medición con los runs
+      de prueba» queda «sin datos» hasta las llamadas de prueba de la Tarea 17.
 
 ## Para la persona (editor de HappyRobot)
 
@@ -513,7 +544,8 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
 ## Antes de conectar la primera línea (puerta 0, spec §8.4)
 - [ ] Caso «coincide» del correo de contraseña probado con una reserva real (pendiente heredado de la v12).
 - [ ] `pista_correo` probada con una reserva real (verifica y devuelve solo el dominio).
-- [ ] Rutina diaria, artefacto y `scripts/medir_bots.py` funcionando.
+- [ ] Rutina diaria, artefacto y `scripts/medir_bots.py` funcionando. Hechos y probados con V11 y Minibús ES
+      (Tarea 15); falta medir las llamadas de prueba del bot único (Tarea 17) y los créditos (clave de la API).
 - [ ] Movimiento de líneas y vuelta atrás ensayados, ida y vuelta, con la línea «Test SIP RingCentral».
 - [ ] Cerrar el experimento de Minibús ES v25 antes de la fase 2 (mover las líneas de Minibús).
 
