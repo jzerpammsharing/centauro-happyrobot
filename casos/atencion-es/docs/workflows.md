@@ -16,16 +16,16 @@
 | Versión | Slug | version_id | Nombre / cambio | Estado |
 |---|---|---|---|---|
 | v1 | `veavliy3k6jx` | `01a14f1b-4eee-7f9c-8ec5-19600855e648` | `v1 · copia de Minibús ES v25` | Borrador, sin tocar (referencia). Sin bloquear. Sin números en el trigger |
-| v2 | `x8xd0llbdp3j` | `01a14f1d-0387-70e5-a6ad-2b311a86224c` | `v2 · bot único: Triaje + 4 módulos` | Construida (Tareas 8 a 16 y R35); sin publicar; puerta 0 pendiente. 90 nodos (5 prompt, 34 action, 13 condition, 26 tool, 12 module-change; comprobado con `get_workflows` el 20/10/2026 tras la Tarea R35) |
+| v2 | `x8xd0llbdp3j` | `01a14f1d-0387-70e5-a6ad-2b311a86224c` | `v2 · bot único: Triaje + 4 módulos` | Construida (Tareas 8 a 16 y R35); sin publicar; puerta 0 pendiente. 87 nodos (comprobado con `get_workflows` el 20/10/2026 tras R10 y R42; con R35 eran 90: 5 prompt, 34 action, 13 condition, 26 tool, 12 module-change, menos «Entrada», «Siempre» y «Registrar consultas del alquiler») |
 
 Copia de los nodos de la v1 en `prompts/atencion-es/v1/` (un fichero por nodo; herramientas, transferencias y
-Module Change agrupados). La v2 empieza igual que la v1 salvo la rama «Fallback» de «Entrada», que se borró.
+Module Change agrupados). La v2 empieza igual que la v1 salvo que no tiene el Paths «Entrada» (con «Siempre» y «Fallback») ni «Registrar consultas del alquiler» (R10 y R42, 20/10/2026).
 
 Los **persistent_id** son iguales en la v1 y la v2 (y son los que van en las variables `{{persistent_id.variable}}`);
 los **IDs de nodo** cambian de una versión a otra: localizar siempre por nombre.
 
 **Estado de la v2 (20/10/2026): construida, sin publicar; puerta 0 pendiente.** Comprobada contra
-`get_workflows` (90 nodos tras la Tarea R35): todos están en el árbol, en la tabla o en `saltos.md`.
+`get_workflows` (87 nodos tras R10 y R42): todos están en el árbol, en la tabla o en `saltos.md`.
 
 ### Flujo de nodos de la v2
 
@@ -33,55 +33,52 @@ los **IDs de nodo** cambian de una versión a otra: localizar siempre por nombre
 Inbound Call (sin líneas)
  └ Contexto de la llamada           (Python; opcion_menu, idioma, modo virtual, gestion_abierta, festivo_nacional…)
    └ Resolver colas                 (Python; cola_* por idioma, URI SIP; Gestión siempre con su extensión)
-     └ Entrada (Paths)              ← PENDIENTE DE QUITAR a mano (ver pendientes.md)
-       └ Siempre (condición)
-         └ Receive Customer Call    (agente de voz «Shuttle Prompt»)
-             ├ Triaje               (prompt, raíz del agente; antes «Triaje y horario»)
-             │   ├ buscar_punto_de_encuentro → Punto de encuentro
-             │   ├ informacion_oficina       → Información de oficina
-             │   ├ consultas_alquiler        → Consultas del alquiler
-             │   ├ prolongar_alquiler        → Prolongación (Tarea 10)
-             │   └ transfer_to_human_agent   → Preparar transferencia (Python) → ¿Transferir? (Paths)
-             │                                   ├ Transferir → Initiate customer connection
-             │                                   └ Fallback (vacía: no se transfiere)
-             │      Punto de encuentro (Tarea 11, fast-turbo-one; aviso de oficina cerrada por código, D-012):
-             │                           estado_oficina → Estado de la oficina (Python, estado_oficina.py; Tarea 15b)
-             │                           consultas_alquiler (→ Module Change → Consultas del alquiler),
-             │                           informacion_oficina, volver_al_triaje (Tarea 12; → Module Change, saltos.md),
-             │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir? (Tarea R35)
-             │                                   ├ Transferir → Initiate customer connection
-             │                                   └ Fallback (vacía)
-             │      Información de oficina (Tarea 11, fast-gpt-4.1):
-             │                           consultas_alquiler (→ Module Change → Consultas del alquiler),
-             │                           buscar_punto_de_encuentro, volver_al_triaje (Tarea 12; → Module Change),
-             │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir? (Tarea R35)
-             │                                   ├ Transferir → Initiate customer connection
-             │                                   └ Fallback (vacía)
-             │      Prolongación (Tarea 10, fast-gpt-5.4):
-             │                           enviar_correo_contrasena → Comprobar correo (MCP consultar_reserva)
-             │                                   → Decidir envío (Python) → Enviar correo (MCP enviar_reset_contrasena)
-             │                                   → Resultado para el agente (Python)
-             │                           pista_correo → Identificar al cliente (MCP consultar_reserva)
-             │                                   → Pista del correo (Python, pista_correo.py)
-             │                           buscar_respuesta → Buscar respuesta (Python, consultas_alquiler.py)
-             │                           informacion_oficina, volver_al_triaje (Tarea 12; → Module Change)
-             │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir?
-             │                                   ├ Transferir → Initiate customer connection
-             │                                   └ Fallback (vacía)
-             │      Consultas del alquiler (antes «Prolongación y consultas»; Tarea 9):
-             │                           buscar_respuesta → Buscar respuesta (Python, consultas_alquiler.py)
-             │                           buscar_punto_de_encuentro (→ Module Change → Punto de encuentro)
-             │                           informacion_oficina (→ Module Change → Información de oficina)
-             │                           prolongar_alquiler, volver_al_triaje (Tarea 12; → Module Change)
-             │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir?
-             │                                   ├ Transferir → Initiate customer connection
-             │                                   └ Fallback (vacía)
-             └ Registrar resultado de la llamada (AI Extract único, 46 campos; Tarea 13)
-               └ Registrar consultas del alquiler (AI Extract sin uso desde la Tarea 13; lo borra una persona, R42)
-                 └ Preparar WhatsApp minibús (Python)
-                   └ ¿Enviar WhatsApp? (Paths)
-                       ├ Enviar → Enviar WhatsApp del punto de encuentro
-                       └ Fallback (vacía)
+     └ Receive Customer Call    (agente de voz «Shuttle Prompt»)
+         ├ Triaje               (prompt, raíz del agente; antes «Triaje y horario»)
+         │   ├ buscar_punto_de_encuentro → Punto de encuentro
+         │   ├ informacion_oficina       → Información de oficina
+         │   ├ consultas_alquiler        → Consultas del alquiler
+         │   ├ prolongar_alquiler        → Prolongación (Tarea 10)
+         │   └ transfer_to_human_agent   → Preparar transferencia (Python) → ¿Transferir? (Paths)
+         │                                   ├ Transferir → Initiate customer connection
+         │                                   └ Fallback (vacía: no se transfiere)
+         │      Punto de encuentro (Tarea 11, fast-turbo-one; aviso de oficina cerrada por código, D-012):
+         │                           estado_oficina → Estado de la oficina (Python, estado_oficina.py; Tarea 15b)
+         │                           consultas_alquiler (→ Module Change → Consultas del alquiler),
+         │                           informacion_oficina, volver_al_triaje (Tarea 12; → Module Change, saltos.md),
+         │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir? (Tarea R35)
+         │                                   ├ Transferir → Initiate customer connection
+         │                                   └ Fallback (vacía)
+         │      Información de oficina (Tarea 11, fast-gpt-4.1):
+         │                           consultas_alquiler (→ Module Change → Consultas del alquiler),
+         │                           buscar_punto_de_encuentro, volver_al_triaje (Tarea 12; → Module Change),
+         │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir? (Tarea R35)
+         │                                   ├ Transferir → Initiate customer connection
+         │                                   └ Fallback (vacía)
+         │      Prolongación (Tarea 10, fast-gpt-5.4):
+         │                           enviar_correo_contrasena → Comprobar correo (MCP consultar_reserva)
+         │                                   → Decidir envío (Python) → Enviar correo (MCP enviar_reset_contrasena)
+         │                                   → Resultado para el agente (Python)
+         │                           pista_correo → Identificar al cliente (MCP consultar_reserva)
+         │                                   → Pista del correo (Python, pista_correo.py)
+         │                           buscar_respuesta → Buscar respuesta (Python, consultas_alquiler.py)
+         │                           informacion_oficina, volver_al_triaje (Tarea 12; → Module Change)
+         │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir?
+         │                                   ├ Transferir → Initiate customer connection
+         │                                   └ Fallback (vacía)
+         │      Consultas del alquiler (antes «Prolongación y consultas»; Tarea 9):
+         │                           buscar_respuesta → Buscar respuesta (Python, consultas_alquiler.py)
+         │                           buscar_punto_de_encuentro (→ Module Change → Punto de encuentro)
+         │                           informacion_oficina (→ Module Change → Información de oficina)
+         │                           prolongar_alquiler, volver_al_triaje (Tarea 12; → Module Change)
+         │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir?
+         │                                   ├ Transferir → Initiate customer connection
+         │                                   └ Fallback (vacía)
+         └ Registrar resultado de la llamada (AI Extract único, 46 campos; Tarea 13)
+           └ Preparar WhatsApp minibús (Python; cuelga de aquí desde R42, 20/10/2026)
+             └ ¿Enviar WhatsApp? (Paths)
+                 ├ Enviar → Enviar WhatsApp del punto de encuentro
+                 └ Fallback (vacía)
 ```
 
 Variable del workflow: `OPCION_PRUEBA` (id `01a14f5f-012a-7715-b762-8f7d4acf1724`), `ninguna` en los tres entornos
@@ -89,9 +86,9 @@ Variable del workflow: `OPCION_PRUEBA` (id `01a14f5f-012a-7715-b762-8f7d4acf1724
 Prolongación. `HORA_PRUEBA` (id `01a15787-36ac-782d-9f54-1353c934de58`, Tarea 16, D-014), `ninguna` en los tres
 entornos: solo la lee «Estado de la oficina»; las evals la ponen a `HH:MM` para no depender del reloj.
 
-La cadena objetivo del plan (Paso 5 de la Tarea 6) es Inbound Call → Contexto de la llamada → Resolver colas →
-Receive Customer Call. **Hoy en la v2 queda «Entrada» + «Siempre» entre «Resolver colas» y «Receive Customer
-Call»**: por API no se puede reenganchar el agente (borrar un nodo borra todo su subárbol; ver `pendientes.md`).
+La cadena de la v2 es Inbound Call → Contexto de la llamada → Resolver colas → Receive Customer Call. **R10 hecho el
+20/10/2026:** el responsable quitó en el editor el Paths «Entrada» y su condición «Siempre»; «Receive Customer Call» cuelga
+directamente de «Resolver colas» (por API no se podía: borrar un nodo borra su subárbol; ver `pendientes.md`).
 
 Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 
@@ -100,8 +97,6 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | Inbound Call | `01a14f1d-0391-742b-90a7-7b69d9a953d9` | `33c2681a-9160-413c-8010-e455bd4023c6` |
 | Contexto de la llamada (antes «Calcular horario nocturno») | `01a14f1d-0393-7fb7-9e26-7687ebda282f` | `e51cd732-f403-4ef7-95d4-490347960a93` |
 | Resolver colas (antes «Resolver colas por idioma») | `01a14f1d-0394-7f91-abea-664941d88ad0` | `081e2b5d-b260-41a6-bd2a-6f82b26193d1` |
-| Entrada (Paths) | `01a14f1d-0392-7afe-b494-0165acee1a73` | `3380d3e5-8e28-4cd1-bc12-66646795e46c` |
-| Siempre (condición de «Entrada») | `01a14f1d-039a-75a0-9197-ac48a7b70c5f` | `34d2bf66-5e03-4e89-b1dc-02c4d7f5b3af` |
 | Receive Customer Call | `01a14f1d-0394-725e-8b8f-bdd2b3ee34cc` | `300ae88d-ccb2-466c-a914-9f9090363a74` |
 | Triaje (antes «Triaje y horario») | `01a14f1d-0397-7925-af9e-b01d518bd921` | `c5a70932-117c-4360-9be8-adce260fe13e` |
 | prolongar_alquiler (herramienta del Triaje, Tarea 8) | `01a14f69-b092-7e6d-9203-c968520c1670` | `01a14f69-b092-7e6d-9203-c968520c1670` |
@@ -167,7 +162,6 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | Module Change (prolongar_alquiler de Consultas → Prolongación; creado en el editor) | `01a155ee-138f-7765-954f-20ec0b421975` | = ID de nodo |
 | Module Change (informacion_oficina de Prolongación → Información de oficina; creado en el editor) | `01a155ec-665d-7f0f-86b1-c070b229aa53` | = ID de nodo |
 | Registrar resultado de la llamada | `01a14f1d-0395-7611-80cf-234e9e9fcf11` | `aea14d45-81de-4a98-aaae-d45c89421f34` |
-| Registrar consultas del alquiler (sin uso desde la Tarea 13; por borrar en el editor) | `01a14f1d-0396-7b8c-ac8b-76817e8d62e8` | `15bf240b-4db7-47cc-86c5-963eaf6955b3` |
 | Preparar WhatsApp minibús | `01a14f1d-0394-7fed-89b7-f4b8a5e640aa` | `4bd059bb-837c-4242-845f-7fc802c0f937` |
 | ¿Enviar WhatsApp? (Paths) | `01a14f1d-0392-7a3a-9987-9e9a6a9ab190` | `d7bea790-20cc-431d-b696-edd7f09b51e3` |
 | Enviar WhatsApp del punto de encuentro | `01a14f1d-0395-7934-834b-0382a080f15d` | `cbb87a1f-4994-49ea-872b-501640029b45` |
@@ -212,8 +206,8 @@ responsable borró en el editor los dos Transfer de la v25 y la cadena se creó 
 
 **Extract:** «Registrar resultado de la llamada» (`aea14d45-…`) es el único en uso (46 campos, D-010; desde la Tarea R35 lee el
 `resultado` y el `transfer_succeeded` de las cinco cadenas de transferencia; detalle en
-`prompts/atencion-es/v2/registrar-resultado.md`). «Registrar consultas del alquiler» sigue en el árbol sin uso
-(R42) y de él cuelga «Preparar WhatsApp minibús».
+`prompts/atencion-es/v2/registrar-resultado.md`). «Registrar consultas del alquiler» se borró en el editor el
+20/10/2026 (R42); «Preparar WhatsApp minibús» cuelga ahora de este extract.
 
 **Module Change:** 12 (los 4 de la v25 y los 8 del editor), todos comprobados contra la tabla de `saltos.md`.
 
@@ -259,8 +253,8 @@ los 45 de la tabla y `origen_opcion`; GPT-5.6 Luna). Lee la transcripción, «Co
 salidas de las herramientas de los cinco módulos (`cola`, `motivo_transferencia`, `resultado` de «Preparar
 transferencia», `transfer_succeeded` de los cinco Transfer, `buscar_respuesta`, `enviar_correo_contrasena`,
 `pista_correo` y las de salto) y el `callCount` de los 12 Module Change. «Preparar WhatsApp minibús» lee
-`whatsapp_aceptado`, `punto_whatsapp` e `idioma_cliente` de este extract (`aea14d45-…`), aunque sigue colgando de
-«Registrar consultas del alquiler» hasta que una persona la mueva (R42, `pendientes.md`). En «Receive Customer Call»,
+`whatsapp_aceptado`, `punto_whatsapp` e `idioma_cliente` de este extract (`aea14d45-…`), y cuelga de él desde
+el 20/10/2026 (R42 hecho en el editor; `pendientes.md`). En «Receive Customer Call»,
 `transcription_context` ampliado y `business_hours_setting_name` vacío; la voz ya era solo «Pablo Galvez HR». Copias en
 `prompts/atencion-es/v2/registrar-resultado.md` y `receive-customer-call.md`.
 

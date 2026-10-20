@@ -15,17 +15,16 @@ entre los que el bot salta con Module Change. Va absorbiendo las opciones del me
 
 | Workflow | workflow_id | slug | Estado |
 |---|---|---|---|
-| Centauro Atención España | `01a14f1b-4ea9-7827-a4f3-4cfb06a896f6` | `rntn68r0a8gh` | Creado el 18/10/2026 duplicando Minibús ES v25. v1 `veavliy3k6jx` (copia de referencia, version_id `01a14f1b-4eee-7f9c-8ec5-19600855e648`) y v2 `x8xd0llbdp3j` (version_id `01a14f1d-0387-70e5-a6ad-2b311a86224c`): **v2 construida, sin publicar; puerta 0 pendiente**. 90 nodos (tras la Tarea R35), 12 Module Change; sin líneas en el trigger |
+| Centauro Atención España | `01a14f1b-4ea9-7827-a4f3-4cfb06a896f6` | `rntn68r0a8gh` | Creado el 18/10/2026 duplicando Minibús ES v25. v1 `veavliy3k6jx` (copia de referencia, version_id `01a14f1b-4eee-7f9c-8ec5-19600855e648`) y v2 `x8xd0llbdp3j` (version_id `01a14f1d-0387-70e5-a6ad-2b311a86224c`): **v2 construida, sin publicar; puerta 0 pendiente**. 87 nodos (tras R10 y R42, 20/10/2026), 12 Module Change; sin líneas en el trigger |
 
 **Bloqueos de la puerta 0** (detalle en `docs/pendientes.md`, «Antes de conectar la primera línea», y en el registro
 de progreso, «Task 16: parked»): evals en rojo (VIRT-T1, HOR-C1, FDS-02, TEL-C1, DEVOL-03a/03c, CARGO-05,
-PISTA-04, PROL-05/06, CORREO-08, resto de Punto de encuentro al 87,3 %); pasos del editor (quitar «Entrada», mover WhatsApp y borrar «Registrar
-consultas», R42); `HORA_PRUEBA` en `ninguna`; correo «coincide» y `pista_correo` sin probar con reserva real; llamadas de
+PISTA-04, PROL-05/06, CORREO-08, resto de Punto de encuentro al 87,3 %); `HORA_PRUEBA` en `ninguna`; correo «coincide» y `pista_correo` sin probar con reserva real; llamadas de
 prueba (Tarea 17) y ensayo de líneas (Tarea 18, Paso 2) con personas. Procedimiento de movimiento de líneas:
 `docs/procedimiento-lineas.md` (control de la fase 2: Minibús ES v25, R46).
 
 Versiones, flujo de nodos y ids por nodo: `docs/workflows.md`. Qué copió el duplicado y qué falta (evals, líneas,
-ajustes, Twin, quitar el Paths «Entrada» en el editor): `docs/pendientes.md`.
+ajustes, Twin): `docs/pendientes.md`.
 
 ## 2. Carpetas del caso
 

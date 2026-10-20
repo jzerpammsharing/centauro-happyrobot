@@ -551,17 +551,21 @@ el registro de progreso (`docs/planes/2026-10-18-bot-unico-progreso.md`, «Task 
 
 ## Para la persona (editor de HappyRobot)
 
-- [ ] **Mover la rama de WhatsApp y borrar «Registrar consultas del alquiler»** (Tarea 13, R42). Por API no se puede:
+- [x] **Mover la rama de WhatsApp y borrar «Registrar consultas del alquiler»** (Tarea 13, R42; **hecho el 20/10/2026** por el responsable en el editor, con Frontal; comprobado por API: «Registrar consultas del alquiler» ya no existe y la rama cuelga de «Registrar resultado de la llamada», con entradas del extract `aea14d45-…` y `from_number`). Por API no se podía:
       `delete` borra el subárbol y no hay cambio de padre. En el editor de la v2: mover «Preparar WhatsApp minibús» (con
       «¿Enviar WhatsApp?» y lo que cuelga) para que cuelgue de «Registrar resultado de la llamada» y, después, borrar
       «Registrar consultas del alquiler» (`01a14f1d-0396-7b8c-ac8b-76817e8d62e8`), que ya no alimenta nada (sus
       variables siguen rotas y gasta una llamada al modelo por llamada). Comprobar después con `get_workflows` que
       «Preparar WhatsApp minibús» tiene como padre `01a14f1d-0395-7611-80cf-234e9e9fcf11`.
 
+- [ ] **Nota sobre Frontal (20/10/2026):** el editor de HappyRobot no deja mover nodos a mano. R10 y R42 se hicieron pidiéndoselo a
+      Frontal, el asistente del editor. Para futuros cambios de padre o borrados con subárbol, usar Frontal y comprobar
+      después con `get_workflows`.
+
 - [x] **Crear los 8 Module Change de la Tarea 12** (hecho por el responsable el 19/10/2026; comprobado por API: 12
       `module-change`, todos al destino de la tabla de `saltos.md`).
 
-- [ ] **Quitar el Paths «Entrada» y su condición «Siempre» de la v2** y dejar «Receive Customer Call» colgando
+- [x] **Quitar el Paths «Entrada» y su condición «Siempre» de la v2** (R10, **hecho el 20/10/2026** por el responsable en el editor, con Frontal; «Receive Customer Call» cuelga de «Resolver colas»; v2 con 87 nodos y 86 aristas) y dejar «Receive Customer Call» colgando
       directamente de «Resolver colas por idioma» (Paso 5 de la Tarea 6, no hecho por API). Hay que hacerlo en el
       editor **sin borrar el agente** (mover «Receive Customer Call» con todo lo que cuelga y después borrar
       «Entrada»/«Siempre»). La v2 ya no tiene la rama «Fallback» (vacía) de «Entrada». Después, comprobar con

@@ -32,15 +32,15 @@ Quién hace qué:
 5. Medición, rutina y artefacto funcionando con runs de prueba.
 6. Este procedimiento escrito y ensayado (Paso 2, tabla del apartado 6).
 
-### 1.2 Pasos del editor (para la persona; `pendientes.md`, «Para la persona»). R10, R35 y R42 son requisitos para publicar
-- [ ] **R10:** quitar el Paths «Entrada» y su condición «Siempre»; «Receive Customer Call» debe colgar de «Resolver
+### 1.2 Pasos del editor (para la persona; `pendientes.md`, «Para la persona»). R10, R35 y R42 eran requisitos para publicar y están hechos
+- [x] **R10 (hecho el 20/10/2026 en el editor, con Frontal; 87 nodos):** quitar el Paths «Entrada» y su condición «Siempre»; «Receive Customer Call» debe colgar de «Resolver
       colas por idioma» sin borrar el agente. Comprobar con `get_workflows`: Inbound Call -> Contexto de la llamada
       -> Resolver colas -> Receive Customer Call.
 - [x] **R35 (hecho el 20/10/2026: el responsable borró los Transfer de la v25 y la cadena se creó por API; 90 nodos):** crear la cadena de transferencia en Punto de encuentro e Información de oficina («Preparar
       transferencia» → «¿Transferir?» → «Initiate customer connection»). Hasta entonces conservaban el Transfer de la v25
       colgando de `transfer_to_human_agent`, sin la red de seguridad de Gestión cerrada ni la del modo virtual. **Requisito
       para publicar** (workflows.md, «Estado de la transferencia»). Comprobar con `get_workflows`.
-- [ ] **R42:** mover «Preparar WhatsApp minibús» (con «¿Enviar WhatsApp?» y lo que cuelga) para que cuelgue de
+- [x] **R42 (hecho el 20/10/2026 en el editor, con Frontal; 87 nodos):** mover «Preparar WhatsApp minibús» (con «¿Enviar WhatsApp?» y lo que cuelga) para que cuelgue de
       «Registrar resultado de la llamada» y borrar «Registrar consultas del alquiler»
       (`01a14f1d-0396-7b8c-ac8b-76817e8d62e8`). Comprobar con `get_workflows` que el padre de «Preparar WhatsApp
       minibús» es `01a14f1d-0395-7611-80cf-234e9e9fcf11`.
