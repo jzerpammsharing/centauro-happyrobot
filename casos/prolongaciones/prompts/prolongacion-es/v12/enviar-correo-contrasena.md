@@ -36,7 +36,7 @@ Comprueba que el correo que te ha dicho el cliente coincide con el de su alquile
 
 ### email
 
-Correo que el cliente dio en la oficina al recoger el coche, escrito con letras y símbolos: 'laura punto gomez arroba gmail punto com' -> 'laura.gomez@gmail.com'. Pon guion, punto o guion bajo solo si el cliente los dijo; la transcripción a veces mete guiones que no dijo ('L-Gomez' cuando dijo 'ele gomez' -> 'lgomez'). Si el cliente lo deletreó o lo corrigió, usa su versión. Nunca lo inventes ni lo completes.
+Correo que el cliente dio en la oficina al recoger el coche, escrito con letras y símbolos: 'laura punto gomez arroba example punto com' -> 'laura.gomez@example.com'. Pon guion, punto o guion bajo solo si el cliente los dijo; la transcripción a veces mete guiones que no dijo ('L-Gomez' cuando dijo 'ele gomez' -> 'lgomez'). Si el cliente lo deletreó o lo corrigió, usa su versión. Nunca lo inventes ni lo completes.
 
 Ejemplo: `prueba.prueba@example.com`
 
@@ -51,3 +51,5 @@ Ejemplo: `Prueba Prueba`
 Fecha de nacimiento del titular SIEMPRE en formato DD/MM/AAAA, sea cual sea el idioma en que la diga el cliente. Convierte tú la fecha dicha: 'cinco de abril del noventa y siete' -> 05/04/1997; 'três de março de mil novecentos e oitenta' -> 03/03/1980; 'ventiquattro dicembre novantacinque' -> 24/12/1995.
 
 Ejemplo: `01/01/1990`
+
+> Nota: en HappyRobot la herramienta conserva el ejemplo original; cambiarlo en la próxima versión.

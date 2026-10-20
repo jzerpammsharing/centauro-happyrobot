@@ -6,7 +6,8 @@ Uso: python3 -I scripts/medir_bots.py <llamadas.json> [--fin AAAA-MM-DDTHH:MM:SS
   "opcion_menu", "turnos_cliente", "transferencias": [{"cola", "ts", "error"}], "llego_agente" (bool o null),
   "creditos" (número o null), "saltos", "duracion_s" y "motivo".
 - --fin: instante de referencia (por defecto, ahora). Las llamadas de las 48 h anteriores a `fin` no entran en
-  la resolución real, porque todavía pueden recibir una rellamada.
+  la resolución real, porque todavía pueden recibir una rellamada. `con_margen` cuenta las llamadas que sí entran:
+  si es menor que `llamadas`, la resolución del grupo está medida solo con una parte.
 - --contexto: uno o varios ficheros separados por comas con llamadas de otros días (mismo formato) que solo sirven para buscar rellamadas; no se miden.
 - Imprime una tabla y escribe <llamadas>.indicadores.json junto al fichero de entrada.
 
@@ -104,6 +105,7 @@ def _grupo(llamadas, con_rellamada, fin):
     total_elegibles = creditos_totales(elegibles)
     return {
         "llamadas": len(llamadas),
+        "con_margen": len(elegibles),
         "resolucion_real": _pct(len(resueltas), len(elegibles)),
         "pct_transferidas": _pct(len(transferidas), len(llamadas)),
         "pct_llegan_agente": _pct(sum(1 for ll in con_dato_agente if ll["llego_agente"]), len(con_dato_agente)),

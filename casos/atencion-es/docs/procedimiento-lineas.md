@@ -34,7 +34,7 @@ Quién hace qué:
 
 ### 1.2 Pasos del editor (para la persona; `pendientes.md`, «Para la persona»). R10, R35 y R42 son requisitos para publicar
 - [ ] **R10:** quitar el Paths «Entrada» y su condición «Siempre»; «Receive Customer Call» debe colgar de «Resolver
-      colas por idioma» sin borrar el agente. Comprobar con `get_workflows`: Inbound Call -> Calcular horario nocturno
+      colas por idioma» sin borrar el agente. Comprobar con `get_workflows`: Inbound Call -> Contexto de la llamada
       -> Resolver colas -> Receive Customer Call.
 - [ ] **R35:** crear la cadena de transferencia en Punto de encuentro e Información de oficina («Preparar
       transferencia» → «¿Transferir?» → «Initiate customer connection»). Hoy conservan el Transfer de la v25 colgando
@@ -45,6 +45,8 @@ Quién hace qué:
       (`01a14f1d-0396-7b8c-ac8b-76817e8d62e8`). Comprobar con `get_workflows` que el padre de «Preparar WhatsApp
       minibús» es `01a14f1d-0395-7611-80cf-234e9e9fcf11`.
 - [ ] `OPCION_PRUEBA` en `ninguna` en producción (con otro valor, el bot ignora la línea y fuerza la opción).
+- [ ] `HORA_PRUEBA` en `ninguna` en producción (con otro valor, `estado_oficina` usa esa hora en lugar del reloj y las
+      oficinas salen abiertas o cerradas a una hora falsa).
 - [ ] `require_webcall_auth` en el valor que decida la persona para producción.
 - [ ] Ajustes del workflow nuevo revisados (no se copian del duplicado): `out_of_office_hours`, auditorías, y que el
       nodo «Receive Customer Call» no dependa de `business_hours_setting_name: "default"` (no existe en el nuevo).

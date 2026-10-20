@@ -67,6 +67,17 @@ http = HttpFalso({"run-1": {"total_credits": 100}, "run-2": {"credits": 50}})
 r = obtener_creditos(["run-1", "run-2"], "clave-falsa", http=http, base="https://api.ejemplo")
 comprobar("dos runs", r, {"run-1": 100, "run-2": 50})
 comprobar("url de facturación", http.peticiones[0][0], "https://api.ejemplo/billing/usage/runs/run-1")
+# El run_id se escapa en la URL: un id con «/», «?» o «#» no puede cambiar la ruta
+urls = []
+
+
+def http_urls(url, cabeceras):
+    urls.append(url)
+    return {"total_credits": 1}
+
+
+obtener_creditos(["a/b?c#d e"], "k", http=http_urls, base="https://api.ejemplo")
+comprobar("run_id escapado en la URL", urls, ["https://api.ejemplo/billing/usage/runs/a%2Fb%3Fc%23d%20e"])
 comprobar("cabecera Bearer", http.peticiones[0][1].get("Authorization"), "Bearer clave-falsa")
 comprobar("base por defecto", BASE_POR_DEFECTO, "https://platform.happyrobot.ai")
 

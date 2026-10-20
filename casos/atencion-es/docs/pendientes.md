@@ -74,8 +74,7 @@ las comprobaciones de los apartados 11.1 y 11.7 del spec:
 
 ## Comprobaciones de la Tarea 8 (18/10/2026)
 
-Entrada, transferencias y Triaje en la v2 (detalle en `.superpowers/sdd/2026-10-18-bot-unico-construccion/task-8-report.md`
-y en las copias de `prompts/atencion-es/v2/`):
+Entrada, transferencias y Triaje en la v2 (detalle en el registro de progreso, `docs/planes/2026-10-18-bot-unico-progreso.md`, «Task 8», y en las copias de `prompts/atencion-es/v2/`):
 
 - **«Contexto de la llamada» y «Resolver colas»** pegados y renombrados (los persistent_id no cambian). `LINEAS` lleva
   en HappyRobot los números reales de las cuatro líneas actuales (leídos de los triggers de Minibús ES v25 y de
@@ -314,7 +313,7 @@ y en las copias de `prompts/atencion-es/v2/`):
 ## Comprobaciones de la Tarea 11 (19/10/2026)
 
 Punto de encuentro e Información de oficina con el bloque de reglas comunes (prompts subidos, 34.595 y 33.210
-caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-unico-construccion/task-11-report.md`,
+caracteres; modelos sin cambios). Detalle en el registro de progreso (`docs/planes/2026-10-18-bot-unico-progreso.md`, «Task 11»),
 `prompts/atencion-es/v2/punto-de-encuentro.md`, `informacion-de-oficina.md` y sus `herramientas-*.md`.
 
 - [ ] **Transferencia de los dos módulos a medio hacer (bloqueante antes de cualquier llamada de prueba).** Las dos
@@ -524,7 +523,7 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
 ## Comprobaciones de la Tarea 15b (20/10/2026)
 
 Arreglos estructurales R39 (Parte A) y R34 (Parte B). Detalle en
-`.superpowers/sdd/2026-10-18-bot-unico-construccion/task-15b-report.md` e `informes/evals-v2.md` («Tarea 15b»).
+el registro de progreso (`docs/planes/2026-10-18-bot-unico-progreso.md`, «Task 15b») e `informes/evals-v2.md` («Tarea 15b»).
 
 - [x] **R39: el cierre de la oficina del aeropuerto lo resuelve el código (D-012).** Herramienta `estado_oficina` en
       Punto de encuentro; las LISTAS 1 a 4 salen del prompt. En las rondas A1 a A3 (05:42–05:51, martes, reloj en
@@ -590,6 +589,20 @@ Arreglos estructurales R39 (Parte A) y R34 (Parte B). Detalle en
       están los reales (Tarea 8). Si cambia alguna línea antes de producción, actualizar `LINEAS`.
 - [ ] **Bloquear la v1** (`manage_versions action=lock`) si se quiere proteger la referencia: el fork no la bloquea.
       No se hizo por no estar pedido.
+
+## Antes de publicar (revisión final de la rama, 20/10/2026)
+Lo que la revisión final dejó sin hacer en la rama; ninguno bloquea fusionarla, todos son previos a publicar.
+- [ ] **`triaje.md:69` frente a R37:** la regla de Triaje de la línea 69 («Hay que mirar o cambiar un dato concreto
+      de su reserva…», cola `gestion` solo con Gestión abierta) hay que contrastarla con R37 (ronda de arreglos 2, ver
+      «Comprobaciones de la Tarea 15») por si se contradicen. Si cambia el prompt, repetir las evals de Triaje.
+- [ ] **Mejora de la spec §5.7 (Paths del correo):** ver la entrada «Mejora de la spec §5.7 sin hacer» más arriba
+      (un Paths nuevo bajo «Decidir envío» para no enviar si el correo no coincide).
+- [ ] **Minimizar los datos personales en la entrada del extract** «Registrar resultado de la llamada»: que reciba solo
+      lo que necesita (cola, motivo, opción, resumen) y no nombre, correo, reserva ni fecha de nacimiento.
+- [ ] **`estado_oficina` con un aeropuerto no reconocido:** hoy devuelve el horario general igual que si lo
+      reconociera. Que el prompt use `reconocido` (falso → no afirmar el horario de esa oficina). Comprobar con una eval.
+- [ ] **Margen de tamaño de los prompts:** el bloque común está a 4.493/4.500 y Consultas a 7.988/8.000, sin sitio para
+      un arreglo más. Antes de tocarlos, hacer sitio (mover texto a herramientas o a `buscar_respuesta`).
 
 ## Antes de conectar la primera línea (puerta 0, spec §8.4)
 - [ ] Comprobar que la variable del workflow `HORA_PRUEBA` vale `ninguna` en los tres entornos (si no, `estado_oficina`

@@ -1,6 +1,6 @@
 # Spec · Bot único de atención de Centauro España (fase 1: Minibús + Prolongaciones)
 
-Fecha: 18/10/2026 · Estado: **propuesta, sin construir** · Decisiones: C-004 (raíz) y D-001 (este caso) ·
+Fecha: 18/10/2026 · Estado: **construida en la v2 del workflow, sin publicar** · Decisiones: C-004 (raíz) y D-001 (este caso) ·
 Rama: `comun/bot-unico-arquitectura`.
 
 ## 1. Qué es y por qué

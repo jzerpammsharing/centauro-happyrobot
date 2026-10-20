@@ -12,6 +12,9 @@ el agente analiza los runs después. Spec: §8.4, §11.2 a §11.5 y §11.8 (`doc
    - `minibus` (o `ninguna`): las llamadas de Minibús;
    - `prolongacion`: las de Prolongación.
    Cambiarla entre llamadas cuando el guion lo pida y anotarlo. Valores: `ninguna`, `minibus`, `prolongacion`.
+   **`HORA_PRUEBA`** debe estar en `ninguna` en todas las llamadas (el reloj real es el que decide si una oficina está
+   abierta; con `HH:MM` la herramienta `estado_oficina` ignora el reloj). Comprobarlo antes de empezar y dejarla en
+   `ninguna` al terminar.
 3. **Las transferencias son reales:** suenan en las colas de producción (`gestion` 18057, `asistencia` 18034,
    `nueva_reserva` 18001, `minibus` 18056). Avisar antes a quien atienda esas colas («llamadas de prueba del asistente»).
    Llamadas con transferencia esperada: 2, 16, 21 y 22. Si no se puede avisar, colgar al oír el mensaje de transferencia
@@ -21,7 +24,7 @@ el agente analiza los runs después. Spec: §8.4, §11.2 a §11.5 y §11.8 (`doc
 5. **Horarios (hora peninsular, UTC+2 hasta el 25/10/2026, UTC+1 después):** Gestión abierta de lunes a viernes de 8:00 a
    21:00, salvo festivos nacionales; modo virtual de 22:00 a 8:00. Las llamadas 1 a 16 y 21 a 25 van en laborable de 8:00
    a 20:30. La 17 en sábado, domingo o festivo; la 18 cruzando las 21:00 un laborable; la 19 y la 20 de 22:00 a 8:00.
-6. **Por cada llamada, anotar:** run_id (solo el id, nunca el teléfono), `OPCION_PRUEBA`, hora, resultado
+6. **Por cada llamada, anotar:** run_id (solo el id, nunca el teléfono), `OPCION_PRUEBA`, `HORA_PRUEBA`, hora, resultado
    (correcto / fallo / fallo crítico), qué falló y créditos (`scripts/creditos_runs.py`, con `HAPPYROBOT_API_KEY`).
 
 ## Qué se mira en todas (en el run, no solo de oído)
@@ -127,6 +130,6 @@ el salto y con qué `motivo`/`tema`/`aeropuerto`/`situacion`, y que no mande dat
 
 ## Registro de resultados (rellena la persona; el agente lo analiza)
 
-| # | run_id | OPCION_PRUEBA | Hora (Madrid) | Resultado | Fallos | Créditos |
-|---|---|---|---|---|---|---|
-| 1 a 25 | _pendiente_ | | | | | |
+| # | run_id | OPCION_PRUEBA | HORA_PRUEBA | Hora (Madrid) | Resultado | Fallos | Créditos |
+|---|---|---|---|---|---|---|---|
+| 1 a 25 | _pendiente_ | | | | | | |

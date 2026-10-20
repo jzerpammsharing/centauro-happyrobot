@@ -16,6 +16,20 @@ Plantilla:
 
 ---
 
+## D-016 · 2026-10-20 · Créditos por llamada: solo el total, sin desglose (desviación del spec §6, pendiente)
+- **Qué:** el spec §6 pide los créditos por llamada separados en LLM por módulo y voz (bot hablando / escuchando al
+  agente). `scripts/creditos_runs.py` solo da el total por run (`GET /billing/usage/runs/{run_id}`) y `medir_bots.py`
+  solo usa ese total. Queda registrado como **desviación pendiente**: no se hace en esta rama.
+- **Por qué:** los indicadores principales del spec (créditos por llamada y por llamada resuelta) solo necesitan el
+  total, y el desglose depende de la forma de la respuesta de facturación, que no se ha visto con partidas. El
+  desglose por módulo sirve para ver dónde se va el coste (Prolongación es el único módulo que razona).
+- **Qué falta:** leer las partidas de la respuesta (módulo y voz) en `creditos_runs.py` con una prueba sobre una
+  respuesta real, y sacarlas en `medir_bots.py` y en el informe. Antes de la puerta 0 no es bloqueante; sí lo es si la
+  puerta de coste se discute por módulo.
+- **Afecta a:** `scripts/creditos_runs.py`, `scripts/medir_bots.py`, `rutinas/informe-atencion-es.md`.
+- **Quién:** jzerpa (por decidir cuándo).
+- **Estado:** propuesta (desviación pendiente).
+
 ## D-015 · 2026-10-20 · Ronda de arreglos de la pasada completa (Tarea 16)
 - **Qué:** una ronda por módulo tras la pasada completa de evals (R45, paso 4). Triaje: sin cambios. Punto de
   encuentro: regla de orden en la descripción de `consultas_alquiler`, la frase de la devolución en el aeropuerto y

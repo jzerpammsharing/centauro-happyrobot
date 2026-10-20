@@ -1,7 +1,8 @@
 # Bloque común · Reglas comunes de los módulos del bot único
 
-**Estado:** borrador del 18/10/2026 (Tarea 7 del plan de construcción del bot único). Todavía no está en ningún
-nodo de HappyRobot ni se ha probado con evals.
+**Estado:** del 18/10/2026 (Tarea 7 del plan de construcción del bot único). Está copiado en los cinco prompts de la
+v2 de Atención España (`casos/atencion-es/prompts/atencion-es/v2/`), sin publicar; las evals de la v2 están en
+`casos/atencion-es/docs/informes/evals-v2.md`.
 
 **Para qué sirve:** el bot único de Atención España (`casos/atencion-es/`) tiene cinco módulos de prompt
 (Triaje, Punto de encuentro, Información de oficina, Prolongación y Consultas del alquiler). Cada módulo es un

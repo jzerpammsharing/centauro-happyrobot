@@ -19,6 +19,7 @@ import os
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 BASE_POR_DEFECTO = "https://platform.happyrobot.ai"
@@ -106,7 +107,7 @@ def leer_ids(ruta):
 
 
 def _pedir(run_id, clave, http, base, dormir):
-    url = base.rstrip("/") + RUTA % run_id
+    url = base.rstrip("/") + RUTA % urllib.parse.quote(run_id, safe="")
     cabeceras = {"Authorization": "Bearer %s" % clave, "Accept": "application/json"}
     espera = 2
     for intento in range(REINTENTOS_429 + 1):

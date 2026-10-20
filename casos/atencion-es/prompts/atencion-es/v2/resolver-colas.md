@@ -40,7 +40,8 @@
 #
 # - Con Gestión cerrada la extensión de Gestión sale igual que con Gestión abierta: nunca se pone un texto en el
 #   lugar de una extensión (con la v25, «NO DISPONIBLE AHORA…» acababa en una transferencia con un número
-#   inválido). Quien decide no transferir a Gestión es «Preparar transferencia», que recibe gestion_abierta.
+#   inválido). Quien decide no transferir a Gestión es «Preparar transferencia», que calcula la hora por su cuenta
+#   (la del momento en que se ejecuta) y no usa gestion_abierta.
 # - No hay cola de fuera de horario: el bot único no reencamina llamadas a un IVR sin agente.
 # - Un idioma vacío o no atendido (it, pt, fr…) da las colas en español.
 # - Si gestion_abierta no llega, se da por abierta (como la v25), para no bloquear transferencias por un fallo de

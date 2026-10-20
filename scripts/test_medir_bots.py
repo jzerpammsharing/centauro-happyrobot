@@ -131,5 +131,15 @@ with tempfile.TemporaryDirectory() as d:
     comprobar("--contexto con varios ficheros: rellamada del segundo", res["rellamadas_48h"], 1)
     comprobar("--contexto con varios ficheros: solo mide el día", res["llamadas"], 1)
 
+# Margen de 48 h: la rutina corre a las 07:30 de Madrid (05:30 UTC). El día D-2 solo tiene margen hasta las 07:30
+# (D-2 00:00-07:30 UTC), el día D-3 lo tiene entero: la rutina rehace D-3, no D-2.
+AHORA = datetime(2026, 10, 20, 5, 30, tzinfo=UTC)
+dia_d2 = [llamada("a%d" % h, datetime(2026, 10, 18, h, 0, tzinfo=UTC), hash_="h0000000%02d" % h) for h in (3, 10, 20)]
+dia_d3 = [llamada("b%d" % h, datetime(2026, 10, 17, h, 0, tzinfo=UTC), hash_="h0000001%02d" % h) for h in (3, 10, 20)]
+g2 = indicadores(dia_d2, AHORA)["por_opcion"]["atencion/prolongacion"]
+g3 = indicadores(dia_d3, AHORA)["por_opcion"]["atencion/prolongacion"]
+comprobar("margen: D-2 solo tiene margen para una parte", (g2["llamadas"], g2["con_margen"]), (3, 1))
+comprobar("margen: D-3 tiene margen para todo el día", (g3["llamadas"], g3["con_margen"]), (3, 3))
+
 print("%d/%d casos correctos" % (total - fallos, total))
 sys.exit(1 if fallos else 0)
