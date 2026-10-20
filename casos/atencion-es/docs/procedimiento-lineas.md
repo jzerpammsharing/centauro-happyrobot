@@ -17,6 +17,7 @@ HappyRobot, nunca se copian aquí.
 
 Quién hace qué:
 - **Responsable del caso (jzerpa):** el editor, publicar, despublicar y las pruebas.
+- **Suplente del responsable:** <nombre, lo rellena la persona antes de la fase 1>. Puede publicar y volver atrás si el responsable no está.
 - **Segunda persona:** revisa el PR, mira RingCentral y cronometra.
 - **El agente (Claude):** solo lectura (`monitor_runs`, RingCentral). Publicar lo hace una persona (CLAUDE.md, §3).
 
@@ -29,13 +30,17 @@ Quién hace qué:
    desactivada y el plan B de la web.
 4. Créditos por llamada en las pruebas <= 80 en prolongación.
 5. Medición, rutina y artefacto funcionando con runs de prueba.
-6. Este procedimiento escrito y ensayado (Paso 2, tabla del apartado 5).
+6. Este procedimiento escrito y ensayado (Paso 2, tabla del apartado 6).
 
-### 1.2 Pasos del editor (para la persona; `pendientes.md`, «Para la persona»)
+### 1.2 Pasos del editor (para la persona; `pendientes.md`, «Para la persona»). R10, R35 y R42 son requisitos para publicar
 - [ ] **R10:** quitar el Paths «Entrada» y su condición «Siempre»; «Receive Customer Call» debe colgar de «Resolver
       colas por idioma» sin borrar el agente. Comprobar con `get_workflows`: Inbound Call -> Calcular horario nocturno
       -> Resolver colas -> Receive Customer Call.
-- [ ] **R35 / R42:** mover «Preparar WhatsApp minibús» (con «¿Enviar WhatsApp?» y lo que cuelga) para que cuelgue de
+- [ ] **R35:** crear la cadena de transferencia en Punto de encuentro e Información de oficina («Preparar
+      transferencia» → «¿Transferir?» → «Initiate customer connection»). Hoy conservan el Transfer de la v25 colgando
+      de `transfer_to_human_agent`, sin la red de seguridad de Gestión cerrada ni la del modo virtual. **Requisito
+      para publicar** (workflows.md, «Estado de la transferencia»). Comprobar con `get_workflows`.
+- [ ] **R42:** mover «Preparar WhatsApp minibús» (con «¿Enviar WhatsApp?» y lo que cuelga) para que cuelgue de
       «Registrar resultado de la llamada» y borrar «Registrar consultas del alquiler»
       (`01a14f1d-0396-7b8c-ac8b-76817e8d62e8`). Comprobar con `get_workflows` que el padre de «Preparar WhatsApp
       minibús» es `01a14f1d-0395-7611-80cf-234e9e9fcf11`.
@@ -51,7 +56,7 @@ Quién hace qué:
 ### 1.3 Otros
 - Elegir un **martes a las 10:00** (hora de Madrid), con la oficina abierta, y avisar a las colas y a Gestión.
 - Fase 2: la puerta 1 superada (unas 2-3 semanas de la fase 1) y el experimento de Minibús ES v25 cerrado.
-- Abrir un cuaderno de registro (apartado 6) antes de empezar y apuntar cada paso con la hora.
+- Abrir un cuaderno de registro (apartado 7) antes de empezar y apuntar cada paso con la hora.
 - Tener a mano: los números reales de las cuatro líneas (de los triggers), el enlace del editor de cada workflow,
   y la consulta de `monitor_runs` y de RingCentral preparada.
 
@@ -66,8 +71,9 @@ variantes y la persona elige la que el ensayo confirme:
 - **Variante A (preferida):** republicar el antiguo **sin** las líneas (`V13 · V11 sin las líneas de Prolongación`)
   y publicar el nuevo con ellas.
 - **Variante B:** despublicar el antiguo y publicar el nuevo con las líneas. Solo si la A no libera el número. Ojo:
-  despublicar un workflow quita **todas** sus líneas, también las que no se mueven (en Minibús ES, las de
-  Reembolsos o Italia no, pero comprobar el trigger antes).
+  despublicar un workflow quita **todas** sus líneas, también las que no se mueven. En Minibús ES quitaría además
+  la línea que usa Reembolsos, así que **casi seguro se descarta para la fase 2** (y solo serviría en la fase 1 si
+  el trigger de Prolongaciones no tiene más líneas: comprobarlo antes).
 
 Por comprobar en el ensayo (Paso 2): cuál de las dos variantes libera el número; si HappyRobot rechaza el número
 duplicado y con qué mensaje; si las versiones antiguas y borradores que lo conservan molestan; si cambiar de
@@ -86,13 +92,14 @@ entre publicar una y otra es lo que se cronometra.
 | 1 | Responsable | Comprobar los requisitos del apartado 1 y apuntar la hora de inicio | |
 | 2 | Responsable | En el workflow nuevo, preparar la versión con `<LINEA_PROLONGACION_ES>` y `<LINEA_PROLONGACION_EN>` en el trigger «Inbound Call», entorno production, **sin publicar** | Los números reales se leen del trigger de V11 |
 | 3 | Responsable | En Prolongaciones, `manage_versions action=fork` de V11 y quitar las dos líneas del trigger: `V13 · V11 sin las líneas de Prolongación` (**sin publicar**). Las versiones antiguas no se editan | Nombre según el siguiente número libre de versión |
+| 3b | Responsable | En el workflow nuevo, dejar en borrador la **versión «nuevo sin las líneas»** (fork de la que se va a publicar, sin las líneas de Prolongación; p. ej. `v3 · v2 sin líneas`), igual que V13. Así la vuelta atrás es solo publicar | Sin publicar. Se usa en el paso 2 del apartado 5 |
 | 4 | Segunda persona | Anotar la hora y el último run entrante de Prolongaciones (`monitor_runs action=list`) para tener el punto de corte | |
 | 5 | Responsable | Publicar `V13` (variante A). Si en el ensayo la A no libera el número: despublicar Prolongaciones (variante B) | Entre este paso y el 6, las llamadas a esas líneas pueden caer. Hacerlos seguidos |
 | 6 | Responsable | Publicar la versión del workflow nuevo con las líneas | |
 | 7 | Responsable | Llamar a `<LINEA_PROLONGACION_ES>` desde un móvil conocido y decir la frase del guion | La llamada de comprobación. Y otra a `<LINEA_PROLONGACION_EN>` |
 | 8 | Segunda persona | Comprobar la entrada (apartado 3.1) | |
-| 9 | Responsable | Apuntar en `pendientes.md` fecha y hora de cada paso (apartado 6) | |
-| 10 | Ambos | Vigilar la primera hora: `monitor_runs` cada 10 min y RingCentral; sin fallos críticos | Criterio de vuelta atrás inmediata: apartado 4 |
+| 9 | Responsable | Apuntar en `pendientes.md` fecha y hora de cada paso (apartado 7) | |
+| 10 | Ambos | Vigilar la primera hora: `monitor_runs` cada 10 min y RingCentral; sin fallos críticos | Criterio de vuelta atrás inmediata: apartado 5 |
 
 ### 3.1 Cómo se comprueba que la primera llamada entra por el workflow nuevo
 - **HappyRobot:** `monitor_runs action=list` del workflow nuevo: aparece un run con `to_number` = la línea movida
@@ -101,9 +108,9 @@ entre publicar una y otra es lo que se cronometra.
 - **RingCentral (solo lectura):** la pata de la llamada sale de la extensión 19236 hacia el SIP de la línea; se
   empareja con el run por hora (±10 s). Comprobar que la llamada de prueba aparece y que no hay llamadas
   entrantes sin run (llamadas perdidas) desde el paso 5.
-- **Si en 5 minutos de llamadas de prueba no entra ningún run** en el nuevo ni en V13: vuelta atrás (apartado 4).
+- **Si en 5 minutos de llamadas de prueba no entra ningún run** en el nuevo ni en V13: vuelta atrás (apartado 5).
 - Por comprobar en el ensayo (Paso 2): cuánto tarda en entrar la primera llamada tras publicar (cronometrar con la
-  tabla del apartado 5) y si la propagación es por llamada o hay un retraso fijo.
+  tabla del apartado 6) y si la propagación es por llamada o hay un retraso fijo.
 
 ## 4. Fase 2: Minibús ES (y EN)
 
@@ -125,6 +132,8 @@ Mismo esquema, con estas diferencias:
   llamada»; además, en la oficina, probar una llamada de avería o de reserva nueva para ver que la transferencia
   sale por la cola correcta (extensiones de `docs/extensiones.md`) y que en horario nocturno no transfiere a las
   colas que solo ponen un anuncio (modo virtual).
+- **Vuelta atrás preparada:** como en la fase 1 (paso 3b), dejar en borrador la versión «nuevo sin las líneas de
+  Minibús» antes de publicar, para que volver atrás sea solo publicar.
 - Minibús Italia y Portugal no se tocan.
 
 ## 5. Vuelta atrás (objetivo < 30 minutos, en horario de oficina)
@@ -138,7 +147,7 @@ decide el responsable; cualquiera de los dos puede pedirla.
 | # | Quién | Paso | Hora |
 |---|---|---|---|
 | 1 | Responsable | Apuntar la hora y el motivo | |
-| 2 | Responsable | Quitar las líneas movidas del trigger del workflow nuevo: fork de la versión en producción sin las líneas y publicarla (variante A). Si el ensayo dice que hace falta, despublicar el nuevo | |
+| 2 | Responsable | Quitar las líneas movidas del workflow nuevo: **publicar la versión «nuevo sin las líneas» que se dejó en borrador en el paso 3b de la fase 1** (variante A; si no existe, fork de la de producción sin las líneas). Si el ensayo dice que hace falta, despublicar el nuevo | |
 | 3 | Responsable | Republicar la versión antigua **con sus líneas**: V11 de Prolongaciones (o v25 de Minibús ES, o la que fuera la de producción antes del corte). Si se despublicó, publicarla de nuevo | |
 | 4 | Segunda persona | Comprobar con una llamada a cada línea que el run entra en el workflow antiguo (3.1 al revés) y que no hay llamadas sin run en RingCentral | |
 | 5 | Responsable | Apuntar en `pendientes.md` la hora de cierre y el motivo, y abrir el análisis | |
@@ -151,27 +160,35 @@ pasos manuales, versiones preparadas de antemano) y se vuelve a ensayar.
 
 ## 6. Ensayo (Paso 2, con el responsable)
 
+**Antes de publicar nada del ensayo (seguridad):**
+1. Abrir el trigger «Inbound Call» del workflow de pruebas y comprobar que lleva **solo** la línea «Test SIP
+   RingCentral» y **ningún número de producción**: una copia de Prolongaciones o de Minibús ES puede arrastrar
+   las líneas de producción.
+2. Comprobar que la línea «Test SIP RingCentral» no está asignada a otro workflow (buscar en los triggers y en
+   `manage_phone_numbers`, solo lectura).
+3. Quien cronometra firma la comprobación en el cuaderno de registro con la hora. Sin esto no se publica.
+
 Con la línea «Test SIP RingCentral» y un **workflow de pruebas** (una copia mínima de Prolongaciones o un workflow
 vacío con un agente de una frase). **Nunca con las líneas de producción.** Hacer ida y vuelta completos, dos
 veces, siguiendo este procedimiento y las dos variantes (A y B) si la A no libera el número.
 
 Qué se mide y qué se resuelve (cronometrar cada fila):
 
-| Medida | Resultado | Hora inicio | Hora fin | Duración | Observaciones |
-|---|---|---|---|---|---|
-| Publicar el workflow de pruebas sin la línea |  |  |  |  |  |
-| Asignar la línea al workflow nuevo (publicar con la línea) |  |  |  |  |  |
-| ¿Rechaza HappyRobot la línea si sigue en el otro workflow? Mensaje |  |  |  |  |  |
-| Variante A: republicar el antiguo sin línea. ¿Libera el número? |  |  |  |  |  |
-| Variante B: despublicar el antiguo. ¿Libera el número? |  |  |  |  |  |
-| ¿Molesta que la línea siga en versiones antiguas y borradores? |  |  |  |  |  |
-| Hueco entre quitar la línea del antiguo y entrar la llamada por el nuevo |  |  |  |  |  |
-| Primera llamada por el nuevo tras publicar (segundos desde la publicación) |  |  |  |  |  |
-| ¿Se corta una llamada en curso al publicar? |  |  |  |  |  |
-| Ida completa (de preparar a primera llamada comprobada) |  |  |  |  |  |
-| **Vuelta atrás completa (objetivo < 30 min)** |  |  |  |  |  |
-| Primera llamada por el antiguo tras la vuelta (segundos) |  |  |  |  |  |
-| Llamadas perdidas en RingCentral durante el hueco |  |  |  |  |  |
+| Quién | Medida | Resultado | Hora inicio | Hora fin | Duración | Observaciones |
+|---|---|---|---|---|---|---|
+| Responsable | Publicar el workflow de pruebas sin la línea |  |  |  |  |  |
+| Responsable | Asignar la línea al workflow nuevo (publicar con la línea) |  |  |  |  |  |
+| Responsable | ¿Rechaza HappyRobot la línea si sigue en el otro workflow? Mensaje |  |  |  |  |  |
+| Responsable | Variante A: republicar el antiguo sin línea. ¿Libera el número? |  |  |  |  |  |
+| Responsable | Variante B: despublicar el antiguo. ¿Libera el número? |  |  |  |  |  |
+| Responsable | ¿Molesta que la línea siga en versiones antiguas y borradores? |  |  |  |  |  |
+| Segunda persona | Hueco entre quitar la línea del antiguo y entrar la llamada por el nuevo |  |  |  |  |  |
+| Segunda persona | Primera llamada por el nuevo tras publicar (segundos desde la publicación) |  |  |  |  |  |
+| Segunda persona | ¿Se corta una llamada en curso al publicar? |  |  |  |  |  |
+| Ambos | Ida completa (de preparar a primera llamada comprobada) |  |  |  |  |  |
+| Ambos | **Vuelta atrás completa (objetivo < 30 min)** |  |  |  |  |  |
+| Segunda persona | Primera llamada por el antiguo tras la vuelta (segundos) |  |  |  |  |  |
+| Segunda persona | Llamadas perdidas en RingCentral durante el hueco |  |  |  |  |  |
 
 Al terminar:
 - Rellenar el apartado 2 con lo comprobado y borrar las marcas «por comprobar» que se resuelvan.

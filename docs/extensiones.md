@@ -29,7 +29,7 @@ marcada (español o inglés).
 | 18001 | Nueva Reserva ES-ES | Reserva nueva, español | Minibús ES (v19 y siguientes); Atención España (v2, sin publicar) |
 | 18006 | Nueva Reserva ES-EN | Reserva nueva, inglés | Minibús ES (v19 y siguientes); Atención España (v2, sin publicar) |
 | 18034 | 00. RA ES-ES AVERÍAS | Asistencia (avería o accidente), español, desde la V7 | Minibús ES (v19 y siguientes); Atención España (v2, sin publicar) |
-| 18035 | RA ES-EN Breakdowns | Asistencia (avería o accidente), inglés, desde la V7 | Prolongaciones, Atención España (v2, sin publicar) |
+| 18035 | RA ES-EN Breakdowns | Asistencia (avería o accidente), inglés, desde la V7 | Prolongaciones; Atención España (v2, sin publicar) |
 | 18056 | 00. CC ES-ES- Hor.MiniBus | Minibús, punto de encuentro o idioma no atendido, español | Minibús ES; Atención España (v2, sin publicar) |
 | 18059 | 00. CC ES-EN-Hor.MiniBus | Minibús, punto de encuentro o idioma no atendido, inglés | Minibús ES; Atención España (v2, sin publicar) |
 

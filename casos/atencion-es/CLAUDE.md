@@ -13,7 +13,7 @@ entre los que el bot salta con Module Change. Va absorbiendo las opciones del me
 - **Después, por decidir:** Gestión cuando está cerrada, triaje en Nueva Reserva, Gestión en horario.
 - **Spec:** `docs/specs/2026-10-18-bot-unico-arquitectura.md`. Decisiones: C-004 (raíz) y `docs/decisiones.md`.
 
-| Workflow | workflow_id | slug | Estado (18/10/2026) |
+| Workflow | workflow_id | slug | Estado |
 |---|---|---|---|
 | Centauro Atención España | `01a14f1b-4ea9-7827-a4f3-4cfb06a896f6` | `rntn68r0a8gh` | Creado el 18/10/2026 duplicando Minibús ES v25. v1 `veavliy3k6jx` (copia de referencia, version_id `01a14f1b-4eee-7f9c-8ec5-19600855e648`) y v2 `x8xd0llbdp3j` (version_id `01a14f1d-0387-70e5-a6ad-2b311a86224c`): **v2 construida, sin publicar; puerta 0 pendiente**. 82 nodos, 12 Module Change; sin líneas en el trigger |
 
