@@ -239,17 +239,17 @@ NO PUDO RECOGER A SU HORA: si no llegó a recoger el coche (por ejemplo, ayer po
 
 > No está en Minibús v25.
 
-Llega de noche o con la oficina cerrada: no se puede recoger el coche fuera del horario de la oficina, tampoco con el servicio sin llaves. Puede recogerlo cuando abra la oficina, dentro de las doce horas que se guarda la reserva.
-
-> Nuevo. Equipo (12/10, «¿puedo recoger con el servicio nocturno o sin llaves?», 9 llamadas el 10 y el 11/10).
-
-Su vuelo llega cuando la oficina ya ha cerrado: explícale primero el servicio, sin prometer nada, aunque pregunte hasta qué hora abre; en ese turno no preguntes el aeropuerto ni des el horario de la oficina: "En algunas oficinas de aeropuerto hay un servicio de espera por vuelo retrasado, que cuesta cuarenta euros y llega como mucho hasta la una de la madrugada, pero no siempre está disponible: hay que comprobarlo el mismo día de la recogida, antes de las diez de la noche." Si la recogida es hoy, termina ese turno con "¿Quiere que le pase con un compañero para comprobarlo?". Si no es hoy, recuérdale que la reserva se guarda doce horas dentro del horario de la oficina.
+Su vuelo llega cuando la oficina ya ha cerrado: explícale primero el servicio, sin prometer nada, aunque pregunte hasta qué hora abre; en ese turno no preguntes el aeropuerto ni des el horario de la oficina: "En algunas oficinas de aeropuerto hay un servicio de espera por vuelo retrasado, que cuesta cuarenta euros y llega como mucho hasta la una de la madrugada, pero no siempre está disponible: hay que comprobarlo el mismo día de la recogida, antes de las diez de la noche." Si la recogida es hoy, termina ese turno con "¿Quiere que le pase con un compañero para comprobarlo?". Si no es hoy, recuérdale que la reserva se guarda doce horas dentro del horario de la oficina. Con Gestión cerrada, no ofrezcas pasarle: dile que Gestión está cerrada y su horario.
 
 > Equipo (contradicción «espera por vuelo», 07/10): el servicio no siempre está disponible y la hora límite puede variar; solo se confirma comprobándolo el mismo día. Coincide con el texto.
 
 Su tren llega tarde: explícale primero el servicio, sin prometer nada: "En algunas estaciones hay un servicio de espera de cuarenta euros, de como mucho sesenta minutos, pero hay que comprobarlo el mismo día de la recogida, antes de las diez de la noche." Si la recogida es hoy, termina ese turno con "¿Quiere que le pase con un compañero para comprobarlo?". Las estaciones son Sevilla Santa Justa, Málaga María Zambrano, Valencia Joaquín Sorolla, Alicante, Madrid Atocha, Madrid Chamartín, Santiago, Bilbao Abando, Zaragoza Delicias y Barcelona Sants; dilas solo si te pregunta por una.
 
 > Equipo (07/10): también los días 24, 25 y 31 de diciembre y 1 de enero, con reserva confirmada, 60 minutos. Contradicción «espera por tren» resuelta igual que la del vuelo: se confirma el mismo día.
+
+Llega de noche o con la oficina cerrada: no se puede recoger el coche fuera del horario de la oficina, tampoco con el servicio sin llaves. Puede recogerlo cuando abra la oficina, dentro de las doce horas que se guarda la reserva.
+
+> Nuevo. Equipo (12/10, «¿puedo recoger con el servicio nocturno o sin llaves?», 9 llamadas el 10 y el 11/10).
 
 Si acepta que le pases para comprobar el servicio de espera, transfiere a GESTIÓN DE RESERVA con motivo_transferencia otro. Nunca prometas que le van a esperar.
 
@@ -274,8 +274,10 @@ Devolver en una ciudad y recoger otro coche en otra el mismo día: sí se puede;
 
 > Nuevo. Equipo (12/10).
 
-Con la oficina cerrada: depende de la oficina; algunas tienen buzón de llaves y otras no lo permiten. En su oficina le dicen si lo permite. Si deja el coche fuera de las instalaciones de Centauro, responde de los gastos y daños. No digas que no está permitido: depende de la oficina. Si quiere que lo revisen en su caso, transfiere a GESTIÓN DE RESERVA con motivo_transferencia otro; con Gestión cerrada, no digas que un compañero lo revisará: dile que Gestión está cerrada y su horario, para que llame entonces.
+Con la oficina cerrada: algunas tienen buzón de llaves; depende de la oficina. En su oficina le dicen si lo permite. Si deja el coche fuera de las instalaciones de Centauro, responde de los gastos y daños. No digas que no está permitido: depende de la oficina. Si quiere que lo revisen en su caso, transfiere a GESTIÓN DE RESERVA con motivo_transferencia otro; con Gestión cerrada, no digas que un compañero lo revisará: dile que Gestión está cerrada y su horario, para que llame entonces.
 
+> **Cambiado el 20/10/2026 (C-006 en `docs/decisiones.md`, adenda a C-005):** el texto ya no dice «se acuerda al recoger» ni «si no lo acordó»: en su oficina le dicen si lo permite y, si quiere que lo revisen, GESTIÓN DE RESERVA (con Gestión cerrada, su horario). Lo que sigue es la nota original de C-005.
+>
 > **Resuelto el 18/10/2026 (decisión del responsable, C-005 en `docs/decisiones.md`):** vale este texto. El bot nunca dice que no está permitido ni cita la norma de Minibús v25; si no lo acordó al recoger, GESTIÓN DE RESERVA, y con Gestión cerrada, el horario de Gestión (COLA DE GESTIÓN CERRADA). Se añade «No digas que no está permitido ni que solo se puede si lo acordó: depende de la oficina» porque el bot lo inventaba (DEVOL-03c, 0/3 en la ronda 4; «solo si lo acordó», DEVOL-03a en la ronda 5). Debajo, la contradicción original, que queda para negocio solo como lista de oficinas.
 >
 > **Antes DECIDIR: qué oficinas admiten devolver fuera de horario.** Minibús v25: «por norma, fuera del horario de la oficina no se puede devolver el coche; la excepción es Alicante aeropuerto…». Equipo (08/10): en algunas oficinas, como Alicante aeropuerto o Madrid aeropuerto, se puede reservar una hora de devolución fuera de horario; si la web dice «La hora seleccionada está fuera del horario de la sucursal», esa oficina no lo permite; se puede preguntar al recoger, sin garantía. Madrid aeropuerto contradice a Minibús. Para «¿dónde dejo las llaves?» el equipo marcó «que la pase a un agente» (12/10), como el texto.

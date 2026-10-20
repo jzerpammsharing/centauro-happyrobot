@@ -81,7 +81,7 @@ CONTENIDO = [
     ("la_web_no_le_deja", "Usuario bloqueado:"),
     ("reserva_no_iniciada", "Smart Key: en las oficinas sin personal"),
     ("recoger_tarde", "NO PUDO RECOGER A SU HORA:"),
-    ("devolucion", "Con la oficina cerrada: depende de la oficina"),
+    ("devolucion", "Con la oficina cerrada: algunas tienen buzón de llaves; depende de la oficina"),
     ("cargos_y_reembolsos", "hasta diez días hábiles"),
     ("requisitos", "Conductor adicional: todos los conductores tienen que figurar en el contrato."),
     ("durante_el_alquiler", "Testigo de presión de los neumáticos"),

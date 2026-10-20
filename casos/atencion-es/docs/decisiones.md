@@ -43,6 +43,13 @@ Plantilla:
   una oficina», «Precio caro», «Cualquier otra pregunta», «Cuántos días» (aseguradora) y «Coche de empresa», con un
   puntero de una línea, y con el sitio libre refuerza PROL-05 y PROL-06 (no volver a preguntar por la cuenta).
   Resultado en `informes/evals-v2.md` («Ronda de arreglos 1 de la revisión»).
+- **Ronda de arreglos 2 (re-revisión, 20/10/2026):** R47 deshecho en parte: «Precio caro» vuelve literal a DETALLES QUE
+  PUEDES DAR y sale del puntero; fuera el refuerzo de EXPLICACIÓN. PROL-05 en la frase final de «Si dice que no»
+  («si lo pregunta cuando ya iba a entrar, en ese turno los pasos y "¿Alguna duda?"»); PISTA-04 en ENVÍO DEL CORREO
+  («si los dio en PISTA, no faltan»); PROL-06 sin cambio (en la eval el cliente no había contestado lo de la cuenta).
+  Bloque (C-006): oficina cerrada «depende de la oficina» y RECOGER TARDE con el vuelo delante y Gestión cerrada.
+  DEVOL-03a y DEVOL-03c reescritas. Prolongación: 21.147 caracteres. Resultado en `informes/evals-v2.md`
+  («Ronda de arreglos 2 de la re-revisión»).
 - **Estado:** aplicada en v2.
 
 ## D-014 · 2026-10-20 · `estado_oficina` con la hora del momento y aviso de transferencia según la cola (R45)

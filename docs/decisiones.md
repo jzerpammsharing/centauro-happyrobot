@@ -34,6 +34,12 @@ Plantilla:
   `casos/atencion-es/docs/informes/evals-v2.md` («Tarea 16»).
 - **Afecta a:** los bots que usen el bloque: hoy, solo el bot único de Atención España (Consultas y Prolongación).
 - **Quién:** el agente de la Tarea 16 a propuesta de la revisión (ronda de arreglos 1), 20/10/2026.
+- **Ronda de arreglos 2 (re-revisión, 20/10/2026):** «algunas tienen buzón de llaves y otras no lo permiten» pasa a
+  «algunas tienen buzón de llaves; depende de la oficina»; en RECOGER TARDE, «Su vuelo llega…» y «Su tren llega tarde…»
+  van delante de «Llega de noche o con la oficina cerrada», y el párrafo del vuelo añade «Con Gestión cerrada, no
+  ofrezcas pasarle: dile que Gestión está cerrada y su horario» (FDS-02). DEVOL-03a y DEVOL-03c se reescribieron con
+  este texto (sin «se acuerda al recoger»; aviso de daños opcional en las dos; la 03c con un turno en el que pide que
+  se lo miren).
 - **Estado:** aplicada en el bloque y en Atención España v2.
 
 ## C-005 · 2026-10-18 · Bloque de consultas: fuera los teléfonos de asistencia de otros países y la oficina cerrada «depende de la oficina»

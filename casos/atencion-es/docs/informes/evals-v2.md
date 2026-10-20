@@ -1483,3 +1483,80 @@ acordó», así que la eval y el bloque no dicen lo mismo). Lo que empeora en Pr
 («precio caro» ya no está en el prompt y el modelo no llama a `buscar_respuesta`), IDIOMA-01 e IDIOMA-02 1/3 y
 ADV-1 1/3 (pregunta por la cuenta sin explicar antes la prolongación), PRO-1 1/3, WEB-05 1/3, CORREO-08 1/3. PE-NOCT-3
 pasa a 1/3 y PE-NOCT-3b sigue 0/3. ESC-08, ASEG-* (todas 3/3) y BORDE-05/06 (3/3) eran las de atención especial.
+
+
+### Ronda de arreglos 2 de la re-revisión (20/10/2026, 09:16–09:31, martes; Gestión abierta por el reloj)
+
+Nota que faltaba: en la ronda PE/IO (06:49) se reescribió también la eval ADV-8 (`estado_oficina` permitida antes,
+no cuenta como primera llamada; orden «primero el punto, después `consultas_alquiler`»), además de SALTO-ENTRADA-PE,
+SALTO-05a y «ES · cómo llegar a Sants».
+
+Cambios (D-015, C-006): R47 deshecho en parte («Precio caro» vuelve al prompt; fuera el refuerzo de EXPLICACIÓN);
+PROL-05 y PISTA-04 en el prompt (21.147 caracteres); PROL-06 sin cambio (el cliente no había contestado lo de la
+cuenta); bloque: oficina cerrada «algunas tienen buzón de llaves; depende de la oficina» y RECOGER TARDE con el vuelo y
+el tren delante y «Con Gestión cerrada, no ofrezcas pasarle»; DEVOL-03a y DEVOL-03c reescritas con el texto nuevo.
+Repetidas ×3: todas las de Prolongación (salvo T13-SCO) y las críticas de Consultas (FDS-02 y DEVOL-03a/03b/03c
+entre ellas).
+
+| Nodo | Carpeta | Críticas | Resto |
+|---|---|---|---|
+| Consultas | Bot único · Consultas | 11/15 | 14/15 |
+| Consultas | Bot único · Saltos | 3/3 | 27/27 |
+| Consultas | Consultas · de la v25 (adaptadas) | 6/6 | 21/21 |
+| Consultas | Devolver antes u otra oficina | 6/9 | 4/6 |
+| Consultas | Fianza, combustible y cargos | 3/3 | 15/15 |
+| Consultas | Recoger tarde y oficinas | 3/3 | 11/12 |
+| Consultas | Requisitos y durante el alquiler | 11/12 | 21/21 |
+| Consultas | Reserva no iniciada | 3/3 | 17/18 |
+| Consultas | — | 9/12 | 5/6 |
+| Información de oficina | Bot único · Información de oficina | 3/3 | — |
+| Información de oficina | Bot único · Saltos | 3/3 | 21/21 |
+| Información de oficina | Información de oficina · de la v25 (adaptadas) | 6/6 | 43/45 |
+| Prolongación | Aseguradora y empresa | 3/3 | 15/15 |
+| Prolongación | Bot único · Prolongación | 12/12 | 15/18 |
+| Prolongación | Bot único · Saltos | — | 18/18 |
+| Prolongación | Casos aprendidos y bordes | 3/3 | 23/24 |
+| Prolongación | Cierre | — | 9/9 |
+| Prolongación | Correo de contraseña (v12) | 9/9 | 50/54 |
+| Prolongación | Devolver tarde y precio | — | 15/18 |
+| Prolongación | Escalado y transferencias | 15/15 | 12/12 |
+| Prolongación | Horario y fin de semana (HOR, FDS) | 35/36 | — |
+| Prolongación | Idiomas | — | 11/15 |
+| Prolongación | La web no le deja | 3/3 | 25/30 |
+| Prolongación | Prolongación base | — | 18/24 |
+| Prolongación | Prolongación · de la v25 (adaptadas) | — | 9/9 |
+| Prolongación | — | 3/3 | — |
+| Punto de encuentro | Bot único · Punto de encuentro | 6/6 | 19/24 |
+| Punto de encuentro | Bot único · Saltos | — | 20/21 |
+| Punto de encuentro | Punto de encuentro · de la v25 (adaptadas) | 12/12 | 44/51 |
+| Punto de encuentro | — | — | 6/6 |
+| Triaje | Bot único · Saltos | — | 3/3 |
+| Triaje | Bot único · Triaje | 20/21 | 24/24 |
+| Triaje | Triaje · de la v25 (adaptadas) | — | 70/72 |
+
+| Nodo | Críticas | Resto | Ronda 1 |
+|---|---|---|---|
+| Triaje | 20/21 | 97/99 (98,0 %) | igual |
+| Punto de encuentro | 18/18 | 89/102 (87,3 %) | igual |
+| Información de oficina | 12/12 | 64/66 (97,0 %) | igual |
+| Prolongación | 83/84 | 220/246 (89,4 %) | 81/84 y 85,0 % |
+| Consultas | 55/66 | 135/141 (95,7 %) | 51/66 y 95,7 % |
+
+Mejoran: ESC-08 0/3 → 3/3, DEVOL-03c 0/3 → 2/3, BORDE-09 y HOR-01 3/3, ADV-1 y PRO-1 3/3. Siguen: PISTA-04, PROL-05,
+PROL-06 y TARDE-02 0/3 en Prolongación; FDS-02 0/3 (sigue empezando por las doce horas y pidiendo el aeropuerto: no
+lee la sección antes de contestar) y TEL-C1 0/3 en Consultas; DEVOL-03a 1/3 (ofrece que un compañero lo revise sin
+que lo pida). Bajan: CORREO-08 1/3 → 0/3 (transfiere en vez de ofrecer reenviar), WEB-03 2/3 → 0/3 (dice «un compañero
+se la prepara» sin preguntarlo), IDIOMA-05 1/3; IDIOMA-01 sigue 1/3.
+
+#### Bloqueos de la puerta 0 tras la ronda 2
+
+| Bloqueo | Nodo | Motivo |
+|---|---|---|
+| VIRT-T1 2/3 | Triaje | modelo |
+| Resto 87,3 % | Punto de encuentro | modelo (PE-NOCT-3 y 3b, ADV-8, WhatsApp con la variable a false); prompt o modelo (Madrid ambiguo) |
+| HOR-C1 2/3 | Prolongación | modelo (una ejecución transfiere con Gestión cerrada) |
+| Resto 89,4 % | Prolongación | modelo: PISTA-04, PROL-05, PROL-06, TARDE-02, CORREO-08, WEB-03 a 0/3 (el prompt ya lo dice) |
+| FDS-02 0/3 | Consultas | modelo (no busca la sección antes de contestar) |
+| TEL-C1 0/3 | Consultas | negocio (C-005) y modelo |
+| DEVOL-03a 1/3, DEVOL-03c 2/3 | Consultas | modelo (ofrece un compañero sin que lo pida; una vez sin el horario completo) |
+| R34-C1 y REQ-09 2/3 | Consultas | eval (el juez cuenta el reintento tras el error del entorno) |
