@@ -15,6 +15,9 @@ crearon por API en la Tarea 10 (persistent_id = ID de nodo en la v2).
 
 ## 1. enviar_correo_contrasena
 
+> Ronda de arreglos 1 de la revisión de la Tarea 16 (20/10/2026): en `nombre_completo` y `fecha_nacimiento` se añade
+> «Si ya los dio (la dio) para pista_correo, úsalos (úsala); no los pidas (la pidas).» (PISTA-04).
+
 - Cadena de 4 nodos igual que en Prolongaciones v12 (detalle y código: `enviar-correo-contrasena.md`).
 - `message` tipo `ai`: «Un momento, lo compruebo.» (descripción de la v12, sin cambios).
 - **Descripción y parámetros:** los de la v12, tal cual (`casos/prolongaciones/prompts/prolongacion-es/v12/enviar-correo-contrasena.md`).

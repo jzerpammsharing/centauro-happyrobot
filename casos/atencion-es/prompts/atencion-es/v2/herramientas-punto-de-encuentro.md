@@ -24,6 +24,8 @@ Las herramientas del prompt «Punto de encuentro» (`a80fca22-b295-41e3-a735-a3c
   vuelo se ha retrasado (aunque también se queje del minibús), primero di en ese turno el aviso de cierre con la hora
   de apertura y, al terminar el aviso, en ese mismo turno, ejecútala con el tema recoger_tarde. No la ejecutes antes
   del aviso.»
+- Ronda de arreglos 1 de la revisión (20/10/2026): se deshace la regla de ORDEN (PE-NOCT-1 bajó de 3/3 a 1/3 y
+  PE-NOCT-3 no mejoró); queda solo lo de ADV-10.
 
 ## 2. transfer_to_human_agent
 

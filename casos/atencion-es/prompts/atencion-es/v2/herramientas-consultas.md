@@ -16,6 +16,10 @@ consultas»). Un nodo `tool` solo define la función que ve el agente; lo que pa
 
 ## 1. buscar_respuesta (nueva)
 
+> Ronda de arreglos 1 de la revisión de la Tarea 16 (20/10/2026): al final de la descripción de `tema`, antes de «Si no
+> encaja en ninguno», se añade «Vuelo o tren retrasado, aunque pregunte hasta qué hora abre la oficina → recoger_tarde,
+> antes de responder.» (FDS-02).
+
 - Hijo: Python «Buscar respuesta» (código en `buscar-respuesta.md`; sale de `casos/atencion-es/codigo/consultas_alquiler.py`)
 - `message`: `{"type": "none"}`
 - La Tarea 10 crea otra igual en Prolongación (misma descripción y parámetros, mismo código).

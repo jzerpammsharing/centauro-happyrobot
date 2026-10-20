@@ -592,11 +592,13 @@ Arreglos estructurales R39 (Parte A) y R34 (Parte B). Detalle en
       No se hizo por no estar pedido.
 
 ## Antes de conectar la primera línea (puerta 0, spec §8.4)
+- [ ] Comprobar que la variable del workflow `HORA_PRUEBA` vale `ninguna` en los tres entornos (si no, `estado_oficina`
+      usa esa hora en vez del reloj; D-014).
 - [ ] Evals en verde (Tarea 16, 20/10/2026: no lo están). Bloqueos, con su motivo, en `informes/evals-v2.md`
       («Tarea 16 · Bloqueos de la puerta 0»): críticas VIRT-T1 (Triaje), GC-IO1 (Información de oficina), FDS-05 y
       FDS-06 (Prolongación), DEVOL-03a, DEVOL-03c, FDS-02, TEL-C1 y GC-C1 (Consultas); resto por debajo del 90 % en
-      Punto de encuentro (84,3 %) y Prolongación (89,8 %, prompt sin sitio: 21.994/22.000). Decidir si se deshace el
-      cambio de «Con la oficina cerrada» del bloque de consultas (DEVOL-03a bajó de 2/3 a 0/3; D-015).
+      Punto de encuentro (84,3 %) y Prolongación (89,8 %, prompt sin sitio: 21.994/22.000). «Con la oficina cerrada» se reescribió en la ronda de
+      arreglos 1 (C-006).
 - [ ] Caso «coincide» del correo de contraseña probado con una reserva real (pendiente heredado de la v12).
 - [ ] `pista_correo` probada con una reserva real (verifica y devuelve solo el dominio).
 - [ ] Rutina diaria, artefacto y `scripts/medir_bots.py` funcionando. Hechos y probados con V11 y Minibús ES

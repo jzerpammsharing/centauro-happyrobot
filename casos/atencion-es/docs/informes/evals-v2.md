@@ -1280,7 +1280,8 @@ transferencia según la cola. Las críticas tienen que dar 3/3 y el resto de cad
 | Bloque | Hora | Qué | Gestión por el reloj |
 |---|---|---|---|
 | PE-NOCT / PE-EST | 06:28 | Evals de `estado_oficina` con `HORA_PRUEBA` | cerrada (no influye: llevan la hora de prueba) |
-| A | 06:32–06:36 | Punto de encuentro, Información de oficina y las que no transfieren del Triaje | cerrada |
+| A | 06:32–06:36 | Punto de encuentro y las que no transfieren del Triaje | cerrada |
+| A (IO) | 06:35–06:49 | Información de oficina | cerrada |
 | B1 | 06:39–06:42 | Resto que no transfiere de Prolongación y Consultas | cerrada |
 | Ronda PE/IO | 06:50–06:51 | Arreglos de Punto de encuentro e Información de oficina | cerrada |
 | B2 | 08:02–08:16 | Todas las que llegan a `transfer_to_human_agent` (Triaje, Prolongación y Consultas) | abierta |
@@ -1339,7 +1340,7 @@ Dependen de la hora real, y por eso B2 se pasó después de las 8:00:
 | Punto de encuentro | 40 | 18/18 | 86/102 (84,3 %) | no: resto < 90 % |
 | Información de oficina | 26 | 11/12 | 64/66 (97,0 %) | no: GC-IO1 2/3 |
 | Prolongación | 110 | 82/84 | 221/246 (89,8 %) | no: FDS-05 y FDS-06 2/3; resto < 90 % |
-| Consultas | 69 | 54/66 | 135/141 (95,7 %) | no: cinco críticas |
+| Consultas | 69 | 53/66 | 135/141 (95,7 %) | no: cinco críticas |
 
 «—» en la carpeta: evals creadas sin carpeta (R34-*, SALTO-*, T13-SCO, PE-NOCT-4 y 5). Antes de la ronda,
 Prolongación tenía críticas 80/84 y resto 220/246 (89,4 %) y Consultas 55/66 y 134/141 (95,0 %).
@@ -1353,7 +1354,8 @@ Críticas:
   hay ningún compañero porque Gestión está cerrada.
 - **DEVOL-03a** (Consultas) 0/3 (2/3 en la pasada): dice que solo se puede si lo acordó, ofrece que lo mire un
   compañero y no da el aviso de gastos y daños.
-- **DEVOL-03c** (Consultas, Gestión cerrada) 1/3 (0/3 en la pasada): sigue sin el aviso de gastos y daños.
+- **DEVOL-03c** (Consultas, Gestión cerrada) 0/3 (también 0/3 en la pasada): sigue sin el aviso de gastos y daños. (El
+  run 3da6cdb2 salió «passed» con un razonamiento de fallo; se cuenta como fallo, corrección de la revisión.)
 - **FDS-02** (Consultas) 0/3: no llama a `buscar_respuesta`; habla de las doce horas y pide el aeropuerto en vez de
   explicar el servicio de espera por vuelo retrasado.
 - **TEL-C1** (Consultas) 0/3: dice que el teléfono de España sirve para Portugal (el número de Portugal está quitado
@@ -1400,7 +1402,7 @@ Resto (las de 0/3 y 1/3; las de 2/3 son una ejecución suelta):
     vencido («dilo entero, con la cifra»).
   - Descripción de `pista_correo`: enviar con el nombre y la fecha ya dados, sin volver a pedirlos.
   - Repetidas solo las tocadas, ×3 (08:29–08:30): HOR-C1 1/3 → **3/3**; CARGO-04 2/3 → **3/3**; TARDE-05 0/3 → 1/3;
-    DEVOL-03c 0/3 → 1/3; DEVOL-02 1/3 → 1/3; FDS-02 0/3 → 0/3; PISTA-04 0/3 → 0/3; **DEVOL-03a 2/3 → 0/3**; controles
+    DEVOL-03c 0/3 → 0/3 (un «passed» con razonamiento de fallo, que no cuenta); DEVOL-02 1/3 → 1/3; FDS-02 0/3 → 0/3; PISTA-04 0/3 → 0/3; **DEVOL-03a 2/3 → 0/3**; controles
     DEVOL-03b 3/3 y RECOG-02 3/3.
 
 ### Bloqueos de la puerta 0 (lo que sigue fallando)
@@ -1412,7 +1414,72 @@ Resto (las de 0/3 y 1/3; las de 2/3 son una ejecución suelta):
 | Resto 84,3 % | Punto de encuentro | modelo: PE-NOCT-3 y 3b (orden), ADV-8 (llamadas en paralelo), WhatsApp con la variable a false, PE-NOCT-1 (longitud); prompt o modelo: Madrid ambiguo |
 | FDS-05 y FDS-06 2/3 | Prolongación | modelo (una ejecución promete pasarle o no dice que Gestión está cerrada) |
 | Resto 89,8 % | Prolongación | límite: el prompt está a 21.994/22.000 y no admite reglas nuevas; modelo: PISTA-04, PROL-05, PROL-06, TARDE-02 (el prompt ya lo dice) |
-| DEVOL-03a 0/3 y DEVOL-03c 1/3 | Consultas | prompt (la ronda empeoró DEVOL-03a) y modelo (no da el aviso de gastos y daños aunque la sección diga «siempre») |
+| DEVOL-03a 0/3 y DEVOL-03c 0/3 | Consultas | prompt (la ronda empeoró DEVOL-03a) y modelo (no da el aviso de gastos y daños aunque la sección diga «siempre») |
 | FDS-02 0/3 | Consultas | modelo (no busca la sección: contesta de memoria) |
 | TEL-C1 0/3 | Consultas | negocio (C-005: sin teléfono de Portugal validado) y modelo |
 | GC-C1 2/3 | Consultas | modelo |
+
+
+### Ronda de arreglos 1 de la revisión (20/10/2026, 08:40–08:58, martes; Gestión abierta por el reloj)
+
+Cambios (D-015, C-006): «Con la oficina cerrada» del bloque reescrito y pegado en los dos «Buscar respuesta»; fuera la
+regla de ORDEN de PE-NOCT-3 en `consultas_alquiler` de Punto de encuentro; `tema` de `buscar_respuesta` de Consultas
+con «vuelo o tren retrasado… → recoger_tarde»; `enviar_correo_contrasena` usa el nombre y la fecha de `pista_correo`;
+GC-IO1 aclara que quiere devolverlo más tarde; Prolongación (R47) pasa cinco párrafos a `buscar_respuesta` con un
+puntero y refuerza PROL-05 y PROL-06 (21.994 → 20.894 caracteres). Repetidas ×3: todas las de Prolongación (salvo
+T13-SCO, que solo vale fuera de horario), las críticas de Consultas, DEVOL-03b, PE-NOCT-1, 3 y 3b, ADV-10 y GC-IO1.
+
+Resultado (últimas tres ejecuciones de cada eval; las no repetidas conservan las de la pasada):
+
+| Nodo | Carpeta | Críticas | Resto |
+|---|---|---|---|
+| Consultas | Bot único · Consultas | 10/15 | 14/15 |
+| Consultas | Bot único · Saltos | 3/3 | 27/27 |
+| Consultas | Consultas · de la v25 (adaptadas) | 5/6 | 21/21 |
+| Consultas | Devolver antes u otra oficina | 4/9 | 4/6 |
+| Consultas | Fianza, combustible y cargos | 3/3 | 15/15 |
+| Consultas | Recoger tarde y oficinas | 3/3 | 11/12 |
+| Consultas | Requisitos y durante el alquiler | 12/12 | 21/21 |
+| Consultas | Reserva no iniciada | 3/3 | 17/18 |
+| Consultas | — | 8/12 | 5/6 |
+| Información de oficina | Bot único · Información de oficina | 3/3 | — |
+| Información de oficina | Bot único · Saltos | 3/3 | 21/21 |
+| Información de oficina | Información de oficina · de la v25 (adaptadas) | 6/6 | 43/45 |
+| Prolongación | Aseguradora y empresa | 3/3 | 15/15 |
+| Prolongación | Bot único · Prolongación | 12/12 | 15/18 |
+| Prolongación | Bot único · Saltos | — | 18/18 |
+| Prolongación | Casos aprendidos y bordes | 2/3 | 20/24 |
+| Prolongación | Cierre | — | 8/9 |
+| Prolongación | Correo de contraseña (v12) | 9/9 | 50/54 |
+| Prolongación | Devolver tarde y precio | — | 15/18 |
+| Prolongación | Escalado y transferencias | 15/15 | 9/12 |
+| Prolongación | Horario y fin de semana (HOR, FDS) | 34/36 | — |
+| Prolongación | Idiomas | — | 11/15 |
+| Prolongación | La web no le deja | 3/3 | 26/30 |
+| Prolongación | Prolongación base | — | 17/24 |
+| Prolongación | Prolongación · de la v25 (adaptadas) | — | 5/9 |
+| Prolongación | — | 3/3 | — |
+| Punto de encuentro | Bot único · Punto de encuentro | 6/6 | 19/24 |
+| Punto de encuentro | Bot único · Saltos | — | 20/21 |
+| Punto de encuentro | Punto de encuentro · de la v25 (adaptadas) | 12/12 | 44/51 |
+| Punto de encuentro | — | — | 6/6 |
+| Triaje | Bot único · Saltos | — | 3/3 |
+| Triaje | Bot único · Triaje | 20/21 | 24/24 |
+| Triaje | Triaje · de la v25 (adaptadas) | — | 70/72 |
+
+| Nodo | Críticas | Resto | Antes de la ronda |
+|---|---|---|---|
+| Triaje | 20/21 | 97/99 (98,0 %) | igual |
+| Punto de encuentro | 18/18 | 89/102 (87,3 %) | 18/18 y 84,3 % |
+| Información de oficina | 12/12 | 64/66 (97,0 %) | 11/12 y 97,0 % |
+| Prolongación | 81/84 | 209/246 (85,0 %) | 82/84 y 89,8 % |
+| Consultas | 51/66 | 135/141 (95,7 %) | 53/66 y 95,7 % |
+
+Lo que mejora: PE-NOCT-1 1/3 → 3/3 (sin la regla de ORDEN), GC-IO1 2/3 → 3/3, TARDE-05 1/3 → 3/3, DEVOL-03a 0/3 →
+1/3. Lo que no cambia: FDS-02 0/3 (sigue sin buscar la sección y empieza por el horario), PISTA-04 0/3 (vuelve a pedir
+el nombre), PROL-05 y PROL-06 0/3 (vuelve a preguntar si siguen o por la cuenta), TARDE-02 0/3, TEL-C1 0/3, DEVOL-03c
+0/3 (la eval sigue pidiendo «Gestión y su horario» y el aviso de daños; el texto nuevo ya no condiciona a «si no lo
+acordó», así que la eval y el bloque no dicen lo mismo). Lo que empeora en Prolongación (R47): ESC-08 3/3 → 0/3
+(«precio caro» ya no está en el prompt y el modelo no llama a `buscar_respuesta`), IDIOMA-01 e IDIOMA-02 1/3 y
+ADV-1 1/3 (pregunta por la cuenta sin explicar antes la prolongación), PRO-1 1/3, WEB-05 1/3, CORREO-08 1/3. PE-NOCT-3
+pasa a 1/3 y PE-NOCT-3b sigue 0/3. ESC-08, ASEG-* (todas 3/3) y BORDE-05/06 (3/3) eran las de atención especial.

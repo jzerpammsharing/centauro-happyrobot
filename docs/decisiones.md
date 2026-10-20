@@ -16,6 +16,26 @@ Plantilla:
 
 ---
 
+## C-006 · 2026-10-20 · Bloque de consultas: cinco párrafos ajustados por las evals del bot único (Tarea 16)
+- **Qué:** cambios en `comun/bloques/consultas-alquiler.md` (y en el `buscar_respuesta` generado de los dos nodos del
+  bot único):
+  - **Mañana (ronda de la pasada, D-015 del caso):** vuelo retrasado (explicar el servicio de espera aunque pregunte
+    hasta qué hora abre, sin pedir el aeropuerto); otra oficina (decir las tres cosas: se indica al reservar, el precio
+    depende del trayecto y, en curso, el recargo se paga en la oficina de devolución); reclamar un cargo con Gestión
+    cerrada (decir que está cerrada y su horario); contrato vencido («dilo entero, con la cifra»).
+  - **Oficina cerrada, reescrito en la ronda de arreglos 1 de la revisión:** sale «Se acuerda al recoger el coche» y la
+    condición «si no lo acordó»; entra «En su oficina le dicen si lo permite; si quiere que lo revisen en su caso,
+    GESTIÓN DE RESERVA». El aviso de gastos y daños queda como dato (sin «siempre»). Se mantiene la cláusula de
+    Gestión cerrada (no decir que un compañero lo revisará: horario de Gestión). Adenda a C-005, punto 3: el «se acuerda
+    al recoger» de C-005 deja de estar en el texto.
+- **Por qué:** DEVOL-03a y DEVOL-03c (críticas): con «se acuerda al recoger» el bot decía «solo si lo acordó» y ofrecía
+  un compañero; con «Dile siempre» el aviso de daños no mejoraba y DEVOL-03a bajó de 2/3 a 0/3. FDS-02, DEVOL-02,
+  HOR-C1, CARGO-04 y TARDE-05 por los otros párrafos. Resultados en
+  `casos/atencion-es/docs/informes/evals-v2.md` («Tarea 16»).
+- **Afecta a:** los bots que usen el bloque: hoy, solo el bot único de Atención España (Consultas y Prolongación).
+- **Quién:** el agente de la Tarea 16 a propuesta de la revisión (ronda de arreglos 1), 20/10/2026.
+- **Estado:** aplicada en el bloque y en Atención España v2.
+
 ## C-005 · 2026-10-18 · Bloque de consultas: fuera los teléfonos de asistencia de otros países y la oficina cerrada «depende de la oficina»
 - **Qué:** dos decisiones sobre `comun/bloques/consultas-alquiler.md` («Qué falta decidir», puntos 7 y 3):
   - **Punto 7:** se quitan del bloque los teléfonos de asistencia en carretera de Portugal, Italia y Grecia hasta que

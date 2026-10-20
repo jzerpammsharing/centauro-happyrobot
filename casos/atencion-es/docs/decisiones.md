@@ -26,12 +26,24 @@ Plantilla:
   descripción de `pista_correo` (enviar sin volver a pedir el nombre ni la fecha).
 - **Por qué:** fallos de la pasada (HOR-C1, CARGO-04, DEVOL-03c, FDS-02, DEVOL-02, TARDE-05, PISTA-04; PE-NOCT-3,
   PE-EST-2). Medido repitiendo solo las tocadas ×3: arreglan HOR-C1 (1/3 → 3/3), CARGO-04 (2/3 → 3/3) y PE-EST-2
-  (0/3 → 3/3); mejoran poco TARDE-05 y DEVOL-03c (0/3 → 1/3); no cambian FDS-02, DEVOL-02, PISTA-04 ni PE-NOCT-3;
+  (0/3 → 3/3); mejora poco TARDE-05 (0/3 → 1/3); DEVOL-03c sigue 0/3 (el «passed» del run 3da6cdb2 tenía un razonamiento de fallo y no cuenta); no cambian FDS-02, DEVOL-02, PISTA-04 ni PE-NOCT-3;
   empeora DEVOL-03a (2/3 → 0/3) y quizá PE-NOCT-1 (3/3 → 1/3). Detalle en `informes/evals-v2.md` («Tarea 16»).
 - **Afecta a:** v2 (nodos «Buscar respuesta» de Consultas y Prolongación, herramienta `pista_correo`, prompts de Punto
   de encuentro e Información de oficina). El bloque de consultas es común: cualquier bot que lo use recibe el cambio.
 - **Quién:** el agente de la Tarea 16, dentro del límite de una ronda por módulo (R45).
-- **Estado:** aplicada en v2. Pendiente decidir si se deshace el cambio de «Con la oficina cerrada» (DEVOL-03a).
+- **Edición de evals de la ronda (06:49):** ADV-8 pasa a permitir `estado_oficina` antes (obligatoria por R39, no
+  cuenta como primera llamada) y a pedir el orden «primero el punto, después `consultas_alquiler`»; también se
+  reescribieron SALTO-ENTRADA-PE, SALTO-05a y «ES · cómo llegar a Sants» (mismo motivo).
+- **Ronda de arreglos 1 de la revisión (20/10/2026):** se deshace la regla de ORDEN de PE-NOCT-3 en la descripción de
+  `consultas_alquiler` de Punto de encuentro (queda solo lo de ADV-10); «Con la oficina cerrada» del bloque reescrito
+  (C-006 en `docs/decisiones.md`); en `buscar_respuesta` de Consultas, `tema`: «vuelo o tren retrasado, aunque
+  pregunte hasta qué hora abre la oficina → recoger_tarde, antes de responder» (FDS-02); en `enviar_correo_contrasena`,
+  `nombre_completo` y `fecha_nacimiento`: «si ya los dio para pista_correo, úsalos; no los pidas» (PISTA-04); GC-IO1
+  aclara en la conversación que quiere devolverlo más tarde; Prolongación (R47) pasa a `buscar_respuesta` «Prolongar en
+  una oficina», «Precio caro», «Cualquier otra pregunta», «Cuántos días» (aseguradora) y «Coche de empresa», con un
+  puntero de una línea, y con el sitio libre refuerza PROL-05 y PROL-06 (no volver a preguntar por la cuenta).
+  Resultado en `informes/evals-v2.md` («Ronda de arreglos 1 de la revisión»).
+- **Estado:** aplicada en v2.
 
 ## D-014 · 2026-10-20 · `estado_oficina` con la hora del momento y aviso de transferencia según la cola (R45)
 - **Qué:** los dos Importantes de la revisión de la Tarea 15b, hechos al empezar la Tarea 16.
@@ -55,6 +67,8 @@ Plantilla:
   noche, esperando el aviso de siempre); GREEN R34-P1 3/3, R34-C1 2/3 (la que falla, por el reintento, error del juez),
   R34-P2 3/3, R34-T1 3/3 y las nuevas R34-P3 y R34-C3 (Gestión cerrada, pide que alguien mire su reserva: sin «le
   paso») 3/3. Detalle en `informes/evals-v2.md` («Tarea 16»).
+  Nota (revisión de la Tarea 16): PE-NOCT-1 a 5 miden al modelo con el resultado de `estado_oficina` ya escrito en la
+  conversación de la eval; el código lo cubren las pruebas locales y SALTO-ENTRADA-PE, que ejecuta la herramienta de verdad.
 - **Afecta a:** v2 (nodo «Estado de la oficina» y las `transfer_to_human_agent` de Prolongación y Consultas; variable
   `HORA_PRUEBA`). Sustituye la regla del aviso de D-013 y la decisión «las `nocturno_*` del principio» de D-012.
 - **Quién:** el controlador de la construcción (R45), a propuesta de la revisión de la Tarea 15b.
