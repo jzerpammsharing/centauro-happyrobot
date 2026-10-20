@@ -16,7 +16,7 @@
 | Versión | Slug | version_id | Nombre / cambio | Estado |
 |---|---|---|---|---|
 | v1 | `veavliy3k6jx` | `01a14f1b-4eee-7f9c-8ec5-19600855e648` | `v1 · copia de Minibús ES v25` | Borrador, sin tocar (referencia). Sin bloquear. Sin números en el trigger |
-| v2 | `x8xd0llbdp3j` | `01a14f1d-0387-70e5-a6ad-2b311a86224c` | `v2 · bot único: Triaje + 4 módulos` | Construida (Tareas 8 a 16); sin publicar; puerta 0 pendiente. 82 nodos (5 prompt, 30 action, 9 condition, 26 tool, 12 module-change; comprobado con `get_workflows` el 20/10/2026) |
+| v2 | `x8xd0llbdp3j` | `01a14f1d-0387-70e5-a6ad-2b311a86224c` | `v2 · bot único: Triaje + 4 módulos` | Construida (Tareas 8 a 16 y R35); sin publicar; puerta 0 pendiente. 90 nodos (5 prompt, 34 action, 13 condition, 26 tool, 12 module-change; comprobado con `get_workflows` el 20/10/2026 tras la Tarea R35) |
 
 Copia de los nodos de la v1 en `prompts/atencion-es/v1/` (un fichero por nodo; herramientas, transferencias y
 Module Change agrupados). La v2 empieza igual que la v1 salvo la rama «Fallback» de «Entrada», que se borró.
@@ -25,7 +25,7 @@ Los **persistent_id** son iguales en la v1 y la v2 (y son los que van en las var
 los **IDs de nodo** cambian de una versión a otra: localizar siempre por nombre.
 
 **Estado de la v2 (20/10/2026): construida, sin publicar; puerta 0 pendiente.** Comprobada contra
-`get_workflows` (82 nodos): todos están en el árbol, en la tabla o en `saltos.md`.
+`get_workflows` (90 nodos tras la Tarea R35): todos están en el árbol, en la tabla o en `saltos.md`.
 
 ### Flujo de nodos de la v2
 
@@ -48,13 +48,15 @@ Inbound Call (sin líneas)
              │                           estado_oficina → Estado de la oficina (Python, estado_oficina.py; Tarea 15b)
              │                           consultas_alquiler (→ Module Change → Consultas del alquiler),
              │                           informacion_oficina, volver_al_triaje (Tarea 12; → Module Change, saltos.md),
-             │                           transfer_to_human_agent (cola…) → Initiate customer connection de la v25
-             │                                   (PENDIENTE: Preparar transferencia → ¿Transferir? → Transfer; pendientes.md)
+             │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir? (Tarea R35)
+             │                                   ├ Transferir → Initiate customer connection
+             │                                   └ Fallback (vacía)
              │      Información de oficina (Tarea 11, fast-gpt-4.1):
              │                           consultas_alquiler (→ Module Change → Consultas del alquiler),
              │                           buscar_punto_de_encuentro, volver_al_triaje (Tarea 12; → Module Change),
-             │                           transfer_to_human_agent (cola…) → Initiate customer connection de la v25
-             │                                   (PENDIENTE, igual que Punto de encuentro)
+             │                           transfer_to_human_agent → Preparar transferencia → ¿Transferir? (Tarea R35)
+             │                                   ├ Transferir → Initiate customer connection
+             │                                   └ Fallback (vacía)
              │      Prolongación (Tarea 10, fast-gpt-5.4):
              │                           enviar_correo_contrasena → Comprobar correo (MCP consultar_reserva)
              │                                   → Decidir envío (Python) → Enviar correo (MCP enviar_reset_contrasena)
@@ -129,11 +131,17 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | estado_oficina (Punto de encuentro, Tarea 15b) | `01a1575e-923d-7deb-8a35-da450582d445` | = ID de nodo |
 | → Estado de la oficina (Python) | `01a1575e-9248-71bc-ac3d-1dc0666e3a92` | = ID de nodo |
 | consultas_alquiler (Punto de encuentro) | `01a14f1d-0398-7a4b-84e7-313e054df714` | `3f1c2be8-8768-455f-895b-047063ea7938` |
-| transfer_to_human_agent (Punto de encuentro; parámetros nuevos en la Tarea 11) | `01a14f1d-0398-75cb-939a-e2f512c94a01` | `00435498-eccf-4110-9cf1-eb17821af3ed` |
-| Initiate customer connection de la v25 (Punto de encuentro; por sustituir) | `01a14f1d-0396-7961-a5d9-ee9de58e701b` | `37fb8053-214e-4357-be80-0fc8f832ecbc` |
+| transfer_to_human_agent (Punto de encuentro; parámetros nuevos en la Tarea 11, `message` de D-014 en la Tarea R35) | `01a14f1d-0398-75cb-939a-e2f512c94a01` | `00435498-eccf-4110-9cf1-eb17821af3ed` |
+| Preparar transferencia (Punto de encuentro, Tarea R35) | `01a15973-c0e4-7eb3-8c1e-3931e73efcb1` | = ID de nodo |
+| ¿Transferir? (Paths, Punto de encuentro) | `01a15974-0bf6-75fe-8fb3-391b0f2c7095` | = ID de nodo |
+| Transferir (condición, Punto de encuentro) | `01a15974-0c05-701a-9d1e-8b1779473893` | = ID de nodo |
+| Initiate customer connection (Punto de encuentro; sustituye al de la v25 `01a14f1d-0396-7961-…`, que borró el responsable; `outside_agent_transfer` false) | `01a15974-0c0d-722c-94ca-38fb6aad6ae1` | = ID de nodo |
 | consultas_alquiler (Información de oficina) | `01a14f1d-0398-71cd-be10-a50ab91d1f5d` | `6edd13ac-b226-4d1c-87dc-748b46ce5638` |
-| transfer_to_human_agent (Información de oficina; parámetros nuevos en la Tarea 11) | `01a14f1d-0399-7faf-a630-5c199b3e3efc` | `62c5b6dd-5dde-4b3a-9a93-adb638c0bd66` |
-| Initiate customer connection de la v25 (Información de oficina; por sustituir) | `01a14f1d-0396-788f-81ca-75cf199aabbd` | `faec6a20-257a-4b8c-8c75-8dd336beead7` |
+| transfer_to_human_agent (Información de oficina; parámetros nuevos en la Tarea 11, `message` de D-014 en la Tarea R35) | `01a14f1d-0399-7faf-a630-5c199b3e3efc` | `62c5b6dd-5dde-4b3a-9a93-adb638c0bd66` |
+| Preparar transferencia (Información de oficina, Tarea R35) | `01a15973-c373-7e08-9265-75a323398201` | = ID de nodo |
+| ¿Transferir? (Paths, Información de oficina) | `01a15974-0f1c-7db1-8128-1182eab1eb18` | = ID de nodo |
+| Transferir (condición, Información de oficina) | `01a15974-0f2b-7f09-9657-cc6934a0a05c` | = ID de nodo |
+| Initiate customer connection (Información de oficina; sustituye al de la v25 `01a14f1d-0396-788f-…`, que borró el responsable; `outside_agent_transfer` false) | `01a15974-0f32-7195-bc20-40ffed8c52da` | = ID de nodo |
 | Consultas del alquiler (antes «Prolongación y consultas») | `01a14f1d-0397-7b22-b5ce-bcb398a7605e` | `38378785-0846-4920-b41a-583f7c5773fb` |
 | buscar_respuesta (Consultas, Tarea 9) | `01a14fa1-5c34-7bff-9366-aa7e9e4e448a` | `01a14fa1-5c34-7bff-9366-aa7e9e4e448a` |
 | Buscar respuesta (Python, Consultas) | `01a14fa1-5c44-7c37-821c-1d01c0bd41eb` | `01a14fa1-5c44-7c37-821c-1d01c0bd41eb` |
@@ -181,27 +189,29 @@ de salto de las filas 1 a 8 están en `prompts/atencion-es/v2/saltos.md` (tabla 
 | Fallback (vacía) de «¿Transferir?» del Triaje | `01a14f66-5245-7cb6-9718-59de12c52f87` | = ID de nodo |
 | Fallback (vacía) de «¿Transferir?» de Consultas | `01a14fa7-420f-76f4-b6af-ab7cbfd553da` | = ID de nodo |
 | Fallback (vacía) de «¿Transferir?» de Prolongación | `01a150ca-dc54-7efe-8af0-9eac1640d219` | = ID de nodo |
+| Fallback (vacía) de «¿Transferir?» de Punto de encuentro (Tarea R35) | `01a15974-0bf6-75fe-8fb3-391c36751004` | = ID de nodo |
+| Fallback (vacía) de «¿Transferir?» de Información de oficina (Tarea R35) | `01a15974-0f1c-7db1-8128-118349d27177` | = ID de nodo |
 
 **Herramientas por módulo (26 tool):**
 - Triaje (5): `buscar_punto_de_encuentro`, `informacion_oficina`, `consultas_alquiler`, `prolongar_alquiler`,
   `transfer_to_human_agent`.
 - Punto de encuentro (5): `estado_oficina`, `consultas_alquiler`, `informacion_oficina`, `volver_al_triaje`,
-  `transfer_to_human_agent` (sin cadena de transferencia; abajo).
+  `transfer_to_human_agent`.
 - Información de oficina (4): `consultas_alquiler`, `buscar_punto_de_encuentro`, `volver_al_triaje`,
-  `transfer_to_human_agent` (sin cadena).
+  `transfer_to_human_agent`.
 - Prolongación (6): `enviar_correo_contrasena`, `pista_correo`, `buscar_respuesta`, `informacion_oficina`,
   `volver_al_triaje`, `transfer_to_human_agent`.
 - Consultas del alquiler (6): `buscar_respuesta`, `buscar_punto_de_encuentro`, `informacion_oficina`,
   `prolongar_alquiler`, `volver_al_triaje`, `transfer_to_human_agent`.
 
-**Estado de la transferencia a 20/10/2026:** Triaje, Prolongación y Consultas tienen la cadena «Preparar
-transferencia» → «¿Transferir?» → «Initiate customer connection» (con su Fallback vacío). **Punto de encuentro e
-Información de oficina conservan todavía el «Initiate customer connection» de la v25 colgando directamente de su
-`transfer_to_human_agent`** (nodos `01a14f1d-0396-7961-…` y `01a14f1d-0396-788f-…`): no pasan por «Preparar
-transferencia», así que ahí no actúa la red de seguridad de Gestión cerrada ni la del modo virtual (R35,
-`pendientes.md`). Es un requisito antes de publicar.
+**Estado de la transferencia a 20/10/2026 (tras la Tarea R35):** los cinco módulos tienen la cadena «Preparar
+transferencia» → «¿Transferir?» → «Initiate customer connection» (con su Fallback vacío), así que en todos actúan la
+red de seguridad de Gestión cerrada y la del modo virtual. En Punto de encuentro e Información de oficina el
+responsable borró en el editor los dos Transfer de la v25 y la cadena se creó por API el 20/10/2026 (R35 cerrado,
+`pendientes.md`).
 
-**Extract:** «Registrar resultado de la llamada» (`aea14d45-…`) es el único en uso (46 campos, D-010; detalle en
+**Extract:** «Registrar resultado de la llamada» (`aea14d45-…`) es el único en uso (46 campos, D-010; desde la Tarea R35 lee el
+`resultado` y el `transfer_succeeded` de las cinco cadenas de transferencia; detalle en
 `prompts/atencion-es/v2/registrar-resultado.md`). «Registrar consultas del alquiler» sigue en el árbol sin uso
 (R42) y de él cuelga «Preparar WhatsApp minibús».
 
@@ -230,8 +240,8 @@ bloque de reglas comunes; Punto de encuentro, además, las LISTAS 1 a 4 de `noct
 aeropuerto cerrada) y la sección de interrupciones de la v25. Modelos sin cambios. Copias en
 `prompts/atencion-es/v2/punto-de-encuentro.md`, `informacion-de-oficina.md` y sus `herramientas-*.md`. Las dos
 `transfer_to_human_agent` tienen ya `cola`, `motivo_transferencia` y `resumen_para_agente`, pero la cadena «Preparar
-transferencia» → «¿Transferir?» → Transfer **no está creada**: el borrado de los Transfer de la v25 lo rechazó el
-sistema de permisos (`pendientes.md`, «Comprobaciones de la Tarea 11»). D-008.
+transferencia» → «¿Transferir?» → Transfer **no se creó entonces**: el borrado de los Transfer de la v25 lo rechazó el
+sistema de permisos (`pendientes.md`, «Comprobaciones de la Tarea 11»); se creó en la Tarea R35. D-008.
 
 **Tarea 12, Paso 1 (19/10/2026):** las 8 herramientas de salto (spec §5.6) creadas por API a las 22:27, sin hijo
 (`message: none`, `motivo` obligatorio y los parámetros de la v25). Sus 8 Module Change los creó el responsable en el
@@ -273,6 +283,13 @@ puede no salir; con `asistencia`, el de siempre); lleva `gestion_abierta` y `mod
 **Tarea 16, pasada completa y ronda de arreglos (20/10/2026, D-015):** 285 evals ×3; la puerta 0 sigue pendiente
 (bloqueos en `informes/evals-v2.md`). Cambiados en la v2: los dos nodos «Buscar respuesta» (código regenerado del
 bloque de consultas), la descripción de `pista_correo` y los prompts de Punto de encuentro e Información de oficina.
+
+**Tarea R35 (20/10/2026):** en Punto de encuentro e Información de oficina, bajo `transfer_to_human_agent`, se
+crearon por API «Preparar transferencia» (código de `codigo/preparar_transferencia.py`), el Paths «¿Transferir?» con
+«Transferir» y «Fallback», y el Transfer «Initiate customer connection» (`outside_agent_transfer: false`, whisper
+«Llamada del asistente de atención.»). El `message` de las dos herramientas pasa al aviso según la cola de D-014. El
+extract lee las dos cadenas nuevas. Copias en `herramientas-punto-de-encuentro.md`,
+`herramientas-informacion-de-oficina.md` y `registrar-resultado.md`.
 
 ### Cuidado al editar por API (duplicado)
 

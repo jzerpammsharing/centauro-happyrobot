@@ -1,4 +1,4 @@
-<!-- workflow: 01a14f1b-4ea9-7827-a4f3-4cfb06a896f6 · versión: v2 (x8xd0llbdp3j) · nodo: Registrar resultado de la llamada · copiado: 2026-10-19 (Tarea 13) -->
+<!-- workflow: 01a14f1b-4ea9-7827-a4f3-4cfb06a896f6 · versión: v2 (x8xd0llbdp3j) · nodo: Registrar resultado de la llamada · copiado: 2026-10-19 (Tarea 13) · actualizado: 2026-10-20 (Tarea R35) -->
 
 # Registrar resultado de la llamada (AI Extract) · extract único
 
@@ -9,6 +9,10 @@
   de Prolongaciones v12. Las salidas se leen como `{{aea14d45-81de-4a98-aaae-d45c89421f34.response.<campo>}}`; la rama de
   WhatsApp («Preparar WhatsApp minibús») lee `whatsapp_aceptado`, `punto_whatsapp` e `idioma_cliente`.
 - Copia de lo subido por API el 19/10/2026 (en HappyRobot la configuración va en JSON de Plate: una línea = un párrafo).
+- Tarea R35 (20/10/2026): Punto de encuentro e Información de oficina leen ya el `resultado` de su «Preparar
+  transferencia» y el `transfer_succeeded` de su Transfer nuevo (antes, el de los Transfer de la v25, borrados); el
+  prompt (TRANSFERENCIAS) y los campos `hubo_transferencia` e `intento_gestion_cerrada` dejan de tratar esos dos
+  módulos aparte. Subido entero y comprobado igual al JSON enviado; 89 referencias, todas en `get_available_variables`.
 
 ## Prompt
 
@@ -33,7 +37,7 @@ Se llama Daniel. Atiende dos opciones del menú telefónico: Minibús (punto de 
 Cada módulo tiene volver_al_triaje y transfer_to_human_agent. Tras dos cambios de módulo sin resolver, al tercero debe transferir o, si no hay a quién, dar el horario y cerrar.
 
 TRANSFERENCIAS:
-transfer_to_human_agent lleva la cola elegida (gestion, asistencia, nueva_reserva, minibus) y el motivo. En triaje, prolongacion y consultas, «Preparar transferencia» decide si se transfiere: «transferir» (se intenta), «gestion_cerrada» (se pidió gestion fuera de su horario: no se transfiere), «modo_virtual» (de 22:00 a 8:00 solo se transfiere a asistencia: no se transfiere) o «cola_no_valida». En punto_encuentro e informacion_oficina la cola pedida va directa a la transferencia. Gestión abre de lunes a viernes de 8:00 a 21:00, salvo festivos nacionales.
+transfer_to_human_agent lleva la cola elegida (gestion, asistencia, nueva_reserva, minibus) y el motivo. En todos los módulos, «Preparar transferencia» decide si se transfiere: «transferir» (se intenta), «gestion_cerrada» (se pidió gestion fuera de su horario: no se transfiere), «modo_virtual» (de 22:00 a 8:00 solo se transfiere a asistencia: no se transfiere) o «cola_no_valida». Gestión abre de lunes a viernes de 8:00 a 21:00, salvo festivos nacionales.
 
 QUÉ NO ES UN FALLO:
 La penalización de cincuenta euros por día, las tarifas generales que el asistente tiene en sus instrucciones (conductor adicional, sillas, servicio de espera, salir de España, limpieza, multas, cadenas) y los teléfonos de las oficinas de Benidorm y Torrevieja son información correcta. Tampoco son invento el horario de Gestión, «si es urgente, vaya a la oficina», el formulario de contacto ni el punto de encuentro o el horario que devuelve una herramienta.
@@ -86,7 +90,8 @@ informacion_oficina, oficina: {{01a155d9-5db0-7106-ab47-43027e0f8647.oficina}}
 volver_al_triaje, motivo: {{01a155d9-5d9b-7fd6-bfaa-6b87ccd6ac42.motivo}}
 transfer_to_human_agent, cola: {{00435498-eccf-4110-9cf1-eb17821af3ed.cola}}
 transfer_to_human_agent, motivo_transferencia: {{00435498-eccf-4110-9cf1-eb17821af3ed.motivo_transferencia}}
-Transferencia completada (sin «Preparar transferencia» en este módulo): {{37fb8053-214e-4357-be80-0fc8f832ecbc.transfer_succeeded}}
+Preparar transferencia, resultado: {{01a15973-c0e4-7eb3-8c1e-3931e73efcb1.resultado}}
+Transferencia completada: {{01a15974-0c0d-722c-94ca-38fb6aad6ae1.transfer_succeeded}}
 == Módulo INFORMACIÓN DE OFICINA ==
 consultas_alquiler, tema: {{6edd13ac-b226-4d1c-87dc-748b46ce5638.tema}}
 consultas_alquiler, pregunta: {{6edd13ac-b226-4d1c-87dc-748b46ce5638.pregunta}}
@@ -96,7 +101,8 @@ buscar_punto_de_encuentro, terminal: {{01a155d9-5db4-757d-ac17-fc1adb754b0f.term
 volver_al_triaje, motivo: {{01a155d9-5da4-74b3-a7c4-3bb6257242d6.motivo}}
 transfer_to_human_agent, cola: {{62c5b6dd-5dde-4b3a-9a93-adb638c0bd66.cola}}
 transfer_to_human_agent, motivo_transferencia: {{62c5b6dd-5dde-4b3a-9a93-adb638c0bd66.motivo_transferencia}}
-Transferencia completada (sin «Preparar transferencia» en este módulo): {{faec6a20-257a-4b8c-8c75-8dd336beead7.transfer_succeeded}}
+Preparar transferencia, resultado: {{01a15973-c373-7e08-9265-75a323398201.resultado}}
+Transferencia completada: {{01a15974-0f32-7195-bc20-40ffed8c52da.transfer_succeeded}}
 == Módulo PROLONGACIÓN ==
 enviar_correo_contrasena, email (dato personal: no lo copies): {{01a150c7-08df-73fd-abac-19c873b9533d.email}}
 enviar_correo_contrasena, nombre_completo (dato personal: no lo copies): {{01a150c7-08df-73fd-abac-19c873b9533d.nombre_completo}}
@@ -165,11 +171,11 @@ Consultas → Información de oficina: {{91b601ad-4782-44fb-955a-5bc42657c191.ca
 | modulos_visitados | string | triaje,punto_encuentro | Módulos por los que pasó la llamada, en el orden de la primera visita y sin repetir. Valores EXACTOS: "triaje", "punto_encuentro", "informacion_oficina", "prolongacion", "consultas", separados por comas. Siempre empieza por "triaje". Se entra en punto_encuentro con buscar_punto_de_encuentro, en informacion_oficina con informacion_oficina, en prolongacion con prolongar_alquiler y en consultas con consultas_alquiler (desde cualquier módulo); volver_al_triaje vuelve a triaje. Usa los datos técnicos de esas herramientas y los cambios de módulo. |
 | saltos | number | 0 | Número de cambios de módulo después del primer encaminamiento del triaje: suma los datos técnicos de «Cambios de módulo» (un vacío vale 0). La primera entrada desde el triaje en un módulo no cuenta; cada cambio entre módulos y cada vuelta al triaje cuentan uno. Si todos vienen vacíos, 0. Solo el número. |
 | modulo_final | string | punto_encuentro | Módulo en el que estaba la llamada al terminar o al transferir. Valores EXACTOS: "triaje", "punto_encuentro", "informacion_oficina", "prolongacion", "consultas". |
-| hubo_transferencia | string | no | Si se intentó pasar la llamada a un compañero. Valores EXACTOS: "si", "no". "si" si algún «Preparar transferencia» trae "transferir", o si en punto_encuentro o informacion_oficina viene informada la cola de transfer_to_human_agent, aunque la transferencia no llegara a completarse. "no" si no se pidió ninguna o si «Preparar transferencia» la paró ("gestion_cerrada", "modo_virtual", "cola_no_valida"). |
+| hubo_transferencia | string | no | Si se intentó pasar la llamada a un compañero. Valores EXACTOS: "si", "no". "si" si algún «Preparar transferencia» trae "transferir", aunque la transferencia no llegara a completarse. "no" si no se pidió ninguna o si «Preparar transferencia» la paró ("gestion_cerrada", "modo_virtual", "cola_no_valida"). |
 | cola_destino | string | ninguna | Cola de la transferencia intentada (la última si hubo varias). Valores EXACTOS: "gestion", "asistencia", "nueva_reserva", "minibus", "ninguna". Usa la cola del dato técnico de transfer_to_human_agent de ese módulo. Si hubo_transferencia es "no", "ninguna". |
 | motivo_transferencia | string | ninguno | Motivo de la transferencia intentada. Valores EXACTOS: "no_iniciada", "web_no_disponible", "pregunta_reserva_concreta", "aseguradora", "enfado", "error_tecnico", "minibus", "asistencia", "nueva_reserva", "correo_no_coincide", "otro", "ninguno". Usa el motivo_transferencia del dato técnico de ese módulo si es uno de esos valores; si viene vacío, dedúcelo de la transcripción. Si hubo_transferencia es "no", "ninguno". |
 | modulo_transferencia | string | ninguno | Módulo desde el que se intentó la transferencia (el del dato técnico informado). Valores EXACTOS: "triaje", "punto_encuentro", "informacion_oficina", "prolongacion", "consultas", "ninguno". Si hubo_transferencia es "no", "ninguno". |
-| intento_gestion_cerrada | string | no | Si el asistente intentó transferir a gestion con Gestión cerrada. Valores EXACTOS: "si", "no". "si" si algún «Preparar transferencia» trae "gestion_cerrada", o si en punto_encuentro o informacion_oficina la cola es "gestion" y Gestión estaba cerrada (dato técnico false). En otro caso, "no". |
+| intento_gestion_cerrada | string | no | Si el asistente intentó transferir a gestion con Gestión cerrada. Valores EXACTOS: "si", "no". "si" si algún «Preparar transferencia» trae "gestion_cerrada". En otro caso, "no". |
 | necesitaba_contrasena | string | no | Valores EXACTOS: "si", "no". "si" si el cliente no había entrado nunca en su área de cliente o no recordaba la contraseña y eso le impedía prolongar o gestionar su reserva. |
 | dio_pasos_prolongacion | string | no_aplica | Si el asistente dio los pasos para prolongar en la web («Mis reservas y facturas», «Gestionar mi reserva», «Prolongar mi reserva») o, si el cliente prefería, le recordó que puede hacerlo en una oficina. Valores EXACTOS: "si", "no", "no_aplica". "no_aplica" si la llamada no trataba de prolongar. |
 | correo_contrasena_ofrecido | string | no | Valores EXACTOS: "si", "no". "si" si el asistente ofreció enviarle él el correo para crear o restablecer la contraseña. |

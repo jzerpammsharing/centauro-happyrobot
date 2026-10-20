@@ -316,7 +316,11 @@ Punto de encuentro e Información de oficina con el bloque de reglas comunes (pr
 caracteres; modelos sin cambios). Detalle en el registro de progreso (`docs/planes/2026-10-18-bot-unico-progreso.md`, «Task 11»),
 `prompts/atencion-es/v2/punto-de-encuentro.md`, `informacion-de-oficina.md` y sus `herramientas-*.md`.
 
-- [ ] **Transferencia de los dos módulos a medio hacer (bloqueante antes de cualquier llamada de prueba).** Las dos
+- [x] **Transferencia de los dos módulos a medio hacer (bloqueante antes de cualquier llamada de prueba).** **Cerrado
+      el 20/10/2026 (R35):** el responsable borró en el editor los dos Transfer de la v25 y la cadena «Preparar
+      transferencia» → «¿Transferir?» → «Initiate customer connection» se creó por API en los dos módulos, con el
+      `message` de D-014 y el extract leyendo las cadenas nuevas; `test_node` de los dos Python y evals (33/33 a las
+      15:25–15:27) en `informes/evals-v2.md`, «Tarea R35». Lo que sigue es el texto original: Las dos
       `transfer_to_human_agent` ya tienen los parámetros nuevos (`cola`, `motivo_transferencia`, `resumen_para_agente`)
       y la descripción que empieza por «Gestión ahora: [gestion_abierta]», pero siguen colgando del Transfer de la v25
       (`01a14f1d-0396-7961-…` en Punto de encuentro y `01a14f1d-0396-788f-…` en Información de oficina), cuyo
@@ -475,7 +479,9 @@ caracteres; modelos sin cambios). Detalle en el registro de progreso (`docs/plan
 - [ ] **`invento_condicion` no existe en §5.12:** los inventos de las evals (REQ-03, DEVOL-01 y FDS-03, «esté atento al
       correo») se siguen con `invento_informacion`, que los cita como ejemplos. Si se quiere separar «condición
       inventada» de otros inventos, añadir el campo al spec antes.
-- [ ] **Punto de encuentro e Información de oficina** siguen con el Transfer de la v25 sin «Preparar transferencia»
+- [x] **Punto de encuentro e Información de oficina** (cerrado el 20/10/2026, R35: el extract lee ya el `resultado` de
+      sus «Preparar transferencia» y el `transfer_succeeded` de sus Transfer nuevos, y `hubo_transferencia` e
+      `intento_gestion_cerrada` ya no los tratan aparte) siguen con el Transfer de la v25 sin «Preparar transferencia»
       (R35): el extract lo tiene en cuenta (`hubo_transferencia` = si con `cola` informada; `intento_gestion_cerrada`
       con `gestion_abierta` false). Cuando se cree su cadena, añadir al extract el `resultado` de sus «Preparar
       transferencia» y el `transfer_succeeded` de sus Transfer nuevos.

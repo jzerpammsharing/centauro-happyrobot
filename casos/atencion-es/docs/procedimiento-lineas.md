@@ -36,9 +36,9 @@ Quién hace qué:
 - [ ] **R10:** quitar el Paths «Entrada» y su condición «Siempre»; «Receive Customer Call» debe colgar de «Resolver
       colas por idioma» sin borrar el agente. Comprobar con `get_workflows`: Inbound Call -> Contexto de la llamada
       -> Resolver colas -> Receive Customer Call.
-- [ ] **R35:** crear la cadena de transferencia en Punto de encuentro e Información de oficina («Preparar
-      transferencia» → «¿Transferir?» → «Initiate customer connection»). Hoy conservan el Transfer de la v25 colgando
-      de `transfer_to_human_agent`, sin la red de seguridad de Gestión cerrada ni la del modo virtual. **Requisito
+- [x] **R35 (hecho el 20/10/2026: el responsable borró los Transfer de la v25 y la cadena se creó por API; 90 nodos):** crear la cadena de transferencia en Punto de encuentro e Información de oficina («Preparar
+      transferencia» → «¿Transferir?» → «Initiate customer connection»). Hasta entonces conservaban el Transfer de la v25
+      colgando de `transfer_to_human_agent`, sin la red de seguridad de Gestión cerrada ni la del modo virtual. **Requisito
       para publicar** (workflows.md, «Estado de la transferencia»). Comprobar con `get_workflows`.
 - [ ] **R42:** mover «Preparar WhatsApp minibús» (con «¿Enviar WhatsApp?» y lo que cuelga) para que cuelgue de
       «Registrar resultado de la llamada» y borrar «Registrar consultas del alquiler»

@@ -1781,3 +1781,32 @@ El bloque también llega a Prolongación (`buscar_respuesta`), pero de Prolongac
 Salen de la lista: REQ-09 y SALTO-PING (3/3). Prolongación, fuera de los bloqueos (pasa del 90 %): PISTA-04, PROL-05,
 PROL-06 y CORREO-08 0/3, IDIOMA-01 e IDIOMA-05 1/3, CORREO-03 y BORDE-02 2/3 (modelo); WEB-05 y WEB-08 pasan a 3/3
 (eval arreglada).
+
+## Tarea R35 · cadena de transferencia en Punto de encuentro e Información de oficina (20/10/2026, martes)
+
+Hora: **15:25–15:27** (Madrid; ejecuciones de 13:25:55 a 13:26:46 UTC). Por el reloj, Gestión abierta y sin modo
+virtual: «Preparar transferencia» deja pasar `minibus`, así que en las evals de transferencia el Transfer nuevo se
+ejecuta, falla por no haber llamada («error del entorno») y el bot reintenta, que la nota de las evals ya permite. Las
+evals de modo virtual y Gestión cerrada fijan esas variables, así que el reloj no les influye.
+
+Cambios medidos (sin tocar prompts ni evals): cadena «Preparar transferencia» → «¿Transferir?» → «Initiate customer
+connection» en los dos módulos, `message` de `transfer_to_human_agent` con el aviso según la cola de D-014 y
+`hold_music_asset_id`. Las evals de transferencia ya llevaban las cuatro `cola_*` (Tarea 11) y la nota «Una segunda
+llamada a transfer_to_human_agent tras un error del entorno no es un fallo».
+
+| Nodo | Eval | Crítica | Transfiere | Resultado |
+|---|---|---|---|---|
+| Punto de encuentro | GC-PE1 · Gestión cerrada: cambiar la hora de devolución → consultas_alquiler | sí | no | 3/3 |
+| Punto de encuentro | VIRT-PE1 · Modo virtual: queja del minibús → no transfiere | sí | no | 3/3 |
+| Punto de encuentro | ADV-7 · prolongar y queja de 40 minutos → cola minibus | sí | sí | 3/3 |
+| Punto de encuentro | PDE-5 · 25 minutos en Bilbao → cola minibus | sí | sí | 3/3 |
+| Punto de encuentro | DÍA · 25 minutos (Valencia) → cola minibus | sí | sí | 3/3 |
+| Punto de encuentro | Idioma · EN · 25 minutos → cola minibus en inglés | sí | sí | 3/3 |
+| Punto de encuentro | VIRTUAL · 25 minutos (Valencia) → sin transferir | no | no | 3/3 |
+| Información de oficina | GC-IO1 · Gestión cerrada: cambiar la hora de devolución → consultas_alquiler | sí | no | 3/3 |
+| Información de oficina | VIRTUAL · cambiar hora de devolución → no transfiere | sí | no | 3/3 |
+| Información de oficina | ADV-11 · Gestión cerrada, devolver un día más tarde → no transfiere a gestion | sí | no | 3/3 |
+| Información de oficina | SALTO-PING-GC · dos saltos sin resolver, Gestión cerrada → horario y cierra | sí | no | 3/3 |
+
+**33/33.** Críticas: Punto de encuentro 18/18 y Información de oficina 12/12 (las mismas que en la Tarea 16).
+Información de oficina no tiene ninguna eval que llegue a transferir; su cadena solo se ha visto con `test_node`.
