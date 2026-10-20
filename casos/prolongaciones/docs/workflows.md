@@ -197,6 +197,7 @@ salen del análisis de llamadas del 5 al 11 de octubre, no de HappyRobot.
 | V9 | xn2gx6zswa5h | Daniel: responder más sin transferir (caso 1) | publicada antes | 09/10 13:54 → 10/10 20:16 |
 | V10 | fg6e9yqdgwok | V9 + horario de la cola de Gestión | publicada antes | 10/10 20:16 → 11/10 11:31 |
 | **Version 11** | **2g1bxzyzazpp** | V10 + regla de Gestión cerrada, «no pudo recoger a su hora» y «recoger antes» | **publicada (live)** | desde el 11/10 entre 11:31 y 11:52 (primer run a las 11:52) |
+| v12 | mnhi8x9j8ce7 | v12 · V11 + envío del correo de contraseña (fase 1) | sin publicar (borrador del 17/10) | — |
 
 version_id de las versiones publicadas:
 - V6 `01a0fc08-5131-7307-959c-4b5508c11fad`
@@ -205,6 +206,7 @@ version_id de las versiones publicadas:
 - V9 `01a11f73-b616-7083-8913-ebef21017aa0`
 - V10 `01a126ac-ec56-787a-9b03-641a0e218fd6`
 - V11 `01a12a23-10e9-7575-bf06-6c77472ca128`
+- v12 (sin publicar) `01a14967-1843-78bc-89ed-0241ed3b4daa`
 
 ### Cambios de la V10 a la V11
 
@@ -221,3 +223,28 @@ Solo cambia el prompt de «Prolongacion». Para ver el diff, desde la raíz del 
 «Resolver colas», `transfer_to_human_agent` e «Initiate customer connection» no cambian. Por eso, con
 Gestión cerrada, el aviso «NO DISPONIBLE AHORA…» sigue llegando al bot como si fuera un destino (ver
 pendientes).
+
+### Cambios de la V11 a la v12 (sin publicar, D-008)
+
+Spec: `specs/2026-10-17-envio-correo-contrasena.md`. Copias: `../prompts/prolongacion-es/v12/`.
+
+1. **Herramienta nueva `enviar_correo_contrasena`** (persistent ID `01a14967-92fa-78e2-b3ef-a2f1d8ec570b`),
+   hija del prompt, con cuatro nodos en cadena sobre «Centauro MCP»:
+   - «Comprobar correo (consultar_reserva)» `01a14967-9302-788f-974c-9e48f2817298`;
+   - «Decidir envío» (Python) `01a1496e-6988-7395-be53-09c5dca06973`;
+   - «Enviar correo (enviar_reset_contrasena)» `01a1496e-699c-7bd0-af43-cba069b66bf8`;
+   - «Resultado para el agente» (Python) `01a1496e-69ad-7004-b3b8-8c6ef64afc58`.
+   Solo se envía si el correo coincide; si no, el email llega vacío al MCP de envío y este lo rechaza.
+   El código de los dos Python está en `../codigo/` con sus pruebas.
+2. **Prompt «Prolongacion»:** sección nueva «ENVÍO DEL CORREO DE CONTRASEÑA»; el párrafo «Si dice que
+   no…» ofrece el envío y deja «¿Has olvidado tu contraseña?» como plan B; excepción a «NO pidas…» solo
+   para el correo, el nombre y la fecha del envío; cómo deletrear un correo; motivo
+   `correo_no_coincide` en el escalado. Para ver el diff, desde la raíz del repo:
+   `git diff --no-index casos/prolongaciones/prompts/prolongacion-es/v11/prolongacion.md casos/prolongaciones/prompts/prolongacion-es/v12/prolongacion.md`.
+3. **`transfer_to_human_agent`:** motivo `correo_no_coincide` y casos del correo de contraseña en la cola
+   de Gestión.
+4. **Extract:** cinco campos nuevos y `correo_no_coincide` en `motivo_transferencia` (ver la copia).
+
+«Calcular idioma y saludo», «Resolver colas», «Initiate customer connection» y el agente de voz no
+cambian. Evals nuevas: carpeta «Correo de contraseña (v12)» del nodo «Prolongacion» (CORREO-01 a 21);
+resultados en `informes/2026-10-17-v12-correo-contrasena.md`.

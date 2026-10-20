@@ -1,0 +1,89 @@
+<!-- workflow: 01a14f1b-4ea9-7827-a4f3-4cfb06a896f6 · versión: v2 (x8xd0llbdp3j) · nodo: herramientas (tool) de Punto de encuentro · copiado: 2026-10-19 (Tarea 11) · cadena de transferencia: 2026-10-20 (Tarea R35) -->
+
+# Herramientas de «Punto de encuentro» (v2)
+
+Las herramientas del prompt «Punto de encuentro» (`a80fca22-b295-41e3-a735-a3c878af4eee`, ID de nodo en la v2
+`01a14f1d-0397-7c91-b2bc-a12efeed5595`).
+
+- Fuente de las descripciones (R3): `{{gestion_abierta}}` va en HappyRobot como nodo de variable de Plate con
+  `group_id` `e51cd732-f403-4ef7-95d4-490347960a93`.
+- `informacion_oficina` y `volver_al_triaje` (spec §5.7): creadas en la Tarea 12, cada una con su Module Change;
+  definición, ids y destinos en `saltos.md`.
+
+## 1. consultas_alquiler (descripción cambiada en las rondas de arreglos 1 y 2)
+
+- Hijo: «Module Change» → «Consultas del alquiler» (viene del duplicado; no se toca, R5).
+- `message`: `{"type": "none"}`. Parámetros (`tema`, `pregunta`) los de la v25. Descripción: la de la v25 con tres
+  cambios (rondas de arreglos 1 y 2): delante, «NO la uses si en el mismo turno se queja del minibús (se fue sin él, no
+  pasa, lleva esperando igual o más que la frecuencia): eso va primero (ESCALADO), salvo si PRIMERO dio true: entonces
+  sigue PRIMERO.»; «Alargar el alquiler (devolverlo otro día) siempre va aquí, también con gestión cerrada.»; y «…que
+  alguien mire o cambie un dato concreto de su reserva sin alargarla».
+- Tarea 16 (ronda de arreglos, 20/10/2026, 06:49): en «NO la uses para… la devolución en un aeropuerto» se añade
+  «(dónde y a qué hora se devuelve allí lo contestas tú, sin herramientas)» (ADV-10) y, al final, la regla de orden de
+  PE-NOCT-3: «ORDEN con la oficina cerrada: si estado_oficina devolvió oficina_cerrada true y el cliente dice que su
+  vuelo se ha retrasado (aunque también se queje del minibús), primero di en ese turno el aviso de cierre con la hora
+  de apertura y, al terminar el aviso, en ese mismo turno, ejecútala con el tema recoger_tarde. No la ejecutes antes
+  del aviso.»
+- Ronda de arreglos 1 de la revisión (20/10/2026): se deshace la regla de ORDEN (PE-NOCT-1 bajó de 3/3 a 1/3 y
+  PE-NOCT-3 no mejoró); queda solo lo de ADV-10.
+
+## 2. transfer_to_human_agent
+
+- Hijo: Python «Preparar transferencia» → Paths «¿Transferir?» → «Transferir» → Transfer «Initiate customer
+  connection», con «Fallback» vacía (mismo patrón y configuración que Consultas y Prolongación:
+  `preparar-transferencia.md` y `transfer.md`). Creada por API en la Tarea R35 (20/10/2026), después de que el
+  responsable borrara en el editor el Transfer heredado de la v25. Ids en «Configuración».
+  - «Preparar transferencia»: código de `codigo/preparar_transferencia.py`; entradas `cola` =
+    `{{00435498-eccf-4110-9cf1-eb17821af3ed.cola}}` y las cuatro `cola_*` de «Resolver colas» (`081e2b5d-…`).
+  - «Transferir»: `transferir` de «Preparar transferencia» es true (`boolean_true`).
+  - Transfer: `number` = `fallback_number` = `{{01a15973-c0e4-7eb3-8c1e-3931e73efcb1.numero}}`; whisper «Llamada del asistente de
+    atención.» + `resumen_para_agente` de esta herramienta + «Teléfono del cliente:» `telefono_dictado`;
+    `outside_agent_transfer: false`; el resto como el de Consultas (`skip_digit_press` false,
+    `record_transfer_conversation` true, `transfer_timeout` 300). Salida fijada con `set_custom_output`
+    (`transfer_succeeded`, `error`…) para que el extract vea la variable.
+- `execution`: no se guarda por API (queda el de por defecto).
+- `hold_music`: estático, «holdacent» (asset `01a0fc02-a13d-77a2-8de3-82459eb2a2a6`, también en `hold_music_asset_id`
+  desde la Tarea R35), URL `<URL_FIRMADA>`.
+- **message** (tipo `ai`; alineado con Consultas y Prolongación en la Tarea R35, 20/10/2026: el aviso depende de la cola, D-014): ejemplo «Lo entiendo, y tiene razón. Le paso ahora mismo con un compañero para que vea qué está pasando. Puede tardar unos segundos, no cuelgue, por favor.» Descripción (`{{gestion_abierta}}` y `{{modo_virtual}}` son nodos de variable de Plate con `group_id` `e51cd732-…`): Gestión ahora: {{gestion_abierta}}. Modo virtual: {{modo_virtual}}. El aviso depende de la cola que pones. Solo si la transferencia puede no salir (cola gestion con Gestión ahora false, o una cola que no sea asistencia con Modo virtual true) no digas que le pasas con nadie: di solo, en su idioma, «Un momento, por favor, no cuelgue.» (si está molesto, valida antes su molestia en una frase corta). En los demás casos, y siempre con la cola asistencia: informa al cliente, en su idioma, de que le vas a pasar con un compañero que le va a ayudar. Sé breve y tranquilizador. Termina SIEMPRE avisando de que puede tardar unos segundos en atenderle y pidiéndole que no cuelgue (por ejemplo: "puede tardar unos segundos, no cuelgue, por favor"). Si el cliente está molesto, frustrado o ya ha tenido que insistir para que le pases con alguien, valida primero su emoción en una frase corta y sincera antes de anunciar la transferencia: reconoce la molestia concreta que te ha expresado, sin excusas largas ni justificaciones. Nunca anuncies la transferencia en seco a un cliente enfadado. No menciones colas, extensiones ni números. No prometas llamar al conductor ni a una oficina concreta. (Igual que la de Consultas salvo la última frase, que es la de la v25 de este módulo.)
+
+**Descripción** (19/10/2026, Tarea 11 y ronda de arreglos 3; empieza con la variable, como en Prolongación, R34): Gestión ahora: {{gestion_abierta}}. Si Gestión ahora es false y el caso es de gestión, no la llames: di que gestión está cerrada y su horario. Transfiere la llamada a una cola de compañeros. Úsala en los casos de ESCALADO: queja real del minibús, cliente perdido que sigue sin encontrar el punto, avería o accidente, algo de su reserva que hay que mirar o cambiar (un dato ya acordado que no sea alargar el alquiler), reserva nueva, una persona sin motivo o un idioma que no puedes seguir. Alargar el alquiler no es de gestión: consultas_alquiler. En modo virtual, solo para una avería o un accidente (cola asistencia): si se queja del minibús o pide una persona, no la llames y sigue EN MODO VIRTUAL. Con gestión cerrada, nunca con la cola gestion. El punto de encuentro, el horario y la devolución en su aeropuerto y las dudas del alquiler no se transfieren: los das tú o tienen su herramienta. Ejecútala en el mismo turno en que decides transferir, sin decir antes «le paso». Si devuelve gestion_cerrada, no la repitas: sigue COLA DE GESTIÓN CERRADA.
+
+**Parámetros (los tres obligatorios; sustituyen al parámetro de la extensión de la v25):**
+- `cola`: Cola de destino. Valores permitidos EXACTOS: "minibus" (queja real del minibús, cliente perdido que sigue sin encontrar el punto, Palma de Mallorca, aeropuerto sin datos, pregunta del minibús que no está en tus instrucciones, una persona sin motivo o idioma que no puedes seguir), "asistencia" (avería o accidente; funciona siempre), "gestion" (algo de una reserva que ya tiene: cambiar un dato ya acordado que no sea alargar el alquiler, devolver con la oficina cerrada sin haberlo acordado, el servicio de espera; solo con gestión abierta), "nueva_reserva" (aún no tiene reserva y quiere alquilar). Alargar el alquiler no es de gestión: consultas_alquiler. Gestión ahora: {{gestion_abierta}}. Si es false, nunca uses "gestion". Si dudas entre dos, "minibus".
+- `motivo_transferencia`: Por qué transfieres. Valores permitidos EXACTOS: "no_iniciada", "web_no_disponible", "pregunta_reserva_concreta", "aseguradora", "enfado", "error_tecnico", "minibus", "asistencia", "nueva_reserva", "correo_no_coincide", "otro". En Punto de encuentro: "minibus" para una queja o un problema del minibús o del punto de encuentro; "asistencia"; "pregunta_reserva_concreta" para algo de su reserva; "nueva_reserva"; "enfado" (cliente muy enfadado que exige una persona) u "otro" (una persona sin motivo, idioma que no puedes seguir).
+- `resumen_para_agente`: Resumen del motivo de la llamada que se le leerá en voz alta al compañero que recibe la transferencia, antes de conectarle con el cliente. SIEMPRE en español, aunque el cliente hable otro idioma. Una o dos frases, de 10 a 25 palabras, en tercera persona, que digan qué quiere el cliente, en qué aeropuerto y terminal está y qué se ha intentado ya (por ejemplo, que ya recibió la indicación del punto de encuentro). Sin datos personales (nombre, reserva, matrícula, correo, teléfono), sin códigos, extensiones ni importes. Si el idioma de la llamada no es español, la ÚLTIMA frase es SIEMPRE «El cliente habla <idioma>» (por ejemplo, «El cliente habla inglés»). Ejemplos: 'Cliente en Barcelona T1 lleva veinte minutos en el punto de encuentro y el minibús no ha pasado.' 'Cliente en Valencia lleva veinticinco minutos esperando el minibús en el pe seis. El cliente habla inglés.'
+
+## 3. estado_oficina (nueva, Tarea 15b, R39)
+
+- Hijo: Python «Estado de la oficina» (código `codigo/estado_oficina.py`; copia de la configuración en
+  `estado-oficina.md`). Sustituye a las LISTAS 1 a 4 del prompt. Desde la Tarea 16 (R45, D-014) calcula con la hora
+  del momento en que se ejecuta y el horario concreto de cada oficina (antes, con las `nocturno_*` del principio de la
+  llamada); la variable del workflow `HORA_PRUEBA` manda sobre el reloj en las evals.
+- `message`: `{"type": "none"}`.
+- Descripción: Dice si la oficina de Centauro del aeropuerto ya ha cerrado por hoy y a qué hora abre. Si lo que pide el cliente tiene que ver con el minibús o el punto de encuentro, ejecútala en cuanto sepas el aeropuerto, sin decir nada antes: antes de preguntar la terminal o la puerta, de dar el punto o de transferir, y antes de cualquier otra herramienta, también si se queja del minibús. Vuelve a ejecutarla si cambia el aeropuerto. Si devuelve oficina_cerrada true, sigue PRIMERO: solo el aviso de cierre con hora_apertura, sin punto de encuentro.
+- `aeropuerto` (obligatorio): El aeropuerto del cliente, tal como lo tienes (por ejemplo «Valencia», «Madrid», «Atenas», «Milán-Malpensa»). Sin terminal ni datos personales.
+
+## Configuración
+
+| Nodo | ID de nodo en la v2 | persistent_id |
+|---|---|---|
+| estado_oficina → Estado de la oficina (Tarea 15b) | `01a1575e-923d-7deb-8a35-da450582d445` → `01a1575e-9248-71bc-ac3d-1dc0666e3a92` | = ID de nodo |
+| consultas_alquiler → Module Change | `01a14f1d-0398-7a4b-84e7-313e054df714` → `01a14f1d-039b-7e6e-91ee-a0401da2c7e3` | `3f1c2be8-8768-455f-895b-047063ea7938` |
+| transfer_to_human_agent | `01a14f1d-0398-75cb-939a-e2f512c94a01` | `00435498-eccf-4110-9cf1-eb17821af3ed` |
+| → Python «Preparar transferencia» (Tarea R35) | `01a15973-c0e4-7eb3-8c1e-3931e73efcb1` | = ID de nodo |
+| → Paths «¿Transferir?» | `01a15974-0bf6-75fe-8fb3-391b0f2c7095` | = ID de nodo |
+| → condition «Transferir» → Transfer «Initiate customer connection» | `01a15974-0c05-701a-9d1e-8b1779473893` → `01a15974-0c0d-722c-94ca-38fb6aad6ae1` | = ID de nodo |
+| → condition «Fallback» (sin hijos) | `01a15974-0bf6-75fe-8fb3-391c36751004` | = ID de nodo |
+
+El Transfer heredado de la v25 (`01a14f1d-0396-7961-a5d9-ee9de58e701b`, persistent_id `37fb8053-214e-4357-be80-0fc8f832ecbc`) lo borró el responsable en el
+editor el 20/10/2026 (R35); la cadena nueva se creó por API ese mismo día.
+
+**Ronda de arreglos 3 (19/10/2026).** En `transfer_to_human_agent`: el caso de gestión es «cambiar un dato ya acordado que
+no sea alargar el alquiler» (antes «la hora o el día de devolución», que hacía que el bot tratara alargar como caso de
+gestión: causa de ADV-11), en la descripción y en `cola`, con «Alargar el alquiler no es de gestión: consultas_alquiler»;
+y en `resumen_para_agente`, «Si el idioma de la llamada no es español, la ÚLTIMA frase es SIEMPRE «El cliente habla
+<idioma>»».
+
+**Ronda de arreglos 4 (19/10/2026).** El cuerpo de esta sección se copió de lo subido a HappyRobot (`get_node_details`): descripción, `cola` y `resumen_para_agente` ya tenían los cambios de la ronda 3. En `resumen_para_agente`, «Una sola frase» pasa a «Una o dos frases» para que no choque con «la ÚLTIMA frase».
+
+**Ronda de arreglos 5 (19/10/2026).** `motivo_transferencia` copiado literal de lo subido (los 11 valores).
