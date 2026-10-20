@@ -18,6 +18,12 @@ Las herramientas del prompt «Punto de encuentro» (`a80fca22-b295-41e3-a735-a3c
   pasa, lleva esperando igual o más que la frecuencia): eso va primero (ESCALADO), salvo si PRIMERO dio true: entonces
   sigue PRIMERO.»; «Alargar el alquiler (devolverlo otro día) siempre va aquí, también con gestión cerrada.»; y «…que
   alguien mire o cambie un dato concreto de su reserva sin alargarla».
+- Tarea 16 (ronda de arreglos, 20/10/2026, 06:49): en «NO la uses para… la devolución en un aeropuerto» se añade
+  «(dónde y a qué hora se devuelve allí lo contestas tú, sin herramientas)» (ADV-10) y, al final, la regla de orden de
+  PE-NOCT-3: «ORDEN con la oficina cerrada: si estado_oficina devolvió oficina_cerrada true y el cliente dice que su
+  vuelo se ha retrasado (aunque también se queje del minibús), primero di en ese turno el aviso de cierre con la hora
+  de apertura y, al terminar el aviso, en ese mismo turno, ejecútala con el tema recoger_tarde. No la ejecutes antes
+  del aviso.»
 
 ## 2. transfer_to_human_agent
 

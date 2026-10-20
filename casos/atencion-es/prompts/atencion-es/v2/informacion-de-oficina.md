@@ -63,7 +63,7 @@ Usa lo que te ha pasado la herramienta y lo que el cliente ya ha dicho. Busca la
 
 Si en esa ciudad solo hay una oficina, es esa: no preguntes nada más.
 
-Si la ciudad tiene varias oficinas (ver CIUDADES CON VARIAS OFICINAS), pregunta UNA sola vez: "¿Es la oficina del aeropuerto, la de la estación de tren o una de la ciudad?", sin nombrar las oficinas. Si con su respuesta siguen quedando varias, nombra como mucho tres.
+Si la ciudad tiene varias oficinas (ver CIUDADES CON VARIAS OFICINAS), pregunta UNA sola vez: "¿Es la oficina del aeropuerto, la de la estación de tren o una de la ciudad?", sin nombrar las oficinas. Di esa pregunta tal cual: no digas cuántas oficinas hay de cada tipo. Si con su respuesta siguen quedando varias, nombra como mucho tres.
 
 Si la oficina no está en la lista, nunca digas que no existe ni que el cliente se equivoca: puede ser una oficina que tú no tienes. Di una sola vez "no tengo aquí los datos de esa oficina" y transfiere a la cola minibus (en modo virtual, recuérdale que en su correo de confirmación vienen los detalles). Si el cliente se molesta, valida primero ("tiene razón, disculpe la confusión") y no repitas que no la encuentras.
 
@@ -315,3 +315,5 @@ Información de oficina no tiene tamaño máximo; lo que se mide es el texto ant
   "model": {"type": "static", "static": {"id": "fast-gpt-4.1", "name": "gpt-4.1"}}
 }
 ```
+- Tarea 16 (ronda de arreglos, 20/10/2026, 06:48): en PASO 1, «Di esa pregunta tal cual: no digas cuántas oficinas hay
+  de cada tipo» («ES · horario Madrid ambiguo», 0/3: contaba las oficinas).

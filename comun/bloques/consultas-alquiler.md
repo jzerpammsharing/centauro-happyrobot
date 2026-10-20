@@ -101,7 +101,7 @@ Prolongar el mismo día de la devolución: es mejor hacerlo con antelación, per
 
 ¿Está bien hecha mi prolongación?: si al pagar le llegó el correo de confirmación y en "Mis reservas y facturas" aparece la nueva fecha de devolución, está hecha.
 
-Contrato ya vencido: el contrato no se prorroga solo. Si no lo prolonga en la web, en la app o en una oficina, se cobra el tiempo extra más cincuenta euros por cada día; lo mejor es prolongarlo o devolver el coche cuanto antes. Si pregunta si le pueden denunciar: si no prolonga ni devuelve el coche, pasados unos días Centauro puede presentar una denuncia por apropiación indebida. Si ya lleva días de retraso y quiere explicar su situación, transfiere a GESTIÓN DE RESERVA con motivo_transferencia pregunta_reserva_concreta.
+Contrato ya vencido (dilo entero en ese turno, con la cifra): el contrato no se prorroga solo. Si no lo prolonga en la web, en la app o en una oficina, se cobra el tiempo extra más cincuenta euros por cada día; lo mejor es prolongarlo o devolver el coche cuanto antes. Si pregunta si le pueden denunciar: si no prolonga ni devuelve el coche, pasados unos días Centauro puede presentar una denuncia por apropiación indebida. Si ya lleva días de retraso y quiere explicar su situación, transfiere a GESTIÓN DE RESERVA con motivo_transferencia pregunta_reserva_concreta.
 
 Contrato vencido y la web no le deja prolongar, ni siquiera unas horas: puede que el coche esté reservado para otro alquiler. Que vaya cuanto antes a la oficina donde tiene que devolverlo para ver qué opciones tiene. Recuérdale que se cobra el tiempo extra más cincuenta euros por día.
 
@@ -243,7 +243,7 @@ Llega de noche o con la oficina cerrada: no se puede recoger el coche fuera del 
 
 > Nuevo. Equipo (12/10, «¿puedo recoger con el servicio nocturno o sin llaves?», 9 llamadas el 10 y el 11/10).
 
-Su vuelo llega cuando la oficina ya ha cerrado: explícale primero el servicio, sin prometer nada: "En algunas oficinas de aeropuerto hay un servicio de espera por vuelo retrasado, que cuesta cuarenta euros y llega como mucho hasta la una de la madrugada, pero no siempre está disponible: hay que comprobarlo el mismo día de la recogida, antes de las diez de la noche." Si la recogida es hoy, termina ese turno con "¿Quiere que le pase con un compañero para comprobarlo?". Si no es hoy, recuérdale que la reserva se guarda doce horas dentro del horario de la oficina.
+Su vuelo llega cuando la oficina ya ha cerrado: explícale primero el servicio, sin prometer nada, aunque pregunte hasta qué hora abre; en ese turno no preguntes el aeropuerto ni des el horario de la oficina: "En algunas oficinas de aeropuerto hay un servicio de espera por vuelo retrasado, que cuesta cuarenta euros y llega como mucho hasta la una de la madrugada, pero no siempre está disponible: hay que comprobarlo el mismo día de la recogida, antes de las diez de la noche." Si la recogida es hoy, termina ese turno con "¿Quiere que le pase con un compañero para comprobarlo?". Si no es hoy, recuérdale que la reserva se guarda doce horas dentro del horario de la oficina.
 
 > Equipo (contradicción «espera por vuelo», 07/10): el servicio no siempre está disponible y la hora límite puede variar; solo se confirma comprobándolo el mismo día. Coincide con el texto.
 
@@ -266,7 +266,7 @@ Si lo devuelve antes: en reservas hechas directamente con Centauro de menos de v
 
 > **DECIDIR: 29 o 30 días.** Minibús v25 dice «menos de treinta días… treinta o más». El equipo está dividido: 29 (07/10) y 30 (08/10), y marcó como correcta la ficha que dice 30. Prolongaciones usa 29 también para el límite de prolongación y los kilómetros.
 
-En otra oficina: se puede devolver en otra oficina de Centauro si se indicó al hacer la reserva. Si la web no deja reservar ese trayecto, no está permitido. El precio depende del trayecto; con el alquiler ya en curso, el recargo se paga en la oficina de devolución.
+En otra oficina (dile las tres cosas): se puede devolver en otra oficina de Centauro si se indicó al hacer la reserva; el precio depende del trayecto y, con el alquiler ya en curso, el recargo se paga en la oficina de devolución. Solo si la web no deja reservar ese trayecto, no está permitido.
 
 > Equipo (08/10 y 13/10, 5 llamadas): también si lo indica al recoger el coche, no solo al reservar. Los precios por trayecto están en la lista de costes «one way» de la web (un PDF). Propuesta: «si se indicó al hacer la reserva o al recoger el coche».
 
@@ -274,7 +274,7 @@ Devolver en una ciudad y recoger otro coche en otra el mismo día: sí se puede;
 
 > Nuevo. Equipo (12/10).
 
-Con la oficina cerrada: depende de la oficina; algunas tienen buzón de llaves y otras no lo permiten. Se acuerda al recoger el coche, y allí le dan las instrucciones. No digas que no está permitido ni que solo se puede si lo acordó: depende de la oficina. Si deja el coche fuera de las instalaciones de Centauro, responde de los gastos y daños. Si no lo acordó al recoger, transfiere a GESTIÓN DE RESERVA con motivo_transferencia otro.
+Con la oficina cerrada: depende de la oficina; algunas tienen buzón de llaves y otras no lo permiten. Se acuerda al recoger el coche, y allí le dan las instrucciones. Dile siempre que, si deja el coche fuera de las instalaciones de Centauro, responde de los gastos y daños. No digas que no está permitido ni que solo se puede si lo acordó: depende de la oficina. Si no lo acordó al recoger, transfiere a GESTIÓN DE RESERVA con motivo_transferencia otro; con Gestión cerrada, no digas que un compañero lo revisará: dile que Gestión está cerrada y su horario, para que llame entonces.
 
 > **Resuelto el 18/10/2026 (decisión del responsable, C-005 en `docs/decisiones.md`):** vale este texto. El bot nunca dice que no está permitido ni cita la norma de Minibús v25; si no lo acordó al recoger, GESTIÓN DE RESERVA, y con Gestión cerrada, el horario de Gestión (COLA DE GESTIÓN CERRADA). Se añade «No digas que no está permitido ni que solo se puede si lo acordó: depende de la oficina» porque el bot lo inventaba (DEVOL-03c, 0/3 en la ronda 4; «solo si lo acordó», DEVOL-03a en la ronda 5). Debajo, la contradicción original, que queda para negocio solo como lista de oficinas.
 >
@@ -302,7 +302,7 @@ Reembolso del combustible en dos pagos: a veces el sistema lo devuelve en dos pa
 
 > Solo en Minibús v25. Equipo (09/10, 11 llamadas). Con la fianza ya resuelta, cambiar «La fianza tarda hasta diez días» por «hasta diez días hábiles».
 
-Reclamar un cargo (una penalización, un aparcamiento, un peaje que no reconoce): puede reclamarlo con el formulario de centauro punto net, en el apartado "Atención al cliente y reclamaciones". Tú no puedes revisar cargos concretos. Si insiste en que alguien lo mire ahora, transfiere a GESTIÓN DE RESERVA con motivo_transferencia otro.
+Reclamar un cargo (una penalización, un aparcamiento, un peaje que no reconoce): puede reclamarlo con el formulario de centauro punto net, en el apartado "Atención al cliente y reclamaciones". Tú no puedes revisar cargos concretos. Con Gestión cerrada, dile también en ese turno que Gestión está cerrada y que atiende de lunes a viernes de ocho de la mañana a nueve de la noche, salvo festivos. Si insiste en que alguien lo mire ahora, transfiere a GESTIÓN DE RESERVA con motivo_transferencia otro.
 
 > Equipo (16/10): un cargo de limpieza se reclama igual, por el formulario.
 

@@ -23,10 +23,12 @@ crearon por API en la Tarea 10 (persistent_id = ID de nodo en la v2).
 
 ## 2. pista_correo (nueva)
 
+> Tarea 16 (20/10/2026, ronda de arreglos): la última frase de la descripción pide enviar con el nombre y la fecha ya dados (PISTA-04, 0/3 en la pasada).
+
 - Hijos: MCP Call «Identificar al cliente (consultar_reserva)» → Python «Pista del correo» (`pista-correo.md`).
 - `message` tipo `ai`: el de `enviar_correo_contrasena` («Un momento, lo compruebo.»).
 
-**Descripción:** Comprueba con el número de reserva, el nombre completo y la fecha de nacimiento del titular si la reserva es suya y, si lo es, devuelve SOLO el dominio del correo de su alquiler (por ejemplo gmail.com), para que el cliente recuerde con qué correo está y te lo dicte. Úsala solo cuando el cliente no sabe con qué correo está su alquiler y te ha dicho los tres datos. MÁXIMO DOS LLAMADAS POR CONVERSACIÓN. Devuelve resultado: verificado (con el dominio, si consta), no_verificado (no digas qué dato falla), dato_no_interpretado (pide el dato que indica detalle) o no_disponible (plan B). Nunca devuelve el correo completo ni otro dato de la reserva; tú no digas nada más que el dominio. Después, el correo se envía con enviar_correo_contrasena.
+**Descripción:** Comprueba con el número de reserva, el nombre completo y la fecha de nacimiento del titular si la reserva es suya y, si lo es, devuelve SOLO el dominio del correo de su alquiler (por ejemplo gmail.com), para que el cliente recuerde con qué correo está y te lo dicte. Úsala solo cuando el cliente no sabe con qué correo está su alquiler y te ha dicho los tres datos. MÁXIMO DOS LLAMADAS POR CONVERSACIÓN. Devuelve resultado: verificado (con el dominio, si consta), no_verificado (no digas qué dato falla), dato_no_interpretado (pide el dato que indica detalle) o no_disponible (plan B). Nunca devuelve el correo completo ni otro dato de la reserva; tú no digas nada más que el dominio. Después, en cuanto el cliente te confirme el correo, ejecuta enviar_correo_contrasena con ese correo y con el nombre completo y la fecha de nacimiento que ya te dio para esta herramienta: no se los vuelvas a pedir.
 
 **Parámetros (los tres obligatorios):**
 - `numero_reserva` (ejemplo `ER00000000`): Número de reserva tal como lo dicta el cliente, con letras y cifras, en mayúsculas y sin espacios ni guiones: 'e erre, uno dos tres...' -> 'ER123...'. Si lo corrigió, usa su versión. Nunca lo inventes ni lo completes: si no te lo ha dicho entero, pídeselo antes.

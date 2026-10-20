@@ -16,6 +16,23 @@ Plantilla:
 
 ---
 
+## D-015 · 2026-10-20 · Ronda de arreglos de la pasada completa (Tarea 16)
+- **Qué:** una ronda por módulo tras la pasada completa de evals (R45, paso 4). Triaje: sin cambios. Punto de
+  encuentro: regla de orden en la descripción de `consultas_alquiler`, la frase de la devolución en el aeropuerto y
+  «Solo eso…» en el falso punto de Sevilla. Información de oficina: «Di esa pregunta tal cual…». Prolongación y
+  Consultas, fuera del prompt (están a 21.994/22.000 y 7.988/8.000): cinco párrafos del bloque
+  `comun/bloques/consultas-alquiler.md` (oficina cerrada, vuelo retrasado, otra oficina, reclamar un cargo con Gestión
+  cerrada y contrato vencido), con el código de `buscar_respuesta` regenerado y pegado en los dos nodos, y la
+  descripción de `pista_correo` (enviar sin volver a pedir el nombre ni la fecha).
+- **Por qué:** fallos de la pasada (HOR-C1, CARGO-04, DEVOL-03c, FDS-02, DEVOL-02, TARDE-05, PISTA-04; PE-NOCT-3,
+  PE-EST-2). Medido repitiendo solo las tocadas ×3: arreglan HOR-C1 (1/3 → 3/3), CARGO-04 (2/3 → 3/3) y PE-EST-2
+  (0/3 → 3/3); mejoran poco TARDE-05 y DEVOL-03c (0/3 → 1/3); no cambian FDS-02, DEVOL-02, PISTA-04 ni PE-NOCT-3;
+  empeora DEVOL-03a (2/3 → 0/3) y quizá PE-NOCT-1 (3/3 → 1/3). Detalle en `informes/evals-v2.md` («Tarea 16»).
+- **Afecta a:** v2 (nodos «Buscar respuesta» de Consultas y Prolongación, herramienta `pista_correo`, prompts de Punto
+  de encuentro e Información de oficina). El bloque de consultas es común: cualquier bot que lo use recibe el cambio.
+- **Quién:** el agente de la Tarea 16, dentro del límite de una ronda por módulo (R45).
+- **Estado:** aplicada en v2. Pendiente decidir si se deshace el cambio de «Con la oficina cerrada» (DEVOL-03a).
+
 ## D-014 · 2026-10-20 · `estado_oficina` con la hora del momento y aviso de transferencia según la cola (R45)
 - **Qué:** los dos Importantes de la revisión de la Tarea 15b, hechos al empezar la Tarea 16.
   1. **`estado_oficina`** calcula con la hora del momento en que se ejecuta (como «Preparar transferencia», D-004), no

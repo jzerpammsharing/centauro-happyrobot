@@ -1267,3 +1267,152 @@ Por debajo de 3/3 (motivo del juez):
 - **R34-T1** 0/3 en B4: el Triaje dice «Le paso con un compañero de asistencia» (lo esperado sin el cambio).
 - HOR-C1, HOR-01, GC-P1, GC-C1, VIRT-T2 y VIRT-C2: 3/3 en todas las rondas en que se pasaron.
 
+
+
+## Tarea 16 · Pasada completa de evals (20/10/2026, martes)
+
+Versión v2 (`01a14f1d-0387-…`), 285 evals de los cinco nodos, cada una ×3. Horas de Madrid (UTC+2). Antes, los dos
+arreglos de la revisión de la 15b (D-014): `estado_oficina` con la hora del momento y `HORA_PRUEBA`, y el aviso de
+transferencia según la cola. Las críticas tienen que dar 3/3 y el resto de cada nodo, el 90 % o más (puerta 0).
+
+### Cuándo se pasó cada bloque (la hora importa)
+
+| Bloque | Hora | Qué | Gestión por el reloj |
+|---|---|---|---|
+| PE-NOCT / PE-EST | 06:28 | Evals de `estado_oficina` con `HORA_PRUEBA` | cerrada (no influye: llevan la hora de prueba) |
+| A | 06:32–06:36 | Punto de encuentro, Información de oficina y las que no transfieren del Triaje | cerrada |
+| B1 | 06:39–06:42 | Resto que no transfiere de Prolongación y Consultas | cerrada |
+| Ronda PE/IO | 06:50–06:51 | Arreglos de Punto de encuentro e Información de oficina | cerrada |
+| B2 | 08:02–08:16 | Todas las que llegan a `transfer_to_human_agent` (Triaje, Prolongación y Consultas) | abierta |
+| Ronda Prolongación/Consultas | 08:29–08:30 | Arreglos de Prolongación y Consultas | abierta |
+
+Dependen de la hora real, y por eso B2 se pasó después de las 8:00:
+- Las que transfieren: «Preparar transferencia» usa el reloj; antes de las 8:00 devuelve `modo_virtual` o
+  `gestion_cerrada` aunque la eval ponga Gestión abierta. Las de Punto de encuentro e Información de oficina no
+  dependen: su transferencia cuelga del Transfer heredado de la v25.
+- Las del Triaje que saltan a Punto de encuentro no llevan `HORA_PRUEBA`: lo que dice el módulo después del salto
+  depende del reloj (el juez no lo valora).
+- T13-SCO (`set_custom_output`) solo vale fuera de horario.
+- Las de Gestión cerrada no dependen: la ponen con la variable `gestion_abierta` de la eval.
+
+### Resultado final por nodo y carpeta (últimas tres ejecuciones de cada eval)
+
+| Nodo | Carpeta | Críticas | Resto |
+|---|---|---|---|
+| Consultas | Bot único · Consultas | 11/15 | 14/15 |
+| Consultas | Bot único · Saltos | 3/3 | 27/27 |
+| Consultas | Consultas · de la v25 (adaptadas) | 6/6 | 21/21 |
+| Consultas | Devolver antes u otra oficina | 4/9 | 4/6 |
+| Consultas | Fianza, combustible y cargos | 3/3 | 15/15 |
+| Consultas | Recoger tarde y oficinas | 3/3 | 11/12 |
+| Consultas | Requisitos y durante el alquiler | 12/12 | 21/21 |
+| Consultas | Reserva no iniciada | 3/3 | 17/18 |
+| Consultas | — | 9/12 | 5/6 |
+| Información de oficina | Bot único · Información de oficina | 2/3 | — |
+| Información de oficina | Bot único · Saltos | 3/3 | 21/21 |
+| Información de oficina | Información de oficina · de la v25 (adaptadas) | 6/6 | 43/45 |
+| Prolongación | Aseguradora y empresa | 3/3 | 14/15 |
+| Prolongación | Bot único · Prolongación | 12/12 | 15/18 |
+| Prolongación | Bot único · Saltos | — | 18/18 |
+| Prolongación | Casos aprendidos y bordes | 3/3 | 19/24 |
+| Prolongación | Cierre | — | 9/9 |
+| Prolongación | Correo de contraseña (v12) | 9/9 | 51/54 |
+| Prolongación | Devolver tarde y precio | — | 13/18 |
+| Prolongación | Escalado y transferencias | 15/15 | 12/12 |
+| Prolongación | Horario y fin de semana (HOR, FDS) | 34/36 | — |
+| Prolongación | Idiomas | — | 15/15 |
+| Prolongación | La web no le deja | 3/3 | 29/30 |
+| Prolongación | Prolongación base | — | 17/24 |
+| Prolongación | Prolongación · de la v25 (adaptadas) | — | 9/9 |
+| Prolongación | — | 3/3 | — |
+| Punto de encuentro | Bot único · Punto de encuentro | 6/6 | 16/24 |
+| Punto de encuentro | Bot único · Saltos | — | 20/21 |
+| Punto de encuentro | Punto de encuentro · de la v25 (adaptadas) | 12/12 | 44/51 |
+| Punto de encuentro | — | — | 6/6 |
+| Triaje | Bot único · Saltos | — | 3/3 |
+| Triaje | Bot único · Triaje | 20/21 | 24/24 |
+| Triaje | Triaje · de la v25 (adaptadas) | — | 70/72 |
+
+| Nodo | Evals | Críticas | Resto | Puerta 0 |
+|---|---|---|---|---|
+| Triaje | 40 | 20/21 | 97/99 (98,0 %) | no: VIRT-T1 2/3 |
+| Punto de encuentro | 40 | 18/18 | 86/102 (84,3 %) | no: resto < 90 % |
+| Información de oficina | 26 | 11/12 | 64/66 (97,0 %) | no: GC-IO1 2/3 |
+| Prolongación | 110 | 82/84 | 221/246 (89,8 %) | no: FDS-05 y FDS-06 2/3; resto < 90 % |
+| Consultas | 69 | 54/66 | 135/141 (95,7 %) | no: cinco críticas |
+
+«—» en la carpeta: evals creadas sin carpeta (R34-*, SALTO-*, T13-SCO, PE-NOCT-4 y 5). Antes de la ronda,
+Prolongación tenía críticas 80/84 y resto 220/246 (89,4 %) y Consultas 55/66 y 134/141 (95,0 %).
+
+### Por debajo de 3/3 (motivo del juez)
+
+Críticas:
+- **VIRT-T1** (Triaje) 2/3: en una no dice que no hay compañeros ni que vuelva a llamar a partir de las ocho.
+- **GC-IO1** (Información de oficina) 2/3: llama a `consultas_alquiler` con el tema `devolucion` en vez de `prolongar`.
+- **FDS-05** (Prolongación) 2/3: «a colleague can confirm it» (promete pasarle). **FDS-06** 2/3: no dice que ahora no
+  hay ningún compañero porque Gestión está cerrada.
+- **DEVOL-03a** (Consultas) 0/3 (2/3 en la pasada): dice que solo se puede si lo acordó, ofrece que lo mire un
+  compañero y no da el aviso de gastos y daños.
+- **DEVOL-03c** (Consultas, Gestión cerrada) 1/3 (0/3 en la pasada): sigue sin el aviso de gastos y daños.
+- **FDS-02** (Consultas) 0/3: no llama a `buscar_respuesta`; habla de las doce horas y pide el aeropuerto en vez de
+  explicar el servicio de espera por vuelo retrasado.
+- **TEL-C1** (Consultas) 0/3: dice que el teléfono de España sirve para Portugal (el número de Portugal está quitado
+  hasta que negocio lo valide, C-005).
+- **GC-C1** (Consultas) 2/3: da el horario y el área de cliente sin decir que Gestión está cerrada ahora.
+
+Resto (las de 0/3 y 1/3; las de 2/3 son una ejecución suelta):
+- Punto de encuentro: **PE-NOCT-3** y **PE-NOCT-3b** 0/3 (con la oficina cerrada pregunta en vez de llamar a
+  `consultas_alquiler`, o llama antes del aviso de cierre); **ADV-8** 0/3 (llama a las dos herramientas en paralelo);
+  **PE-NOCT-1** 1/3 (tres frases o una pregunta de más); **ES · horario Málaga** 1/3 (ofrece WhatsApp con la variable a
+  false). 2/3: SALTO-ENTRADA-PE (WhatsApp), v18 blanco o amarillo, v18 Sevilla.
+- Información de oficina: **ES · horario Madrid ambiguo** 1/3 (enumera las oficinas de Madrid al preguntar).
+- Prolongación: **PISTA-04** 0/3 (tras `pista_correo` vuelve a pedir el nombre o la fecha en vez de enviar);
+  **PROL-05** 0/3 (aclara el correo pero vuelve a preguntar si siguen, sin los pasos); **PROL-06** 0/3 (vuelve a
+  preguntar por la cuenta); **TARDE-02** 0/3 («sí, puede ser correcto» sobre el importe); **TARDE-05** 1/3 (sin «no se
+  prorroga solo» ni los cincuenta euros); **BORDE-02** 1/3 (dos preguntas a la vez); **BORDE-04** 1/3 (Guardia Civil:
+  vuelve al Triaje en vez de pasar a Gestión); **CORREO-21** 1/3 (tras el error repite el envío y transfiere). 2/3:
+  ASEG-04, BORDE-07, CORREO-03, PROL-08, WEB-03.
+- Consultas: **DEVOL-02** 1/3 (omite el recargo según el trayecto). 2/3: BR-04, NOINI-05, NOINI-08, RECOG-03.
+- Triaje: 2/3 «ES · diurno · Madrid» (error del juez: valora el texto tras el salto) y «VIRTUAL · vuelo retrasado».
+
+### Comprobaciones pedidas
+
+- `set_custom_output` de la Tarea 13: **T13-SCO 3/3** (fuera de horario).
+- **IDO-1** reescrita: 3/3.
+- **PE-NOCT-3** con la regla de orden en la descripción de `consultas_alquiler` de Punto de encuentro (ronda PE/IO):
+  sigue 0/3, y PE-NOCT-3b también 0/3. El cambio arregló PE-EST-2 (0/3 → 3/3) y quizá bajó PE-NOCT-1 (3/3 → 1/3).
+- Otro aeropuerto de la LISTA 1 con la oficina cerrada: **PE-NOCT-4 (Sevilla) 3/3** y **PE-NOCT-5 (Alicante 23:15)
+  3/3**.
+
+### Ronda de arreglos (una por módulo)
+
+- **Triaje** (8.222/9.000): sin cambios; VIRT-T1 2/3 es el precedente de D-013 (cualquier cambio del aviso le hace
+  transferir más).
+- **Punto de encuentro e Información de oficina** (sin máximo): la regla de orden en la descripción de
+  `consultas_alquiler` de PE; en el prompt de PE, la frase de la devolución en el aeropuerto y «Solo eso…» en el falso
+  punto de Sevilla; en Información de oficina, «Di esa pregunta tal cual…». Repetidas solo las tocadas (06:50–06:51).
+- **Prolongación** (21.994/22.000, sin sitio en el prompt) y **Consultas** (7.988/8.000): los arreglos van fuera del
+  prompt, en lo que no cuenta para el límite.
+  - Bloque `comun/bloques/consultas-alquiler.md` (código de `buscar_respuesta`, regenerado, 152/152, y pegado en los
+    dos nodos): oficina cerrada («Dile siempre» el aviso de gastos y daños; con Gestión cerrada, sin «un compañero lo
+    revisará»), vuelo retrasado (explicar el servicio aunque pregunte el horario, sin pedir el aeropuerto), otra
+    oficina (las tres cosas), reclamar un cargo con Gestión cerrada (decir que está cerrada y su horario) y contrato
+    vencido («dilo entero, con la cifra»).
+  - Descripción de `pista_correo`: enviar con el nombre y la fecha ya dados, sin volver a pedirlos.
+  - Repetidas solo las tocadas, ×3 (08:29–08:30): HOR-C1 1/3 → **3/3**; CARGO-04 2/3 → **3/3**; TARDE-05 0/3 → 1/3;
+    DEVOL-03c 0/3 → 1/3; DEVOL-02 1/3 → 1/3; FDS-02 0/3 → 0/3; PISTA-04 0/3 → 0/3; **DEVOL-03a 2/3 → 0/3**; controles
+    DEVOL-03b 3/3 y RECOG-02 3/3.
+
+### Bloqueos de la puerta 0 (lo que sigue fallando)
+
+| Bloqueo | Nodo | Motivo |
+|---|---|---|
+| VIRT-T1 2/3 | Triaje | modelo (con el aviso neutro empeora, D-013) |
+| GC-IO1 2/3 | Información de oficina | modelo (elige el tema `devolucion`) |
+| Resto 84,3 % | Punto de encuentro | modelo: PE-NOCT-3 y 3b (orden), ADV-8 (llamadas en paralelo), WhatsApp con la variable a false, PE-NOCT-1 (longitud); prompt o modelo: Madrid ambiguo |
+| FDS-05 y FDS-06 2/3 | Prolongación | modelo (una ejecución promete pasarle o no dice que Gestión está cerrada) |
+| Resto 89,8 % | Prolongación | límite: el prompt está a 21.994/22.000 y no admite reglas nuevas; modelo: PISTA-04, PROL-05, PROL-06, TARDE-02 (el prompt ya lo dice) |
+| DEVOL-03a 0/3 y DEVOL-03c 1/3 | Consultas | prompt (la ronda empeoró DEVOL-03a) y modelo (no da el aviso de gastos y daños aunque la sección diga «siempre») |
+| FDS-02 0/3 | Consultas | modelo (no busca la sección: contesta de memoria) |
+| TEL-C1 0/3 | Consultas | negocio (C-005: sin teléfono de Portugal validado) y modelo |
+| GC-C1 2/3 | Consultas | modelo |

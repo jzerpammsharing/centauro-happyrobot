@@ -224,6 +224,10 @@ El aviso de `transfer_to_human_agent` de Prolongación y Consultas depende de la
 puede no salir; con `asistencia`, el de siempre); lleva `gestion_abierta` y `modo_virtual`. Copias en
 `estado-oficina.md`, `herramientas-punto-de-encuentro.md`, `herramientas-prolongacion.md` y `herramientas-consultas.md`.
 
+**Tarea 16, pasada completa y ronda de arreglos (20/10/2026, D-015):** 285 evals ×3; la puerta 0 sigue pendiente
+(bloqueos en `informes/evals-v2.md`). Cambiados en la v2: los dos nodos «Buscar respuesta» (código regenerado del
+bloque de consultas), la descripción de `pista_correo` y los prompts de Punto de encuentro e Información de oficina.
+
 ### Cuidado al editar por API (duplicado)
 
 - **El markdown que devuelve `get_node_details` en un prompt del duplicado conserva los `group_id` antiguos de
