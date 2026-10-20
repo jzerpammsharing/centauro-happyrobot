@@ -316,26 +316,9 @@ Punto de encuentro e Información de oficina con el bloque de reglas comunes (pr
 caracteres; modelos sin cambios). Detalle en el registro de progreso (`docs/planes/2026-10-18-bot-unico-progreso.md`, «Task 11»),
 `prompts/atencion-es/v2/punto-de-encuentro.md`, `informacion-de-oficina.md` y sus `herramientas-*.md`.
 
-- [x] **Transferencia de los dos módulos a medio hacer (bloqueante antes de cualquier llamada de prueba).** **Cerrado
-      el 20/10/2026 (R35):** el responsable borró en el editor los dos Transfer de la v25 y la cadena «Preparar
-      transferencia» → «¿Transferir?» → «Initiate customer connection» se creó por API en los dos módulos, con el
-      `message` de D-014 y el extract leyendo las cadenas nuevas; `test_node` de los dos Python y evals (33/33 a las
-      15:25–15:27) en `informes/evals-v2.md`, «Tarea R35». Lo que sigue es el texto original: Las dos
-      `transfer_to_human_agent` ya tienen los parámetros nuevos (`cola`, `motivo_transferencia`, `resumen_para_agente`)
-      y la descripción que empieza por «Gestión ahora: [gestion_abierta]», pero siguen colgando del Transfer de la v25
-      (`01a14f1d-0396-7961-…` en Punto de encuentro y `01a14f1d-0396-788f-…` en Información de oficina), cuyo
-      `number` lee el parámetro de la extensión que ya no existe y cuyo `fallback_number` es la cola de Minibús: en
-      una llamada, **cualquier transferencia de estos módulos iría a Minibús y sin la red de seguridad de Gestión
-      cerrada ni del modo virtual; también una avería, que iría a la cola Minibús y no a Asistencia**. R35: el
-      responsable no ha autorizado borrar los Transfer. El 19/10 a las 11:15 el sistema de permisos rechazó borrar esos dos Transfer
-      (son hojas). Falta, con permiso de la persona o en el editor: borrar los dos Transfer y crear en cada herramienta
-      Python «Preparar transferencia» (código de `codigo/preparar_transferencia.py`, `cola` =
-      `{{00435498-eccf-4110-9cf1-eb17821af3ed.cola}}` / `{{62c5b6dd-5dde-4b3a-9a93-adb638c0bd66.cola}}` y las cuatro
-      `cola_*`) → Paths «¿Transferir?» → «Transferir» (`transferir` es true) → Transfer con `number` y
-      `fallback_number` = `numero`, whisper «Llamada del asistente de atención.» + `resumen_para_agente` de la herramienta +
-      `telefono_dictado` (spec §5.8; el Transfer viejo dice «Llamada del asistente de minibús.») y
-      `outside_agent_transfer: false`, como en Prolongación. Después, repetir las evals de transferencia y GC-PE1,
-      GC-IO1 y VIRT-PE1.
+- [x] **Transferencia de Punto de encuentro e Información de oficina (R35, cerrado el 20/10/2026):** el responsable
+      borró en el editor los Transfer de la v25 y la cadena «Preparar transferencia» → «¿Transferir?» → «Initiate
+      customer connection» se creó por API en los dos módulos (`informes/evals-v2.md`, «Tarea R35»).
 - [ ] **ADV-7 (crítica, 0/3 en las rondas 16 y 17):** con una queja del minibús y una pregunta de prolongar en el mismo
       turno, ejecuta `consultas_alquiler` antes de transferir a minibus, también con la regla «la queja va primero».
       Para la Tarea 16: probar a ponerlo en SI "EL BUS TARDA DEMASIADO" o en la descripción de `consultas_alquiler` de
@@ -479,12 +462,9 @@ caracteres; modelos sin cambios). Detalle en el registro de progreso (`docs/plan
 - [ ] **`invento_condicion` no existe en §5.12:** los inventos de las evals (REQ-03, DEVOL-01 y FDS-03, «esté atento al
       correo») se siguen con `invento_informacion`, que los cita como ejemplos. Si se quiere separar «condición
       inventada» de otros inventos, añadir el campo al spec antes.
-- [x] **Punto de encuentro e Información de oficina** (cerrado el 20/10/2026, R35: el extract lee ya el `resultado` de
-      sus «Preparar transferencia» y el `transfer_succeeded` de sus Transfer nuevos, y `hubo_transferencia` e
-      `intento_gestion_cerrada` ya no los tratan aparte) siguen con el Transfer de la v25 sin «Preparar transferencia»
-      (R35): el extract lo tiene en cuenta (`hubo_transferencia` = si con `cola` informada; `intento_gestion_cerrada`
-      con `gestion_abierta` false). Cuando se cree su cadena, añadir al extract el `resultado` de sus «Preparar
-      transferencia» y el `transfer_succeeded` de sus Transfer nuevos.
+- [x] **Extract y Punto de encuentro / Información de oficina (R35, cerrado el 20/10/2026):** el extract lee el
+      `resultado` de sus «Preparar transferencia» y el `transfer_succeeded` de sus Transfer nuevos, sin excepción para
+      esos dos módulos (D-010).
 - [x] **`medir_bots.py` y la rutina** deben leer los nombres y valores de `registrar-resultado.md` (spec §5.12). La cola
       va como `gestion` (no `gestion_reserva` como en la v25 y la v12). Hecho en la Tarea 15: `normalizar_llamadas.py`
       iguala `gestion_reserva` y `gestion` y la rutina lee `motivo_principal`, `saltos` e `intento_gestion_cerrada`.

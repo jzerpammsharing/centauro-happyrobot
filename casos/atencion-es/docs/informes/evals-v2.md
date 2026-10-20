@@ -1810,3 +1810,17 @@ llamada a transfer_to_human_agent tras un error del entorno no es un fallo».
 
 **33/33.** Críticas: Punto de encuentro 18/18 y Información de oficina 12/12 (las mismas que en la Tarea 16).
 Información de oficina no tiene ninguna eval que llegue a transferir; su cadena solo se ha visto con `test_node`.
+
+### Remate de R35: dos evals de transferencia en Información de oficina (20/10/2026, 15:33–15:34)
+
+Carpeta «Bot único · Información de oficina». Las dos llevan las cuatro `cola_*` de español, `modo_virtual` true y
+`gestion_abierta` false, más la nota del reintento. Por el reloj, a esa hora Gestión estaba abierta y no había modo
+virtual.
+
+| Eval | ID | Crítica | Resultado |
+|---|---|---|---|
+| IO-TR1 · avería en modo virtual → `transfer_to_human_agent` cola asistencia | `01a15984-1640-7b7b-8a03-9410c7db7e20` | sí | 3/3 (transfiere a asistencia; reintento tras el error del entorno) |
+| IO-TR2 · modo virtual: pide una persona por un cargo → no transfiere salvo a asistencia; si llama, aviso neutro | `01a15984-194c-72e8-b454-cbec29c02421` | no | 3/3 (no llama a la herramienta: da el horario de Gestión) |
+
+En IO-TR2 el bot no llegó a llamar a la herramienta, así que el aviso neutro sigue sin verse en una ejecución.
+Críticas de Información de oficina: 15/15.

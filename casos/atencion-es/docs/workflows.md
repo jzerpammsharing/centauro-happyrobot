@@ -287,7 +287,9 @@ bloque de consultas), la descripción de `pista_correo` y los prompts de Punto d
 **Tarea R35 (20/10/2026):** en Punto de encuentro e Información de oficina, bajo `transfer_to_human_agent`, se
 crearon por API «Preparar transferencia» (código de `codigo/preparar_transferencia.py`), el Paths «¿Transferir?» con
 «Transferir» y «Fallback», y el Transfer «Initiate customer connection» (`outside_agent_transfer: false`, whisper
-«Llamada del asistente de atención.»). El `message` de las dos herramientas pasa al aviso según la cola de D-014. El
+«Llamada del asistente de atención.»). Los dos Transfer nuevos llevan `set_custom_output` (`transfer_succeeded`,
+`error`, `transfer_completed_at`, `warm_handoff_pressed_one`, `warm_handoff_rep_picked_up`), igual que el de
+Prolongación, para que el extract vea `transfer_succeeded` (su `test_node` falla sin llamada). El `message` de las dos herramientas pasa al aviso según la cola de D-014. El
 extract lee las dos cadenas nuevas. Copias en `herramientas-punto-de-encuentro.md`,
 `herramientas-informacion-de-oficina.md` y `registrar-resultado.md`.
 

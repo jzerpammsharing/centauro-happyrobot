@@ -205,6 +205,9 @@ Plantilla:
 - **Afecta a:** v2.
 - **Quién:** agente (Tarea 13); revisa jzerpa en el PR.
 - **Estado:** aplicada en v2.
+- **Adenda (20/10/2026, Tarea R35):** con la cadena de Punto de encuentro e Información de oficina creada, el punto (3)
+  pierde la excepción de esos dos módulos: `hubo_transferencia` e `intento_gestion_cerrada` salen solo del `resultado` de
+  «Preparar transferencia», y el extract lee el `resultado` y el `transfer_succeeded` de las cinco cadenas.
 
 ## D-009 · 2026-10-19 · Saltos: «a qué hora pasa el minibús» va a Punto de encuentro y evals de salto ajustadas
 - **Qué:** (1) la descripción de `buscar_punto_de_encuentro` de Información de oficina (`01a155d9-5db4-…`, Tarea 12)
