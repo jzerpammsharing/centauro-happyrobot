@@ -4,7 +4,7 @@
 
 - Tipo: Inbound Voice Agent, event_id `0192e5dc-08df-78bf-a549-f43c6bf9f087`. ID de nodo en la v2
   `01a14f1d-0394-725e-8b8f-bdd2b3ee34cc` · persistent_id `300ae88d-ccb2-466c-a914-9f9090363a74`.
-- Padre: condición «Siempre» del Paths «Entrada» (pendiente de quitar a mano). Hijos: prompt «Triaje» y extract
+- Padre: «Resolver colas» (el Paths «Entrada» y su condición «Siempre» se quitaron en el editor el 20/10/2026, R10). Hijos: prompt «Triaje» y extract
   «Registrar resultado de la llamada».
 - Spec §5.11: una sola voz, idiomas es/en/it/pt, fondo de call center, `transcription_context` ampliado y sin horario
   comercial en el nodo (el modo virtual lo decide el prompt y lo asegura «Preparar transferencia», D-004).

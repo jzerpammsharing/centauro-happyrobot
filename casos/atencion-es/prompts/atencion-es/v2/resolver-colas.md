@@ -5,7 +5,7 @@
 - Tipo: action (Python Sandbox), event_id `019dde7b-3500-7a3c-8f5e-1c2d4e6a8b9c`, execution_profile `standard`
 - ID en la v2: `01a14f1d-0394-7f91-abea-664941d88ad0` · persistent_id: `081e2b5d-b260-41a6-bd2a-6f82b26193d1`
   (antes «Resolver colas por idioma»)
-- Padre: «Contexto de la llamada» · Hijo: Paths «Entrada» (pendiente de quitar, ver `docs/pendientes.md`)
+- Padre: «Contexto de la llamada» · Hijo: «Receive Customer Call» (el Paths «Entrada» se quitó en el editor el 20/10/2026, R10)
 - Código: `casos/atencion-es/codigo/resolver_colas.py` tal cual. Ya no hay `cola_fuera_horario*` ni texto en lugar de
   la extensión de Gestión.
 - `test_node` (domingo, Gestión cerrada): las cuatro `cola_*` salen con su URI SIP (también Gestión) y

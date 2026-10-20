@@ -219,9 +219,8 @@ este extract:
 ]
 ```
 
-La rama sigue colgando de «Registrar consultas del alquiler» (`15bf240b-…`), que ya no alimenta nada: moverla bajo
-este extract y borrar después «Registrar consultas del alquiler» lo hace una persona en el editor (R42,
-`docs/pendientes.md`).
+La rama ya cuelga de este extract: el 20/10/2026 el responsable la movió en el editor y borró «Registrar consultas del
+alquiler» (R42, `docs/pendientes.md`).
 
 ## Prueba con `test_node` (19/10/2026, 23:48)
 

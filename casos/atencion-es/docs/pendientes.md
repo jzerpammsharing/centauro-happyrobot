@@ -459,6 +459,23 @@ caracteres; modelos sin cambios). Detalle en el registro de progreso (`docs/plan
 - [x] **`fix_broken_vars` no se ejecutó** (R41), ni en simulación: las variables del extract, de «Preparar WhatsApp
       minibús» y de «Receive Customer Call» se comprobaron una a una con `get_available_variables` (97 referencias del
       extract, 0 rotas).
+- [x] **Avisos de Frontal sobre `var_*` y datos de prueba (20/10/2026):**
+      - «Preparar WhatsApp minibús» (`4bd059bb-…`): la salida de ejemplo guardada no tenía `var_aeropuerto`,
+        `var_indicaciones`, `var_descripcion` ni `var_frecuencia` (el código solo las genera si el punto está en PUNTOS),
+        y «Enviar WhatsApp del punto de encuentro» las daba por inexistentes. Se guardó con `set_custom_output` un ejemplo
+        con las ocho claves del código (`enviar`, `motivo_no_envio`, `telefono`, `punto` y las cuatro `var_*`; punto
+        MAD-T1, móvil inventado +34600000000). No se usó `test_node` con datos fijos para no tocar las entradas del nodo,
+        que siguen siendo `aea14d45-….response.*` y `from_number` del trigger. `get_available_variables` del nodo de envío
+        lista ahora las cuatro `var_*`. Un `test_node` de «Preparar WhatsApp minibús» sin datos fijos vuelve a escribir
+        el ejemplo corto (punto NINGUNO): repetir `set_custom_output` si se hace.
+      - «Registrar resultado de la llamada» (`aea14d45-…`): Frontal decía que usa en staging ids de nodos borrados
+        (`01a14f1d-0396-7b8c-…`, `0392-7afe-…`, `039a-75a0-…`, `37fb8053-…`, `faec6a20-…`, `0396-7961-…`, `0396-788f-…`,
+        `b4439401-…`). `get_node_details` del extract (entrada, prompt, parámetros) no cita ninguno; los de `37fb8053-…` y
+        `faec6a20-…` estaban en versiones antiguas de su configuración, ya corregida. No hay herramienta para ver ni
+        limpiar la configuración de staging por separado, así que no se escribió nada. Tampoco citan esos ids
+        «Receive Customer Call», «Resolver colas», «Contexto de la llamada», «Preparar WhatsApp minibús», «¿Enviar WhatsApp?»
+        ni «Enviar WhatsApp del punto de encuentro». El resto de nodos de la v2 no se ha revisado. Pendiente: que Frontal
+        confirme si el aviso persiste o se limpia en el editor.
 - [ ] **`invento_condicion` no existe en §5.12:** los inventos de las evals (REQ-03, DEVOL-01 y FDS-03, «esté atento al
       correo») se siguen con `invento_informacion`, que los cita como ejemplos. Si se quiere separar «condición
       inventada» de otros inventos, añadir el campo al spec antes.
