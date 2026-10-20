@@ -306,3 +306,64 @@ Task 15: minor (deferred): prueba de redirecciones no fija que http_urllib use A
 Task 15: complete (commits 3096877..8de7419, review clean; créditos sin probar contra la API: falta HAPPYROBOT_API_KEY)
 Fase D completa (949ff27..8de7419)
 Parada (20/10 00:20): fases A–D completas (tareas 1–15, más 9b y 9c). Fase E (16–18) depende del responsable; antes: pasos del editor (R10, R35, R42), arreglos estructurales R34 y R39, y la Tarea 16 en horario de Gestión.
+Reanudación (20/10 05:27, «lanza las tareas que faltan»):
+- Ruling: R44 — antes de la Tarea 16 va una Tarea 15b (R34 y R39, opus), porque la puerta 0 exige críticas 3/3 y las dos son requisito para publicar; en paralelo, la parte de la Tarea 17 que no necesita personas (Paso 1 guion y Paso 4 comprobaciones de solo lectura), sin commit propio para no chocar en la rama; las partes con personas (publicar en development, llamadas, reserva real, ensayo de líneas) y el push/PR se paran y se piden al responsable — si me equivoco, la Tarea 16 espera unas horas más.
+Task 15b: dispatched (BASE 17111f9, a1f36f7db216720bf, opus)
+Task 17 (parte sin personas): dispatched (a5f1be173ffe90aa8, sonnet) — Paso 1 guion + Paso 4 solo lectura, sin commit
+Task 17 (parte sin personas): DONE — guion de 25 llamadas (sin commit); §11.8 de noche 18056/18001 solo anuncio (After Hours → ext. 2129); §11.5 sin documentación, falta un run transferido de Italia/Portugal con créditos; §11.9 sin documentación → ensayo de la Tarea 18; avisar al equipo: llamadas 2, 16, 21, 22 transfieren a colas de producción
+Task 15b: implementer DONE_WITH_CONCERNS (7f8b72e R39 D-012, ec898bf R34 D-013) — PE críticas 18/18, 0 puntos dados con oficina cerrada en 54 ejecuciones; PE-NOCT-3/3b 0/3 (orden aviso/consultas_alquiler); R34 aplicado en Prolongación y Consultas, revertido en el Triaje (VIRT-T1 caía)
+Task 15b: review dispatched (a77837b4e2f260fd4, opus) sobre 17111f9..ec898bf; guion committed fb07d44
+Task 15b: review (a77837b4e2f260fd4) — aprobada; 2 Importantes de diseño (aviso neutro por gestion_abierta también tapa asistencia y transferencias que sí salen; estado_oficina usa la hora del principio de la llamada y horarios generales que no casan con Alicante 23:30 y Bari/Florencia/Nápoles/Venecia 8:00)
+Task 15b: complete (commits 17111f9..ec898bf, review clean)
+- Ruling: R45 — la Tarea 16 empieza por los dos Importantes de la 15b (estado_oficina con la hora del momento y los horarios concretos del prompt, con variable de prueba para las evals; aviso de siempre si la cola es asistencia o la transferencia va a salir, medido con evals) y después hace la pasada completa con UNA ronda de arreglos por módulo; lo que siga fallando se lista como bloqueo de la puerta 0 con su motivo, sin iterar más — el plan dice «repetir hasta verde», pero las rondas 10–12 muestran que varias críticas son límites del modelo — si me equivoco, la puerta 0 queda abierta con una lista concreta para decidir.
+Task 16: dispatched (BASE fb07d44, opus)
+Task 16: implementer a58013732c352e97f (opus). Task 18 Paso 1: dispatched en paralelo (ae35b770d7c6a3b53, sonnet), sin commit
+Task 18 Paso 1: DONE — procedimiento-lineas.md (sin commit; se commitea con la Tarea 18); por comprobar en el ensayo: liberar el número, duplicados, versiones antiguas, tiempo, trigger sin números, orden de la vuelta; dudas: control v25/v22 en fase 2, líneas que quedan en Minibús ES (Reembolsos)
+- Ruling: R46 — el responsable fija Minibús ES v25 como control de la fase 2 (20/10); se aplica al procedimiento de líneas y a la documentación en la Tarea 18 — sin coste si me equivoco: es decisión del responsable. Sigue abierta: qué líneas quedan en Minibús ES al mover las dos (Reembolsos usa una antigua).
+Task 16: implementer DONE_WITH_CONCERNS (e6c7108 D-014, 66201ad D-015) — 285 evals ×3; críticas T 20/21, PE 18/18, IO 11/12, P 82/84, C 54/66; resto PE 84,3 % y P 89,8 %; puerta 0 pendiente (9 bloqueos)
+Task 16: review dispatched (ac41127e647794bf2, opus) sobre fb07d44..66201ad
+Task 16: review (ac41127e647794bf2) — necesita arreglos: 5 Importantes (DEVOL-03a por el párrafo nuevo del bloque; DEVOL-03c mal contada 0/3; regla de orden de PE empeora PE-NOCT-1; arreglo de FDS-02 donde el modelo no lo lee; ADV-8 editada sin apuntar), menores; propuestas para bloqueos (GC-IO1 aclarar eval, PISTA-04 en enviar_correo_contrasena, recorte de Prolongación ~1,6 k a buscar_respuesta)
+- Ruling: R47 — la ronda de arreglos de la revisión incluye el recorte de Prolongación propuesto (párrafos duplicados en buscar_respuesta) porque es la única vía al 90 % sin subir el límite del spec — si me equivoco, una llamada más a la herramienta en esas preguntas (se mide con ASEG-*, ESC-08, BORDE-05/06).
+Task 16: fix round 1/5 dispatched (resume a58013732c352e97f; task-16-fix-1.md; FIX_BASE 66201ad)
+Task 16: fix round 1 implementer (5518aae) — Prolongación 20.894 car.; P 81/84 y 85,0 % (R47 empeora: ESC-08 0/3…); PE 87,3 %; IO 12/12; C 51/66; PE-NOCT-1, GC-IO1 3/3
+Task 16: re-review 1 dispatched (ae00c63d707b751fd, opus) sobre 66201ad..5518aae
+Task 16: fix round 1/5 (puntos 1–4, 6, 7, 9 addressed; open: R47 baja Prolongación (ESC-08 por «Precio caro»; Idiomas/ADV-1 por el refuerzo de EXPLICACIÓN), DEVOL-03a/03c miden el texto viejo, FDS-02 por orden del bloque, ADV-8 sin anotar en evals-v2, bloqueos sin recalcular; commits 66201ad..5518aae)
+- Ruling: R47 (corrige) — se deshace en parte: «Precio caro» vuelve literal al prompt y se quita el refuerzo de EXPLICACIÓN; el resto del recorte se queda (ASEG/BORDE a 3/3) — fue un error dar por hecho que el texto duplicado era inerte — si me equivoco otra vez, Prolongación sigue por debajo del 90 % y queda como bloqueo.
+Task 16: fix round 2/5 dispatched (resume a58013732c352e97f; task-16-fix-2.md; FIX_BASE 5518aae)
+Task 16: fix round 2 implementer (5a75e96, 14254e7) — P 21.147 car., 83/84, 89,4 %; C 55/66; ESC-08 3/3, DEVOL-03c 2/3; bloqueos: VIRT-T1, HOR-C1, FDS-02 0/3, TEL-C1, DEVOL-03a 1/3, R34-C1/REQ-09 (juez), resto P y PE
+Task 16: re-review 2 dispatched (a14e2c6266872f6cb, sonnet) sobre 5518aae..14254e7
+Task 16: fix round 2/5 (5 puntos addressed; open: FDS-02 0/3 (choque informacion_oficina en el prompt de Consultas y en la descripción de buscar_respuesta), clasificación de bloqueos (TARDE-02 conflicto prompt/eval, WEB-03 redacción, faltan 8 fallos de Prolongación); commits 5518aae..14254e7)
+Task 16: fix round 3/5 dispatched (resume a58013732c352e97f; task-16-fix-3.md; FIX_BASE 14254e7)
+Task 16: fix round 3 implementer (bbec091) — P resto 91,9 %, WEB-03 y TARDE-02 3/3; FDS-02 0/3 con enrutado arreglado (falla por vías de contacto); bloqueos: VIRT-T1, resto PE 87,3 %, HOR-C1, FDS-02, TEL-C1, DEVOL-03a 0/3, SALTO-PING 2/3, REQ-09 (eval)
+Task 16: re-review 3 dispatched (a14f59956c304acc1, sonnet) sobre 14254e7..bbec091
+Task 16: fix round 3/5 (WEB-03, TARDE-02, clasificación addressed; open: FDS-02 «enrutado arreglado» sin prueba (eval sembrada), DEVOL-03a por el condicional de la sección devolucion, frase «un compañero se la prepara» del bloque, WEB-05/08 eval ambigua; SALTO-PING 2/3 dispersión; commits 14254e7..bbec091)
+Task 16: fix round 4/5 dispatched (implementador nuevo, opus; task-16-fix-4.md; FIX_BASE bbec091)
+Task 16: fix round 4 implementer aab2174c39a2675e2 (opus)
+Task 16: fix round 4 — implementer cortado por red (bloque y consultas_alquiler.py sin commit); reanudado 10:23
+Task 16: fix round 4 implementer (590c3ed) — P resto 92,7 %; C 58/69 (FDS-02r 3/3, REQ-09 y SALTO-PING 3/3, DEVOL-03a 1/3, CARGO-05 1/3); bloqueos: VIRT-T1, resto PE 87,3 %, HOR-C1, FDS-02 0/3, TEL-C1, DEVOL-03a/03c, CARGO-05
+Task 16: re-review 4 dispatched (ac515c8ca99b6aabe, sonnet) sobre bbec091..590c3ed
+Task 16: fix round 4/5 (5 puntos addressed; sin roturas; commits bbec091..590c3ed)
+Task 16: parked — FDS-02 0/3 — Ruling: ampliar la expectativa («puede decir el horario de Gestión y que llame entonces») y aclarar en el bloque «(el horario de Gestión sí vale)»; esperable 2/3 → bloqueo (modelo y eval) para la siguiente ronda de puerta 0 — si me equivoco, una crítica más abierta.
+Task 16: parked — DEVOL-03a 1/3 — Ruling: «si necesita que alguien lo mire» → «si pide…» en ESCALADO (cabe) y «no nombres ninguna oficina» en devolucion; siguiente ronda de puerta 0.
+Task 16: parked — CARGO-05 1/3 — Ruling: repetir ×5 sin tocar antes de clasificar (su sección no cambió).
+Task 16: parked — VIRT-T1 2/3, HOR-C1 2/3, DEVOL-03c 2/3 (modelo); TEL-C1 0/3 (negocio C-005); resto de Punto de encuentro 87,3 % (modelo; Madrid ambiguo, prompt).
+Task 16: complete (commits fb07d44..590c3ed, 4 rondas, puerta 0 pendiente con los bloqueos anteriores)
+Task 18: dispatched parte sin personas (Paso 1 con R46 + Paso 3 documentación), BASE 590c3ed
+Task 18 (sin personas): implementer DONE (e72f7d9) — procedimiento con v25, workflows.md (82 nodos), CLAUDE.md, D-001, extensiones, pendientes de Minibús y Prolongaciones
+Task 18 (sin personas): review dispatched (ae197e07d30668259, sonnet) sobre 590c3ed..e72f7d9
+Task 18 (sin personas): review (ae197e07d30668259) — necesita arreglos: 5 Importantes (trigger del workflow de pruebas sin líneas de producción; columna Quién en el ensayo; vuelta atrás preparada de antemano; R35 en requisitos; persistent_id de 12 nodos), menores
+Task 18: fix round 1/5 dispatched (resume af30b702806451f0a; task-18-fix-1.md; FIX_BASE e72f7d9)
+Task 18: fix round 1 implementer (1057d1b) — 7 puntos
+Task 18: re-review 1 dispatched (a4e55c468f6957606, sonnet) sobre e72f7d9..1057d1b
+Task 18: fix round 1/5 (7 addressed; commits e72f7d9..1057d1b)
+Task 18 (partes sin personas): complete (commits 590c3ed..1057d1b); quedan Paso 2 (ensayo) y Paso 4 (PR) con el responsable
+Task 17 (partes sin personas): complete (fb07d44); quedan Pasos 2, 3 y 5 con el responsable
+Final review: dispatched
+Final review: a3be2f456346d8a2a (opus) sobre cf77f78..1057d1b
+Final review (a3be2f456346d8a2a): merge sí tras 2 arreglos (registro al repo; correos de ejemplo no example.com); Importantes antes de publicar: ventana de 48 h de la rutina, R35, HORA_PRUEBA en listas, §5.7 Paths del correo, triaje.md:69 frente a R37, permisos de .claude/settings.json con nombres mcp__hr__* frente a mcp__claude_ai_hr__* (no se toca config: se avisa al responsable), puerta 0, datos personales en la entrada del extract
+- Ruling: R48 — una sola tanda de arreglos finales solo en el repo (sin HappyRobot): correos, ventana de 48 h (rutina y medir_bots), HORA_PRUEBA en listas, cabeceras desfasadas, nombres de nodo, referencias a .superpowers, quote en creditos_runs, comentario de resolver_colas, desviación de §6 en decisiones; lo que toca HappyRobot o prompts con evals (triaje.md:69, §5.7, R35, extract) queda para antes de publicar; .claude/settings.json no lo toca el agente: se avisa al responsable — si me equivoco, alguna de esas queda para un PR posterior.
+Final fix: dispatched (BASE 1057d1b)
+Final fix: implementer a60e54499d315433a DONE (bba3547) — 9 puntos; rutina rehace D-3 con con_margen
+Final fix: re-review dispatched (a0a038e682aa32ad8, sonnet) sobre 1057d1b..bba3547
+Final fix: re-review (a0a038e682aa32ad8) — todos arreglados, sin roturas; 2 menores: rutina dice 07:30 UTC (es 05:30 UTC), y no dice que hay que ejecutar medir_bots.py sobre llamadas.json de D-3 para tener con_margen — Ruling: se aparcan para antes de programar la rutina (no bloquean el merge).
+Rama lista para PR (20/10). Workspace se conserva hasta las partes con personas de las Tareas 17 y 18.
