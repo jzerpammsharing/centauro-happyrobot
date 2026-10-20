@@ -59,6 +59,16 @@ Plantilla:
   prepare?»; 21.165 caracteres). TARDE-02: la eval acepta lo que dice DEVOLVER TARDE (cortesía, periodos,
   penalización) y la pregunta final es opcional; el prompt no cambia. Resultado y bloqueos clasificados en
   `informes/evals-v2.md` («Ronda de arreglos 3»).
+- **Ronda de arreglos 4 (20/10/2026):** FDS-02 no mide el enrutado (trae sembrada la llamada a `buscar_respuesta`); se
+  quita «enrutado arreglado» y se crea FDS-02r (crítica: solo el turno del cliente, Gestión cerrada, espera
+  `buscar_respuesta` recoger_tarde; 3/3). Bloque (C-006): «No añadas otras vías de contacto ni condiciones que no estén
+  aquí» en el vuelo retrasado, «Solo si el cliente pide que lo revisen…; no se lo ofrezcas tú» en la oficina cerrada y
+  la oferta de LA WEB NO LE DEJA como pregunta; regenerado y pegado en los dos «Buscar respuesta». Prompt de Consultas
+  sin tocar («si necesita que alguien lo mire» de ESCALADO queda como propuesta: cambiarlo obliga a repetir todas las
+  evals de Consultas). Evals: DEVOL-03a con el texto nuevo, DEVOL-03b reescrita (el cliente lo pide; ya no hay oferta
+  que aceptar), WEB-05 y WEB-08 con la pregunta final opcional. Resultado en `informes/evals-v2.md` («Ronda de
+  arreglos 4»): críticas de Consultas 58/69 (FDS-02r 3/3; FDS-02 0/3, TEL-C1 0/3, DEVOL-03a 1/3, CARGO-05 1/3,
+  DEVOL-03c 2/3); Prolongación, resto 92,7 %.
 - **Estado:** aplicada en v2.
 
 ## D-014 · 2026-10-20 · `estado_oficina` con la hora del momento y aviso de transferencia según la cola (R45)

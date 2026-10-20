@@ -14,6 +14,7 @@
   teléfonos» en su lugar y con «No digas que no está permitido…» en la oficina cerrada). El nodo lo aceptó entero: no hizo falta partir `SECCIONES`
   (spec §11.6).
 - Tarea 16 (20/10/2026): regenerado tras la ronda de arreglos (oficina cerrada, vuelo retrasado, otra oficina, reclamar un cargo con Gestión cerrada y contrato vencido) y pegado en los dos nodos (Consultas `01a14fa1-5c44-…` y Prolongación `01a150c9-6786-…`); la copia subida se comprobó igual al fichero.
+- Tarea 16, ronda de arreglos 4 (20/10/2026): regenerado tras C-006 (vuelo retrasado sin otras vías, oficina cerrada «no se lo ofrezcas tú», oferta de LA WEB NO LE DEJA como pregunta) y pegado en los dos nodos; las dos copias subidas se comprobaron iguales al fichero.
 - La Tarea 10 crea una herramienta igual en Prolongación (mismo código; cambia el persistent_id de la herramienta en
   las entradas).
 

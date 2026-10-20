@@ -40,6 +40,13 @@ Plantilla:
   ofrezcas pasarle: dile que Gestión está cerrada y su horario» (FDS-02). DEVOL-03a y DEVOL-03c se reescribieron con
   este texto (sin «se acuerda al recoger»; aviso de daños opcional en las dos; la 03c con un turno en el que pide que
   se lo miren).
+- **Ronda de arreglos 4 (20/10/2026):** tres frases. En RECOGER TARDE, al final del párrafo del vuelo, «No añadas otras
+  vías de contacto ni condiciones que no estén aquí» (FDS-02 añadía el área de cliente, llamar a reservas o «solo con
+  Gestión abierta»). En la oficina cerrada, «Solo si el cliente pide que lo revisen en su caso, transfiere a GESTIÓN DE
+  RESERVA…; no se lo ofrezcas tú» (DEVOL-03a: el condicional se leía como una oferta). En LA WEB NO LE DEJA, «si
+  prefiere, un compañero se la prepara» pasa a pregunta, «termina con "¿Prefiere que un compañero se la prepare?"»,
+  como el prompt de Prolongación (WEB-03). Resultado: DEVOL-03a 0/3 → 1/3, FDS-02 sigue 0/3, WEB-03/04/05 3/3
+  (`informes/evals-v2.md` del caso, «Ronda de arreglos 4»).
 - **Estado:** aplicada en el bloque y en Atención España v2.
 
 ## C-005 · 2026-10-18 · Bloque de consultas: fuera los teléfonos de asistencia de otros países y la oficina cerrada «depende de la oficina»

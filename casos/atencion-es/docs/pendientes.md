@@ -594,12 +594,13 @@ Arreglos estructurales R39 (Parte A) y R34 (Parte B). Detalle en
 ## Antes de conectar la primera línea (puerta 0, spec §8.4)
 - [ ] Comprobar que la variable del workflow `HORA_PRUEBA` vale `ninguna` en los tres entornos (si no, `estado_oficina`
       usa esa hora en vez del reloj; D-014).
-- [ ] Evals en verde (Tarea 16, 20/10/2026, tras la ronda de arreglos 3: no lo están). Bloqueos, con su motivo, en
-      `informes/evals-v2.md` («Ronda de arreglos 3»): VIRT-T1 2/3 (Triaje, modelo); HOR-C1 2/3 (Prolongación,
-      modelo); en Consultas, FDS-02 0/3 (prompt/descripción, el enrutado ya está arreglado, y modelo), TEL-C1 0/3
-      (negocio, C-005, y modelo), DEVOL-03a 0/3 y SALTO-PING 2/3 (modelo) y REQ-09 2/3 (eval); resto de Punto de
-      encuentro al 87,3 % (modelo). Prolongación ya pasa del 90 % en el resto (91,9 %); sigue con PISTA-04, PROL-05,
-      PROL-06 y CORREO-08 a 0/3 (modelo), IDIOMA-01 y 05, CORREO-03 y BORDE-02 (modelo) y WEB-05 y WEB-08 (eval).
+- [ ] Evals en verde (Tarea 16, 20/10/2026, tras la ronda de arreglos 4: no lo están). Bloqueos, con su motivo, en
+      `informes/evals-v2.md` («Ronda de arreglos 4»): VIRT-T1 2/3 (Triaje, modelo); HOR-C1 2/3 (Prolongación,
+      modelo); en Consultas, FDS-02 0/3 (modelo y eval: añade cuándo llamar o la web; el enrutado lo mide FDS-02r,
+      3/3, porque FDS-02 trae sembrada la llamada a `buscar_respuesta`), TEL-C1 0/3 (negocio, C-005, y modelo),
+      DEVOL-03a 1/3, DEVOL-03c 2/3 y CARGO-05 1/3 (modelo); resto de Punto de encuentro al 87,3 % (modelo; Madrid
+      ambiguo, prompt o modelo). Prolongación pasa del 90 % en el resto (92,7 %); siguen PISTA-04, PROL-05, PROL-06 y
+      CORREO-08 a 0/3, IDIOMA-01 e IDIOMA-05 a 1/3 y CORREO-03 y BORDE-02 a 2/3 (modelo).
 - [ ] Caso «coincide» del correo de contraseña probado con una reserva real (pendiente heredado de la v12).
 - [ ] `pista_correo` probada con una reserva real (verifica y devuelve solo el dominio).
 - [ ] Rutina diaria, artefacto y `scripts/medir_bots.py` funcionando. Hechos y probados con V11 y Minibús ES
