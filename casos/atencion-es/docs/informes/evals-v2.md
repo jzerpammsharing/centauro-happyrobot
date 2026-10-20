@@ -1555,8 +1555,115 @@ se la prepara» sin preguntarlo), IDIOMA-05 1/3; IDIOMA-01 sigue 1/3.
 | VIRT-T1 2/3 | Triaje | modelo |
 | Resto 87,3 % | Punto de encuentro | modelo (PE-NOCT-3 y 3b, ADV-8, WhatsApp con la variable a false); prompt o modelo (Madrid ambiguo) |
 | HOR-C1 2/3 | Prolongación | modelo (una ejecución transfiere con Gestión cerrada) |
-| Resto 89,4 % | Prolongación | modelo: PISTA-04, PROL-05, PROL-06, TARDE-02, CORREO-08, WEB-03 a 0/3 (el prompt ya lo dice) |
-| FDS-02 0/3 | Consultas | modelo (no busca la sección antes de contestar) |
+| Resto 89,4 % | Prolongación | modelo: PISTA-04, PROL-05, PROL-06, CORREO-08 a 0/3 (el prompt ya lo dice); prompt: WEB-03 0/3 (la oferta no era una pregunta); eval: TARDE-02 0/3 (no decía lo mismo que DEVOLVER TARDE); y 8 fallos más: IDIOMA-01 y IDIOMA-05 1/3, WEB-05, WEB-08, CORREO-03 y BORDE-02 2/3 (reclasificado en la ronda 3) |
+| FDS-02 0/3 | Consultas | prompt/descripción (enrutado: «horario» lleva a `informacion_oficina`) y modelo (reclasificado en la ronda 3) |
 | TEL-C1 0/3 | Consultas | negocio (C-005) y modelo |
 | DEVOL-03a 1/3, DEVOL-03c 2/3 | Consultas | modelo (ofrece un compañero sin que lo pida; una vez sin el horario completo) |
 | R34-C1 y REQ-09 2/3 | Consultas | eval (el juez cuenta el reintento tras el error del entorno) |
+
+### Ronda de arreglos 3 (20/10/2026, 09:45–09:49, martes; Gestión abierta por el reloj)
+
+Cambios:
+- **FDS-02 (enrutado).** No hay forma de abrir la transcripción de una ejecución de eval por la API (solo el motivo
+  del juez). En la eval, la conversación ya traía la llamada a `buscar_respuesta` con `recoger_tarde` y un resultado
+  con el texto viejo de la sección (sin «aunque pregunte hasta qué hora abre» ni lo de Gestión cerrada): se cambia
+  ese resultado por el texto actual. En la descripción de `buscar_respuesta` de Consultas, «(informacion_oficina)»
+  pasa a «(informacion_oficina; salvo vuelo o tren retrasado: recoger_tarde, aunque pregunte el horario)». El prompt
+  de Consultas no tiene sitio (7.988/8.000), así que la otra mitad va a la descripción de `informacion_oficina` de
+  Consultas: «No la uses si su vuelo o tren llega tarde: buscar_respuesta recoger_tarde.»
+- **WEB-03 (prompt).** En LA WEB NO LE DEJA, «; si prefiere, un compañero se la prepara.» pasa a «, y termina con
+  "¿Prefiere que un compañero se la prepare?".». Prolongación: 21.147 → 21.165 caracteres. La misma frase sigue,
+  como afirmación, en la sección `la_web_no_le_deja` del bloque común; no se toca en esta ronda.
+- **TARDE-02 (eval).** La respuesta esperada acepta lo que dice DEVOLVER TARDE (no hay cortesía, periodos de
+  veinticuatro horas, tiempo extra más penalización, prolongar antes de la hora); la pregunta final es opcional y la
+  respuesta puede tener dos o tres frases cortas. El prompt no se toca.
+
+Pasadas (3 veces cada una): FDS-02, FDS-03, FDS-08 (en Consultas no hay FDS-01: la FDS-01 es de Prolongación y no
+toca este cambio), las 22 críticas de Consultas, WEB-03 y TARDE-02.
+
+| Eval | Ronda 2 | Ronda 3 | Nota |
+|---|---|---|---|
+| FDS-02 | 0/3 | 0/3 | Enrutado arreglado: 3/3 explican primero el servicio de espera y ninguna llama a `informacion_oficina`. Fallan por lo que añaden: una vez el área de cliente y volver a llamar, una vez «solo se puede comprobar con Gestión abierta», una vez llamar a reservas y añadir el número de vuelo |
+| FDS-03, FDS-08 | 3/3 | 3/3 | |
+| WEB-03 | 0/3 | 3/3 | Pregunta «¿Prefiere que un compañero se la prepare?» |
+| TARDE-02 | 0/3 | 3/3 | |
+| R34-C1, DEVOL-03c | 2/3 | 3/3 | |
+| DEVOL-03a | 1/3 | 0/3 | Dos veces ofrece que alguien revise su caso sin que lo pida; una vez dice que Málaga aeropuerto tiene buzón |
+| SALTO-PING | 3/3 | 2/3 | Una vez llama a `buscar_punto_de_encuentro` en vez de transferir a minibus |
+| REQ-09 | 2/3 | 2/3 | El juez vuelve a contar el reintento tras el error del entorno |
+| TEL-C1 | 0/3 | 0/3 | Da el número de España como si sirviera para Portugal |
+
+Tabla final (últimas tres ejecuciones de cada eval: las de esta ronda para las pasadas y las de la ronda 2 para el
+resto):
+
+| Nodo | Carpeta | Críticas | Resto |
+|---|---|---|---|
+| Consultas | Bot único · Consultas | 12/15 | 14/15 |
+| Consultas | Bot único · Saltos | 2/3 | 27/27 |
+| Consultas | Consultas · de la v25 (adaptadas) | 6/6 | 21/21 |
+| Consultas | Devolver antes u otra oficina | 6/9 | 4/6 |
+| Consultas | Fianza, combustible y cargos | 3/3 | 15/15 |
+| Consultas | Recoger tarde y oficinas | 3/3 | 11/12 |
+| Consultas | Requisitos y durante el alquiler | 11/12 | 21/21 |
+| Consultas | Reserva no iniciada | 3/3 | 17/18 |
+| Consultas | — | 9/12 | 5/6 |
+| Información de oficina | Bot único · Información de oficina | 3/3 | — |
+| Información de oficina | Bot único · Saltos | 3/3 | 21/21 |
+| Información de oficina | Información de oficina · de la v25 (adaptadas) | 6/6 | 43/45 |
+| Prolongación | Aseguradora y empresa | 3/3 | 15/15 |
+| Prolongación | Bot único · Prolongación | 12/12 | 15/18 |
+| Prolongación | Bot único · Saltos | — | 18/18 |
+| Prolongación | Casos aprendidos y bordes | 3/3 | 23/24 |
+| Prolongación | Cierre | — | 9/9 |
+| Prolongación | Correo de contraseña (v12) | 9/9 | 50/54 |
+| Prolongación | Devolver tarde y precio | — | 18/18 |
+| Prolongación | Escalado y transferencias | 15/15 | 12/12 |
+| Prolongación | Horario y fin de semana (HOR, FDS) | 35/36 | — |
+| Prolongación | Idiomas | — | 11/15 |
+| Prolongación | La web no le deja | 3/3 | 28/30 |
+| Prolongación | Prolongación base | — | 18/24 |
+| Prolongación | Prolongación · de la v25 (adaptadas) | — | 9/9 |
+| Prolongación | — | 3/3 | — |
+| Punto de encuentro | Bot único · Punto de encuentro | 6/6 | 19/24 |
+| Punto de encuentro | Bot único · Saltos | — | 20/21 |
+| Punto de encuentro | Punto de encuentro · de la v25 (adaptadas) | 12/12 | 44/51 |
+| Punto de encuentro | — | — | 6/6 |
+| Triaje | Bot único · Saltos | — | 3/3 |
+| Triaje | Bot único · Triaje | 20/21 | 24/24 |
+| Triaje | Triaje · de la v25 (adaptadas) | — | 70/72 |
+
+| Nodo | Críticas | Resto | Ronda 2 |
+|---|---|---|---|
+| Triaje | 20/21 | 97/99 (98,0 %) | igual |
+| Punto de encuentro | 18/18 | 89/102 (87,3 %) | igual |
+| Información de oficina | 12/12 | 64/66 (97,0 %) | igual |
+| Prolongación | 83/84 | 226/246 (91,9 %) | 83/84 y 89,4 % |
+| Consultas | 55/66 | 135/141 (95,7 %) | 55/66 y 95,7 % |
+
+#### Bloqueos de la puerta 0 tras la ronda 3
+
+| Bloqueo | Nodo | Motivo |
+|---|---|---|
+| VIRT-T1 2/3 | Triaje | modelo |
+| Resto 87,3 % | Punto de encuentro | modelo (PE-NOCT-3 y 3b, ADV-8, WhatsApp con la variable a false); prompt o modelo (Madrid ambiguo) |
+| HOR-C1 2/3 | Prolongación | modelo (una ejecución transfiere con Gestión cerrada) |
+| FDS-02 0/3 | Consultas | prompt/descripción (enrutado, arreglado en esta ronda) y modelo (añade vías de contacto que la sección no da) |
+| TEL-C1 0/3 | Consultas | negocio (C-005) y modelo |
+| DEVOL-03a 0/3 | Consultas | modelo (ofrece que alguien lo revise sin que lo pida; una vez inventa el buzón) |
+| SALTO-PING 2/3 | Consultas | modelo (una vez busca el punto de encuentro en vez de transferir) |
+| REQ-09 2/3 | Consultas | eval (el juez cuenta el reintento tras el error del entorno) |
+
+Prolongación ya pasa del 90 % en el resto, pero estos fallos siguen ahí (no bloquean la puerta 0 por el umbral):
+
+| Eval | Resultado | Motivo |
+|---|---|---|
+| PISTA-04, PROL-05, PROL-06, CORREO-08 | 0/3 | modelo (el prompt ya lo dice) |
+| WEB-03 | 3/3 | prompt (arreglado en esta ronda) |
+| TARDE-02 | 3/3 | eval (arreglada en esta ronda) |
+| IDIOMA-01, IDIOMA-05 | 1/3 | modelo (al cambiar de idioma se salta parte de EXPLICACIÓN) |
+| CORREO-03 | 2/3 | modelo (deletrea el correo a medias) |
+| BORDE-02 | 2/3 | modelo (contesta la fianza antes de la prolongación) |
+| WEB-05, WEB-08 | 2/3 | eval (el juez pide una pregunta final que el prompt no exige en ese turno) |
+
+Los 8 fallos de esta última tabla que faltaban en la de la ronda 2 son las ejecuciones fallidas de IDIOMA-01 (2),
+IDIOMA-05 (2), WEB-05, WEB-08, CORREO-03 y BORDE-02 (una cada una).

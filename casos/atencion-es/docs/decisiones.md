@@ -50,6 +50,15 @@ Plantilla:
   Bloque (C-006): oficina cerrada «depende de la oficina» y RECOGER TARDE con el vuelo delante y Gestión cerrada.
   DEVOL-03a y DEVOL-03c reescritas. Prolongación: 21.147 caracteres. Resultado en `informes/evals-v2.md`
   («Ronda de arreglos 2 de la re-revisión»).
+- **Ronda de arreglos 3 (20/10/2026):** FDS-02 era de enrutado («hasta qué hora abre» llevaba a `informacion_oficina`):
+  la descripción de `buscar_respuesta` de Consultas añade «salvo vuelo o tren retrasado: recoger_tarde, aunque
+  pregunte el horario» y, como el prompt de Consultas no tiene sitio (7.988/8.000), la de `informacion_oficina` de
+  Consultas añade «No la uses si su vuelo o tren llega tarde: buscar_respuesta recoger_tarde». En la eval FDS-02 se
+  cambia el resultado de `buscar_respuesta` que traía la conversación (texto viejo de la sección) por el actual.
+  WEB-03: en LA WEB NO LE DEJA de Prolongación, la oferta pasa a pregunta («¿Prefiere que un compañero se la
+  prepare?»; 21.165 caracteres). TARDE-02: la eval acepta lo que dice DEVOLVER TARDE (cortesía, periodos,
+  penalización) y la pregunta final es opcional; el prompt no cambia. Resultado y bloqueos clasificados en
+  `informes/evals-v2.md` («Ronda de arreglos 3»).
 - **Estado:** aplicada en v2.
 
 ## D-014 · 2026-10-20 · `estado_oficina` con la hora del momento y aviso de transferencia según la cola (R45)
