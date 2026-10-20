@@ -224,9 +224,10 @@ Las de contenido:
   iniciadas, así que a quien tiene una reserva que aún no ha empezado (y necesita la contraseña para cambiarla o
   cancelarla) no se le ofrece el envío: se le dan las instrucciones de «¿Has olvidado tu contraseña?» (plan B de
   la v12) y no se le transfiere por ese motivo. **Decisión mía.**
-- **`estado_oficina(aeropuerto)`** (Punto de encuentro; añadida el 20/10, D-012): Python que cruza el aeropuerto con
-  las `nocturno_*` de «Contexto de la llamada» y devuelve `oficina_cerrada` y la hora de apertura. Sustituye a las
-  listas nocturnas del prompt: el modelo no las cruzaba de forma fiable (R39).
+- **`estado_oficina(aeropuerto)`** (Punto de encuentro; añadida el 20/10, D-012): Python que reconoce el aeropuerto
+  y devuelve `oficina_cerrada` y la hora de apertura. Sustituye a las listas nocturnas del prompt: el modelo no las
+  cruzaba de forma fiable (R39). Desde D-014 calcula con la hora del momento en que se ejecuta y el horario concreto
+  de cada oficina (el del prompt); la variable de pruebas `HORA_PRUEBA` manda sobre el reloj en las evals.
 - **`pista_correo(numero_reserva, nombre_completo, fecha_nacimiento)`** (nueva): para identificar por número de
   reserva, como en Reembolsos, al cliente que no sabe con qué correo está su alquiler. MCP `consultar_reserva`
   con el número → Python que devuelve al agente solo `verificado` y, si verifica, el **dominio** del correo
@@ -253,9 +254,10 @@ Las de contenido:
      `resultado: gestion_cerrada` y el horario. Puede quedar una frase incómoda («le paso…» y después «ahora no
      está disponible»), que es mejor que dejar al cliente en la locución. Las evals miden que el modelo no lo
      intente. Cómo cortar la cadena sin transferir se comprueba al construir (§11).
-     **Aviso (D-013, R34):** el aviso de la herramienta (`message` tipo `ai`) lo escribe el modelo al llamarla, antes
-     del resultado. En Prolongación y Consultas, con Gestión cerrada (que incluye el modo virtual) el aviso es neutro
-     («Un momento, por favor, no cuelgue»), sin «le paso»; con Gestión abierta, el de siempre. El Triaje sigue con el
+     **Aviso (D-013 y D-014, R34 y R45):** el aviso de la herramienta (`message` tipo `ai`) lo escribe el modelo al
+     llamarla, antes del resultado. En Prolongación y Consultas depende de la cola: neutro («Un momento, por favor, no
+     cuelgue»), sin «le paso», solo si la transferencia puede no salir (`gestion` con Gestión cerrada, o una cola que
+     no sea `asistencia` en modo virtual); en los demás casos, y siempre con `asistencia`, el de siempre. El Triaje sigue con el
      de siempre (el cambio hizo que transfiriera en modo virtual). Que el cliente oiga exactamente ese texto se
      comprueba en la llamada de la Tarea 17.
 - **Modo virtual, también en dos capas (D-004):** de 22:00 a 8:00, hora peninsular, solo se transfiere a

@@ -540,15 +540,15 @@ Arreglos estructurales R39 (Parte A) y R34 (Parte B). Detalle en
       aceptar en la eval el aviso dicho por Consultas tras el salto (el cliente lo oye igual).
 - [ ] **PE-NOCT-1, 2/3 en la ronda A3:** en una usa tres frases (regla de voz). Dispersión.
 - [ ] **VIRT-PE1 (crítica), 2/3 en la ronda A1 y 3/3 en la A2:** en una dio el horario de gestión sin que lo pidiera.
-- [ ] **Datos de horario que no casan (no se inventa nada; lo decide negocio):** las `nocturno_*` cierran todas las
+- [x] **Datos de horario que no casan** (hecho en la Tarea 16, D-014: `estado_oficina` usa el horario concreto de cada oficina que dice el prompt; antes: las `nocturno_*` cierran todas las
       oficinas de 23:00 a 07:00 (Murcia de 22:00 a 08:00), pero el prompt dice que Alicante cierra a las once y media
       y que Bari, Florencia, Nápoles y Venecia abren a las ocho. Entre las 07:00 y las 08:00 de esos cuatro, el bot da
       el punto con la oficina aún cerrada; entre las 23:00 y las 23:30 de Alicante, dice que ha cerrado. Es lo mismo
-      que hacía la v25. Si se quiere afinar, `estado_oficina.py` puede calcular con la hora local y su propio horario.
-- [ ] **La hora es la del principio de la llamada** (las `nocturno_*`), como en la v25: una llamada que empieza a
+      que hacía la v25. Si se quiere afinar, `estado_oficina.py` puede calcular con la hora local y su propio horario.)
+- [x] **La hora es la del principio de la llamada** (hecho en la Tarea 16, D-014: ahora la del momento en que se ejecuta la herramienta, con `HORA_PRUEBA` para las evals; antes, las `nocturno_*`, como en la v25): una llamada que empieza a
       las 22:58 y pide el punto a las 23:02 lo recibe. Si importa, pasar a calcularlo con el reloj (el código ya lo
       hace cuando la variable no llega).
-- [ ] **R34: aviso «le paso» antes de saber si se transfiere (D-013).** Hecho en Prolongación y Consultas: con
+- [x] **R34: aviso «le paso» antes de saber si se transfiere (D-013; regla sustituida por D-014 en la Tarea 16: el aviso depende de la cola, y con `asistencia` es el de siempre; R34-P1/C1 pasan a medir la avería de noche con el aviso de siempre y R34-T1 el aviso de siempre del Triaje).** Hecho en Prolongación y Consultas: con
       Gestión cerrada (y en modo virtual) el aviso es «Un momento, por favor, no cuelgue»; con Gestión abierta, el de
       siempre (R34-P1 3/3, R34-C1 2/3, R34-P2 3/3). **Queda abierto:**
   - Triaje: el aviso neutro hizo que VIRT-T1 transfiriera en modo virtual (1/3, y 0/6 tras la única vuelta); se

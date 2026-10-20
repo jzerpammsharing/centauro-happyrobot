@@ -81,7 +81,8 @@ Inbound Call (sin líneas)
 
 Variable del workflow: `OPCION_PRUEBA` (id `01a14f5f-012a-7715-b762-8f7d4acf1724`), `ninguna` en los tres entornos
 (HappyRobot no admite valores vacíos); con `prolongacion` en *development* una llamada web entra por la línea de
-Prolongación.
+Prolongación. `HORA_PRUEBA` (id `01a15787-36ac-782d-9f54-1353c934de58`, Tarea 16, D-014), `ninguna` en los tres
+entornos: solo la lee «Estado de la oficina»; las evals la ponen a `HH:MM` para no depender del reloj.
 
 La cadena objetivo del plan (Paso 5 de la Tarea 6) es Inbound Call → Contexto de la llamada → Resolver colas →
 Receive Customer Call. **Hoy en la v2 queda «Entrada» + «Siempre» entre «Resolver colas» y «Receive Customer
@@ -216,6 +217,12 @@ pasa a 36.026 caracteres (36.382 antes). Copias en `punto-de-encuentro.md`, `her
 (`01a150ca-b67d-…`) y de Consultas (`01a14f1d-0399-7dbf-…`), la descripción del `message` `ai` pide un aviso neutro con
 Gestión cerrada. La del Triaje (`01a14f1d-0397-721d-…`) se probó y se dejó como estaba. Copias en
 `herramientas-prolongacion.md`, `herramientas-consultas.md` y `herramientas-triaje.md`.
+
+**Tarea 16, arreglos previos (20/10/2026, R45, D-014):** «Estado de la oficina» calcula con la hora del momento y el
+horario concreto de cada oficina; sus entradas son `aeropuerto` y `hora_prueba` (`{{use_case_variables.HORA_PRUEBA}}`).
+El aviso de `transfer_to_human_agent` de Prolongación y Consultas depende de la cola (neutro solo si la transferencia
+puede no salir; con `asistencia`, el de siempre); lleva `gestion_abierta` y `modo_virtual`. Copias en
+`estado-oficina.md`, `herramientas-punto-de-encuentro.md`, `herramientas-prolongacion.md` y `herramientas-consultas.md`.
 
 ### Cuidado al editar por API (duplicado)
 

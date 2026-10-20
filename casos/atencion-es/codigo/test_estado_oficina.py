@@ -96,65 +96,86 @@ for dicho, zona in (("Milán", "cet"), ("Roma", "cet"), ("Creta", "eet"), ("Cerd
 for dicho in ("", None, "Zaragoza", "Ámsterdam", "la estación de tren"):
     comprobar("desconocido %r" % dicho, identificar(dicho), (None, None, None))
 
-# 3. Con los valores de «Contexto de la llamada» (lo normal en una llamada y en las evals)
+# 3. Producción: manda el reloj del momento en que se ejecuta la herramienta, nunca las nocturno_* del principio de
+#    la llamada (R45). Las nocturno_* ya no son entradas: si llegan, no cuentan.
 caso = estado(entrada("Valencia", **NOCHE), MARTES_10_00)
-comprobar("Valencia de noche", (caso["oficina_cerrada"], caso["aeropuerto"], caso["reconocido"]),
-          (True, "Valencia", True))
+comprobar("Valencia 10:00 con nocturno_* true: manda el reloj", (caso["oficina_cerrada"], caso["fuente"]),
+          (False, "reloj"))
+caso = estado(entrada("Valencia", **DIA), MARTES_05_30)
+comprobar("Valencia 05:30 con nocturno_* false: manda el reloj", (caso["oficina_cerrada"], caso["fuente"]),
+          (True, "reloj"))
 comprobar("Valencia de noche: apertura", caso["hora_apertura"], "siete de la mañana, hora local")
 comprobar("Valencia de noche: instrucción de cierre", "no des el punto de encuentro" in caso["instruccion"], True)
 # El vuelo retrasado lo lleva el prompt (PRIMERO): nombrarlo aquí hacía que el bot preguntara por retrasos (ronda A2)
 comprobar("Valencia de noche: sin hablar de retrasos", "retras" in caso["instruccion"], False)
-caso = estado(entrada("Valencia", **DIA), MARTES_05_30)  # el reloj dice noche, pero manda el contexto
+caso = estado(entrada("Valencia"), MARTES_10_00)
 comprobar("Valencia de día", caso["oficina_cerrada"], False)
 comprobar("Valencia de día: instrucción", "QUÉ HACER AHORA" in caso["instruccion"], True)
-comprobar("Valencia de día: fuente", caso["fuente"], "contexto")
 comprobar("Valencia de día: queja", "EL BUS TARDA DEMASIADO" in caso["instruccion"], True)
 
-# Cada aeropuerto lee solo el valor de su lista
-SOLO = {
-    "cet": dict(DIA, nocturno_cet="true"), "wet": dict(DIA, nocturno_wet="true"),
-    "eet": dict(DIA, nocturno_eet="true"), "murcia": dict(DIA, nocturno_murcia="true"),
-}
-for zona_activa, valores in SOLO.items():
-    for zona, nombres in LISTAS_V2.items():
-        for nombre in nombres:
-            comprobar("%s con solo %s cerrado" % (nombre, zona_activa),
-                      estado(entrada(nombre, **valores), MARTES_10_00)["oficina_cerrada"], zona == zona_activa)
+# Valores de hora_prueba que no son una hora (producción: la variable del workflow vale «ninguna»): el reloj
+for valor in (None, "", "ninguna", "{{use_case_variables.HORA_PRUEBA}}", "25:00", "23", "mañana"):
+    caso = estado(entrada("Valencia", hora_prueba=valor), MARTES_05_30)
+    comprobar("hora_prueba %r → reloj" % (valor,), (caso["oficina_cerrada"], caso["fuente"]), (True, "reloj"))
 
-comprobar("Murcia abre a las ocho", estado(entrada("Murcia", **NOCHE))["hora_apertura"],
+# 4. Horario concreto de cada oficina (hora local del aeropuerto), el mismo que dice el prompt en HORARIO Y
+#    DEVOLUCIÓN EN AEROPUERTOS: de 7:00 a 23:00, salvo Murcia (8:00–22:00), Alicante (7:00–23:30) y Bari, Florencia,
+#    Nápoles y Venecia (8:00–23:00). Martes 20/10/2026, horario de verano.
+def a_utc_madrid(hh, mm):
+    return datetime(2026, 10, 20, hh, mm, tzinfo=UTC) - timedelta(hours=2)
+
+for hh, mm, nombre, cerrado in (
+        (6, 59, "Valencia", True), (7, 0, "Valencia", False), (22, 59, "Valencia", False), (23, 0, "Valencia", True),
+        (23, 15, "Alicante", False), (23, 29, "Alicante", False), (23, 30, "Alicante", True), (6, 59, "Alicante", True),
+        (7, 30, "Bari", True), (7, 30, "Florencia", True), (7, 30, "Nápoles", True), (7, 30, "Venecia", True),
+        (8, 0, "Bari", False), (22, 59, "Venecia", False), (23, 0, "Nápoles", True),
+        (7, 30, "Murcia", True), (8, 0, "Murcia", False), (21, 59, "Murcia", False), (22, 0, "Murcia", True),
+        (23, 30, "Lisboa", False),    # 22:30 en Lisboa
+        (0, 30, "Lisboa", True),      # 23:30 en Lisboa
+        (7, 30, "Lisboa", True),      # 06:30 en Lisboa
+        (8, 0, "Lisboa", False),      # 07:00 en Lisboa
+        (22, 30, "Atenas", True),     # 23:30 en Atenas
+        (6, 30, "Atenas", False),     # 07:30 en Atenas
+        (5, 59, "Atenas", True),      # 06:59 en Atenas
+        (23, 15, "Zaragoza", True),   # desconocido: horario general de la LISTA 1
+        (10, 0, "Zaragoza", False)):
+    caso = estado(entrada(nombre), a_utc_madrid(hh, mm))
+    comprobar("reloj %s %02d:%02d Madrid" % (nombre, hh, mm), (caso["oficina_cerrada"], caso["fuente"]),
+              (cerrado, "reloj"))
+
+# La herramienta no se contradice: si dice que está cerrada con hora_apertura «ocho», a las 7:30 no puede estar abierta
+for nombre in ABREN_A_LAS_OCHO:
+    caso = estado(entrada(nombre), a_utc_madrid(7, 30))
+    comprobar("%s 07:30: cerrada y abre a las ocho" % nombre, (caso["oficina_cerrada"], caso["hora_apertura"]),
+              (True, "ocho de la mañana, hora local"))
+
+comprobar("Nápoles abre a las ocho", estado(entrada("Naples"), MARTES_05_30)["hora_apertura"],
           "ocho de la mañana, hora local")
-comprobar("Nápoles abre a las ocho", estado(entrada("Naples", **NOCHE))["hora_apertura"],
-          "ocho de la mañana, hora local")
-comprobar("Atenas abre a las siete", estado(entrada("Athens", **NOCHE))["hora_apertura"],
+comprobar("Atenas abre a las siete", estado(entrada("Athens"), MARTES_05_30)["hora_apertura"],
           "siete de la mañana, hora local")
-
-# Formatos en que pueden llegar los booleanos desde las variables
-for valor, cerrado in (("true", True), ("True", True), (True, True), ("1", True), (" TRUE ", True),
-                       ("false", False), ("False", False), (False, False), ("0", False)):
-    comprobar("valor %r" % (valor,), estado(entrada("Sevilla", nocturno_cet=valor), MARTES_10_00)["oficina_cerrada"],
-              cerrado)
-
-# 4. Aeropuerto desconocido: el valor de la LISTA 1 (regla del prompt), sin inventar la hora de apertura
-caso = estado(entrada("Zaragoza", **dict(DIA, nocturno_cet="true")), MARTES_10_00)
+caso = estado(entrada("Zaragoza"), MARTES_05_30)
 comprobar("desconocido: LISTA 1", (caso["oficina_cerrada"], caso["reconocido"], caso["aeropuerto"]),
           (True, False, "Zaragoza"))
 comprobar("desconocido: apertura genérica", caso["hora_apertura"], "siete de la mañana, hora local")
-caso = estado(entrada("Zaragoza", **DIA), MARTES_10_00)
-comprobar("desconocido de día", caso["oficina_cerrada"], False)
-comprobar("sin aeropuerto", estado(entrada("", **NOCHE), MARTES_10_00)["oficina_cerrada"], True)
+comprobar("sin aeropuerto de noche", estado(entrada(""), MARTES_05_30)["oficina_cerrada"], True)
 
-# 5. Sin valor del contexto (variable sin resolver o vacía): el reloj, con las mismas franjas que contexto_llamada.py
-SIN_VALOR = {"nocturno_cet": "", "nocturno_wet": "{{e51cd732.nocturno_wet}}", "nocturno_eet": None}
-for ahora, nombre, cerrado in (
-        (MARTES_05_30, "Valencia", True), (MARTES_05_30, "Lisboa", True), (MARTES_05_30, "Atenas", True),
-        (MARTES_06_30, "Atenas", False), (MARTES_07_30, "Murcia", True), (MARTES_07_30, "Valencia", False),
-        (MARTES_10_00, "Murcia", False), (MARTES_22_30, "Murcia", True), (MARTES_22_30, "Madrid", False),
-        (MARTES_22_30, "Atenas", True), (MARTES_23_30, "Madrid", True), (MARTES_23_30, "Lisboa", False)):
-    caso = estado(entrada(nombre, **SIN_VALOR), ahora)
-    comprobar("reloj %s %s" % (nombre, ahora.strftime("%H:%M UTC")), (caso["oficina_cerrada"], caso["fuente"]),
-              (cerrado, "reloj"))
+# 5. Variable de prueba hora_prueba (HH:MM, hora peninsular; la variable del workflow HORA_PRUEBA): manda sobre el
+#    reloj, para que las evals no dependan de la hora a la que se ejecutan.
+for hora, nombre, cerrado in (
+        ("23:15", "Valencia", True), ("23:15", "Alicante", False), ("23:45", "Alicante", True),
+        ("10:00", "Valencia", False), ("7:30", "Bari", True), ("08:30", "Venecia", False),
+        ("22:30", "Atenas", True), ("23:30", "Lisboa", False), ("21:30", "Murcia", False), ("22:15", "Murcia", True),
+        ("02:00", "Madrid", True), (" 23:15 ", "Valencia", True)):
+    for ahora in (MARTES_10_00, MARTES_23_30):
+        caso = estado(entrada(nombre, hora_prueba=hora), ahora)
+        comprobar("hora_prueba %s %s (reloj %s)" % (hora, nombre, ahora.strftime("%H:%M UTC")),
+                  (caso["oficina_cerrada"], caso["fuente"]), (cerrado, "prueba"))
+# hora_prueba también manda sobre las nocturno_* si alguien las pasa
+comprobar("hora_prueba sobre nocturno_*",
+          estado(entrada("Valencia", hora_prueba="10:00", **NOCHE), MARTES_05_30)["oficina_cerrada"], False)
 
-# El reloj da lo mismo que contexto_llamada.py en cada cuarto de hora de una semana con cambio de hora
+# El reloj da lo mismo que contexto_llamada.py en los aeropuertos con el horario general (y Murcia) en cada cuarto de
+# hora de una semana con cambio de hora
 t = datetime(2026, 10, 22, 0, 0, tzinfo=UTC)
 distintos = []
 for _ in range(7 * 96):
@@ -182,7 +203,7 @@ for nodo in ast.walk(ast.parse(codigo)):
     elif isinstance(nodo, ast.ImportFrom):
         importados.add((nodo.module or "").split(".")[0])
 comprobar("imports", sorted(importados - {"datetime", "unicodedata", "re"}), [])
-espacio = {"input_data": entrada("Valencia", **NOCHE)}
+espacio = {"input_data": entrada("Valencia", hora_prueba="23:15")}
 exec(compile(codigo, RUTA_NODO, "exec"), espacio)
 comprobar("ejecución como nodo", espacio.get("output", {}).get("oficina_cerrada"), True)
 

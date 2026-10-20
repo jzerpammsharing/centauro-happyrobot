@@ -1,33 +1,33 @@
 # ===============================================================
-# ESTADO DE LA OFICINA - bot único de Atención España (R39, Tarea 15b)
+# ESTADO DE LA OFICINA - bot único de Atención España (R39, Tarea 15b; hora del momento, Tarea 16, R45)
 # ---------------------------------------------------------------
 # Se pega tal cual en el nodo Python «Estado de la oficina», hijo de la herramienta estado_oficina de Punto de
 # encuentro. Sustituye a las LISTAS 1 a 4 del prompt: el modelo ya no cruza el aeropuerto con las listas, recibe el
 # dato resuelto.
 #
 # Entradas (input_data):
-#   aeropuerto            el nombre que dice el modelo (argumento de la herramienta), en cualquier idioma
-#   nocturno_cet, nocturno_wet, nocturno_eet, nocturno_murcia
-#                         las salidas de «Contexto de la llamada» (si la oficina de aeropuerto de esa zona ya ha
-#                         cerrado al empezar la llamada)
+#   aeropuerto    el nombre que dice el modelo (argumento de la herramienta), en cualquier idioma
+#   hora_prueba   la variable del workflow HORA_PRUEBA: «ninguna» en producción; en las evals, una hora peninsular
+#                 «HH:MM» que manda sobre el reloj (así la eval no depende de la hora a la que se ejecuta)
 #
 # Salidas: aeropuerto (nombre de la tabla o, si no se reconoce, el que llegó), reconocido (bool), oficina_cerrada
-# (bool), hora_apertura (en palabras), instruccion (para el agente) y fuente (contexto | reloj).
+# (bool), hora_apertura (en palabras), instruccion (para el agente) y fuente (reloj | prueba).
 #
-# - Cada aeropuerto lee el valor de su zona, como en las LISTAS de la v2: cet (España peninsular, Baleares e
-#   Italia), wet (Portugal y Canarias), eet (Grecia) y murcia (Murcia cierra de 22:00 a 08:00).
-# - Aeropuerto desconocido: el valor de cet (la regla «si no está en ninguna lista, usa la LISTA 1»).
-# - Hora de apertura: la del prompt (las siete de la mañana, hora local; Murcia, Bari, Florencia, Nápoles y Venecia,
-#   las ocho).
-# - Si el valor del contexto no llega o no es un booleano (variable sin resolver), se calcula con el reloj, con las
-#   mismas franjas que contexto_llamada.py. Las funciones de hora son copia de contexto_llamada.py (un nodo no puede
-#   importar otro fichero): si cambian allí, cambian aquí. La prueba lo comprueba.
+# - La hora es la del momento en que se ejecuta la herramienta (mismo criterio que «Preparar transferencia»), no la
+#   del principio de la llamada: una llamada que empieza a las 22:55 y pregunta a las 23:05 ya oye que ha cerrado.
+# - Horario de cada oficina en hora local del aeropuerto, el mismo que dice el prompt (HORARIO Y DEVOLUCIÓN EN
+#   AEROPUERTOS): de 7:00 a 23:00, salvo Murcia (8:00–22:00), Alicante (7:00–23:30) y Bari, Florencia, Nápoles y
+#   Venecia (8:00–23:00). Hora local: cet (España peninsular, Baleares e Italia; también Murcia), wet (Portugal y
+#   Canarias) y eet (Grecia).
+# - Aeropuerto desconocido: horario general en hora peninsular (la regla «si no está en ninguna lista, usa la LISTA 1»).
+# - Las funciones de hora son copia de contexto_llamada.py (un nodo no puede importar otro fichero): si cambian allí,
+#   cambian aquí. La prueba comprueba que, con el horario general, dan lo mismo que las nocturno_* de allí.
 # ===============================================================
 import re
 import unicodedata
 from datetime import datetime, timedelta, timezone
 
-# Aeropuerto (nombre del prompt) -> (zona, hora de apertura)
+# Aeropuerto (nombre del prompt) -> (zona, hora de apertura). Cierre: CIERRE o, si no está, CIERRE_GENERAL
 AEROPUERTOS = {
     # LISTA 1 (cet)
     "Madrid": ("cet", 7), "Barcelona": ("cet", 7), "Bilbao": ("cet", 7), "Ibiza": ("cet", 7),
@@ -90,6 +90,10 @@ GENERICOS = {
     "canarias": ("Canarias", "wet", 7), "canary": ("Canarias", "wet", 7),
 }
 
+# Hora de cierre en minutos desde medianoche (hora local del aeropuerto)
+CIERRE_GENERAL = 23 * 60
+CIERRE = {"Murcia": 22 * 60, "Alicante": 23 * 60 + 30}
+
 APERTURA_TEXTO = {7: "siete de la mañana, hora local", 8: "ocho de la mañana, hora local"}
 
 INSTRUCCION_CERRADA = (
@@ -105,14 +109,6 @@ INSTRUCCION_ABIERTA = (
 # ---------------------------------------------------------------
 # Copia de contexto_llamada.py (mantener igual)
 # ---------------------------------------------------------------
-# Oficina de aeropuerto cerrada: de 23:00 a 07:00 (hora local del aeropuerto).
-NOCHE_INICIO = 23
-NOCHE_FIN = 7
-
-# Murcia cierra antes: de 22:00 a 08:00 (hora peninsular)
-MURCIA_INICIO = 22
-MURCIA_FIN = 8
-
 # Desfase base respecto a UTC en horario de invierno
 BASE = {
     "wet": 0,  # Portugal y Madeira
@@ -155,11 +151,6 @@ def hora_local(ahora_utc, base):
     return t.astimezone(timezone(timedelta(hours=desfase)))
 
 
-def es_nocturno(hora):
-    # Ventana que cruza medianoche
-    return hora >= NOCHE_INICIO or hora < NOCHE_FIN
-
-
 # ---------------------------------------------------------------
 # Aeropuerto y estado
 # ---------------------------------------------------------------
@@ -187,23 +178,28 @@ def identificar(aeropuerto):
     return None, None, None
 
 
-def _booleano(valor):
-    """True o False si el valor es un booleano reconocible; None si no (vacío o variable sin resolver)."""
-    if isinstance(valor, bool):
-        return valor
-    texto = str(valor if valor is not None else "").strip().lower()
-    if texto in ("true", "1"):
-        return True
-    if texto in ("false", "0"):
-        return False
-    return None
+def _hora_prueba(valor):
+    """(horas, minutos) si el valor es una hora «HH:MM» válida; None si no (vacío, «ninguna» o sin resolver)."""
+    m = re.fullmatch(r"\s*(\d{1,2}):(\d{2})\s*", str(valor if valor is not None else ""))
+    if not m:
+        return None
+    horas, minutos = int(m.group(1)), int(m.group(2))
+    if horas > 23 or minutos > 59:
+        return None
+    return horas, minutos
 
 
-def cerrada_por_reloj(zona, ahora_utc):
-    if zona == "murcia":
-        hora = hora_local(ahora_utc, BASE["cet"]).hour
-        return hora >= MURCIA_INICIO or hora < MURCIA_FIN
-    return es_nocturno(hora_local(ahora_utc, BASE[zona]).hour)
+def momento_prueba(hora, ahora_utc):
+    """El instante UTC de la hora peninsular `hora` (horas, minutos) en el día peninsular de `ahora_utc`."""
+    madrid = hora_local(ahora_utc, BASE["cet"])
+    local = madrid.replace(hour=hora[0], minute=hora[1], second=0, microsecond=0)
+    return local.astimezone(timezone.utc)
+
+
+def cerrada_en(nombre, zona, apertura, ahora_utc):
+    local = hora_local(ahora_utc, BASE["cet" if zona == "murcia" else zona])
+    minuto = local.hour * 60 + local.minute
+    return not (apertura * 60 <= minuto < CIERRE.get(nombre, CIERRE_GENERAL))
 
 
 def estado(input_data, ahora_utc=None):
@@ -213,11 +209,13 @@ def estado(input_data, ahora_utc=None):
     if not reconocido:
         nombre, zona, apertura = dicho, "cet", 7
 
-    cerrada = _booleano(input_data.get("nocturno_" + zona))
-    fuente = "contexto"
-    if cerrada is None:
-        cerrada = cerrada_por_reloj(zona, _en_utc(ahora_utc or datetime.now(timezone.utc)))
-        fuente = "reloj"
+    ahora = _en_utc(ahora_utc or datetime.now(timezone.utc))
+    prueba = _hora_prueba(input_data.get("hora_prueba"))
+    fuente = "reloj"
+    if prueba is not None:
+        ahora = momento_prueba(prueba, ahora)
+        fuente = "prueba"
+    cerrada = cerrada_en(nombre, zona, apertura, ahora)
 
     texto_apertura = APERTURA_TEXTO[apertura]
     return {

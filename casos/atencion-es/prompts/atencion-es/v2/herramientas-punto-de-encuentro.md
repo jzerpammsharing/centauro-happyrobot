@@ -41,7 +41,9 @@ Las herramientas del prompt «Punto de encuentro» (`a80fca22-b295-41e3-a735-a3c
 ## 3. estado_oficina (nueva, Tarea 15b, R39)
 
 - Hijo: Python «Estado de la oficina» (código `codigo/estado_oficina.py`; copia de la configuración en
-  `estado-oficina.md`). Sustituye a las LISTAS 1 a 4 del prompt: el código cruza el aeropuerto con las `nocturno_*`.
+  `estado-oficina.md`). Sustituye a las LISTAS 1 a 4 del prompt. Desde la Tarea 16 (R45, D-014) calcula con la hora
+  del momento en que se ejecuta y el horario concreto de cada oficina (antes, con las `nocturno_*` del principio de la
+  llamada); la variable del workflow `HORA_PRUEBA` manda sobre el reloj en las evals.
 - `message`: `{"type": "none"}`.
 - Descripción: Dice si la oficina de Centauro del aeropuerto ya ha cerrado por hoy y a qué hora abre. Si lo que pide el cliente tiene que ver con el minibús o el punto de encuentro, ejecútala en cuanto sepas el aeropuerto, sin decir nada antes: antes de preguntar la terminal o la puerta, de dar el punto o de transferir, y antes de cualquier otra herramienta, también si se queja del minibús. Vuelve a ejecutarla si cambia el aeropuerto. Si devuelve oficina_cerrada true, sigue PRIMERO: solo el aviso de cierre con hora_apertura, sin punto de encuentro.
 - `aeropuerto` (obligatorio): El aeropuerto del cliente, tal como lo tienes (por ejemplo «Valencia», «Madrid», «Atenas», «Milán-Malpensa»). Sin terminal ni datos personales.

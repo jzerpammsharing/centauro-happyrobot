@@ -16,6 +16,33 @@ Plantilla:
 
 ---
 
+## D-014 · 2026-10-20 · `estado_oficina` con la hora del momento y aviso de transferencia según la cola (R45)
+- **Qué:** los dos Importantes de la revisión de la Tarea 15b, hechos al empezar la Tarea 16.
+  1. **`estado_oficina`** calcula con la hora del momento en que se ejecuta (como «Preparar transferencia», D-004), no
+     con las `nocturno_*` del principio de la llamada, y con el horario concreto de cada oficina que ya dice el prompt
+     (hora local: de 7:00 a 23:00; Murcia de 8:00 a 22:00; Alicante de 7:00 a 23:30; Bari, Florencia, Nápoles y Venecia
+     de 8:00 a 23:00). Nueva variable del workflow `HORA_PRUEBA` (`ninguna` en los tres entornos): si una eval la pone
+     a `HH:MM` (hora peninsular), manda sobre el reloj. Las `nocturno_*` dejan de ser entradas del nodo.
+  2. **Aviso de `transfer_to_human_agent` en Prolongación y Consultas:** sustituye la regla de D-013 («Gestión ahora
+     false → neutro»). Ahora el aviso depende de la cola: neutro («Un momento, por favor, no cuelgue») solo si la
+     transferencia puede no salir (cola `gestion` con Gestión cerrada, o una cola que no sea `asistencia` en modo
+     virtual); en los demás casos, y siempre con `asistencia`, el de siempre («le paso con un compañero…, no
+     cuelgue»). La descripción lleva las variables `gestion_abierta` y `modo_virtual`. El Triaje sigue con el de
+     siempre (no cambia: con el aviso neutro VIRT-T1 transfería más, D-013).
+- **Por qué:** con las `nocturno_*` una llamada que empieza a las 22:58 y pide el punto a las 23:02 lo recibía, y la
+  herramienta se contradecía con el prompt (Bari a las 7:30 «abierta» y «abre a las ocho»; Alicante «cerrada» a las
+  23:15). Con D-013, una avería de noche oía «un momento» aunque la cola de asistencia funciona siempre.
+  Medido (20/10/2026): pruebas locales 239/239 (`test_estado_oficina.py`, con RED previo de 38 fallos); PE-NOCT-1, 2,
+  3c, 4 (Sevilla, control nuevo) y 5 (Alicante 23:15, control nuevo) 3/3; PE-EST-1 y 3 3/3; con `HORA_PRUEBA` 10:00,
+  SALTO-ENTRADA-PE dio el punto a las 06:28 (por el reloj, cerrada). Aviso: RED R34-P1 0/3 y R34-C1 2/3 (avería de
+  noche, esperando el aviso de siempre); GREEN R34-P1 3/3, R34-C1 2/3 (la que falla, por el reintento, error del juez),
+  R34-P2 3/3, R34-T1 3/3 y las nuevas R34-P3 y R34-C3 (Gestión cerrada, pide que alguien mire su reserva: sin «le
+  paso») 3/3. Detalle en `informes/evals-v2.md` («Tarea 16»).
+- **Afecta a:** v2 (nodo «Estado de la oficina» y las `transfer_to_human_agent` de Prolongación y Consultas; variable
+  `HORA_PRUEBA`). Sustituye la regla del aviso de D-013 y la decisión «las `nocturno_*` del principio» de D-012.
+- **Quién:** el controlador de la construcción (R45), a propuesta de la revisión de la Tarea 15b.
+- **Estado:** aplicada en v2 (Tarea 16).
+
 ## D-013 · 2026-10-20 · Aviso de transferencia neutro con Gestión cerrada (R34), en Prolongación y Consultas
 - **Qué:** la descripción del `message` tipo `ai` de `transfer_to_human_agent` de Prolongación y de Consultas empieza
   por «Gestión ahora: [gestion_abierta]». Si es false (también en modo virtual), el aviso es neutro, «Un momento, por
