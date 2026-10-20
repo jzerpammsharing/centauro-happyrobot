@@ -145,7 +145,7 @@ El de la v25, con dos cambios:
 | Módulo | Qué hace | Modelo | Tamaño objetivo | Sale de |
 |---|---|---|---|---|
 | **Triaje** | Primer módulo. Saluda (mensaje inicial), averigua el motivo en uno o dos turnos y encamina. No responde preguntas de contenido | gpt-4.1-fast | ≤ 9.000 caracteres | Triaje de la v25, sin las listas nocturnas de aeropuertos (pasan a Punto de encuentro) |
-| **Punto de encuentro** | Punto de encuentro, horario nocturno de los aeropuertos, quejas del minibús, WhatsApp | gpt-4.1-fast | ~36.000 + listas nocturnas | v25 |
+| **Punto de encuentro** | Punto de encuentro, horario nocturno de los aeropuertos (el cierre lo resuelve el código: `estado_oficina`, D-012), quejas del minibús, WhatsApp | gpt-4.1-fast | ~36.000 | v25 |
 | **Información de oficina** | Horario, cómo llegar y dónde devolver | gpt-4.1 | ~36.000 | v25 |
 | **Prolongación** | Explicación, cuenta, correo de contraseña, pasos, «la web no le deja», devolver tarde, aseguradora y empresa | gpt-5.4 (el único módulo que razona: identificación, resultados del MCP, imprevistos) | ≤ 22.000 | v12, sin las consultas frecuentes |
 | **Consultas del alquiler** | El resto de dudas del alquiler, con `buscar_respuesta` | gpt-4.1; las evals deciden frente a gpt-5.4 (§7.3) | ≤ 8.000 + la sección consultada | Nodo «Prolongación y consultas» de la v25 reconvertido (conserva sus Module Change) |
@@ -209,7 +209,7 @@ contesta a lo último que ha pedido el cliente».
 | Módulo | Herramientas |
 |---|---|
 | Triaje | `buscar_punto_de_encuentro`, `informacion_oficina`, `prolongar_alquiler`, `consultas_alquiler`, `transfer_to_human_agent` |
-| Punto de encuentro | `consultas_alquiler`, `informacion_oficina`, `volver_al_triaje`, `transfer_to_human_agent` |
+| Punto de encuentro | `estado_oficina` (D-012), `consultas_alquiler`, `informacion_oficina`, `volver_al_triaje`, `transfer_to_human_agent` |
 | Información de oficina | `consultas_alquiler`, `buscar_punto_de_encuentro`, `volver_al_triaje`, `transfer_to_human_agent` |
 | Prolongación | `enviar_correo_contrasena`, `pista_correo`, `buscar_respuesta`, `informacion_oficina`, `volver_al_triaje`, `transfer_to_human_agent` |
 | Consultas del alquiler | `buscar_respuesta`, `prolongar_alquiler`, `informacion_oficina`, `buscar_punto_de_encuentro`, `volver_al_triaje`, `transfer_to_human_agent` |
@@ -224,6 +224,9 @@ Las de contenido:
   iniciadas, así que a quien tiene una reserva que aún no ha empezado (y necesita la contraseña para cambiarla o
   cancelarla) no se le ofrece el envío: se le dan las instrucciones de «¿Has olvidado tu contraseña?» (plan B de
   la v12) y no se le transfiere por ese motivo. **Decisión mía.**
+- **`estado_oficina(aeropuerto)`** (Punto de encuentro; añadida el 20/10, D-012): Python que cruza el aeropuerto con
+  las `nocturno_*` de «Contexto de la llamada» y devuelve `oficina_cerrada` y la hora de apertura. Sustituye a las
+  listas nocturnas del prompt: el modelo no las cruzaba de forma fiable (R39).
 - **`pista_correo(numero_reserva, nombre_completo, fecha_nacimiento)`** (nueva): para identificar por número de
   reserva, como en Reembolsos, al cliente que no sabe con qué correo está su alquiler. MCP `consultar_reserva`
   con el número → Python que devuelve al agente solo `verificado` y, si verifica, el **dominio** del correo

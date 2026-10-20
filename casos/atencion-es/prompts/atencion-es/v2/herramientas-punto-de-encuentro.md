@@ -38,10 +38,19 @@ Las herramientas del prompt «Punto de encuentro» (`a80fca22-b295-41e3-a735-a3c
 - `motivo_transferencia`: Por qué transfieres. Valores permitidos EXACTOS: "no_iniciada", "web_no_disponible", "pregunta_reserva_concreta", "aseguradora", "enfado", "error_tecnico", "minibus", "asistencia", "nueva_reserva", "correo_no_coincide", "otro". En Punto de encuentro: "minibus" para una queja o un problema del minibús o del punto de encuentro; "asistencia"; "pregunta_reserva_concreta" para algo de su reserva; "nueva_reserva"; "enfado" (cliente muy enfadado que exige una persona) u "otro" (una persona sin motivo, idioma que no puedes seguir).
 - `resumen_para_agente`: Resumen del motivo de la llamada que se le leerá en voz alta al compañero que recibe la transferencia, antes de conectarle con el cliente. SIEMPRE en español, aunque el cliente hable otro idioma. Una o dos frases, de 10 a 25 palabras, en tercera persona, que digan qué quiere el cliente, en qué aeropuerto y terminal está y qué se ha intentado ya (por ejemplo, que ya recibió la indicación del punto de encuentro). Sin datos personales (nombre, reserva, matrícula, correo, teléfono), sin códigos, extensiones ni importes. Si el idioma de la llamada no es español, la ÚLTIMA frase es SIEMPRE «El cliente habla <idioma>» (por ejemplo, «El cliente habla inglés»). Ejemplos: 'Cliente en Barcelona T1 lleva veinte minutos en el punto de encuentro y el minibús no ha pasado.' 'Cliente en Valencia lleva veinticinco minutos esperando el minibús en el pe seis. El cliente habla inglés.'
 
+## 3. estado_oficina (nueva, Tarea 15b, R39)
+
+- Hijo: Python «Estado de la oficina» (código `codigo/estado_oficina.py`; copia de la configuración en
+  `estado-oficina.md`). Sustituye a las LISTAS 1 a 4 del prompt: el código cruza el aeropuerto con las `nocturno_*`.
+- `message`: `{"type": "none"}`.
+- Descripción: Dice si la oficina de Centauro del aeropuerto ya ha cerrado por hoy y a qué hora abre. Si lo que pide el cliente tiene que ver con el minibús o el punto de encuentro, ejecútala en cuanto sepas el aeropuerto, sin decir nada antes: antes de preguntar la terminal o la puerta, de dar el punto o de transferir, y antes de cualquier otra herramienta, también si se queja del minibús. Vuelve a ejecutarla si cambia el aeropuerto. Si devuelve oficina_cerrada true, sigue PRIMERO: solo el aviso de cierre con hora_apertura, sin punto de encuentro.
+- `aeropuerto` (obligatorio): El aeropuerto del cliente, tal como lo tienes (por ejemplo «Valencia», «Madrid», «Atenas», «Milán-Malpensa»). Sin terminal ni datos personales.
+
 ## Configuración
 
 | Nodo | ID de nodo en la v2 | persistent_id |
 |---|---|---|
+| estado_oficina → Estado de la oficina (Tarea 15b) | `01a1575e-923d-7deb-8a35-da450582d445` → `01a1575e-9248-71bc-ac3d-1dc0666e3a92` | = ID de nodo |
 | consultas_alquiler → Module Change | `01a14f1d-0398-7a4b-84e7-313e054df714` → `01a14f1d-039b-7e6e-91ee-a0401da2c7e3` | `3f1c2be8-8768-455f-895b-047063ea7938` |
 | transfer_to_human_agent | `01a14f1d-0398-75cb-939a-e2f512c94a01` | `00435498-eccf-4110-9cf1-eb17821af3ed` |
 | → Initiate customer connection (v25, por sustituir) | `01a14f1d-0396-7961-a5d9-ee9de58e701b` | `37fb8053-214e-4357-be80-0fc8f832ecbc` |

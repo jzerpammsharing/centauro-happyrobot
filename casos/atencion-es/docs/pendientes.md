@@ -521,6 +521,37 @@ caracteres; modelos sin cambios). Detalle en `.superpowers/sdd/2026-10-18-bot-un
 - [ ] **El bot único no tiene runs** (ni web): las evals y `test_node` no crean runs. La puerta 0 «medición con los runs
       de prueba» queda «sin datos» hasta las llamadas de prueba de la Tarea 17.
 
+## Comprobaciones de la Tarea 15b (20/10/2026)
+
+Arreglos estructurales R39 (Parte A) y R34 (Parte B). Detalle en
+`.superpowers/sdd/2026-10-18-bot-unico-construccion/task-15b-report.md` e `informes/evals-v2.md` («Tarea 15b»).
+
+- [x] **R39: el cierre de la oficina del aeropuerto lo resuelve el código (D-012).** Herramienta `estado_oficina` en
+      Punto de encuentro; las LISTAS 1 a 4 salen del prompt. En las rondas A1 a A3 (05:42–05:51, martes, reloj en
+      modo virtual; las evals no dependen del reloj) el bot no dio el punto con la oficina cerrada ninguna vez (54
+      ejecuciones). PE-EST-1 y PE-EST-3 (llama a `estado_oficina` antes de nada) 6/6 cada una; PE-NOCT-3c 9/9;
+      críticas de Punto de encuentro 18/18 en la ronda A2. Cierra también R38 y la propuesta de la ronda 22 de la Tarea 11.
+- [ ] **PE-NOCT-3 y PE-NOCT-3b (vuelo retrasado con la oficina cerrada), 0/3 tras la única vuelta.** Ya no dan el
+      punto, pero no hacen las dos cosas en el orden pedido. Con la frase del vuelo en la `instruccion` de la
+      herramienta (ronda A2) ejecutan `consultas_alquiler` recoger_tarde primero y el aviso llega después; sin ella
+      (ronda A3, estado actual) dan el aviso y preguntan, sin `consultas_alquiler`. La frase del vuelo se quitó porque
+      hacía que PE-NOCT-1 preguntara por retrasos (0/3). Propuesta para la Tarea 16: que `consultas_alquiler` de Punto
+      de encuentro diga en su descripción que, con la oficina cerrada, va después del aviso en el mismo turno, o
+      aceptar en la eval el aviso dicho por Consultas tras el salto (el cliente lo oye igual).
+- [ ] **PE-NOCT-1, 2/3 en la ronda A3:** en una usa tres frases (regla de voz). Dispersión.
+- [ ] **VIRT-PE1 (crítica), 2/3 en la ronda A1 y 3/3 en la A2:** en una dio el horario de gestión sin que lo pidiera.
+- [ ] **Datos de horario que no casan (no se inventa nada; lo decide negocio):** las `nocturno_*` cierran todas las
+      oficinas de 23:00 a 07:00 (Murcia de 22:00 a 08:00), pero el prompt dice que Alicante cierra a las once y media
+      y que Bari, Florencia, Nápoles y Venecia abren a las ocho. Entre las 07:00 y las 08:00 de esos cuatro, el bot da
+      el punto con la oficina aún cerrada; entre las 23:00 y las 23:30 de Alicante, dice que ha cerrado. Es lo mismo
+      que hacía la v25. Si se quiere afinar, `estado_oficina.py` puede calcular con la hora local y su propio horario.
+- [ ] **La hora es la del principio de la llamada** (las `nocturno_*`), como en la v25: una llamada que empieza a
+      las 22:58 y pide el punto a las 23:02 lo recibe. Si importa, pasar a calcularlo con el reloj (el código ya lo
+      hace cuando la variable no llega).
+- [ ] **Evals de Punto de encuentro que dan el punto en el historial sin la llamada a `estado_oficina`** (PDE-1 a 4,
+      ADV-8 a 10, las v18, «ES · …» y SALTO-*): no se tocaron. Con el prompt nuevo el bot puede llamar a la herramienta
+      en ellas antes de contestar; PDE-2 dio 6/6. Revisarlas en la pasada completa de la Tarea 16.
+
 ## Para la persona (editor de HappyRobot)
 
 - [ ] **Mover la rama de WhatsApp y borrar «Registrar consultas del alquiler»** (Tarea 13, R42). Por API no se puede:

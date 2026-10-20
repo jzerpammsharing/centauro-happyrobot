@@ -58,6 +58,7 @@ EXCLUIDOS = {
     "buscar-respuesta.md",
     "enviar-correo-contrasena.md",
     "pista-correo.md",
+    "estado-oficina.md",
 }
 
 # Las dos líneas de reglas-comunes.md entre las que está el texto que se copia en cada módulo

@@ -1197,3 +1197,42 @@ devolución no son de esta línea: consultas_alquiler…, también con gestión 
 | SALTO-PING-GC (crítica) | 3/3 | 3/3 | — |
 | IDO-1 (horario de Atocha → devolver un día más tarde) | — | 1/3 | Llama bien a `consultas_alquiler` prolongar; los dos suspensos valoran el texto posterior a la llamada (uno se contradice: «bajo ese criterio, debería pasar»). Error del juez |
 
+## Tarea 15b · R39: `estado_oficina` en Punto de encuentro (20/10/2026, martes)
+
+Reloj real en modo virtual en las tres rondas; ninguna de estas evals depende de él: el resultado de
+`estado_oficina` va como mensaje `tool` o sale de las `nocturno_*` de la eval, y las de transferencia se valoran hasta
+la primera llamada.
+
+Evals cambiadas (D-012): PE-NOCT-1, 2, 3, 3b y 3c llevan la llamada a `estado_oficina` y su resultado en el historial;
+PDE-5, ADV-7, «DÍA · 25 minutos», «Idioma · EN · 25 minutos», VIRT-PE1 y «VIRTUAL · 25 minutos», la llamada con la
+oficina abierta antes del punto (o de la queja). Nuevas en «Bot único · Punto de encuentro»: PE-EST-1
+(`01a15766-4703-…`, Valencia de noche), PE-EST-2 (`01a15766-4a25-…`, Valencia con queja y vuelo) y PE-EST-3
+(`01a15766-4ed4-…`, Athens en inglés): miden que la primera herramienta sea `estado_oficina`. Entre A1 y A2, PE-NOCT-3 y
+3b cambiaron la nota del juez (el aviso va antes de `consultas_alquiler`) y PE-EST-2 admite la segunda llamada a
+`consultas_alquiler`.
+
+| Eval | A1 (05:42–05:43) | A2 (05:48–05:49, tras la vuelta) | A3 (05:51, reversión) | Motivo del juez (última) |
+|---|---|---|---|---|
+| PE-NOCT-1 · Atenas, cerrada | 2/3 | 0/3 | 2/3 | A2: pregunta si el vuelo se ha retrasado; A3: tres frases |
+| PE-NOCT-2 · Málaga, abierta | 3/3 | 3/3 | — | — |
+| PE-NOCT-3 · Valencia, queja y vuelo, cerrada | 0/3 | 0/3 | 0/3 | A1–A2: `consultas_alquiler` antes del aviso; A3: aviso sin `consultas_alquiler` |
+| PE-NOCT-3b · igual sin modo virtual | 1/3 | 0/3 | 0/3 | Igual que PE-NOCT-3 |
+| PE-NOCT-3c · Valencia, cerrada | 3/3 | 3/3 | 3/3 | — |
+| PE-EST-1 · llama a `estado_oficina` primero | 3/3 | 3/3 | — | — |
+| PE-EST-2 · ídem con queja y vuelo | 1/3 | 3/3 | — | A1: la eval no admitía la segunda llamada (arreglada) |
+| PE-EST-3 · ídem en inglés | 3/3 | 3/3 | — | — |
+| GC-PE1 (crítica) | 3/3 | 3/3 | — | — |
+| VIRT-PE1 (crítica) | 2/3 | 3/3 | — | A1: da el horario de gestión sin que lo pida |
+| PDE-5 (crítica) | 3/3 | 3/3 | — | — |
+| ADV-7 (crítica) | 3/3 | 3/3 | — | — |
+| «DÍA · 25 minutos» (crítica) | 3/3 | 3/3 | — | — |
+| «Idioma · EN · 25 minutos» (crítica) | 3/3 | 3/3 | — | — |
+| «VIRTUAL · 25 minutos» | 3/3 | 3/3 | — | — |
+| PDE-2 (control) | 3/3 | 3/3 | — | — |
+
+Críticas de Punto de encuentro: 17/18 en A1 y **18/18** en A2. La vuelta (A2) cambió PRIMERO («en ese mismo turno,
+primero el aviso de cierre y, al terminar, `consultas_alquiler`») y la `instruccion` de la herramienta (frase del
+vuelo y, para la oficina abierta, «si se queja…, sigue SI «EL BUS TARDA DEMASIADO» y ESCALADO»). A3 quita la frase del
+vuelo de la `instruccion` porque hizo caer PE-NOCT-1; no es otra vuelta. En las 54 ejecuciones con la oficina cerrada,
+el bot no dio el punto de encuentro ninguna vez (antes, PE-NOCT-3, 3b y 3c: 1/9).
+

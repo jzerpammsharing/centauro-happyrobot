@@ -16,6 +16,32 @@ Plantilla:
 
 ---
 
+## D-012 · 2026-10-20 · Cierre de la oficina del aeropuerto resuelto por código (`estado_oficina`, R39)
+- **Qué:** Punto de encuentro tiene una herramienta nueva, `estado_oficina(aeropuerto)` (`message: none`), con un hijo
+  Python «Estado de la oficina» (`codigo/estado_oficina.py`). El código reconoce el aeropuerto (nombre en español,
+  inglés, italiano o portugués, con o sin «aeropuerto de»), lee la `nocturno_*` de su zona que da «Contexto de la
+  llamada» y devuelve `oficina_cerrada`, `hora_apertura` y una `instruccion`. Las LISTAS 1 a 4 y las cuatro variables
+  `nocturno_*` salen del prompt; PRIMERO manda ejecutar la herramienta antes de preguntar la terminal, dar el punto,
+  transferir o usar otra herramienta, cuando lo que pide tiene que ver con el minibús o el punto de encuentro.
+  Detalles:
+  1. **Datos:** la tabla aeropuerto → zona es la de las LISTAS (la prueba lo compara una a una) y la hora de apertura
+     la de PRIMERO. Aeropuerto desconocido: el valor de la LISTA 1, como decía el prompt.
+  2. **Fuente de la hora:** las `nocturno_*` del principio de la llamada, como en la v25, y no el reloj del momento.
+     Si la variable llega vacía o sin resolver, el reloj, con las mismas franjas de `contexto_llamada.py`.
+  3. **Evals:** una eval solo valora un paso, así que hay dos clases. PE-EST-1 a 3 (nuevas) miden que llame a
+     `estado_oficina` antes de nada; PE-NOCT-1 a 3c llevan ya la llamada y su resultado como mensaje `tool` y miden
+     la respuesta al resultado. Las críticas con el punto ya dado (PDE-5, ADV-7, «DÍA · 25 minutos», «Idioma · EN · 25
+     minutos», VIRT-PE1) y «VIRTUAL · 25 minutos» llevan en el historial la llamada con oficina abierta.
+- **Por qué:** `fast-turbo-one` no cruzaba de forma fiable el aeropuerto con las listas: con Valencia (LISTA 1) daba
+  el punto pe seis de madrugada (PE-NOCT-3 0/3, 3b 0/3 y 3c 1/3 en la ronda 22). El spec (§5.4) da a Punto de
+  encuentro «el horario nocturno de los aeropuertos» y §5.8 ya decide por código lo que depende de la hora; la ficha
+  prefería una herramienta. Con la herramienta, el bot no ha dado el punto con la oficina cerrada en ninguna de las 54
+  ejecuciones con la oficina cerrada de las rondas A1 a A3. Se queda con las `nocturno_*` (punto 2) porque así las evals no dependen del reloj
+  y el comportamiento es el de la v25.
+- **Afecta a:** v2 (Punto de encuentro, su herramienta nueva y 13 evals). Spec §5.4 y §5.7.
+- **Quién:** agente (Tarea 15b); revisa jzerpa en el PR.
+- **Estado:** aplicada en v2.
+
 ## D-011 · 2026-10-19 · Medición diaria: normalización en código, informe con puertas y artefacto propio
 - **Qué:** (1) La normalización de `llamadas.json` va en `scripts/normalizar_llamadas.py` con pruebas, no en el prompt
   de la rutina: `inicio` en UTC con Z, `opcion_menu` siempre informada (bots antiguos: la de su línea; bot único sin

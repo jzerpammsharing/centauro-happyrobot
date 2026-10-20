@@ -41,7 +41,8 @@ Inbound Call (sin líneas)
              │   └ transfer_to_human_agent   → Preparar transferencia (Python) → ¿Transferir? (Paths)
              │                                   ├ Transferir → Initiate customer connection
              │                                   └ Fallback (vacía: no se transfiere)
-             │      Punto de encuentro (Tarea 11, fast-turbo-one; aviso de oficina cerrada con nocturno_*):
+             │      Punto de encuentro (Tarea 11, fast-turbo-one; aviso de oficina cerrada por código, D-012):
+             │                           estado_oficina → Estado de la oficina (Python, estado_oficina.py; Tarea 15b)
              │                           consultas_alquiler (→ Module Change → Consultas del alquiler),
              │                           informacion_oficina, volver_al_triaje (Tarea 12; → Module Change, saltos.md),
              │                           transfer_to_human_agent (cola…) → Initiate customer connection de la v25
@@ -121,6 +122,8 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | Initiate customer connection (Triaje; sustituye a `b4439401-…`, borrado) | `01a14f66-5252-70a4-81ad-fa8d1cc6b438` | `01a14f66-5252-70a4-81ad-fa8d1cc6b438` |
 | Punto de encuentro | `01a14f1d-0397-7c91-b2bc-a12efeed5595` | `a80fca22-b295-41e3-a735-a3c878af4eee` |
 | Información de oficina | `01a14f1d-0396-717d-8b6f-52f789dbe9a3` | `0c60218b-8901-47bd-95de-40e0e1af1296` |
+| estado_oficina (Punto de encuentro, Tarea 15b) | `01a1575e-923d-7deb-8a35-da450582d445` | = ID de nodo |
+| → Estado de la oficina (Python) | `01a1575e-9248-71bc-ac3d-1dc0666e3a92` | = ID de nodo |
 | consultas_alquiler (Punto de encuentro) | `01a14f1d-0398-7a4b-84e7-313e054df714` | `3f1c2be8-8768-455f-895b-047063ea7938` |
 | transfer_to_human_agent (Punto de encuentro; parámetros nuevos en la Tarea 11) | `01a14f1d-0398-75cb-939a-e2f512c94a01` | `00435498-eccf-4110-9cf1-eb17821af3ed` |
 | Initiate customer connection de la v25 (Punto de encuentro; por sustituir) | `01a14f1d-0396-7961-a5d9-ee9de58e701b` | `37fb8053-214e-4357-be80-0fc8f832ecbc` |
@@ -203,6 +206,11 @@ transferencia», `transfer_succeeded` de los cinco Transfer, `buscar_respuesta`,
 «Registrar consultas del alquiler» hasta que una persona la mueva (R42, `pendientes.md`). En «Receive Customer Call»,
 `transcription_context` ampliado y `business_hours_setting_name` vacío; la voz ya era solo «Pablo Galvez HR». Copias en
 `prompts/atencion-es/v2/registrar-resultado.md` y `receive-customer-call.md`.
+
+**Tarea 15b, Parte A (20/10/2026, R39, D-012):** Punto de encuentro tiene la herramienta `estado_oficina` con el
+Python «Estado de la oficina» (`codigo/estado_oficina.py`). Las LISTAS 1 a 4 y las `nocturno_*` salen del prompt, que
+pasa a 36.026 caracteres (36.382 antes). Copias en `punto-de-encuentro.md`, `herramientas-punto-de-encuentro.md` y
+`estado-oficina.md`.
 
 ### Cuidado al editar por API (duplicado)
 
