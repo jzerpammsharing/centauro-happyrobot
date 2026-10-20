@@ -1,5 +1,8 @@
 # Pendientes del caso Prolongaciones
 
+- [ ] **Sus líneas pasarán al bot único en la fase 1** (`casos/atencion-es/docs/procedimiento-lineas.md`, apartado 3;
+      vuelta atrás: republicar la V11 con sus líneas). Antes, puerta 0 del bot único (`casos/atencion-es/docs/pendientes.md`).
+
 ## v12 · envío del correo de contraseña (D-008, sin publicar)
 - [ ] **Probar el caso «coincide» de punta a punta.** Solo se ha probado «no coincide» (con datos de
       prueba). Hace falta una reserva real en curso, con su nombre, fecha de nacimiento y un correo que

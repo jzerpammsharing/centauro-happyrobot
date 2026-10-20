@@ -10,8 +10,8 @@ Todas las patas salientes de los bots salen de la extensión **19236** (id inter
 ## Colas de Minibús
 | Ext. | Nombre en RingCentral | Uso | También la usa |
 |---|---|---|---|
-| 18056 | 00. CC ES-ES- Hor.MiniBus | Minibús España, español | **Prolongaciones** (minibús o idioma no atendido, ES) |
-| 18059 | 00. CC ES-EN-Hor.MiniBus | Minibús España, inglés | **Prolongaciones** (minibús o idioma no atendido, EN) |
+| 18056 | 00. CC ES-ES- Hor.MiniBus | Minibús España, español | **Prolongaciones** (minibús o idioma no atendido, ES); Atención España (v2, sin publicar) |
+| 18059 | 00. CC ES-EN-Hor.MiniBus | Minibús España, inglés | **Prolongaciones** (minibús o idioma no atendido, EN); Atención España (v2, sin publicar) |
 | 18069 | 00. CC IT-IT-Hor.MiniBus | Minibús Italia, italiano | |
 | 18073 | 00. CC IT-EN-Hor.MiniBus | Minibús Italia, inglés | |
 | 18063 | 00. CC PT-PT-Hor.MiniBus | Minibús Portugal, portugués | |
@@ -24,14 +24,14 @@ marcada (español o inglés).
 
 | Ext. | Nombre en RingCentral | Uso en Prolongaciones | Compartida con |
 |---|---|---|---|
-| 18057 | 00. CC ES-ES -Hor.Gestión | Gestión de reserva, español (cola por defecto) | Minibús ES (v19 y siguientes) |
-| 18061 | 00. CC ES-EN-Hor. Manage Reservation | Gestión de reserva, inglés | Minibús ES (v19 y siguientes) |
-| 18001 | Nueva Reserva ES-ES | Reserva nueva, español | Minibús ES (v19 y siguientes) |
-| 18006 | Nueva Reserva ES-EN | Reserva nueva, inglés | Minibús ES (v19 y siguientes) |
-| 18034 | 00. RA ES-ES AVERÍAS | Asistencia (avería o accidente), español, desde la V7 | Minibús ES (v19 y siguientes) |
-| 18035 | RA ES-EN Breakdowns | Asistencia (avería o accidente), inglés, desde la V7 | Solo Prolongaciones |
-| 18056 | 00. CC ES-ES- Hor.MiniBus | Minibús, punto de encuentro o idioma no atendido, español | Minibús ES |
-| 18059 | 00. CC ES-EN-Hor.MiniBus | Minibús, punto de encuentro o idioma no atendido, inglés | Minibús ES |
+| 18057 | 00. CC ES-ES -Hor.Gestión | Gestión de reserva, español (cola por defecto) | Minibús ES (v19 y siguientes); Atención España (v2, sin publicar) |
+| 18061 | 00. CC ES-EN-Hor. Manage Reservation | Gestión de reserva, inglés | Minibús ES (v19 y siguientes); Atención España (v2, sin publicar) |
+| 18001 | Nueva Reserva ES-ES | Reserva nueva, español | Minibús ES (v19 y siguientes); Atención España (v2, sin publicar) |
+| 18006 | Nueva Reserva ES-EN | Reserva nueva, inglés | Minibús ES (v19 y siguientes); Atención España (v2, sin publicar) |
+| 18034 | 00. RA ES-ES AVERÍAS | Asistencia (avería o accidente), español, desde la V7 | Minibús ES (v19 y siguientes); Atención España (v2, sin publicar) |
+| 18035 | RA ES-EN Breakdowns | Asistencia (avería o accidente), inglés, desde la V7 | Prolongaciones, Atención España (v2, sin publicar) |
+| 18056 | 00. CC ES-ES- Hor.MiniBus | Minibús, punto de encuentro o idioma no atendido, español | Minibús ES; Atención España (v2, sin publicar) |
+| 18059 | 00. CC ES-EN-Hor.MiniBus | Minibús, punto de encuentro o idioma no atendido, inglés | Minibús ES; Atención España (v2, sin publicar) |
 
 En el código de Prolongaciones, 18034 y 18035 se llaman «RA ES-ES-Opciones» y «RA ES-EN-OPCIONES»,
 que son los nombres de los menús 2114 y 2115. El destino es correcto y solo el nombre está mal (ver

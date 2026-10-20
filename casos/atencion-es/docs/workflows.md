@@ -13,10 +13,10 @@
 
 ### Versiones
 
-| Versión | Slug | version_id | Nombre / cambio | Estado (18/10/2026) |
+| Versión | Slug | version_id | Nombre / cambio | Estado (20/10/2026) |
 |---|---|---|---|---|
 | v1 | `veavliy3k6jx` | `01a14f1b-4eee-7f9c-8ec5-19600855e648` | `v1 · copia de Minibús ES v25` | Borrador, sin tocar (referencia). Sin bloquear. Sin números en el trigger |
-| v2 | `x8xd0llbdp3j` | `01a14f1d-0387-70e5-a6ad-2b311a86224c` | `v2 · bot único: Triaje + 4 módulos` | Borrador en construcción (fork de la v1). Sin publicar |
+| v2 | `x8xd0llbdp3j` | `01a14f1d-0387-70e5-a6ad-2b311a86224c` | `v2 · bot único: Triaje + 4 módulos` | Construida (Tareas 8 a 16); sin publicar; puerta 0 pendiente. 82 nodos (5 prompt, 30 action, 9 condition, 26 tool, 12 module-change; comprobado con `get_workflows` el 20/10/2026) |
 
 Copia de los nodos de la v1 en `prompts/atencion-es/v1/` (un fichero por nodo; herramientas, transferencias y
 Module Change agrupados). La v2 empieza igual que la v1 salvo la rama «Fallback» de «Entrada», que se borró.
@@ -24,7 +24,10 @@ Module Change agrupados). La v2 empieza igual que la v1 salvo la rama «Fallback
 Los **persistent_id** son iguales en la v1 y la v2 (y son los que van en las variables `{{persistent_id.variable}}`);
 los **IDs de nodo** cambian de una versión a otra: localizar siempre por nombre.
 
-### Flujo de nodos de la v2 (18/10/2026, tras la Tarea 10)
+**Estado de la v2 (20/10/2026): construida, sin publicar; puerta 0 pendiente.** Comprobada contra
+`get_workflows` (82 nodos): todos están en el árbol, en la tabla o en `saltos.md`.
+
+### Flujo de nodos de la v2 (18/10/2026, tras la Tarea 10; estado a 20/10/2026 abajo)
 
 ```
 Inbound Call (sin líneas)
@@ -160,6 +163,50 @@ Nodos de la v2 (ID de nodo → persistent_id), por nombre:
 | Preparar WhatsApp minibús | `01a14f1d-0394-7fed-89b7-f4b8a5e640aa` | `4bd059bb-837c-4242-845f-7fc802c0f937` |
 | ¿Enviar WhatsApp? (Paths) | `01a14f1d-0392-7a3a-9987-9e9a6a9ab190` | `d7bea790-20cc-431d-b696-edd7f09b51e3` |
 | Enviar WhatsApp del punto de encuentro | `01a14f1d-0395-7934-834b-0382a080f15d` | `cbb87a1f-4994-49ea-872b-501640029b45` |
+
+**Nodos heredados de la v25 que la tabla anterior no recogía** (comprobados por API el 20/10/2026; su persistent_id es el
+de la v1 y no se ha anotado: leerlo con `get_node_details` si hace falta). Los Module Change a–d y las herramientas
+de salto de las filas 1 a 8 están en `prompts/atencion-es/v2/saltos.md` (tabla de los 12 saltos):
+
+| Nodo | ID en la v2 |
+|---|---|
+| informacion_oficina (herramienta del Triaje) | `01a14f1d-0399-7f31-a5b5-1d49d3808d0e` |
+| buscar_punto_de_encuentro (herramienta del Triaje) | `01a14f1d-0397-715b-ab9d-56f6a46a9f60` |
+| consultas_alquiler (herramienta del Triaje) | `01a14f1d-0399-770c-9155-7167deaf5c99` |
+| consultas_alquiler (Información de oficina) | `01a14f1d-0398-71cd-be10-a50ab91d1f5d` (Module Change `01a14f1d-039b-7e2a-90f5-a43135ba4453`) |
+| buscar_punto_de_encuentro (Consultas) | `01a14f1d-0398-793a-a4f6-4cc4ed3a45c4` (Module Change `01a14f1d-039a-76cb-8e2c-fd908a63d1af`) |
+| informacion_oficina (Consultas) | `01a14f1d-0398-78ce-93ed-6d599a4dcad6` (Module Change `01a14f1d-039a-7490-9015-e42727f49b17`) |
+| Module Change de consultas_alquiler (Punto de encuentro) | `01a14f1d-039b-7e6e-91ee-a0401da2c7e3` |
+| Enviar (condición de «¿Enviar WhatsApp?») | `01a14f1d-039a-7a17-8c7a-148dca107199` |
+| Fallback (vacía) de «¿Enviar WhatsApp?» | `01a14f1d-0399-703f-9f49-3f7e3137917e` |
+| Fallback (vacía) de «¿Transferir?» del Triaje | `01a14f66-5245-7cb6-9718-59de12c52f87` |
+| Fallback (vacía) de «¿Transferir?» de Consultas | `01a14fa7-420f-76f4-b6af-ab7cbfd553da` |
+| Fallback (vacía) de «¿Transferir?» de Prolongación | `01a150ca-dc54-7efe-8af0-9eac1640d219` |
+
+**Herramientas por módulo (26 tool):**
+- Triaje (5): `buscar_punto_de_encuentro`, `informacion_oficina`, `consultas_alquiler`, `prolongar_alquiler`,
+  `transfer_to_human_agent`.
+- Punto de encuentro (5): `estado_oficina`, `consultas_alquiler`, `informacion_oficina`, `volver_al_triaje`,
+  `transfer_to_human_agent` (sin cadena de transferencia; abajo).
+- Información de oficina (4): `consultas_alquiler`, `buscar_punto_de_encuentro`, `volver_al_triaje`,
+  `transfer_to_human_agent` (sin cadena).
+- Prolongación (6): `enviar_correo_contrasena`, `pista_correo`, `buscar_respuesta`, `informacion_oficina`,
+  `volver_al_triaje`, `transfer_to_human_agent`.
+- Consultas del alquiler (6): `buscar_respuesta`, `buscar_punto_de_encuentro`, `informacion_oficina`,
+  `prolongar_alquiler`, `volver_al_triaje`, `transfer_to_human_agent`.
+
+**Estado de la transferencia a 20/10/2026:** Triaje, Prolongación y Consultas tienen la cadena «Preparar
+transferencia» → «¿Transferir?» → «Initiate customer connection» (con su Fallback vacío). **Punto de encuentro e
+Información de oficina conservan todavía el «Initiate customer connection» de la v25 colgando directamente de su
+`transfer_to_human_agent`** (nodos `01a14f1d-0396-7961-…` y `01a14f1d-0396-788f-…`): no pasan por «Preparar
+transferencia», así que ahí no actúa la red de seguridad de Gestión cerrada ni la del modo virtual (R35,
+`pendientes.md`). Es un requisito antes de publicar.
+
+**Extract:** «Registrar resultado de la llamada» (`aea14d45-…`) es el único en uso (46 campos, D-010; detalle en
+`prompts/atencion-es/v2/registrar-resultado.md`). «Registrar consultas del alquiler» sigue en el árbol sin uso
+(R42) y de él cuelga «Preparar WhatsApp minibús».
+
+**Module Change:** 12 (los 4 de la v25 y los 8 del editor), todos comprobados contra la tabla de `saltos.md`.
 
 **Tarea 9b (18/10/2026):** los dos «Preparar transferencia» (Triaje y Consultas) llevan la red de seguridad del modo
 virtual (resultado `modo_virtual`, D-004) y «Buscar respuesta» el código regenerado tras C-005 (sin los teléfonos de

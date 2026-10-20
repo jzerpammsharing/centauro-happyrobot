@@ -608,6 +608,13 @@ Arreglos estructurales R39 (Parte A) y R34 (Parte B). Detalle en
 - [ ] Movimiento de líneas y vuelta atrás ensayados, ida y vuelta, con la línea «Test SIP RingCentral».
 - [ ] Cerrar el experimento de Minibús ES v25 antes de la fase 2 (mover las líneas de Minibús).
 
+## Preguntas abiertas de la Tarea 18 (para el responsable)
+- [ ] **¿Qué líneas quedan en Minibús ES al quitar las dos movidas en la fase 2?** Reembolsos usa una línea española
+      que antes era de Minibús (Tarea 8). Listar el trigger de la v25 y decidir. Control de la fase 2: Minibús ES
+      v25 (R46). Ver `procedimiento-lineas.md`, apartado 4.
+- [ ] Los puntos «por comprobar» del ensayo (Paso 2): qué variante libera el número, duplicados, ventana sin
+      llamadas entre publicaciones, duración de la vuelta atrás. `procedimiento-lineas.md`.
+
 ## Para negocio
 - [ ] Los 7 «DECIDIR» de `comun/bloques/consultas-alquiler.md`.
 - [ ] Si después se conecta la opción de Gestión cuando está cerrada.

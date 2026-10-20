@@ -1,6 +1,8 @@
 # Pendientes
 
 ## Incidencias abiertas
+- [ ] **Sus líneas de Minibús ES pasarán al bot único en la fase 2** (`casos/atencion-es/docs/procedimiento-lineas.md`,
+      apartado 4; control: v25). Está por decidir qué líneas quedan en este workflow (Reembolsos usa una).
 - [ ] **Averías enviadas a menús** (2114, 2115 y 2119): ver C-001. Afecta a ES v17, v18 y v19 y a
       IT v2.
 - [ ] **Llamadas de ES por versiones no publicadas** (v19, v21, v22): 70 de 133 el 10/10.

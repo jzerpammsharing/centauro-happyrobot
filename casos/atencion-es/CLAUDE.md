@@ -8,14 +8,22 @@ están en el `CLAUDE.md` de la raíz.
 El **bot único** de atención de Centauro España: una puerta de entrada corta (Triaje) y módulos especialistas
 entre los que el bot salta con Module Change. Va absorbiendo las opciones del menú telefónico una a una.
 
-- **Fase 1 (en construcción, tareas 1–9 de 18):** opciones de **Minibús** y de **Prolongación** de España. Hoy las atienden los workflows
+- **Fase 1 (v2 construida, sin publicar; puerta 0 pendiente; tareas 1–16 de 18, la 17 y la 18 a falta de las partes con personas):** opciones de **Minibús** y de **Prolongación** de España. Hoy las atienden los workflows
   de `casos/minibus/` (Minibús ES) y `casos/prolongaciones/`, que siguen publicados como vuelta atrás.
 - **Después, por decidir:** Gestión cuando está cerrada, triaje en Nueva Reserva, Gestión en horario.
 - **Spec:** `docs/specs/2026-10-18-bot-unico-arquitectura.md`. Decisiones: C-004 (raíz) y `docs/decisiones.md`.
 
 | Workflow | workflow_id | slug | Estado (18/10/2026) |
 |---|---|---|---|
-| Centauro Atención España | `01a14f1b-4ea9-7827-a4f3-4cfb06a896f6` | `rntn68r0a8gh` | Creado el 18/10/2026 duplicando Minibús ES v25. v1 `veavliy3k6jx` (copia de referencia) y v2 `x8xd0llbdp3j` (en construcción); sin líneas ni publicar |
+| Centauro Atención España | `01a14f1b-4ea9-7827-a4f3-4cfb06a896f6` | `rntn68r0a8gh` | Creado el 18/10/2026 duplicando Minibús ES v25. v1 `veavliy3k6jx` (copia de referencia, version_id `01a14f1b-4eee-7f9c-8ec5-19600855e648`) y v2 `x8xd0llbdp3j` (version_id `01a14f1d-0387-70e5-a6ad-2b311a86224c`): **v2 construida, sin publicar; puerta 0 pendiente**. 82 nodos, 12 Module Change; sin líneas en el trigger |
+
+**Bloqueos de la puerta 0** (detalle en `docs/pendientes.md`, «Antes de conectar la primera línea», y en el registro
+de progreso, «Task 16: parked»): evals en rojo (VIRT-T1, HOR-C1, FDS-02, TEL-C1, DEVOL-03a/03c, CARGO-05,
+PISTA-04, PROL-05/06, CORREO-08, resto de Punto de encuentro al 87,3 %); cadena de transferencia de Punto de encuentro
+e Información de oficina sin crear (R35); pasos del editor (quitar «Entrada», mover WhatsApp y borrar «Registrar
+consultas», R42); `HORA_PRUEBA` en `ninguna`; correo «coincide» y `pista_correo` sin probar con reserva real; llamadas de
+prueba (Tarea 17) y ensayo de líneas (Tarea 18, Paso 2) con personas. Procedimiento de movimiento de líneas:
+`docs/procedimiento-lineas.md` (control de la fase 2: Minibús ES v25, R46).
 
 Versiones, flujo de nodos y ids por nodo: `docs/workflows.md`. Qué copió el duplicado y qué falta (evals, líneas,
 ajustes, Twin, quitar el Paths «Entrada» en el editor): `docs/pendientes.md`.
@@ -27,6 +35,7 @@ ajustes, Twin, quitar el Paths «Entrada» en el editor): `docs/pendientes.md`.
 | `docs/decisiones.md` | Decisiones del caso (D-NNN) |
 | `docs/workflows.md` | Ficha del workflow y tabla de versiones |
 | `docs/pendientes.md` | Incidencias abiertas, comprobaciones y mejoras |
+| `docs/procedimiento-lineas.md` | Cómo mover las líneas de Prolongación y Minibús ES al bot único y volver atrás |
 | `docs/specs/` | Specs (arquitectura del bot único) |
 | `docs/planes/` | Plan de construcción (`2026-10-18-bot-unico-construccion.md`) y registro de progreso de los subagentes (`2026-10-18-bot-unico-progreso.md`, copia para retomar en otro equipo) |
 | `prompts/atencion-es/<versión>/` | Copias de los prompts y de la configuración de los nodos |

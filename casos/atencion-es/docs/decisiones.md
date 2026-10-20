@@ -368,4 +368,4 @@ Plantilla:
   - Las respuestas del alquiler están copiadas en dos bots y se contradicen.
 - **Afecta a:** workflow nuevo; Minibús ES y Prolongaciones solo como control y vuelta atrás.
 - **Quién:** jzerpa (arquitectura y workflow nuevo aprobados el 18/10; el resto del spec, en revisión).
-- **Estado:** propuesta.
+- **Estado:** construida en v2, sin publicar (20/10/2026; puerta 0 pendiente, `pendientes.md`).
