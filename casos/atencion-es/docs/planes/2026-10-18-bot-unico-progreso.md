@@ -367,3 +367,10 @@ Final fix: implementer a60e54499d315433a DONE (bba3547) — 9 puntos; rutina reh
 Final fix: re-review dispatched (a0a038e682aa32ad8, sonnet) sobre 1057d1b..bba3547
 Final fix: re-review (a0a038e682aa32ad8) — todos arreglados, sin roturas; 2 menores: rutina dice 07:30 UTC (es 05:30 UTC), y no dice que hay que ejecutar medir_bots.py sobre llamadas.json de D-3 para tener con_margen — Ruling: se aparcan para antes de programar la rutina (no bloquean el merge).
 Rama lista para PR (20/10). Workspace se conserva hasta las partes con personas de las Tareas 17 y 18.
+R35: el responsable borró en el editor los dos Transfer heredados (20/10); comprobado por API: 80 nodos, transfer_to_human_agent de PE (0398-75cb) e IO (0399-7faf) sin hijos, nada más perdido.
+Task R35: dispatched (BASE ab27da5, opus) — cadena Preparar transferencia → ¿Transferir? → Transfer en PE e IO
+Task R35: implementer a4ee0fff5306afef0 DONE_WITH_CONCERNS (66346a0) — cadena en PE e IO, extract al día, 90 nodos; evals 33/33 (15:25–15:27), críticas PE 18/18, IO 12/12; IO sin eval que llegue a transferir
+Task R35: review dispatched (a168f5fadc0950225, sonnet, solo lectura)
+Task R35: review (a168f5fadc0950225) — aprobada; menores: pendientes.md con texto obsoleto (~482, ~320), set_custom_output en los Transfer sin anotar, línea en D-010; recomienda 2 evals de IO (avería → asistencia; modo virtual cola distinta → no transfiere, aviso neutro)
+Task R35: complete (commit 66346a0); remate con evals de IO y limpieza dispatched (resume a4ee0fff5306afef0)
+Task R35: remate DONE (e370841) — IO-TR1 3/3, IO-TR2 3/3 (15:33–15:34); críticas IO 15/15; aviso neutro sin ver aún
