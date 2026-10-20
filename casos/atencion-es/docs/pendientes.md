@@ -264,7 +264,7 @@ y en las copias de `prompts/atencion-es/v2/`):
     pidiendo el nombre en vez de ejecutar `enviar_correo_contrasena`. Falta mirar la conversación de la eval: si el
     nombre y la fecha no están en los turnos `user` (solo en la llamada a `pista_correo`), el bot no los ve como
     dados.
-- [ ] **R34: HOR-C1 va a la puerta 0 con el arreglo estructural.** Tres redacciones del prompt no la llevan a 3/3
+- [x] **R34: HOR-C1 va a la puerta 0 con el arreglo estructural** (Tarea 15b, D-013: ver «Comprobaciones de la Tarea 15b»). Tres redacciones del prompt no la llevan a 3/3
       (rondas 11 a 13). El arreglo es el del punto siguiente (el aviso del `message` `ai` suena antes de «Preparar
       transferencia», y la herramienta decide por el reloj). Afecta a los tres módulos y se hace en la Tarea 12/16 y
       en la puerta 0. Hasta entonces es una crítica abierta (2/3 en la ronda 14, sin tocarla).
@@ -278,7 +278,7 @@ y en las copias de `prompts/atencion-es/v2/`):
   - PISTA-04 (0/3): la eval está bien (el nombre y la fecha están en el primer turno `user`). Sigue pidiendo el
     nombre en vez de ejecutar `enviar_correo_contrasena`; queda con el motivo del juez.
   - HOR-C1: 3/3 en la ronda 15, sin tocarla. Sigue en R34.
-- [ ] **El aviso «le paso con un compañero» suena antes de saber si Gestión está cerrada (Tarea 12/16 y puerta 0).**
+- [x] **El aviso «le paso con un compañero» suena antes de saber si Gestión está cerrada (Tarea 12/16 y puerta 0).** Tarea 15b, D-013: hecho en Prolongación y Consultas; el Triaje queda abierto en «Comprobaciones de la Tarea 15b».
       Es el `message` tipo `ai` de `transfer_to_human_agent`: el agente lo dice al ejecutar la herramienta, antes de que
       «Preparar transferencia» devuelva `gestion_cerrada` (o `modo_virtual`). Con Gestión cerrada el cliente oye «le
       paso» y después «no he podido». Afecta a los tres módulos con transferencia (Triaje, Consultas y Prolongación).
@@ -548,6 +548,18 @@ Arreglos estructurales R39 (Parte A) y R34 (Parte B). Detalle en
 - [ ] **La hora es la del principio de la llamada** (las `nocturno_*`), como en la v25: una llamada que empieza a
       las 22:58 y pide el punto a las 23:02 lo recibe. Si importa, pasar a calcularlo con el reloj (el código ya lo
       hace cuando la variable no llega).
+- [ ] **R34: aviso «le paso» antes de saber si se transfiere (D-013).** Hecho en Prolongación y Consultas: con
+      Gestión cerrada (y en modo virtual) el aviso es «Un momento, por favor, no cuelgue»; con Gestión abierta, el de
+      siempre (R34-P1 3/3, R34-C1 2/3, R34-P2 3/3). **Queda abierto:**
+  - Triaje: el aviso neutro hizo que VIRT-T1 transfiriera en modo virtual (1/3, y 0/6 tras la única vuelta); se
+    deshizo y el Triaje sigue con «le paso» (R34-T1 0/3, la eval queda como RED). Ideas para la Tarea 16: que la
+    condición vaya en la descripción de la herramienta y no en la del `message`, o aceptar la frase incómoda (§5.8).
+  - Tarea 17: oír en una llamada qué dice el aviso en los tres casos (transfiere, `gestion_cerrada`, `modo_virtual`) y
+    si hay silencio antes de la música. La documentación no explica `handoff_message` del Transfer.
+  - HOR-C1: 3/3 en la ronda B1 (la decisión del modelo; el aviso no se mide en esa eval).
+  - Pasada de transferencias (rondas B1 y B2, 05:55–06:05, reloj en modo virtual): Prolongación 68/72 (HOR-02 1/3,
+    el juez valora el texto tras `gestion_cerrada` que da el reloj; FDS-05 y BORDE-09 2/3, dispersión), Triaje 25/27
+    tras el cambio (VIRT-T1 1/3, deshecho) y Consultas 33/36 (DEVOL-03c 0/3, ya abierta desde la Tarea 9).
 - [ ] **Evals de Punto de encuentro que dan el punto en el historial sin la llamada a `estado_oficina`** (PDE-1 a 4,
       ADV-8 a 10, las v18, «ES · …» y SALTO-*): no se tocaron. Con el prompt nuevo el bot puede llamar a la herramienta
       en ellas antes de contestar; PDE-2 dio 6/6. Revisarlas en la pasada completa de la Tarea 16.

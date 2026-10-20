@@ -1236,3 +1236,34 @@ vuelo y, para la oficina abierta, «si se queja…, sigue SI «EL BUS TARDA DEMA
 vuelo de la `instruccion` porque hizo caer PE-NOCT-1; no es otra vuelta. En las 54 ejecuciones con la oficina cerrada,
 el bot no dio el punto de encuentro ninguna vez (antes, PE-NOCT-3, 3b y 3c: 1/9).
 
+## Tarea 15b · R34: aviso de transferencia con Gestión cerrada (20/10/2026, martes)
+
+Reloj real en modo virtual (antes de las 8:00): «Preparar transferencia» devuelve `modo_virtual` o `gestion_cerrada`
+en todas las transferencias, así que las evals de transferencia se valoran hasta la primera llamada (como siempre).
+El aviso del `message` `ai` aparece en las evals como el argumento `_message` de la llamada: el juez lo ve.
+
+Evals nuevas (D-013), una por módulo, con una avería: R34-P1 (Prolongación, `01a15778-6724-…`, Gestión cerrada →
+aviso neutro), R34-P2 (`01a15778-6966-…`, control con Gestión abierta → aviso de siempre), R34-T1 (Triaje,
+`01a1577a-25a1-…`) y R34-C1 (Consultas, `01a1577a-27d9-…`).
+
+| Ronda | Hora | Qué se probó | Resultado |
+|---|---|---|---|
+| B1 | 05:55–05:59 | Aviso neutro solo en Prolongación; 24 críticas de Prolongación, 9 de transferencia del Triaje y 12 de Consultas ×3 | Prolongación 68/72; Triaje 26/27; Consultas 34/36 |
+| B1b | 06:01 | R34-P1 y R34-P2 ×3 | 3/3 y 3/3 |
+| B2 | 06:03–06:05 | Aviso neutro también en Triaje y Consultas; R34-T1, R34-C1, las mismas 21 del Triaje y Consultas y 3 más del Triaje ×3 | R34-T1 3/3, R34-C1 2/3; Triaje 25/27 + 9/9; Consultas 33/36 |
+| B3 | 06:07 | Vuelta única en el Triaje («Esta frase no cambia cuándo se transfiere…») | VIRT-T1 0/6; R34-T1 3/3 |
+| B4 | 06:08 | Triaje devuelto al aviso de siempre | VIRT-T1 5/6; R34-T1 0/3 |
+
+Por debajo de 3/3 (motivo del juez):
+- **HOR-02** (Prolongación, B1) 1/3: el juez valora el texto posterior a `gestion_cerrada`, que llega por el reloj
+  aunque la eval tenga Gestión abierta (entorno).
+- **FDS-05** (B1) 2/3: «a colleague can confirm it». **BORDE-09** (B1) 2/3: no dice que es 24 horas ni el 112.
+- **COLA-T1** (Triaje, B1) 2/3: el juez cuenta el reintento tras el error del entorno.
+- **DEVOL-03c** (Consultas) 1/3 en B1 y 0/3 en B2: ofrece que lo mire un compañero de gestión con Gestión cerrada
+  (abierta desde la Tarea 9).
+- **R34-C1** (B2) 2/3: en una, «Le paso con un compañero de asistencia».
+- **VIRT-T1** (Triaje, crítica): 3/3 en B1, 1/3 en B2 y 0/6 en B3 con el aviso neutro (transfiere a nueva_reserva en
+  modo virtual); 5/6 en B4, ya sin el cambio (en una no dice «a partir de las ocho»).
+- **R34-T1** 0/3 en B4: el Triaje dice «Le paso con un compañero de asistencia» (lo esperado sin el cambio).
+- HOR-C1, HOR-01, GC-P1, GC-C1, VIRT-T2 y VIRT-C2: 3/3 en todas las rondas en que se pasaron.
+

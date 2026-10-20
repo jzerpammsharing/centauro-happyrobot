@@ -16,6 +16,34 @@ Plantilla:
 
 ---
 
+## D-013 · 2026-10-20 · Aviso de transferencia neutro con Gestión cerrada (R34), en Prolongación y Consultas
+- **Qué:** la descripción del `message` tipo `ai` de `transfer_to_human_agent` de Prolongación y de Consultas empieza
+  por «Gestión ahora: [gestion_abierta]». Si es false (también en modo virtual), el aviso es neutro, «Un momento, por
+  favor, no cuelgue», sin decir que le pasa con nadie; si es true, el de siempre («le paso con un compañero…, no
+  cuelgue»). El Triaje se queda con el aviso de siempre. No cambia ningún prompt ni la cadena «Preparar transferencia».
+- **Por qué:** el aviso suena al llamar a la herramienta, antes de que «Preparar transferencia» diga `gestion_cerrada`
+  o `modo_virtual` (en la V10, «le paso» y después «invalid phone number», `casos/prolongaciones/docs/pendientes.md`).
+  Opciones vistas (documentación de HappyRobot y nodos):
+  1. `message: none` y aviso en el Transfer: el whisper lo oye el compañero, no el cliente, y `handoff_message` /
+     `skip_handoff_message` del Transfer no están documentados (parecen del traspaso con aviso, `warm_handoff`). Sin
+     una llamada no se sabe qué oiría el cliente ni si quedaría en silencio.
+  2. Mensaje fijo condicionado: el tipo fijo no admite condiciones.
+  3. Que el agente lo diga tras `transferir`: no hay turno, el Transfer arranca dentro de la misma cadena. Haría
+     falta partir la herramienta en dos (comprobar y transferir), con texto nuevo en el bloque común (4.493/4.500) y
+     en Prolongación (21.994/22.000): no cabe, y dobla la espera.
+  4. **Elegida:** el aviso del `message` `ai` lo escribe el propio modelo al llamar (las evals lo ven como el argumento
+     `_message`), así que se puede condicionar con la variable y medir en evals. En el peor caso, el cliente oye «un
+     momento, no cuelgue» y la música de espera antes de una transferencia que sí sale, que es aceptable.
+  Medido: R34-P1 3/3 y R34-C1 2/3 (aviso neutro con Gestión cerrada), R34-P2 3/3 (aviso de siempre con Gestión
+  abierta). En el Triaje, R34-T1 dio 3/3 pero VIRT-T1 (crítica, modo virtual, reserva nueva) cayó de 3/3 a 1/3: con el
+  aviso neutro transfería. La única vuelta («Esta frase no cambia cuándo se transfiere…») la dejó en 0/6, así que se
+  deshizo (VIRT-T1 5/6 de nuevo). El spec (§5.8) ya aceptaba la frase incómoda como mal menor.
+- **Afecta a:** v2 (dos herramientas; evals nuevas R34-P1, R34-P2, R34-T1 y R34-C1). Spec §5.8.
+- **Pendiente:** comprobar en la llamada de la Tarea 17 que el cliente oye ese texto y que no hay silencio antes de la
+  música; en el Triaje, el aviso de siempre hasta encontrar una forma que no cambie VIRT-T1.
+- **Quién:** agente (Tarea 15b); revisa jzerpa en el PR.
+- **Estado:** aplicada en v2 (Prolongación y Consultas).
+
 ## D-012 · 2026-10-20 · Cierre de la oficina del aeropuerto resuelto por código (`estado_oficina`, R39)
 - **Qué:** Punto de encuentro tiene una herramienta nueva, `estado_oficina(aeropuerto)` (`message: none`), con un hijo
   Python «Estado de la oficina» (`codigo/estado_oficina.py`). El código reconoce el aeropuerto (nombre en español,

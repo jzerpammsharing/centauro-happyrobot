@@ -212,6 +212,11 @@ Python «Estado de la oficina» (`codigo/estado_oficina.py`). Las LISTAS 1 a 4 y
 pasa a 36.026 caracteres (36.382 antes). Copias en `punto-de-encuentro.md`, `herramientas-punto-de-encuentro.md` y
 `estado-oficina.md`.
 
+**Tarea 15b, Parte B (20/10/2026, R34, D-013):** en `transfer_to_human_agent` de Prolongación
+(`01a150ca-b67d-…`) y de Consultas (`01a14f1d-0399-7dbf-…`), la descripción del `message` `ai` pide un aviso neutro con
+Gestión cerrada. La del Triaje (`01a14f1d-0397-721d-…`) se probó y se dejó como estaba. Copias en
+`herramientas-prolongacion.md`, `herramientas-consultas.md` y `herramientas-triaje.md`.
+
 ### Cuidado al editar por API (duplicado)
 
 - **El markdown que devuelve `get_node_details` en un prompt del duplicado conserva los `group_id` antiguos de
