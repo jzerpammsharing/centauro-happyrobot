@@ -1,5 +1,41 @@
 # Pendientes del caso Reembolsos
 
+- [ ] **D-006 · confirmar que el teléfono llega al MCP.** En `test_node` del MCP Call de W1 v10, con los
+  identificadores vacíos y un teléfono de prueba, el MCP sigue respondiendo «Falta numero_reserva, email o dni» (22/10,
+  de madrugada). El MCP ignora los argumentos que no conoce, así que puede ser:
+  - que HappyRobot tenga en caché la lista de herramientas de «Centauro MCP» de antes del cambio y no mande `telefono`
+    (la API da 500 al refrescar);
+  - que el servidor desplegado aún no tenga el commit `b062686`;
+  - que `test_node` no use la salida de prueba de «Calcular idioma y saludo».
+
+  Cómo salir de dudas:
+  - refrescar las herramientas de «Centauro MCP» desde el editor de HappyRobot (no por API) y repetir el `test_node` del
+    MCP Call. Si `telefono` llega, sale `encontrada: false` sin error;
+  - o hacer una llamada web con `TELEFONO_PRUEBA` = un móvil con reserva propia y mirar la salida de «Check
+    Reimbursement Status».
+
+  Mientras no llegue, la v10 funciona como la v9, con un turno más: el primer intento devuelve «falta el
+  identificador», que no cuenta, y Daniel pide el número de reserva.
+- [ ] **D-006 · regresión «D16 No da la fecha a la primera».** Si el cliente no da la fecha de nacimiento cuando se le
+  pide, la v9 la vuelve a pedir siempre (7 de 7) y la v10 transfiere a un compañero unas tres de cada cuatro veces. La
+  frase «Que el cliente no dé un dato a la primera (por ejemplo, la fecha de nacimiento) no es una consulta ni un
+  intento, y nunca es motivo para transferir» en el párrafo del límite de consultas lo arreglaba (5 de 6), pero rompía
+  «WA 5a», «WA 4a1» y «D5 No encontrada con datos de WhatsApp» (0 de 3 cada una), así que no está. La versión final
+  lleva una frase más estrecha en «Si el cliente se resiste» y sigue fallando (1 de 4). Probarlo por voz. La API no
+  enseña los mensajes de la eval: mirarla en el editor para saber qué dice el cliente.
+- [ ] D-006: «OTRA-1» (otra reserva de `otras_reservas`) consulta bien, pero en la continuación simulada transfiere
+  (0 de 2 con el prompt final; 4 de 4 con los anteriores de la noche). Puede venir del cambio «tras dos consultas» del
+  escalado. En la prueba por voz, pedir otra reserva después de verificar una y ver si transfiere.
+- [ ] D-006: «D16 Verificado false: confirma que es correcto → ofrece WhatsApp» falla también en la v9 (pregunta si la
+  reserva está a nombre de otra persona en vez de ofrecer el WhatsApp). Ya fallaba antes de la v10.
+- [ ] D-006: el extract de W1 no distingue la identificación por teléfono (`identificacion_via` = whatsapp, dictado o
+  ninguna). Añadir `telefono` y ajustar `cliente_identificado` y `num_consultas` (dos o tres) en la próxima versión.
+- [ ] D-006: `TELEFONO_PRUEBA` también se usa como teléfono de consulta en las llamadas web. Debe estar vacío en
+  producción (ya era un pendiente).
+- [ ] D-006: «Dictado por partes» no tiene evals en W1; las cuatro están en «Centauro Reembolsos» V4 (congelado). Valorar
+  copiarlas a W1.
+- [ ] D-006 / MCP: siguen pendientes en `centauro-mcp` la validación suave del nombre, los bonos de 8 cifras sin ER,
+  los prefijos GR, PR e IT y el pasaporte.
 - [ ] **D-005:** W1 v5 y W2 v9 publicadas el 15/10/2026 por la tarde sin prueba por voz previa. Repetir las cuatro llamadas del informe `docs/informes/2026-10-15-pruebas-tarde-w1-v4.md` y revisar las primeras llamadas reales. Fijarse en los silencios tras «Se lo acabo de enviar»: los turnos que HappyRobot da al agente en silencio no se pueden reproducir con evals.
 - [ ] D-005: velocidad de la voz. La v4/v5 no fijan `voice_speed`; si se quiere «más despacio», bajarla en el editor (por voz, 0,7-1,2) y probar con una llamada.
 - [ ] D-005: el cliente ofreció el DNI/NIE y Daniel insistió en el email (orden de D-003). En las pruebas el email por voz falló las tres veces y el NIE se entendió a la primera: valorar aceptar el DNI/NIE si el cliente lo ofrece.

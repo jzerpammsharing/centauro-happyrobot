@@ -5,6 +5,57 @@ caso (D-NNN), la más reciente arriba, con la misma plantilla.
 
 ---
 
+## D-006 · 2026-10-22 · Búsqueda v2 del MCP en W1: primero por el teléfono, otras reservas y área de cliente
+- **Qué:** W1 v10 (`2y93xxzzph11`, fork de la v9; sin publicar).
+  - **Primer intento sin pedir ningún dato de la reserva.** Si «Teléfono del cliente consultable» es true, Daniel pide
+    el nombre completo y la fecha de nacimiento y consulta sin número de reserva, email ni DNI. El MCP busca por el
+    teléfono desde el que llama, que pone el sistema (`telefono_consulta` de «Calcular idioma y saludo»), nunca el
+    modelo.
+  - **Si no aparece por teléfono:** no dice que no existe. Pide el número de reserva (con el dictado por partes); si no
+    lo tiene, el email; si tampoco, el DNI o NIE. No vuelve a pedir el nombre ni la fecha. El «no encontrada» del
+    teléfono no cuenta como dificultad: no da pie a ofrecer el WhatsApp.
+  - **Límite:** dos consultas, o tres si la primera fue por teléfono. La falta de identificador del primer intento (una
+    llamada web o un número oculto) no cuenta.
+  - **Al verificar:** confirma de qué alquiler se trata, sin datos personales, como ya hacía con el email o el DNI.
+  - **Otras reservas:** si el cliente habla de otra que está en `otras_reservas`, consulta con su número sin pedírselo
+    ni leérselo. Si no está (solo vienen las 5 más recientes), le pide el número.
+  - **Área de cliente:** con `tiene_cuenta` false, antes de la factura o del «Reembolso Cupón», primero tiene que crear
+    la contraseña con «¿Has olvidado tu contraseña?» y el email que dio en la oficina.
+  - **Filtro:** deja pasar `numero_reserva`, `tiene_cuenta` y `otras_reservas` (estas, solo con seis campos sin datos
+    personales). Dice si la consulta fue por teléfono (`consulta_por_telefono`) y si cuenta en el límite
+    (`cuenta_en_limite`).
+  - **Llamadas web:** `telefono_consulta` usa `TELEFONO_PRUEBA`, para poder probar por web la búsqueda por teléfono con
+    una reserva propia. En producción nunca hay llamadas web.
+  - **Ejemplos de la herramienta:** los números de reserva de las descripciones pasan a ser inventados (pendiente de
+    los «posibles números reales»), y los `example` de los identificadores quedan vacíos.
+  - **Ajustes tras la regresión de evals (22/10, de madrugada):**
+    - si el cliente dice que no es esa reserva y `otras_reservas` no viene, está vacía o no encaja, Daniel no pregunta
+      por oficinas ni fechas: dice que con esos datos solo le aparece esa y pide el número de reserva;
+    - en el escalado, «tras dos intentos» pasa a «tras dos consultas (tres si la primera fue por el teléfono)»;
+    - en «Si el cliente se resiste», la frase de la v9 más «que no te dé la fecha de nacimiento a la primera no cuenta
+      como consulta ni como intento de identificación»;
+    - se probó y se quitó «Nunca rellenes un campo con un valor de ejemplo»: con ella Daniel no daba por bueno un
+      ER12345678 dictado (el número de los ejemplos y de las pruebas) y contestaba «Sí.», como si faltaran cifras.
+- **Por qué:**
+  - La búsqueda v2 del MCP (commit `b062686` de `centauro-mcp`, 21/10/2026) ya busca por el teléfono y devuelve hasta
+    5 reservas y si el cliente tiene cuenta.
+  - Muchos clientes llaman sin el número de reserva, y dictar números y emails es lo que más falla (D-001, D-003,
+    D-005). Con el teléfono, quien llama desde el móvil con el que reservó se identifica con su nombre y su fecha de
+    nacimiento.
+- **Afecta a:**
+  - W1: los nodos «Calcular idioma y saludo», `consultar_reembolso`, «Check Reimbursement Status», «Filtrar respuesta
+    verificada» y el prompt «Reembolsos».
+  - W2 no cambia: ya acepta número, email o DNI/NIE (v10) y no consulta el MCP. El teléfono lo añade W1 en su consulta.
+  - «Centauro Reembolsos» no cambia: está congelado (D-004).
+  - El extract de W1 tampoco cambia (pendiente: un valor `telefono` en `identificacion_via`).
+- **Quién:** jzerpa. Pedido por la sesión del MCP; la versión la creó Claude el 22/10/2026 de madrugada, sin publicar.
+- **Estado:** construida con evals (resultados en `pruebas/evals-busqueda-v2.md`). **Sin confirmar que el teléfono
+  llega al MCP** y con una regresión abierta: si el cliente no da la fecha de nacimiento a la primera, la v10 a veces
+  transfiere en vez de volver a pedirla (ver `docs/pendientes.md`). Sin publicar: la publica una persona tras probarla
+  por voz.
+
+---
+
 ## D-005 · 2026-10-15 · Nombre sin inventar, email sin guiones y espera tranquila del WhatsApp
 - **Qué:** tras las pruebas por voz de la tarde con W1 v4 (informe
   `docs/informes/2026-10-15-pruebas-tarde-w1-v4.md`):
