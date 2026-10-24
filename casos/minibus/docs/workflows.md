@@ -49,8 +49,9 @@ informacion_oficina_entregada, valido_antes_de_informar, muletillas, tono_agente
 | v22 | 2l6skwt8wphb | v21 + horario de la cola de Gestión | publicada desde la noche del 11 al 12/10; ya no está en producción |
 | v23 | 3o04zrwgfj0g | v22 + saltos entre módulos | borrador completo, sin probar |
 | v24 | 5g6422lgdcem | v23 + WhatsApp del punto de encuentro con geolocalización (MAD, SVQ, AGP) | estuvo en el test A/B con v22 (C-004); sustituida por v25 (D-010, D-011) |
-| **v25** | k2in5n9kk01x | v24 + rama por defecto en ¿Enviar WhatsApp? | **publicada** (en producción el 24/10/2026) (D-011) |
-| v26 | fw02geuq54cv | v25 + servicio de espera y avisos de retraso a la cola de Minibús | pendiente de publicar; evals 17/17 (D-012) |
+| v25 | k2in5n9kk01x | v24 + rama por defecto en ¿Enviar WhatsApp? | estuvo en producción hasta el 24/10/2026; sustituida por v26 (D-011) |
+| **v26** | fw02geuq54cv | v25 + servicio de espera y avisos de retraso a la cola de Minibús | **publicada** (en producción el 24/10/2026) (D-012) |
+| v27 | e4qv98cib2dm | v26 + WhatsApp como cierre normal y para el cliente que ya espera | pendiente de publicar; evals 27/28 (D-013) |
 
 ### Italia (`01a03a65-3700-74c1-9c7b-e9c708833c4b`)
 | Versión | Slug | Estado |

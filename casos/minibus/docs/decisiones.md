@@ -22,7 +22,47 @@ Plantilla:
 
 ---
 
-## D-012 · 2026-10-24 · v26: servicio de espera y avisos de retraso, a la cola de Minibús (pendiente de publicar)
+## D-013 · 2026-10-24 · v27: el WhatsApp del punto de encuentro, cierre normal y para el cliente que ya espera (pendiente de publicar)
+- **Qué:**
+  - Fork de la v26 (en producción): v27 (`e4qv98cib2dm`), «v27 · v26 + WhatsApp como cierre normal
+    y para el cliente que ya espera».
+  - En Madrid (T1, T2 y T4), Sevilla y Málaga, la pregunta del WhatsApp («¿Quiere que le mande
+    estas indicaciones por WhatsApp a este número?») pasa a ser el cierre normal tras dar el punto de
+    encuentro, **en lugar de** «¿Puedo ayudarle en algo más?». Nunca las dos en el mismo turno.
+  - También se ofrece al cliente que **ya espera** en el punto y pregunta cada cuánto pasa o si va a
+    venir, sin quejarse: se le da la frecuencia y la referencia de su punto, y se le ofrece el
+    WhatsApp con el enlace para ver el minibús en directo. En Madrid hace falta la terminal.
+  - **Se sigue preguntando** (opt-in de Meta): se ofrece una sola vez y no se envía nada sin el «sí».
+  - Condiciones sin cambios, pero escritas antes de la oferta y con prioridad: WhatsApp disponible
+    (línea española y móvil), conversación en español, uno de esos cinco puntos, y cliente sin queja
+    ni transferencia.
+  - Extract «Registrar consultas del alquiler»: `punto_whatsapp` recoge también el punto donde ya
+    espera el cliente. Sin esto, al que ya espera y acepta no le llegaría el WhatsApp.
+  - Nodos tocados: el prompt «Punto de encuentro» y el extract «Registrar consultas del alquiler».
+    Detalle y copias en `prompts/minibus-es/v27/`.
+- **Por qué:**
+  - Con v25 (del 15 al 24/10), en las llamadas aptas (línea española, Madrid T1/T2/T4, Sevilla o
+    Málaga, el bot da el punto y cierra sin transferir) el bot ofrecía el WhatsApp en 42 de 93
+    (45 %): Madrid 34 de 63, Málaga 8 de 14 y **Sevilla 0 de 16**.
+  - Causa: el cierre por defecto («¿Puedo ayudarle en algo más?») ganaba a la excepción del
+    WhatsApp, que estaba entre paréntesis y en otra sección del prompt.
+  - Muchos clientes llaman cuando ya están en el punto, y a esos no se les ofrecía nunca, aunque el
+    enlace para ver el minibús en directo es justo lo que necesitan.
+  - Cuando se ofrece, funciona: dicen que sí unos dos de cada tres clientes.
+  - Datos: `docs/informes/2026-10-24-v27-whatsapp.md`.
+- **Afecta a:** Minibús ES v27. Más WhatsApp enviados con la plantilla `minibus_punto_texto_boton`.
+- **Quién:** jzerpa.
+- **Estado:** pendiente de publicar.
+  - Evals (`docs/informes/2026-10-24-v27-whatsapp.md`): batería nueva de 14, 27 de 28 en v27
+    (dos ejecuciones) frente a 8 de 14 en v26. Regresión de «Punto de encuentro»: 18 de 21, los
+    mismos fallos que ya había (ADV-8 y ADV-9, y ADV-10, que también falla en v26 con todas las
+    variables fijadas).
+  - Comprobado: prompt y extract releídos tras subirlos (mismo texto, mismas variables) y
+    `fix_broken_vars` sin referencias rotas.
+  - Falta una llamada de prueba real desde un móvil (ver `pendientes.md`). Publicar lo hace una
+    persona.
+
+## D-012 · 2026-10-24 · v26: servicio de espera y avisos de retraso, a la cola de Minibús (publicada)
 - **Qué:**
   - Fork de la v25 (en producción): v26 (`fw02geuq54cv`), «v26 · v25 + servicio de espera y avisos
     de retraso a la cola de Minibús».
@@ -57,12 +97,13 @@ Plantilla:
   - Prolongaciones (V11) y el bot único de Atención España mandan todavía el servicio de espera a
     Gestión (ver `pendientes.md`).
 - **Quién:** jzerpa, a petición del call center.
-- **Estado:** pendiente de publicar.
+- **Estado:** publicada: v26 está en producción (comprobado el 24/10/2026; sustituye a v25).
   - Evals (`docs/informes/2026-10-24-v26-evals.md`): batería nueva 17 de 17 en v26; regresión sin
     fallos nuevos frente a v25.
   - Comprobado: prompts y herramientas releídos tras subirlos (mismo texto, mismas variables) y
     `fix_broken_vars` sin referencias rotas.
-  - Falta una llamada de prueba real (ver `pendientes.md`). Publicar lo hace una persona.
+  - Según jzerpa, el 24/10 ya ha pasado bien algunas llamadas reales de retraso a la cola de
+    Minibús. Falta revisarlo con datos en el informe diario (ver `pendientes.md`).
 
 ## D-011 · 2026-10-15 · v25: rama por defecto en «¿Enviar WhatsApp?» (publicada)
 - **Qué:**

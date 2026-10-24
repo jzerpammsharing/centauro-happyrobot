@@ -11,7 +11,7 @@ encuentro o les transfieren a las colas del call center en RingCentral.
 
 | Workflow | País | workflow_id | slug | Producción (12/10/2026) |
 |---|---|---|---|---|
-| Centauro Minibus SPAIN | ES | `019f7594-2cce-7eed-b995-dd9ea64a1062` | `t2vkrtiqj3ve` | v25 (`k2in5n9kk01x`), comprobado el 24/10/2026; v26 en borrador (D-012) |
+| Centauro Minibus SPAIN | ES | `019f7594-2cce-7eed-b995-dd9ea64a1062` | `t2vkrtiqj3ve` | v26 (`fw02geuq54cv`), comprobado el 24/10/2026; v27 en borrador (D-013) |
 | Centauro Minibus ITALY | IT | `01a03a65-3700-74c1-9c7b-e9c708833c4b` | `w13gsdcqkq9b` | Version 2 (`v9c38tkjwxae`) |
 | Centauro Minibus Portugal | PT | `01a05977-3a33-76da-acb2-a757f3947cf9` | `i8kjlnu1m3zp` | v1 (`ql6fasoxl1ql`) |
 
