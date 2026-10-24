@@ -54,11 +54,20 @@
   - [x] **15/10/2026 · runs «failed» en v24:** el nodo de rutas «¿Enviar WhatsApp?» no tiene rama por defecto. Cuando `enviar` es false, el run termina en «failed» («has no matching condition and no fallback branch»), aunque la llamada fue bien (primer caso: run 52019f08-6f67-4055-8537-db12c2c7cd57, Murcia, inglés, transferida y conectada a 18059; otro: 4ca09060-423f-4b37-b45d-9fe7f5ee6172). Arreglo: añadir una rama por defecto sin acción, en una versión nueva (fork de v24).
     **Resuelto en v25 (`k2in5n9kk01x`, D-011)**, que ya está en producción (24/10/2026).
 
-- [ ] **v26: servicio de espera y avisos de retraso a la cola de Minibús** (D-012). Pendiente de publicar.
-  - Antes de publicar, una llamada de prueba real con el centro abierto, mejor un fin de semana o después de las 21 h (Gestión cerrada): vuelo retrasado → acepta comprobar el servicio de espera → la llamada entra en la 18056 (o en la 18059 si es en inglés).
+- [ ] **v26: servicio de espera y avisos de retraso a la cola de Minibús** (D-012). Publicada; en producción desde el 24/10/2026.
+  - Según jzerpa, ya ha pasado bien algunas llamadas reales. Falta comprobar con datos, mejor un fin de semana o después de las 21 h (Gestión cerrada), que estas llamadas entran en la 18056 (o en la 18059 si son en inglés).
   - Avisar al call center de que la cola de Minibús recibirá estas llamadas todos los días, también entre semana con Gestión abierta.
   - Tras publicar: en el informe diario, contar las transferencias a 18056/18059 por retraso y comprobar que no aumentan las de «solo quiere avisar».
   - **El mismo cambio falta en Prolongaciones (V11) y en el bot único de Atención España**: los dos mandan todavía el servicio de espera a Gestión, incluso con Gestión cerrada.
+
+- [ ] **v27: WhatsApp del punto de encuentro como cierre normal y para el cliente que ya espera** (D-013). Pendiente de publicar.
+  - Antes de publicar, llamadas de prueba reales desde un móvil:
+    - Sevilla: debe cerrar con la pregunta del WhatsApp, y con un «sí» debe llegar el mensaje;
+    - un cliente que ya espera en Madrid T1, T2 o T4 y pregunta cada cuánto pasa: debe ofrecerlo, y con un «sí» el extract debe poner `punto_whatsapp` con su terminal y debe llegar el mensaje;
+    - una llamada en inglés y una de Bilbao: no debe mencionar el WhatsApp.
+  - Tras publicar, medir en el informe diario el porcentaje de oferta en las llamadas aptas: con v25, 42 de 93; Sevilla, 0 de 16.
+  - En Madrid T2, al cliente que ya espera, una de dos veces le dio la indicación entera en lugar de solo la referencia, aunque sí ofreció el WhatsApp (WA-6). Vigilarlo en llamadas reales.
+- [ ] **«Punto de encuentro» salta a `consultas_alquiler` ante «¿puedo devolver el coche en Alicante a las tres de la madrugada?»** (ADV-10). Debería responder él: Alicante admite devoluciones las 24 horas. La respuesta final es correcta, pero cambia de módulo sin necesidad. Ya pasaba en v26: con todas las variables fijadas, como en una llamada real, v26 pasa 0 de 4 y v27, 3 de 5 (`informes/2026-10-24-v27-whatsapp.md`).
 
 ## Mejoras propuestas
 - [ ] Mejoras de prompt de D-006 (estimación: resueltas del 42 % al 54 %).
