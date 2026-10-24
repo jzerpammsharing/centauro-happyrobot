@@ -16,6 +16,78 @@ Plantilla:
 
 ---
 
+## D-019 · 2026-10-24 · v4: con Gestión cerrada, el retraso de vuelo o tren va a la cola de Minibús
+- **Qué:** versión `v4 · v3 + retraso de vuelo o tren a la cola de Minibús con Gestión cerrada` (`02qakmz6tbk0`),
+  fork de la v3. Cambian tres cosas; copias en `prompts/atencion-es/v4/`:
+  1. La sección RECOGER TARDE del bloque `comun/bloques/consultas-alquiler.md`, regenerada en
+     `codigo/consultas_alquiler.py` y pegada en los dos nodos «Buscar respuesta» (Consultas y Prolongación).
+  2. `transfer_to_human_agent` de Consultas: en la descripción y en la cola `minibus`, «con gestión cerrada, si acepta
+     que le pases para comprobar el servicio de espera de un vuelo o un tren retrasado», cola minibus.
+  3. Prompt de Consultas, CÓMO LEER LA SECCIÓN: «a la cola minibus» cuenta como transferencia de la sección y «con
+     gestión cerrada no uses gestion» en vez de «no transfieras» (7.999 de 8.000 caracteres; para caber, «Si el cliente
+     ya ha pedido» pasa a «Si ya pidió» y «un compañero» a «alguien»).
+  Sin 2 y 3 el bot ofrecía pasarle y, cuando el cliente aceptaba, le daba el horario de Gestión (V4-RT2 0/3): las
+  reglas de Gestión cerrada del prompt pesaban más que la sección.
+  - Con Gestión cerrada y el callcenter abierto (sábados, domingos y festivos de 8:00 a 22:00, y de 21:00 a 22:00 entre
+    semana), el bot explica el servicio de espera por vuelo o tren retrasado, ofrece pasarle con un compañero si la
+    recogida es hoy y, si acepta, transfiere a la cola `minibus` con motivo `otro`. Antes: «Con Gestión cerrada, no
+    ofrezcas pasarle: dile que Gestión está cerrada y su horario».
+  - Con Gestión abierta sigue yendo a `gestion`. En modo virtual (22:00–8:00) no se ofrece: lo dice el texto y, si el
+    modelo lo intentara, «Preparar transferencia» devuelve `modo_virtual`.
+  - Arreglos del mismo caso real: si avisa de un retraso sin decir la hora, se le pregunta a qué hora llega; «llega de
+    noche o con la oficina cerrada» explica antes el servicio de espera si es por un retraso; la condición del vuelo
+    pasa de «llega cuando la oficina ya ha cerrado» a «se retrasa y llega de noche o cuando la oficina ya ha cerrado».
+- **Por qué:** regla nueva del callcenter (24/10/2026): la cola de Minibús está abierta el fin de semana y comprueba el
+  servicio de espera cuando Gestión está cerrada. Caso real en la prueba de la v3: run
+  `047c9ae8-1778-4c98-a463-396098441f2a` (sábado 24/10, 18:32): vuelo que llega a la una, el bot no explicó el
+  servicio de espera, no ofreció pasarle y le dijo que buscara otro transporte.
+- **Qué no cambia:** «Preparar transferencia» (ya transfiere a `minibus` con Gestión cerrada fuera del modo virtual),
+  el bloque de reglas comunes (COLA DE GESTIÓN CERRADA sigue diciendo «minibus… pero nunca para casos de gestión»: la
+  sección y la herramienta dicen que el servicio de espera con Gestión cerrada no es un caso de gestión; el bloque está
+  a 4.493 de 4.500 caracteres y va en los cinco módulos), Triaje, y los prompts y herramientas de Punto de encuentro,
+  Información de oficina y Prolongación. Punto de encuentro e Información de oficina mandan el retraso a
+  `consultas_alquiler` (recoger_tarde); sus descripciones de la cola `gestion` siguen nombrando «el servicio de espera;
+  solo con gestión abierta», y Prolongación no tiene la excepción en su herramienta ni en su prompt (`pendientes.md`).
+- **Evals:** seis nuevas en Consultas (V4-RT1 a V4-RT6; resultados en `pendientes.md`, apartado de la v4). FDS-02
+  lleva sembrado el texto anterior de la sección y sigue esperando «no ofrece pasarle»: vale para la v3, no para la v4.
+- **Afecta a:** v4 (borrador). Prolongaciones V11/V13 y Minibús ES v25 siguen con el texto anterior: si se vuelve atrás
+  a ellas, vuelve el comportamiento de antes.
+- **Quién:** jzerpa (regla del callcenter, 24/10/2026). Publicar lo hace una persona.
+- **Estado:** aplicada en la v4 (sin publicar).
+
+## D-018 · 2026-10-22 · v3: sin el correo de contraseña y con la línea de Prolongación ES para una prueba de una hora
+- **Qué:** versión `v3 · v2 sin el correo de contraseña + línea de Prolongación ES` (`5cu7jiosi6n7`), fork de la v2.
+  Copias de lo que cambia en `prompts/atencion-es/v3/`.
+  - **Prolongación sin envío de correo:** fuera `enviar_correo_contrasena` y `pista_correo` con sus cadenas (ocho
+    nodos: las dos llamadas a `consultar_reserva`, `enviar_reset_contrasena` y tres Python). El prompt vuelve a la
+    forma de la V11 de Prolongaciones en la contraseña: da ya las instrucciones de «¿Has olvidado tu contraseña?» y
+    «Nunca transfieras por la contraseña sin haber dado antes estas instrucciones»; si no sabe qué correo dio o no
+    puede abrirlo, una oficina antes de la hora y, si insiste, cola gestion. 21.165 → 18.648 caracteres.
+  - **`transfer_to_human_agent` de Prolongación** sin el correo (ejemplo, cola y motivo `correo_no_coincide`).
+  - **Extract:** fuera las nueve líneas de entrada de esas herramientas (seis eran datos personales); los 46 campos
+    siguen igual.
+  - **Trigger:** la línea `<LINEA_PROLONGACION_ES>`, para una prueba de una hora en producción
+    (`procedimiento-lineas.md`, apartado 8), con la V13 de Prolongaciones (D-009 de Prolongaciones) para soltarla.
+  - **Evals:** la pasada de Prolongación con la v3 está en `docs/informes/evals-v3.md`. Cinco evals cambian su
+    resultado esperado al de la v3 (PROL-03, PROL-04, ASEG-06, WEB-09 y la nota de WEB-08), hay cuatro nuevas
+    (V3-PW1 a 4, dos críticas) y las 26 del envío (CORREO, PISTA y GC-P1) quedan solo para la v2.
+- **Por qué:**
+  - El envío del correo (copiado de la v12 de Prolongaciones, D-008 de Prolongaciones) nunca se ha probado con una
+    reserva real ni ha estado en producción: el caso «coincide» y `pista_correo` eran bloqueos de la puerta 0, y
+    PISTA-04 y CORREO-08 seguían en 0/3. La V11, que es la que atiende hoy, no envía nada.
+  - El responsable quiere ver el bot único una hora con llamadas reales de Prolongación en español.
+  - Quitarlo saca del bot las únicas herramientas que escriben fuera de HappyRobot (además del WhatsApp de Minibús)
+    y los datos personales que pedía (correo, nombre, fecha de nacimiento y número de reserva).
+- **Qué no cambia:** los otros cuatro módulos. Sus `transfer_to_human_agent` y el extract siguen listando el valor
+  `correo_no_coincide` (no lo usa nadie; `pendientes.md`).
+- **Riesgo aceptado:** la prueba se hace sin la puerta 0 (sin las 25 llamadas de prueba ni el ensayo de líneas). Por
+  eso es corta, con dos personas mirando y con la vuelta atrás preparada (despublicar Atención España y publicar la
+  V11).
+- **Afecta a:** v3 (borrador); la v2 queda como referencia, con el correo. Spec §5.7 (envío del correo y pista): no
+  aplica a la v3. La adenda de Reembolsos (D-017, rama local) contaba con que la v3 sería la suya.
+- **Quién:** jzerpa (pidió quitar el correo y preparar la prueba el 22/10/2026). Publicar lo hace una persona.
+- **Estado:** aplicada en la v3; publicada en producción para la prueba (comprobado el 24/10/2026).
+
 ## D-016 · 2026-10-20 · Créditos por llamada: solo el total, sin desglose (desviación del spec §6, pendiente)
 - **Qué:** el spec §6 pide los créditos por llamada separados en LLM por módulo y voz (bot hablando / escuchando al
   agente). `scripts/creditos_runs.py` solo da el total por run (`GET /billing/usage/runs/{run_id}`) y `medir_bots.py`

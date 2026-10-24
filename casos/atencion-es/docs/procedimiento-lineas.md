@@ -210,3 +210,29 @@ Prolongaciones). Plantilla:
 
 Apuntar siempre: publicación del antiguo sin líneas, publicación del nuevo, primera llamada comprobada (run_id,
 que sí se puede guardar), vuelta atrás si la hay y su motivo. No poner números de teléfono ni datos de clientes.
+
+## 8. Prueba de una hora con la línea de Prolongación ES (preparada el 22/10/2026, D-018)
+
+Una prueba corta en producción, antes de la fase 1: **solo la línea `<LINEA_PROLONGACION_ES>`**, una hora, con vuelta
+atrás al terminar. La puerta 0 **no** está superada: hacerla así es decisión del responsable (D-018). La línea EN se
+queda en Prolongaciones.
+
+Versiones preparadas (borradores, sin publicar):
+
+| Workflow | Versión | Qué lleva en el trigger |
+|---|---|---|
+| Centauro Atención España | `v3 · v2 sin el correo de contraseña + línea de Prolongación ES` (`5cu7jiosi6n7`, `01a16336-eee7-7143-ba65-931217592e78`) | solo `<LINEA_PROLONGACION_ES>` |
+| Centauro Prolongacion Spain | `V13 · V11 sin la línea de Prolongación ES` (`om1srste88es`, `01a16343-9aba-7562-b923-866dac1933c9`) | solo `<LINEA_PROLONGACION_EN>`; el resto, igual que la V11 |
+
+| # | Quién | Paso | Notas |
+|---|---|---|---|
+| 1 | Responsable | Elegir una mañana de lunes a viernes, con Gestión abierta, y avisar a las colas; abrir el registro (apartado 7) | Dos personas: una publica y otra mira runs y RingCentral |
+| 2 | Segunda persona | Apuntar la hora y el último run de Prolongaciones (`monitor_runs action=list`) | Punto de corte |
+| 3 | Responsable | Publicar la **V13** en lugar de la V11 | Desde aquí la línea ES no la atiende nadie hasta el paso 4: hacerlos seguidos |
+| 4 | Responsable | Publicar la **v3** de Atención España en production | Si HappyRobot la rechaza por la línea, apuntar el mensaje y hacer la vuelta atrás (paso 7) |
+| 5 | Responsable | Llamar a la línea ES desde un móvil conocido | Comprobar (3.1): run en Atención España con `opcion_menu = prolongacion`, `idioma = es`, `origen_opcion = linea`. Llamar también a la línea EN: debe entrar en la V13. Si en 5 minutos no entra ningún run, vuelta atrás |
+| 6 | Ambos | Vigilar la hora: `monitor_runs` cada 10 minutos y RingCentral (que no haya llamadas sin run) | Vuelta atrás inmediata con un fallo crítico o llamadas perdidas |
+| 7 | Responsable | **Vuelta atrás** al acabar la hora: despublicar Atención España (no tiene más líneas) y publicar la **V11** (con sus dos líneas) | En este orden, para no tener la línea en dos workflows publicados |
+| 8 | Segunda persona | Llamar a la línea ES: el run debe entrar en la V11 | |
+| 9 | Responsable | Apuntar en el registro cada paso con su hora, el run_id de la primera llamada y lo comprobado del apartado 2 | Esta prueba resuelve parte del ensayo (Paso 2): qué variante libera el número y cuánto tarda |
+

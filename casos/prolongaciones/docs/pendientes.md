@@ -2,6 +2,9 @@
 
 - [ ] **Sus líneas pasarán al bot único en la fase 1** (`casos/atencion-es/docs/procedimiento-lineas.md`, apartado 3;
       vuelta atrás: republicar la V11 con sus líneas). Antes, puerta 0 del bot único (`casos/atencion-es/docs/pendientes.md`).
+- [ ] **Prueba de una hora con la línea ES en el bot único** (D-009): preparada la V13 (la V11 sin
+      `<LINEA_PROLONGACION_ES>`). Durante la prueba la línea EN la atiende la V13; al acabar se vuelve a publicar la
+      V11. Pasos en `casos/atencion-es/docs/procedimiento-lineas.md`, apartado 8.
 
 ## v12 · envío del correo de contraseña (D-008, sin publicar)
 - [ ] **Probar el caso «coincide» de punta a punta.** Solo se ha probado «no coincide» (con datos de

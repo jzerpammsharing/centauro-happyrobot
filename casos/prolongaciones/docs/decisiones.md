@@ -21,6 +21,19 @@ Plantilla:
 
 ---
 
+## D-009 · 2026-10-22 · V13: la V11 sin la línea en español, para la prueba de una hora del bot único
+- **Qué:** versión nueva `V13 · V11 sin la línea de Prolongación ES` (`om1srste88es`), fork de la V11. Solo cambia el
+  trigger: se queda con `<LINEA_PROLONGACION_EN>` y suelta `<LINEA_PROLONGACION_ES>`. Sirve para la prueba de una
+  hora del bot único con esa línea (`casos/atencion-es/docs/procedimiento-lineas.md`, apartado 8; D-018 de Atención
+  España): se publica la V13, se publica la v3 de Atención España con la línea ES y, al acabar, se despublica Atención
+  España y se vuelve a publicar la V11.
+- **Por qué:** el responsable quiere ver el bot único una hora con llamadas reales de Prolongación en español antes de
+  la fase 1. Una versión sin la línea es la variante A del procedimiento (republicar el antiguo sin la línea), que evita
+  despublicar Prolongaciones y deja la línea inglesa atendida por la V11 de siempre.
+- **Afecta a:** V13 (borrador). La V11 sigue publicada y sin tocar; la v12 sigue en borrador.
+- **Quién:** jzerpa (pidió la prueba el 22/10/2026). Publicar lo hace una persona.
+- **Estado:** preparada (sin publicar).
+
 ## D-008 · 2026-10-17 · v12: Daniel envía el correo de contraseña si el correo coincide (fase 1)
 - **Qué:** versión nueva `v12 · V11 + envío del correo de contraseña (fase 1)` (`mnhi8x9j8ce7`), fork
   de la V11. Spec: `specs/2026-10-17-envio-correo-contrasena.md`.
