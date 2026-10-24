@@ -22,7 +22,49 @@ Plantilla:
 
 ---
 
-## D-011 · 2026-10-15 · v25: rama por defecto en «¿Enviar WhatsApp?» (pendiente de publicar)
+## D-012 · 2026-10-24 · v26: servicio de espera y avisos de retraso, a la cola de Minibús (pendiente de publicar)
+- **Qué:**
+  - Fork de la v25 (en producción): v26 (`fw02geuq54cv`), «v26 · v25 + servicio de espera y avisos
+    de retraso a la cola de Minibús».
+  - Cuando el cliente va a llegar tarde a recoger el coche porque su vuelo o tren se retrasa, el
+    bot le pasa a la cola de **Minibús** (18056 en español, 18059 en inglés) con
+    `motivo_transferencia` `minibus` en dos casos:
+    - acepta que comprueben el servicio de espera (40 €);
+    - después de explicarle que no hace falta, insiste en avisar a la oficina.
+  - Antes iba a Gestión de reserva.
+  - Va **siempre** a Minibús, esté Gestión abierta o cerrada: una sola regla para que el bot no se
+    equivoque.
+  - Lo demás no cambia:
+    - el bot explica primero que la reserva se guarda doce horas dentro del horario de la oficina, y
+      el servicio de espera sin prometer nada;
+    - si solo quiere avisar, le dice que no hace falta y no le ofrece pasarle con nadie;
+    - en modo virtual (centro de atención cerrado) no se transfiere;
+    - el resto de casos de Gestión siguen sin ir a Minibús cuando Gestión está cerrada.
+  - Nodos tocados: los prompts «Prolongación y consultas», «Punto de encuentro» e «Información de
+    oficina», y sus tres `transfer_to_human_agent`. «Triaje y horario» no cambia. Detalle y copias
+    en `prompts/minibus-es/v26/`.
+- **Por qué:**
+  - Gestión solo atiende de lunes a viernes de 8 a 21 h. Fuera de ese horario (fines de semana y
+    tardes), al cliente cuyo vuelo llega tarde el bot no le daba ninguna opción: le decía que
+    llamara en horario de Gestión o que fuera a la oficina, justo cuando necesita el servicio de
+    espera.
+  - En las evals, v25 llega a pasar el servicio de espera a la 18057 con Gestión cerrada, donde solo
+    suena la locución de cerrado.
+  - El call center confirma que la cola de Minibús, que atiende los siete días, puede gestionar el
+    servicio de espera.
+- **Afecta a:**
+  - Minibús ES v26. Las colas 18056 y 18059 recibirán estas llamadas (ver `docs/extensiones.md`).
+  - Prolongaciones (V11) y el bot único de Atención España mandan todavía el servicio de espera a
+    Gestión (ver `pendientes.md`).
+- **Quién:** jzerpa, a petición del call center.
+- **Estado:** pendiente de publicar.
+  - Evals (`docs/informes/2026-10-24-v26-evals.md`): batería nueva 17 de 17 en v26; regresión sin
+    fallos nuevos frente a v25.
+  - Comprobado: prompts y herramientas releídos tras subirlos (mismo texto, mismas variables) y
+    `fix_broken_vars` sin referencias rotas.
+  - Falta una llamada de prueba real (ver `pendientes.md`). Publicar lo hace una persona.
+
+## D-011 · 2026-10-15 · v25: rama por defecto en «¿Enviar WhatsApp?» (publicada)
 - **Qué:**
   - Fork de la v24: v25 (`k2in5n9kk01x`), «v25 · v24 + rama por defecto en ¿Enviar WhatsApp?».
   - Único cambio: el nodo de rutas «¿Enviar WhatsApp?» tiene una segunda rama, «Fallback» (tipo
@@ -41,7 +83,7 @@ Plantilla:
     tiene que descontarlos aparte.
 - **Afecta a:** Minibús ES v25, que sustituirá a v24 en el test A/B.
 - **Quién:** jzerpa.
-- **Estado:** pendiente de publicar.
+- **Estado:** publicada: v25 está en producción (comprobado el 24/10/2026).
   - Comprobado: la estructura es v24 + la rama (37 nodos frente a 36; 4 condiciones frente a 3) y
     `fix_broken_vars` no encuentra referencias rotas. En el test solo fallan los 4 «Initiate
     customer connection», que necesitan una llamada en curso.

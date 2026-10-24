@@ -10,8 +10,8 @@ Todas las patas salientes de los bots salen de la extensión **19236** (id inter
 ## Colas de Minibús
 | Ext. | Nombre en RingCentral | Uso | También la usa |
 |---|---|---|---|
-| 18056 | 00. CC ES-ES- Hor.MiniBus | Minibús España, español | **Prolongaciones** (minibús o idioma no atendido, ES) |
-| 18059 | 00. CC ES-EN-Hor.MiniBus | Minibús España, inglés | **Prolongaciones** (minibús o idioma no atendido, EN) |
+| 18056 | 00. CC ES-ES- Hor.MiniBus | Minibús España, español. Desde Minibús ES v26 (D-012 de Minibús), también el servicio de espera y los avisos de retraso de vuelo o tren | **Prolongaciones** (minibús o idioma no atendido, ES) |
+| 18059 | 00. CC ES-EN-Hor.MiniBus | Minibús España, inglés. Desde Minibús ES v26, también el servicio de espera y los avisos de retraso | **Prolongaciones** (minibús o idioma no atendido, EN) |
 | 18069 | 00. CC IT-IT-Hor.MiniBus | Minibús Italia, italiano | |
 | 18073 | 00. CC IT-EN-Hor.MiniBus | Minibús Italia, inglés | |
 | 18063 | 00. CC PT-PT-Hor.MiniBus | Minibús Portugal, portugués | |

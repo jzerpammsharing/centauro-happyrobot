@@ -52,7 +52,13 @@
   - Cuando se apruebe la plantilla en inglés, enviar también en llamadas en inglés.
   - Revisar si v24 debe heredar los cambios de v23 antes de publicar (v23 sigue sin probar).
   - [x] **15/10/2026 · runs «failed» en v24:** el nodo de rutas «¿Enviar WhatsApp?» no tiene rama por defecto. Cuando `enviar` es false, el run termina en «failed» («has no matching condition and no fallback branch»), aunque la llamada fue bien (primer caso: run 52019f08-6f67-4055-8537-db12c2c7cd57, Murcia, inglés, transferida y conectada a 18059; otro: 4ca09060-423f-4b37-b45d-9fe7f5ee6172). Arreglo: añadir una rama por defecto sin acción, en una versión nueva (fork de v24).
-    **Resuelto en v25 (`k2in5n9kk01x`, D-011), pendiente de publicar** y de cambiar v24 por v25 en el test A/B.
+    **Resuelto en v25 (`k2in5n9kk01x`, D-011)**, que ya está en producción (24/10/2026).
+
+- [ ] **v26: servicio de espera y avisos de retraso a la cola de Minibús** (D-012). Pendiente de publicar.
+  - Antes de publicar, una llamada de prueba real con el centro abierto, mejor un fin de semana o después de las 21 h (Gestión cerrada): vuelo retrasado → acepta comprobar el servicio de espera → la llamada entra en la 18056 (o en la 18059 si es en inglés).
+  - Avisar al call center de que la cola de Minibús recibirá estas llamadas todos los días, también entre semana con Gestión abierta.
+  - Tras publicar: en el informe diario, contar las transferencias a 18056/18059 por retraso y comprobar que no aumentan las de «solo quiere avisar».
+  - **El mismo cambio falta en Prolongaciones (V11) y en el bot único de Atención España**: los dos mandan todavía el servicio de espera a Gestión, incluso con Gestión cerrada.
 
 ## Mejoras propuestas
 - [ ] Mejoras de prompt de D-006 (estimación: resueltas del 42 % al 54 %).
