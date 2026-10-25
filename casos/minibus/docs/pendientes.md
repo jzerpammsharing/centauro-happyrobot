@@ -72,8 +72,13 @@
   - Tras publicar, medir en el informe diario el porcentaje de oferta en las llamadas aptas: con v25, 42 de 93; Sevilla, 0 de 16.
   - En Madrid T2, al cliente que ya espera, una de dos veces le dio la indicación entera en lugar de solo la referencia, aunque sí ofreció el WhatsApp (WA-6). Vigilarlo en llamadas reales.
   - Al cliente que ya espera en Málaga (WA-5), el 25/10 no siempre mencionó el enlace para ver el minibús en directo, aunque sí ofreció el WhatsApp: v27, 1 de 2; v28, 1 de 3. El 24/10, v27 pasó 2 de 2. Vigilarlo en llamadas reales.
-- [ ] **v28: dirección de las oficinas desde «Punto de encuentro»** (D-014). Sin publicar.
-  - **Antes de nada:** una persona tiene que crear en el editor el Module Change debajo de la herramienta `informacion_oficina` de «Punto de encuentro» (node `01a17263-9058-7c9d-ba62-895569b1ce06`) hacia «Información de oficina» (`01a17262-1409-7c6a-a58b-7bcdf2db7c14`). Sin él no se puede publicar: la herramienta devuelve vacío y el bot puede inventarse la respuesta (DIR-2).
+- [ ] **v28: dirección de las oficinas desde «Punto de encuentro»** (D-014). Sin publicar y **no se sigue** (25/10, jzerpa): la línea de Minibús ES pasará pronto al bot único de Atención España, que ya lo hace.
+  - Mientras la línea siga en este workflow quedan dos huecos que el bot único no tiene:
+    - «Punto de encuentro» manda al navegador a quien pide la dirección de la oficina (run `f7b98d60`, Málaga, 25/10);
+    - «Información de oficina» transfiere a la cola de MINIBÚS solo para dar el punto de encuentro: unas 19 de 2.336 llamadas del 07 al 25/10, una al día (`informes/2026-10-25-v28-direccion.md`, sección 6). Ejemplo: `cad2c98e` (Valencia, 25/10).
+  - Al pasar la línea al bot único, comprobar en sus primeras llamadas que ninguno de los dos casos se repite.
+  - Si la migración se retrasa y se retoma la v28, faltan los pasos de abajo y, además, igualarla con la v6 del bot único (la dirección por cualquier motivo, no solo en taxi o en su coche) y añadir el salto de «Información de oficina» a «Punto de encuentro».
+  - **Antes de publicar (si se retomara):** una persona tiene que crear en el editor el Module Change debajo de la herramienta `informacion_oficina` de «Punto de encuentro» (node `01a17263-9058-7c9d-ba62-895569b1ce06`) hacia «Información de oficina» (`01a17262-1409-7c6a-a58b-7bcdf2db7c14`). Sin él no se puede publicar: la herramienta devuelve vacío y el bot puede inventarse la respuesta (DIR-2).
   - Después: comprobar por la API que el enlace apunta al módulo correcto y repetir DIR-1 y DIR-2.
   - Llamada de prueba real: Málaga, ir en taxi y pedir la dirección de la oficina. Debe dar «calle Pascal, cuarenta y dos, polígono Villa Rosa».
   - Al publicar, vigilar que la cola de MINIBÚS no reciba ya preguntas de horario de oficinas de estación o de ciudad hechas desde «Punto de encuentro».

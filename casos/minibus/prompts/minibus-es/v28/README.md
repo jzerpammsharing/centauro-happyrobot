@@ -8,8 +8,9 @@ Análisis y evals: `../../../docs/informes/2026-10-25-v28-direccion.md`.
 Lo que no está en esta carpeta es igual que en v27 (`../v27/`) y, para «Información de oficina»,
 que en v26 (`../v26/`).
 
-**Sin publicar y no se puede publicar todavía:** falta el «Module Change» debajo de la herramienta
-nueva (ver `herramienta-informacion-oficina.md`).
+**Sin publicar y no se sigue** (25/10/2026, D-014): la línea de Minibús ES pasará al bot único de
+Atención España, que ya lo hace. Si se retomara, antes de publicar falta el «Module Change» debajo de
+la herramienta nueva (ver `herramienta-informacion-oficina.md`).
 
 ## Nodos que cambian
 

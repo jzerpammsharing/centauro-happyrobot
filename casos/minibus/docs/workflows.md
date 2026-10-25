@@ -54,7 +54,7 @@ informacion_oficina_entregada, valido_antes_de_informar, muletillas, tono_agente
 | v25 | k2in5n9kk01x | v24 + rama por defecto en ¿Enviar WhatsApp? | estuvo en producción hasta el 24/10/2026; sustituida por v26 (D-011) |
 | v26 | fw02geuq54cv | v25 + servicio de espera y avisos de retraso a la cola de Minibús | estuvo en producción del 24 al 25/10/2026; sustituida por v27 (D-012) |
 | **v27** | e4qv98cib2dm | v26 + WhatsApp como cierre normal y para el cliente que ya espera | **publicada** (en producción el 25/10/2026) (D-013) |
-| v28 | arjyj8ufclwz | v27 + dirección de las oficinas desde Punto de encuentro | sin publicar; falta el Module Change de `informacion_oficina` en Punto de encuentro (D-014) |
+| v28 | arjyj8ufclwz | v27 + dirección de las oficinas desde Punto de encuentro | sin publicar y no se sigue: la línea pasa al bot único, que ya lo hace (D-014) |
 
 ### Italia (`01a03a65-3700-74c1-9c7b-e9c708833c4b`)
 | Versión | Slug | Estado |

@@ -22,7 +22,7 @@ Plantilla:
 
 ---
 
-## D-014 · 2026-10-25 · v28: la dirección de la oficina se da, no se manda a buscarla al navegador (sin publicar)
+## D-014 · 2026-10-25 · v28: la dirección de la oficina se da, no se manda a buscarla al navegador (sin publicar; no se sigue)
 - **Qué:**
   - Fork de la v27 (en producción): v28 (`arjyj8ufclwz`), «v28 · v27 + dirección de las oficinas
     desde Punto de encuentro».
@@ -56,8 +56,17 @@ Plantilla:
   recibir las preguntas de datos de una oficina que no es de aeropuerto hechas desde «Punto de
   encuentro».
 - **Quién:** jzerpa.
-- **Estado:** sin publicar.
-  - **Bloqueo:** una persona tiene que crear en el editor el Module Change debajo de
+- **Estado:** sin publicar; **no se sigue** (decidido por jzerpa el 25/10/2026).
+  - La línea de Minibús ES pasará pronto al bot único de Atención España (C-004), que ya hace las dos
+    cosas: salta de «Información de oficina» a «Punto de encuentro» (desde la v2) y, desde la v6, da
+    la dirección de la oficina por cualquier motivo. Terminar la v28 (dos Module Change en el editor y
+    otra ronda de evals) solo serviría hasta esa migración.
+  - Medido el 25/10 (`docs/informes/2026-10-25-v28-direccion.md`, sección 6): «Información de
+    oficina» transfiere a la cola de MINIBÚS solo para dar el punto de encuentro en unas 19 de 2.336
+    llamadas (del 07/10 al 25/10, una al día). Es el coste de no seguir hasta que llegue la migración.
+  - La v28 se queda en HappyRobot sin publicar, como referencia. Lo que sigue es lo que se escribió
+    cuando se preparó.
+  - **Bloqueo (si se retomara):** una persona tiene que crear en el editor el Module Change debajo de
     `informacion_oficina` (en «Punto de encuentro» de la v28) hacia «Información de oficina». Sin él,
     la herramienta devuelve vacío y el bot puede inventarse la respuesta (eval DIR-2: dio un horario
     inventado). **No publicar la v28 sin ese enlace.**
