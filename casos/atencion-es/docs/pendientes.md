@@ -715,9 +715,9 @@ cambio).
 - [ ] **Terminal sin aeropuerto con «terminal uno»** (D-021): el Triaje llama a `buscar_punto_de_encuentro` con
       «terminal uno» 1 de cada 3 veces (V7-TERM-2) y Punto de encuentro supone Madrid siempre (V7-TERM-PE), así que a
       un cliente de la T1 de Barcelona o Málaga le daría el punto de Madrid. Con «terminal cuatro» o «dos B» va bien
-      (V7-TERM-1 y V7-TERM-3). Ideas: que el Triaje
-      pase la terminal en `terminal` y deje `aeropuerto` vacío para forzar la pregunta, o un nodo de código que
-      rechace un `aeropuerto` que sea solo una terminal. Mirar también si pasa en llamadas reales.
+      (V7-TERM-1 y V7-TERM-3). Ideas: que el Triaje pase la terminal en `terminal` y deje `aeropuerto` vacío para
+      forzar la pregunta, o un nodo de código que rechace un `aeropuerto` que sea solo una terminal. Mirar también si
+      pasa en llamadas reales.
 - [ ] Antes de publicar: sigue pendiente lo de la v6 (minibús «blanco o amarillo»); la v7 no lo toca.
 - [ ] Publicar la v7 en lugar de la v4 (lo hace una persona). Vuelta atrás: volver a publicar la v4.
 - [ ] Sin arreglar de las llamadas del 25/10 (`datos/atencion-es-v4-2026-10-25-tarde.json`): un «sí» o «yes» ambiguo al
@@ -727,6 +727,60 @@ cambio).
       si la web no deja prolongar, no ofrece la alternativa de una reserva nueva que prepare un compañero (cola
       `nueva_reserva`) (`d1c015d3`, `730a1fc7`, los dos en domingo; la v7 ofrece en su lugar pasarle a la cola de
       Minibús para revisarlo).
+
+### Llamadas del 25/10 de 13:31 a 20:20 (v4, sin arreglar en la v7)
+27 llamadas, todas por la línea de Prolongación (16 española, 11 inglesa), con Gestión cerrada
+(`datos/atencion-es-v4-2026-10-25-noche.json`, no versionado). El bot resuelve 4, deja 11 a medias y no resuelve 11. Las
+5 transferencias por retraso de vuelo a la cola de Minibús conectan (las 5 con su pata en RingCentral). El fallo más
+repetido, dar solo el horario de Gestión en un caso importante, sale en 10 llamadas y la v7 lo arregla en 9. Quedan
+estos, que la v7 no arregla (`3f2b2afe` y `b6124dc0`, comprobados en la transcripción; el resto, del análisis por
+subagentes):
+- [ ] **Cancelación con el plazo pasado** (`3f2b2afe`): reserva con la fecha equivocada y la recogida de hoy ya
+      pasada. El bot repite «cancelar es gratis hasta veinticuatro horas antes» sin decir que ese plazo ya ha pasado,
+      aunque el texto de `reserva_no_iniciada` dice que entonces no se reembolsa, y confirma que si cancela mañana
+      recibe un cupón. El cliente cuelga pensando que no pierde nada. Que el bloque de consultas diga qué contestar
+      cuando la recogida ya ha pasado o falta menos de veinticuatro horas.
+- [ ] **Retraso de vuelo sin transferir** (`b6124dc0`, inglés con poco nivel; el mismo teléfono que `313b353b` a las
+      13:11, tampoco resuelto): explica el servicio de espera y ofrece comprobarlo, pero tras un «wait» salta a NO PUDO
+      RECOGER A SU HORA, ofrece mirar si la reserva sigue disponible (no puede) y no transfiere; tampoco cuando el
+      cliente dice que no le entiende, aunque IDIOMA DE ATENCIÓN manda pasarle a la cola minibus. Eval con un «wait» o
+      una interrupción después de la oferta.
+- [ ] **El Triaje contesta él mismo una duda del alquiler** (`909fa242`): un reembolso de combustible, sin
+      `consultas_alquiler`; no dice que tarda hasta doce días según el banco y manda directamente al formulario de
+      reclamaciones.
+- [ ] **Alquiler de ida** (`ce433f55`): «devuélvalo en la misma oficina donde lo recogió» a un cliente con devolución
+      en otra oficina. La frase está en LA WEB NO LE DEJA y en el CIERRE de Prolongación y en `la_web_no_le_deja` del
+      bloque de consultas (Punto de encuentro e Información de oficina dicen algo parecido de los aeropuertos), que no
+      prevén los alquileres de ida: cambiarla por «en la oficina y a la hora de su contrato».
+- [ ] **Devolver fuera de horario** (`312feb1e`): Consultas le dice que devuelva el coche a las cinco de la mañana y
+      que no hace falta avisar «porque Gestión está cerrada», con Málaga aeropuerto abierto desde las siete; Información
+      de oficina lo corrige dos turnos después.
+- [ ] Leve (`1303cae4`): no aclara si un alquiler en Italia se prolonga igual desde la web.
+- [ ] Extract «Registrar resultado de la llamada»: marca «resuelto» en 8 llamadas que no se resolvieron y
+      `motivo_no_resuelto` «gestion_cerrada» en transferencias a Minibús que salieron bien.
+
+### Caso de Palma (Minibús ES v27, `551e5373`, 25/10 a las 20:05, inglés; lo pasó la sesión de Minibús)
+- [ ] El cliente llegaba después de las 23:00, cierre de Palma aeropuerto («maybe we don't come before 11»).
+      `recoger_tarde` solo dijo que la reserva se guarda doce horas; al preguntar el horario, Información de oficina
+      dijo que no podría recoger hasta las siete y, cuando preguntó por el servicio de cuarenta euros, que no tenía
+      información. Lo correcto, con Gestión cerrada: ofrecer comprobar el servicio de espera y, si acepta, cola minibus.
+      En Minibús salió bien el mismo día en `a4919d9b` y `594f336e`. **En la v7 es probable que falle igual:**
+      Información de oficina manda al que llega tarde a `consultas_alquiler` con `recoger_tarde`, pero nada le impide
+      decir que no hay servicio después del cierre, y Consultas no sabe el horario de la oficina, así que no puede
+      comparar la hora de llegada con la de cierre. Pasa también al revés: en `d7db850b` (17:43) transfirió a Minibús a
+      un cliente que llegaba a Alicante a las 22:30, con la oficina abierta hasta las 23:30. Hacen falta evals en
+      Consultas y en Información de oficina antes de cambiar nada.
+
+### Ideas de guías públicas de prompts de voz (Vapi, ElevenLabs, OpenAI; las trajo la sesión de Minibús)
+- [ ] Confirmar los datos clave en vez de suponerlos (va con lo de «terminal uno»).
+- [ ] Una regla fija, en su propia sección: si no tienes el dato, dilo y no adivines (Palma, `312feb1e`).
+- [ ] Dos o tres ejemplos cortos de conversación en el prompt: caso normal, caso límite y error de herramienta.
+- [ ] Prompts más ligeros: que `buscar_punto_de_encuentro` devuelva solo el punto del aeropuerto pedido y avise si la
+      terminal es ambigua. Arreglaría lo de Madrid de raíz, pero va contra D-002 de Minibús (puntos en el prompt):
+      medirlo antes.
+- [ ] Listas cortas en vez de párrafos largos.
+      Fuentes: docs.vapi.ai/prompting-guide, elevenlabs.io/docs/eleven-agents/best-practices/prompting-guide,
+      developers.openai.com/cookbook/examples/realtime_prompting_guide y github.com/openai/openai-realtime-agents.
 
 ## Preguntas abiertas de la Tarea 18 (para el responsable)
 - [ ] **¿Qué líneas quedan en Minibús ES al quitar las dos movidas en la fase 2?** Reembolsos usa una línea española
