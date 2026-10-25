@@ -690,14 +690,43 @@ cambio).
 - [x] Minibús v28 (PR 11) no sigue (D-014 de Minibús, 25/10/2026): la línea de Minibús pasará al bot único, que ya da la
       dirección siempre que la pidan (D-020, segunda subida). Lo que hay que mirar en las primeras llamadas de Minibús
       está en `procedimiento-lineas.md`, apartado 4.
-- [ ] Publicar la v6 en lugar de la v4 (lo hace una persona; lleva la misma línea en el trigger). Vuelta atrás: volver a
-      publicar la v4.
+- [ ] ~~Publicar la v6 en lugar de la v4~~: la v7 (D-021) sale de la v6 y la sustituye; lo que queda de la v6 sigue
+      en la v7.
 - [ ] Llamadas del fin de semana con la v4 (25/10, `datos/atencion-es-v4-2026-10-25.json`): dos fallos sin arreglar.
       Luces del coche (run `cd3c95a9`): el bot se despide con «no tengo instrucciones para cada modelo», sin ofrecer
       Asistencia ni la oficina (el bloque de consultas no lo cubre). Pide un agente (run `2e4f7a35`): el Triaje dice
       enseguida que Gestión está cerrada sin preguntar qué necesita y no aclara si «añadir un día» es prolongar o una
       reserva sin empezar. Además, un retraso de vuelo entró por Prolongación porque contestó «sí» al «¿Quiere prolongar…?»
-      del saludo (run `b7b8ebe0`). Arreglarlos sobre la última versión (hoy la v6).
+      del saludo (run `b7b8ebe0`). Arreglarlos sobre la última versión (hoy la v6). La v7 arregla el de `2e4f7a35`
+      (pregunta qué necesita también con Gestión cerrada y, si es importante, cola Minibús); siguen los otros dos.
+
+## v7: con Gestión cerrada, lo importante a la cola de Minibús (D-021, 25/10/2026)
+- [ ] **Confirmar con el callcenter** que la cola de Minibús asume lo que antes esperaba a Gestión (fines de semana,
+      festivos y de 21:00 a 22:00 entre semana): prolongar, recoger o devolver, cambiar la reserva, un problema con el
+      coche. No se ha medido cuántas llamadas más le llegarán.
+- [ ] Decidir si las agencias y aseguradoras también van a la cola de Minibús con Gestión cerrada (en la v7 no; es una
+      decisión mía, D-021).
+- [ ] Extract «Registrar resultado de la llamada»: que distinga una transferencia a Minibús por Gestión cerrada, para
+      medir cuántas hay (la v7 no lo toca).
+- [ ] Evals antiguas que contradicen la regla nueva (esperan «horario de Gestión, sin transferir»): actualizarlas o
+      retirarlas cuando se apruebe la v7. Lista en D-021, «Evals».
+- [ ] Repetir V4-RT3 en horario de Gestión (de lunes a viernes, de 8:00 a 21:00): el domingo falla por el reloj real
+      (D-021, «Evals»).
+- [ ] **Terminal sin aeropuerto con «terminal uno»** (D-021): el Triaje llama a `buscar_punto_de_encuentro` con
+      «terminal uno» 1 de cada 3 veces (V7-TERM-2) y Punto de encuentro supone Madrid siempre (V7-TERM-PE), así que a
+      un cliente de la T1 de Barcelona o Málaga le daría el punto de Madrid. Con «terminal cuatro» o «dos B» va bien
+      (V7-TERM-1 y V7-TERM-3). Ideas: que el Triaje
+      pase la terminal en `terminal` y deje `aeropuerto` vacío para forzar la pregunta, o un nodo de código que
+      rechace un `aeropuerto` que sea solo una terminal. Mirar también si pasa en llamadas reales.
+- [ ] Antes de publicar: sigue pendiente lo de la v6 (minibús «blanco o amarillo»); la v7 no lo toca.
+- [ ] Publicar la v7 en lugar de la v4 (lo hace una persona). Vuelta atrás: volver a publicar la v4.
+- [ ] Sin arreglar de las llamadas del 25/10 (`datos/atencion-es-v4-2026-10-25-tarde.json`): un «sí» o «yes» ambiguo al
+      saludo de la línea de Prolongación manda a Prolongación sin saber el motivo (`313b353b`, `97afefab`, y `b7b8ebe0`
+      por la mañana); en el aeropuerto de Barcelona sin terminal, Punto de encuentro pregunta dos veces si explica las
+      dos terminales en vez de darlas (`d08bb63e`); mezcla de idiomas por una frase suelta (`0d17fe4c`, `313b353b`);
+      si la web no deja prolongar, no ofrece la alternativa de una reserva nueva que prepare un compañero (cola
+      `nueva_reserva`) (`d1c015d3`, `730a1fc7`, los dos en domingo; la v7 ofrece en su lugar pasarle a la cola de
+      Minibús para revisarlo).
 
 ## Preguntas abiertas de la Tarea 18 (para el responsable)
 - [ ] **¿Qué líneas quedan en Minibús ES al quitar las dos movidas en la fase 2?** Reembolsos usa una línea española

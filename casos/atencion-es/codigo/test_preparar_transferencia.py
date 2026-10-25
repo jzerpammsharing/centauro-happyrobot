@@ -32,9 +32,16 @@ COLAS_PRUEBA = {
 
 # Textos fijos que ve el agente (copiados a mano: si cambian en el nodo, esta prueba avisa)
 DETALLE_GESTION_CERRADA = (
-    "No se ha transferido: el equipo de gestión de reservas atiende de lunes a viernes de ocho de la mañana a "
-    "nueve de la noche, salvo festivos. Díselo al cliente con calma, no digas que le pasas con nadie y sigue con "
-    "COLA DE GESTIÓN CERRADA."
+    "No se ha transferido: gestión de reservas está cerrada (atiende de lunes a viernes de ocho de la mañana a "
+    "nueve de la noche, salvo festivos). No uses la cola gestion: sigue COLA DE GESTIÓN CERRADA. Si es algo "
+    "importante de su alquiler o su viaje, la cola minibus; si es una factura, un reembolso, un cargo o una "
+    "reclamación, dile ese horario sin decir que le pasas con nadie."
+)
+DETALLE_GESTION_CERRADA_VIRTUAL = (
+    "No se ha transferido: gestión de reservas está cerrada (atiende de lunes a viernes de ocho de la mañana a "
+    "nueve de la noche, salvo festivos) y a esta hora solo hay compañeros en asistencia. No uses la cola gestion "
+    "ni la minibus: dile ese horario con calma, sin decir que le pasas con nadie. Si es una avería o un accidente, "
+    "transfiere a la cola asistencia."
 )
 DETALLE_COLA_NO_VALIDA = (
     "No se ha transferido: la cola no es válida. Usa gestion, asistencia, nueva_reserva o minibus."
@@ -95,7 +102,7 @@ CASOS = [
     ("gestión, festivo 12/10/2026 (lunes) 10:00", entrada("gestion"), FESTIVO_12_OCT,
      {"transferir": False, "numero": "", "resultado": "gestion_cerrada"}),
     ("gestión, domingo 10:00", entrada("gestion"), DOMINGO_10,
-     {"transferir": False, "numero": "", "resultado": "gestion_cerrada"}),
+     {"transferir": False, "numero": "", "resultado": "gestion_cerrada", "detalle": DETALLE_GESTION_CERRADA}),
     ("gestión, sábado 10:00", entrada("gestion"), SABADO_10,
      {"transferir": False, "numero": "", "resultado": "gestion_cerrada"}),
     # Límites del horario
@@ -133,13 +140,16 @@ CASOS = [
     ("asistencia sábado 03:00 en modo virtual se transfiere", entrada("asistencia"), SABADO_03,
      {"transferir": True, "numero": "sip:2@x"}),
     # Gestión en modo virtual: las dos redes dicen «no transferir»; gana gestion_cerrada (su detalle remite a COLA
-    # DE GESTIÓN CERRADA, que da el horario real de Gestión; «a partir de las ocho» sería falso el fin de semana)
+    # DE GESTIÓN CERRADA, que da el horario real de Gestión; «a partir de las ocho» sería falso el fin de semana).
+    # Su detalle no manda a la cola minibus, que de noche tampoco atiende (D-021)
     ("gestión a las 22:30 entre semana: gestion_cerrada, no modo_virtual", entrada("gestion"), MARTES_22_30,
-     {"transferir": False, "numero": "", "resultado": "gestion_cerrada", "detalle": DETALLE_GESTION_CERRADA}),
+     {"transferir": False, "numero": "", "resultado": "gestion_cerrada", "detalle": DETALLE_GESTION_CERRADA_VIRTUAL}),
     ("gestión a las 07:59: gestion_cerrada", entrada("gestion"), MARTES_07_59,
-     {"transferir": False, "resultado": "gestion_cerrada"}),
+     {"transferir": False, "resultado": "gestion_cerrada", "detalle": DETALLE_GESTION_CERRADA_VIRTUAL}),
     ("gestión domingo 23:00: gestion_cerrada", entrada("gestion"), DOMINGO_18_OCT_23_00,
-     {"transferir": False, "resultado": "gestion_cerrada"}),
+     {"transferir": False, "resultado": "gestion_cerrada", "detalle": DETALLE_GESTION_CERRADA_VIRTUAL}),
+    ("gestión a las 21:30 entre semana: detalle con la cola minibus (aún no es modo virtual)", entrada("gestion"),
+     MARTES_21_30, {"transferir": False, "resultado": "gestion_cerrada", "detalle": DETALLE_GESTION_CERRADA}),
     # Festivos: el modo virtual va solo por la hora; de día las demás colas se transfieren
     ("minibús en domingo 10:00", entrada("minibus"), DOMINGO_10, {"transferir": True, "numero": "sip:4@x"}),
     ("nueva reserva en festivo 10:00", entrada("nueva_reserva"), FESTIVO_8_DIC,

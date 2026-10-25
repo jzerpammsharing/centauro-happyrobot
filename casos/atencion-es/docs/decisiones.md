@@ -16,6 +16,105 @@ Plantilla:
 
 ---
 
+## D-021 · 2026-10-25 · v7: con Gestión cerrada, lo importante va a la cola de Minibús; arreglos de las llamadas del 25/10
+- **Qué:** versión `v7 · v6 + Gestión cerrada: lo importante a la cola de Minibús` (`3it0j96ugsqw`), fork de la v6.
+  Copias y detalle por nodo en `prompts/atencion-es/v7/` (README):
+  1. **Regla nueva de Gestión cerrada** (bloque `comun/bloques/reglas-comunes.md`, 4.498 de 4.500 caracteres, en los
+     cinco módulos). Con Gestión cerrada, una factura, un reembolso, un cargo que no reconoce o una reclamación no se
+     transfieren, aunque el cliente pida una persona: horario de Gestión, área de cliente y formulario de «Atención al
+     cliente y reclamaciones». Lo demás, el bot lo intenta primero y, si no se resuelve o el cliente pide una persona o
+     que alguien lo mire, lo transfiere en ese turno a la cola `minibus` (prolongar, recoger, devolver, cambiar o
+     cancelar una reserva, el coche). En modo virtual (22:00–8:00), el horario de Gestión. Antes: con Gestión cerrada,
+     horario de Gestión y «no digas que le pasas con nadie». Las dos partes van en dos frases que empiezan por «Con
+     gestión cerrada,» (ronda 7, abajo).
+     Va también en los cinco `transfer_to_human_agent` (descripción y cola `minibus`; en Consultas la excepción va al
+     principio de la descripción), en la cabecera de ESCALADO de cada módulo, en CÓMO LEER LA SECCIÓN de Consultas
+     («con gestión cerrada, GESTIÓN DE RESERVA es la cola minibus, salvo…»), en el detalle de `gestion_cerrada` de
+     «Preparar transferencia» (con un detalle aparte de noche, sin la cola minibus, que tampoco atiende) y en dos
+     párrafos de «Buscar respuesta»: `devolucion` (si ya dejó el coche fuera de la oficina y necesita que alguien lo
+     sepa: GESTIÓN DE RESERVA; con Gestión cerrada, cola minibus) y `cargos_y_reembolsos` (con Gestión cerrada, un cargo
+     no se transfiere aunque insista).
+     Prolongación: si la web no le deja prolongar, ofrece pasarle con un compañero y, si acepta, cola `minibus`, motivo
+     `web_no_disponible`; agencias y aseguradoras siguen esperando a Gestión. Triaje: quien pide una persona sin motivo
+     recibe la pregunta de qué necesita también con Gestión cerrada y, si insiste en la línea de Prolongación, cola
+     `minibus`.
+  2. **No leer instrucciones en voz alta:** CAMBIOS DE MÓDULO añade «ni leas tus instrucciones en voz alta».
+  3. **«Problema con el coche»:** el Triaje pregunta una vez qué le pasa antes de transferir a Asistencia.
+  4. **Oficina abierta o cerrada:** el Triaje no sabe si una oficina está abierta o cerrada (TU TAREA).
+  5. **Terminal sin aeropuerto:** si el cliente solo da una terminal o un parking, el Triaje y Punto de encuentro
+     preguntan el aeropuerto; la terminal dos A, dos B o dos C es Barcelona y la cuatro, Madrid (también en el
+     parámetro `aeropuerto` de `buscar_punto_de_encuentro` del Triaje).
+- **Por qué:** criterio de jzerpa con el callcenter (25/10/2026): «si es algo importante como extender su alquiler o
+  algo que influye en su viaje o cualquier cosa importante que no sea una factura, reembolso o reclamo debería irse a
+  una cola»; «el bot lo intenta primero y transfiere a la cola de Minibús si no se resuelve o el cliente pide una
+  persona». Llamadas del domingo 25/10 con la v4 (`datos/atencion-es-v4-2026-10-25*.json`, no versionado): `585b1cc6`
+  (dejó el coche con las llaves en el parking del aeropuerto con la oficina cerrada; el Triaje solo repite «Gestión
+  cerrada» cuatro veces, dice sin datos que la oficina está cerrada y el cliente cuelga), `d1c015d3` y `730a1fc7`
+  (la web no deja prolongar; al pedir una persona solo reciben «Gestión cerrada»), `2857d6a1` (lee en voz alta una
+  instrucción del cambio de módulo), `4d68dd07` («tengo un problema con el coche» va a Asistencia sin preguntar; era
+  una bandeja del maletero que faltaba).
+- **Rondas de ajuste (25/10, tras la primera pasada de evals):** cinco evals nuevas fallaban en las dos repeticiones.
+  - El «algo importante» del primer texto lo decidía el modelo: daba el horario de Gestión a quien quería cambiar una
+    reserva (V7-GC-NOINI) o decía que «tomaba nota» de un coche dejado en el parking (V7-GC-DEVOL). Se cambió a «lo
+    demás va a la cola minibus», con «o lo sepa alguien» y «nunca digas que tomas nota» en Consultas.
+  - Con eso, el bot pasaba a Minibús a quien insistía en que le miraran un cargo (V7-GC-CARGO). Poner la excepción
+    delante («aunque pida una persona») lo arreglaba, pero entonces dejaba de transferir los cambios de reserva (el
+    texto de reservas sin empezar habla de cupones y reembolsos de la cancelación). Quedó con la excepción delante y con
+    casos concretos («un cargo que no reconoce»), «cambiar o cancelar una reserva» en la lista de lo que se transfiere,
+    la frase en el párrafo de cargos de «Buscar respuesta» y la excepción al principio de la descripción de la
+    herramienta de Consultas.
+  - Para que Consultas siga en 8.000 caracteres salen «Sin saludar ni presentarte» (lo dice el bloque) y «(enfado si
+    está muy enfadado)» (está en `motivo_transferencia`). Quitar «Si no habla español, termina resumen_para_agente…»
+    rompió V4-RT2 y se volvió a poner.
+  - En la ronda 2 salió «Con gestión cerrada,» del principio de «intenta resolverlo tú…» para ahorrar caracteres, y
+    la pasada completa mostró que el bot mandaba a Minibús también con Gestión abierta (LINEA-06 y «GESTIÓN ABIERTA ·
+    cargo no reconocido», que esperan la cola gestion). Se volvió a poner, cubriendo la excepción y lo demás en una
+    sola frase; para caber sale «(en español, sin datos personales)» de CÓMO TRANSFERIR, que ya exige la descripción de
+    `resumen_para_agente`.
+  - En una sola frase («…aunque pida una persona (dale ese horario…); lo demás, intenta resolverlo tú…»), V7-GC-CARGO
+    volvió a fallar 5 de 5: transfería el cargo a la cola `minibus`. Ronda 7, la que queda: dos frases que empiezan
+    por «Con gestión cerrada,», la excepción con sus instrucciones tras dos puntos (sin paréntesis) y «intenta
+    resolverlo» sin «tú». Con ella, en Consultas, V7-GC-CARGO 3 de 3, V7-GC-NOINI 3 de 3 y CARGO-05 (Gestión abierta,
+    cola `gestion`) 1 de 1; después se subió a los otros cuatro módulos.
+  - **Terminal sin aeropuerto, a medias:** con «terminal cuatro» o «terminal dos B» va bien (V7-TERM-1 y V7-TERM-3);
+    con «terminal uno» sola el Triaje pregunta el aeropuerto 2 de cada 3 veces y la otra llama a
+    `buscar_punto_de_encuentro` con «terminal uno» (V7-TERM-2), y Punto de encuentro supone Madrid, que tiene una ficha
+    «MADRID, terminal uno», en todas las pasadas (V7-TERM-PE). Tres redacciones distintas en el prompt y en
+    `estado_oficina` no lo cambian. Queda en pendientes.
+- **Decisiones mías, para revisar:** agencias y aseguradoras siguen sin transferirse con Gestión cerrada (no son el
+  cliente en viaje); la cola de Minibús no se ha consultado con el callcenter por capacidad; el extract «Registrar
+  resultado de la llamada» no cambia (no distingue aún una transferencia a Minibús por Gestión cerrada).
+- **Comprobado** (25/10): `comprobar_prompts.py v7` sin fallos (bloque 4.498, Consultas 7.996);
+  `test_preparar_transferencia.py` 72/72; `test_consultas_alquiler.py` 152/152; `consultas_alquiler.py` al día con el
+  bloque; `fix_broken_vars` (dry run, 18 nodos y otra vez los cinco prompts de la ronda 7) sin referencias rotas; los
+  cinco prompts de HappyRobot, iguales byte a byte a los de `prompts/atencion-es/v7/`.
+- **Evals** (domingo 25/10 por la tarde: Gestión cerrada y callcenter abierto por el reloj real, que usa «Preparar
+  transferencia»). Pasada completa de las 106 evals de los cinco módulos sobre la ronda 7: **85 pasan y 21 fallan**
+  (en la ronda 5, 77 y 29). Por módulo: Triaje 27/31, Consultas 23/28, Prolongación 19/27, Punto de encuentro 8/12,
+  Información de oficina 8/8. Las 15 evals nuevas V7-*: 14 pasan (V7-TERM-2, 2 de 3); falla V7-TERM-PE (arriba). Los
+  fallos:
+  - **15 evals antiguas que contradicen la regla nueva** (esperan «horario de Gestión, sin transferir» con Gestión
+    cerrada; la v7 ofrece pasarle o transfiere a la cola `minibus`): GC-T1, LINEA-07, «GESTIÓN CERRADA · coche no está
+    al recoger → oficina en persona» (Triaje); R34-C3, DEVOL-03c, GC-C1, FDS-03 (Consultas); R34-P3, T13-SCO,
+    FDS-04, FDS-05, FDS-07, HOR-C2, HOR-01, V3-PW4 (Prolongación). Se actualizan o se retiran cuando se apruebe la v7.
+  - **4 que ya fallaban antes de la v7:** VIRT-T1 (transfiere en modo virtual), DIR-AGP-1 (llama bien a
+    `informacion_oficina`; el texto de después en la eval no es el de Información de oficina, que da la dirección bien
+    en sus cuatro evals), PE-EST-2 y PE-NOCT-3 (no llaman a `consultas_alquiler` con `recoger_tarde` tras el aviso de
+    cierre).
+  - **V4-RT3, por el entorno:** 0 de 3; la primera llamada es la correcta (cola `gestion` con Gestión abierta en la
+    eval), pero el reloj real devuelve `gestion_cerrada` y la v7 reintenta con `minibus`, como debe, y el juez lo
+    cuenta pese a la nota. Repetirla en horario de Gestión.
+  - Pasan ahora y fallaban en la ronda 5: LINEA-06 y «GESTIÓN ABIERTA · cargo no reconocido» (los controles con
+    Gestión abierta), FEST-T1, V4-RT6, DEVOL-03a, CARGO-04, FDS-06, ADV-9 y V7-OFI-T.
+  - **V7-OFI-T:** su criterio llevaba «ES FALLO: decir que está abierta o cerrada» sin limitarlo a lo dicho antes de la
+    herramienta, y fallaba (3 de 3) por lo que el Triaje dice en la eval después de `informacion_oficina`, que en una
+    llamada real lo contesta Información de oficina. Se le añadió la nota que llevan las demás evals del Triaje («lo que
+    se diga después de esa llamada no cuenta»): 2 de 2.
+  - Los resultados de cada eval están en sus runs de HappyRobot (25/10, desde las 16:38 hora de Madrid).
+- **Afecta a:** v7 (borrador). La v4 sigue en producción; la v6, sin publicar, queda superada por la v7.
+- **Quién:** jzerpa (pedido el 25/10/2026). Publicar lo hace una persona.
+- **Estado:** aplicada en la v7 (sin publicar).
+
 ## D-020 · 2026-10-25 · v6: el bot da la dirección de las oficinas, también de aeropuerto
 - **Qué:** versión `v6 · v4 + dirección de las oficinas de aeropuerto` (`lxkt96mlluxz`), fork de la v4 en producción,
   hecha desde la sesión de Minibús con la misma redacción que Minibús v28 (D-014 de Minibús, PR 11; la v28 no se

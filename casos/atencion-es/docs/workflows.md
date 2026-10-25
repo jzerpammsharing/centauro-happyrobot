@@ -11,6 +11,7 @@
 - **Editor de la v3:** `https://platform.eu.happyrobot.ai/mutuamobility/workflows/rntn68r0a8gh/editor/5cu7jiosi6n7`
 - **Editor de la v4:** `https://platform.eu.happyrobot.ai/mutuamobility/workflows/rntn68r0a8gh/editor/02qakmz6tbk0`
 - **Editor de la v6:** `https://platform.eu.happyrobot.ai/mutuamobility/workflows/rntn68r0a8gh/editor/lxkt96mlluxz`
+- **Editor de la v7:** `https://platform.eu.happyrobot.ai/mutuamobility/workflows/rntn68r0a8gh/editor/3it0j96ugsqw`
 - Flujo, módulos, herramientas y extract: spec `specs/2026-10-18-bot-unico-arquitectura.md` (§5). Qué copió el
   duplicado y qué no: `pendientes.md` (sección «Comprobaciones de la Tarea 6»).
 
@@ -23,6 +24,7 @@
 | v3 | `5cu7jiosi6n7` | `01a16336-eee7-7143-ba65-931217592e78` | `v3 · v2 sin el correo de contraseña + línea de Prolongación ES` | Fork de la v2 del 22/10/2026 (D-018); publicada en producción para la prueba (comprobado con `get_workflows` el 24/10/2026). Prolongación sin `enviar_correo_contrasena` ni `pista_correo` (prompt como la V11 en la contraseña), extract sin sus datos y la línea `<LINEA_PROLONGACION_ES>` en el trigger para la prueba de una hora (`procedimiento-lineas.md`, apartado 8). 79 nodos (comprobado con `get_workflows` el 22/10/2026). Copias de lo que cambia en `prompts/atencion-es/v3/` |
 | v4 | `02qakmz6tbk0` | `01a16ed5-c62b-7965-b592-091ca135c78c` | `v4 · v3 + retraso de vuelo o tren a la cola de Minibús con Gestión cerrada` | Fork de la v3 del 24/10/2026 (D-019); **en producción** desde el 24/10/2026 hacia las 19:44 (primera llamada, run `b7b8ebe0`). Con Gestión cerrada, el servicio de espera se comprueba con la cola `minibus`: cambian la sección `recoger_tarde` de los dos «Buscar respuesta», el `transfer_to_human_agent` de Consultas (descripción y cola) y una viñeta de CÓMO LEER LA SECCIÓN del prompt de Consultas (7.999 caracteres). 79 nodos (comprobado con `get_workflows` el 24/10/2026). Lleva la misma línea en el trigger que la v3. Copias en `prompts/atencion-es/v4/` |
 | v6 | `lxkt96mlluxz` | `01a1726a-a839-7e93-886c-7831a100a674` | `v6 · v4 + dirección de las oficinas de aeropuerto` | Fork de la v4 del 25/10/2026 (D-020), hecha desde la sesión de Minibús; sin publicar. Da la dirección de cualquier oficina, también de aeropuerto: cambian `informacion_oficina` de Punto de encuentro y los prompts de Punto de encuentro e Información de oficina. 79 nodos (comprobado con `get_workflows` el 25/10/2026). No hay v5: la del 24/10 salía de la v3 y se borró el 25/10. Copias en `prompts/atencion-es/v6/` |
+| v7 | `3it0j96ugsqw` | `01a17350-f4d6-7566-a0f9-336e08398f78` | `v7 · v6 + Gestión cerrada: lo importante a la cola de Minibús` | Fork de la v6 del 25/10/2026 (D-021); sin publicar. Con Gestión cerrada, lo importante que el bot no resuelve, o si el cliente pide una persona, va a la cola `minibus` (facturas, reembolsos, cargos y reclamaciones esperan a Gestión); no lee instrucciones en voz alta; «problema con el coche» pregunta qué le pasa; el Triaje no sabe si una oficina está abierta; terminal sin aeropuerto. Cambian los cinco prompts (bloque común), los cinco `transfer_to_human_agent`, `buscar_punto_de_encuentro` del Triaje, `estado_oficina` de Punto de encuentro, los cinco «Preparar transferencia» y los dos «Buscar respuesta». 79 nodos. El trigger «Inbound Call» es igual que en la v3, la v4 y la v6 (mismos números; comprobado con `get_node_details` el 25/10/2026). Copias en `prompts/atencion-es/v7/` |
 
 Copia de los nodos de la v1 en `prompts/atencion-es/v1/` (un fichero por nodo; herramientas, transferencias y
 Module Change agrupados). La v2 empieza igual que la v1 salvo que no tiene el Paths «Entrada» (con «Siempre» y «Fallback») ni «Registrar consultas del alquiler» (R10 y R42, 20/10/2026).
@@ -309,7 +311,7 @@ extract lee las dos cadenas nuevas. Copias en `herramientas-punto-de-encuentro.m
 | — | — | — | — |
 
 La v4, en producción desde el 24/10/2026 (D-019), lleva en el trigger la línea `<LINEA_PROLONGACION_ES>`, como la v3
-(D-018) y la v6 (borrador, D-020). Vuelta atrás: la V11 de Prolongaciones (D-018). La v1 y la v2 tienen el trigger «Inbound Call» sin números, a propósito (dos workflows con la misma
+(D-018), la v6 (borrador, D-020) y la v7 (borrador, D-021). Vuelta atrás: la V11 de Prolongaciones (D-018). La v1 y la v2 tienen el trigger «Inbound Call» sin números, a propósito (dos workflows con la misma
 línea es justo lo que no se quiere hasta producción). Los números se ponen en el trigger al pasar a producción
 (`pendientes.md`, puerta 0). La tabla línea → opción (`LINEAS` de «Contexto de la llamada») ya lleva en la v2 los
 números reales de las cuatro líneas actuales (Tarea 8; en el repo siguen como marcadores).
