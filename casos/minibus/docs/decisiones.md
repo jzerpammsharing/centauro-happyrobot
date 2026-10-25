@@ -22,7 +22,50 @@ Plantilla:
 
 ---
 
-## D-013 · 2026-10-24 · v27: el WhatsApp del punto de encuentro, cierre normal y para el cliente que ya espera (pendiente de publicar)
+## D-014 · 2026-10-25 · v28: la dirección de la oficina se da, no se manda a buscarla al navegador (sin publicar)
+- **Qué:**
+  - Fork de la v27 (en producción): v28 (`arjyj8ufclwz`), «v28 · v27 + dirección de las oficinas
+    desde Punto de encuentro».
+  - Si el cliente pide la dirección de una oficina, también la de su aeropuerto (va en taxi o en su
+    coche), «Punto de encuentro» ya no le dice que la busque en el navegador: cambia a «Información
+    de oficina», que le da la dirección de la ficha tal cual, como hacen los agentes.
+  - Para eso «Punto de encuentro» tiene una herramienta nueva, `informacion_oficina` (tema
+    `direccion`), que necesita un «Module Change» hacia «Información de oficina». También la usa
+    para los datos de una oficina que no es de aeropuerto, que antes se transferían a la cola de
+    MINIBÚS, y en modo virtual.
+  - «Información de oficina» gana una sección DIRECCIÓN: la de la ficha, tal cual; si va en su coche,
+    también «Para llegar en coche»; el navegador solo si la ficha no tiene dirección o lo dice. Nunca
+    inventa ni cambia una dirección.
+  - Detalle y copias en `prompts/minibus-es/v28/`.
+  - El mismo arreglo, en el bot único de Atención España: v6 (`lxkt96mlluxz`), sin publicar. Allí el
+    Module Change ya existía; cambian la herramienta y los dos prompts (se documenta en el caso
+    `atencion-es`).
+- **Por qué:**
+  - Run `f7b98d60-17e7-4f1b-9e47-3995401098c2` (25/10, 08:19, Málaga): el cliente va en taxi y pide
+    la dirección de la oficina. El bot le dice que no la tiene y que la busque en el navegador. El
+    cliente se queja: es el teléfono de información y no tiene la dirección.
+  - La frase «Dile que busque en el navegador "Centauro Rent a Car" y el nombre del aeropuerto» ya
+    estaba en la v17 y no hay ninguna decisión que la justifique. «Punto de encuentro» no tenía las
+    direcciones, que solo están en «Información de oficina».
+  - Los agentes humanos dan la dirección cuando se la piden. Google Maps lo usan solo como apoyo:
+    Málaga (`fa8f81ff`), Bilbao (`ca14fdc4`) y Sevilla (`f3432d00`).
+  - Se elige el Module Change y no copiar las direcciones en «Punto de encuentro» para no mantener
+    los datos de 33 oficinas en dos sitios.
+  - Datos: `docs/informes/2026-10-25-v28-direccion.md`.
+- **Afecta a:** Minibús ES v28 y Atención España v6. Las colas no cambian. La cola de MINIBÚS deja de
+  recibir las preguntas de datos de una oficina que no es de aeropuerto hechas desde «Punto de
+  encuentro».
+- **Quién:** jzerpa.
+- **Estado:** sin publicar.
+  - **Bloqueo:** una persona tiene que crear en el editor el Module Change debajo de
+    `informacion_oficina` (en «Punto de encuentro» de la v28) hacia «Información de oficina». Sin él,
+    la herramienta devuelve vacío y el bot puede inventarse la respuesta (eval DIR-2: dio un horario
+    inventado). **No publicar la v28 sin ese enlace.**
+  - Evals (`docs/informes/2026-10-25-v28-direccion.md`): DIR-1 y DIR-3 pasan 2 de 2 en v28 y fallan
+    en v27. La regresión no muestra fallos nuevos.
+  - Falta una llamada de prueba real. Publicar lo hace una persona.
+
+## D-013 · 2026-10-24 · v27: el WhatsApp del punto de encuentro, cierre normal y para el cliente que ya espera (publicada)
 - **Qué:**
   - Fork de la v26 (en producción): v27 (`e4qv98cib2dm`), «v27 · v26 + WhatsApp como cierre normal
     y para el cliente que ya espera».
@@ -61,6 +104,9 @@ Plantilla:
     `fix_broken_vars` sin referencias rotas.
   - Falta una llamada de prueba real desde un móvil (ver `pendientes.md`). Publicar lo hace una
     persona.
+  - **Publicada:** en producción el 25/10/2026 (comprobado con `manage_versions`; las llamadas de ese
+    día desde las 08:01 entran por ella). Primera llamada apta (Málaga, 08:19): cierra con la
+    pregunta del WhatsApp, el cliente dice que no y no se envía nada.
 
 ## D-012 · 2026-10-24 · v26: servicio de espera y avisos de retraso, a la cola de Minibús (publicada)
 - **Qué:**
