@@ -646,8 +646,8 @@ Lo que la revisión final dejó sin hacer en la rama; ninguno bloquea fusionarla
       (hoy la v4, D-019; sería la v5) o decidir otra cosa.
 
 ## v4: retraso de vuelo o tren a la cola de Minibús con Gestión cerrada (D-019, 24/10/2026)
-- [ ] **Publicar la v4** en lugar de la v3 (lo hace una persona; lleva la misma línea en el trigger). Antes, revisar
-      el PR. Vuelta atrás: volver a publicar la v3.
+- [x] **Publicar la v4** en lugar de la v3: en producción desde el 24/10/2026 hacia las 19:44 (comprobado el 25/10 con
+      `manage_versions`). Vuelta atrás: volver a publicar la v3.
 - [x] Evals en la v4 (sábado 24/10, 19:00–19:20, Gestión cerrada por el reloj, antes del modo virtual). Seis nuevas
       en Consultas, sin carpeta (el `folder_id` no se guardó al crearlas). Resultados con la v4 final (sección,
       herramienta y prompt), en la tabla de abajo.
@@ -680,6 +680,23 @@ cambio).
       `consultas_alquiler`), así que no se tocó; alinearlo cuando se toquen esos módulos.
 - [ ] Prolongaciones V11/V13 y Minibús ES v25 siguen con el texto anterior (con Gestión cerrada no se ofrece pasarle).
       Si el callcenter quiere la regla también ahí, es una versión nueva de cada uno.
+
+## v6: dirección de las oficinas, también de aeropuerto (D-020, 25/10/2026)
+- [ ] **Antes de publicar la v6**, reforzar la regla del minibús «blanco o amarillo» de Punto de encuentro: la eval «v18 ·
+      España → el minibús puede ser blanco o amarillo» baja de 14/14 en la v4 a 12/18 en la v6 (el bot confirma que la
+      furgoneta concreta es la de Centauro). La v6 no tocó esa regla.
+- [ ] DIR-AGP-1 (Punto de encuentro) falla 0/3 en la v4 y en la v6: salta bien a Información de oficina, pero la
+      respuesta tras el Module Change no se puede medir bien en evals. Comprobarlo en una llamada de prueba.
+- [ ] Minibús v28 (PR 11, sesión de Minibús) lleva la primera redacción de la dirección (solo taxi o coche propio); la
+      v6 ya da la dirección siempre que la pidan (D-020, segunda subida). Avisada la sesión de Minibús el 25/10.
+- [ ] Publicar la v6 en lugar de la v4 (lo hace una persona; lleva la misma línea en el trigger). Vuelta atrás: volver a
+      publicar la v4.
+- [ ] Llamadas del fin de semana con la v4 (25/10, `datos/atencion-es-v4-2026-10-25.json`): dos fallos sin arreglar.
+      Luces del coche (run `cd3c95a9`): el bot se despide con «no tengo instrucciones para cada modelo», sin ofrecer
+      Asistencia ni la oficina (el bloque de consultas no lo cubre). Pide un agente (run `2e4f7a35`): el Triaje dice
+      enseguida que Gestión está cerrada sin preguntar qué necesita y no aclara si «añadir un día» es prolongar o una
+      reserva sin empezar. Además, un retraso de vuelo entró por Prolongación porque contestó «sí» al «¿Quiere prolongar…?»
+      del saludo (run `b7b8ebe0`). Arreglarlos sobre la última versión (hoy la v6).
 
 ## Preguntas abiertas de la Tarea 18 (para el responsable)
 - [ ] **¿Qué líneas quedan en Minibús ES al quitar las dos movidas en la fase 2?** Reembolsos usa una línea española

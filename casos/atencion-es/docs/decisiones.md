@@ -16,6 +16,45 @@ Plantilla:
 
 ---
 
+## D-020 · 2026-10-25 · v6: el bot da la dirección de las oficinas, también de aeropuerto
+- **Qué:** versión `v6 · v4 + dirección de las oficinas de aeropuerto` (`lxkt96mlluxz`), fork de la v4 en producción,
+  hecha desde la sesión de Minibús con la misma redacción que Minibús v28 (D-014 de Minibús, PR 11). Tres nodos; copias
+  en `prompts/atencion-es/v6/`:
+  1. `informacion_oficina` de Punto de encuentro: la descripción incluye «la dirección de una oficina de Centauro,
+     también la de un aeropuerto (por ejemplo, porque va en taxi o en su coche)» y `tema` gana "direccion".
+  2. Prompt de Punto de encuentro: fuera «Dile que busque en el navegador…» en Devolución (si pide la dirección,
+     `informacion_oficina` con el tema `direccion`); OTRAS HERRAMIENTAS separa la dirección de cualquier oficina del
+     horario, cómo llegar o dónde devolver en una oficina que no es de aeropuerto.
+  3. Prompt de Información de oficina: «su dirección» en la tarea; sección DIRECCIÓN tras HORARIO (la «Dirección» de la
+     ficha tal cual, «Para llegar en coche» si va en coche, el navegador solo si la ficha lo dice, nunca inventarla); en
+     CÓMO LLEGAR de aeropuerto, quien va en taxi o en su coche sigue DIRECCIÓN; DÓNDE DEVOLVER, regla 3, da la dirección
+     de la ficha.
+- **Por qué:** llamada de Minibús en Málaga (run `f7b98d60`, 25/10, 08:19): el cliente iba en taxi, pidió la dirección
+  de la oficina y el bot le dijo que la buscara en el navegador. Los agentes sí dan la dirección.
+- **Evals** (de la sesión de Minibús; informe en la rama del PR 11, `casos/minibus/docs/informes/2026-10-25-v28-direccion.md`):
+  DIR-IO-1 y DIR-IO-2 pasan 2/2 en la v6 (1/1 en la v4). DIR-AGP-1 falla 0/3 en la v4 y en la v6, pero salta bien de
+  módulo; lo que falla es la respuesta después del Module Change, que en las evals no es fiable. Regresión de la v6:
+  Punto de encuentro 34/40 e Información de oficina 27/28; PE-NOCT-3, PE-NOCT-3b y ADV-8 fallan siempre también en la
+  v4, y PE-EST-2, GC-PE1 y «horario Madrid ambiguo» son ruido (también fallan en la v4). **Empeora** «v18 · España → el
+  minibús puede ser blanco o amarillo»: 12/18 en la v6 frente a 14/14 en la v4 (confirma que la furgoneta concreta es la
+  de Centauro). Esa regla no se tocó; conviene reforzarla antes de publicar.
+- **Segunda subida (25/10, a petición de jzerpa):** la dirección se da siempre que la pidan, sea para lo que sea, no solo
+  para el taxi o el coche propio («también quiere poder saber la dirección en otros casos»); en un aeropuerto, si busca
+  cómo llegar, punto de encuentro, y si pide la dirección, también se le da. Cinco frases de los mismos tres nodos:
+  DIRECCIÓN y CÓMO LLEGAR (aeropuerto) de Información de oficina; Devolución y OTRAS HERRAMIENTAS de Punto de
+  encuentro; descripción y `tema` de `informacion_oficina`. Evals con la v6 final: DIR-IO-1 2/2, DIR-IO-2 2/2,
+  DIR-IO-3 (Sevilla, para un familiar) 3/3, DIR-IO-4 (en la terminal de Málaga) 3/3, DIR-IO-5 (Alcobendas) 1/2 (la
+  otra da la dirección bien pero con cifras), DIR-AGP-2 (tras el punto de encuentro, para el mapa) 3/3; DIR-AGP-1 0/2,
+  como antes (salta bien; la respuesta tras el Module Change no se puede medir en evals). Regresión: SALTO-06a,
+  SALTO-06b, «pregunta por el minibús (Palma)», «VIRTUAL · pregunta por el minibús», ADV-12, IDO-3, PE-NOCT-2,
+  SALTO-ENTRADA-PE, SALTO-05a y PDE-2 pasan; «horario de la oficina tras el minibús (Málaga)» 2/3 en la v6 y 0/2 en la
+  v4 (ruido del juez). Avisada la sesión de Minibús para llevarlo a la v28.
+- **Comprobado aquí** (25/10): la v6 tiene 79 nodos y conserva lo de la v4 (excepción de la cola minibus en el
+  `transfer_to_human_agent` de Consultas); el texto de los dos prompts solo difiere del de la v4 en lo de arriba.
+- **Afecta a:** v6 (borrador). La v4 sigue en producción.
+- **Quién:** jzerpa (pedido el 25/10/2026). Publicar lo hace una persona.
+- **Estado:** aplicada en la v6 (sin publicar).
+
 ## D-019 · 2026-10-24 · v4: con Gestión cerrada, el retraso de vuelo o tren va a la cola de Minibús
 - **Qué:** versión `v4 · v3 + retraso de vuelo o tren a la cola de Minibús con Gestión cerrada` (`02qakmz6tbk0`),
   fork de la v3. Cambian tres cosas; copias en `prompts/atencion-es/v4/`:
