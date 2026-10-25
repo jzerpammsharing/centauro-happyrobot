@@ -134,6 +134,14 @@ Mismo esquema, con estas diferencias:
   llamada»; además, en la oficina, probar una llamada de avería o de reserva nueva para ver que la transferencia
   sale por la cola correcta (extensiones de `docs/extensiones.md`) y que en horario nocturno no transfiere a las
   colas que solo ponen un anuncio (modo virtual).
+- **Qué mirar en las primeras llamadas reales de Minibús** (aviso de la sesión de Minibús, 25/10/2026; informe
+  `casos/minibus/docs/informes/2026-10-25-v28-direccion.md`, sección 6, en la rama del PR 11):
+  - Que «Información de oficina» no transfiera a la cola minibus solo para dar el punto de encuentro. En Minibús ES
+    pasó en 19 de 2.336 llamadas (07/10 a 25/10, una al día): el cliente, ya en el aeropuerto, pregunta cómo llegar a la
+    oficina y el triaje lo manda a «Información de oficina». En el bot único lo resuelve el salto a
+    `buscar_punto_de_encuentro` (SALTO-06a y SALTO-06b pasan en la v6).
+  - Que la dirección de una oficina, también de aeropuerto, se dé y no se mande a buscar en el navegador (caso de Málaga,
+    run `f7b98d60`, 25/10; arreglado en la v6, D-020).
 - **Vuelta atrás preparada:** como en la fase 1 (paso 3b), dejar en borrador la versión «nuevo sin las líneas de
   Minibús» antes de publicar, para que volver atrás sea solo publicar.
 - Minibús Italia y Portugal no se tocan.

@@ -18,7 +18,8 @@ Plantilla:
 
 ## D-020 · 2026-10-25 · v6: el bot da la dirección de las oficinas, también de aeropuerto
 - **Qué:** versión `v6 · v4 + dirección de las oficinas de aeropuerto` (`lxkt96mlluxz`), fork de la v4 en producción,
-  hecha desde la sesión de Minibús con la misma redacción que Minibús v28 (D-014 de Minibús, PR 11). Tres nodos; copias
+  hecha desde la sesión de Minibús con la misma redacción que Minibús v28 (D-014 de Minibús, PR 11; la v28 no se
+  publicará: la línea de Minibús pasará al bot único). Tres nodos; copias
   en `prompts/atencion-es/v6/`:
   1. `informacion_oficina` de Punto de encuentro: la descripción incluye «la dirección de una oficina de Centauro,
      también la de un aeropuerto (por ejemplo, porque va en taxi o en su coche)» y `tema` gana "direccion".

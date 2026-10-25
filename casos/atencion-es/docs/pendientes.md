@@ -687,8 +687,9 @@ cambio).
       furgoneta concreta es la de Centauro). La v6 no tocó esa regla.
 - [ ] DIR-AGP-1 (Punto de encuentro) falla 0/3 en la v4 y en la v6: salta bien a Información de oficina, pero la
       respuesta tras el Module Change no se puede medir bien en evals. Comprobarlo en una llamada de prueba.
-- [ ] Minibús v28 (PR 11, sesión de Minibús) lleva la primera redacción de la dirección (solo taxi o coche propio); la
-      v6 ya da la dirección siempre que la pidan (D-020, segunda subida). Avisada la sesión de Minibús el 25/10.
+- [x] Minibús v28 (PR 11) no sigue (D-014 de Minibús, 25/10/2026): la línea de Minibús pasará al bot único, que ya da la
+      dirección siempre que la pidan (D-020, segunda subida). Lo que hay que mirar en las primeras llamadas de Minibús
+      está en `procedimiento-lineas.md`, apartado 4.
 - [ ] Publicar la v6 en lugar de la v4 (lo hace una persona; lleva la misma línea en el trigger). Vuelta atrás: volver a
       publicar la v4.
 - [ ] Llamadas del fin de semana con la v4 (25/10, `datos/atencion-es-v4-2026-10-25.json`): dos fallos sin arreglar.
