@@ -198,6 +198,7 @@ salen del análisis de llamadas del 5 al 11 de octubre, no de HappyRobot.
 | V10 | fg6e9yqdgwok | V9 + horario de la cola de Gestión | publicada antes | 10/10 20:16 → 11/10 11:31 |
 | **Version 11** | **2g1bxzyzazpp** | V10 + regla de Gestión cerrada, «no pudo recoger a su hora» y «recoger antes» | **publicada (live)** | desde el 11/10 entre 11:31 y 11:52 (primer run a las 11:52) |
 | v12 | mnhi8x9j8ce7 | v12 · V11 + envío del correo de contraseña (fase 1) | sin publicar (borrador del 17/10) | — |
+| V13 | om1srste88es | V13 · V11 sin la línea de Prolongación ES (D-009): la V11 con solo `<LINEA_PROLONGACION_EN>` en el trigger, para la prueba de una hora del bot único | sin publicar (borrador del 22/10) | — |
 
 version_id de las versiones publicadas:
 - V6 `01a0fc08-5131-7307-959c-4b5508c11fad`
@@ -207,6 +208,7 @@ version_id de las versiones publicadas:
 - V10 `01a126ac-ec56-787a-9b03-641a0e218fd6`
 - V11 `01a12a23-10e9-7575-bf06-6c77472ca128`
 - v12 (sin publicar) `01a14967-1843-78bc-89ed-0241ed3b4daa`
+- V13 (sin publicar) `01a16343-9aba-7562-b923-866dac1933c9`
 
 ### Cambios de la V10 a la V11
 

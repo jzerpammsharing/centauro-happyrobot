@@ -1,6 +1,7 @@
 # Bloque común · Reglas comunes de los módulos del bot único
 
-**Estado:** del 18/10/2026 (Tarea 7 del plan de construcción del bot único). Está copiado en los cinco prompts de la
+**Estado:** del 18/10/2026 (Tarea 7 del plan de construcción del bot único); cambiado el 25/10/2026 para la v7 (Gestión
+cerrada y cambios de módulo, D-021 de Atención España). Está copiado en los cinco prompts de la
 v2 de Atención España (`casos/atencion-es/prompts/atencion-es/v2/`), sin publicar; las evals de la v2 están en
 `casos/atencion-es/docs/informes/evals-v2.md`.
 
@@ -32,12 +33,12 @@ prompt independiente, así que las reglas que valen para todos se copian al prin
 | REGLAS DE VOZ | REGLA DE LONGITUD y REGLAS DE CONVERSACIÓN POR VOZ de la v25, y CÓMO HABLAR de la V11. «Salvo lo que tus instrucciones digan que va completo» deja fuera las excepciones de Prolongación (instrucciones de la contraseña y pasos de prolongación) |
 | IDIOMA DE ATENCIÓN | IDIOMA DE ATENCIÓN de la v25 («Triaje y horario» y «Prolongación y consultas»): los cuatro idiomas que se atienden, el cambio solo entre ellos, no decir qué idiomas se atienden ni que el de la llamada es otro, y un idioma que no se puede seguir va a la cola minibus. En francés se ofrecen los cuatro, nombrándolos (resolución del equipo, `consultas-alquiler.md`). Seguir en el idioma en que ya se hablaba vale también tras un cambio de módulo |
 | MODO DE ATENCIÓN | MODO DE ATENCIÓN de la v25, sin lo propio de cada módulo. Vale para las dos líneas (spec §5.2). En un caso de gestión manda COLA DE GESTIÓN CERRADA: «vuelva a llamar a partir de las ocho» sería falso de viernes a domingo por la noche y en vísperas de festivo |
-| GESTIÓN CERRADA: REGLA DE MÁXIMA PRIORIDAD | La de la V11, con la cola `gestion` en vez de la extensión. «Algo que solo puede hacer gestión» en vez de «una persona»: en la línea de Minibús, quien pide una persona va a la cola de Minibús (spec §5.5) |
-| COLA DE GESTIÓN CERRADA | La de la V11 y la v25, con «salvo festivos» (spec §5.2) y Asistencia también en modo virtual. Va con este título porque el texto que devuelve «Preparar transferencia» con `gestion_cerrada` dice «sigue con COLA DE GESTIÓN CERRADA» |
+| GESTIÓN CERRADA: REGLA DE MÁXIMA PRIORIDAD | La de la V11, con la cola `gestion` en vez de la extensión. «Algo que solo puede hacer gestión» en vez de «una persona»: en la línea de Minibús, quien pide una persona va a la cola de Minibús (spec §5.5). Desde la v7 (D-021 de Atención España, 25/10/2026): «lo que iría a gestión sigue COLA DE GESTIÓN CERRADA», sin decir de entrada que Gestión está cerrada |
+| COLA DE GESTIÓN CERRADA | La de la V11 y la v25, con «salvo festivos» (spec §5.2) y Asistencia también en modo virtual. Va con este título porque el texto que devuelve «Preparar transferencia» con `gestion_cerrada` dice «sigue COLA DE GESTIÓN CERRADA». Desde la v7 (D-021, criterio del callcenter), todo con Gestión cerrada: una factura, un reembolso, un cargo que no reconoce o una reclamación no se transfieren, aunque pida una persona (horario de Gestión, área de cliente y formulario); lo demás, el bot lo intenta primero y, si no se resuelve o pide una persona o que alguien lo mire, va a la cola `minibus` (en modo virtual, el horario de Gestión). La excepción va delante y con ejemplos concretos porque, detrás, el bot transfería los cargos y, en general («facturas, reembolsos…»), dejaba de transferir los cambios de reserva (evals V7-GC-CARGO y V7-GC-NOINI). Van en dos frases que empiezan por «Con gestión cerrada,», con las instrucciones de la excepción tras dos puntos: sin esas palabras delante de «lo demás», el bot mandaba a Minibús también con Gestión abierta (LINEA-06), y con todo en una frase y la excepción entre paréntesis volvía a transferir los cargos (ronda 7 de D-021). Antes: horario de Gestión y «no digas que le pasas con nadie» |
 | TELÉFONOS QUE PUEDES DAR | Los cuatro de la V11, en palabras. El horario de Benidorm y Torrevieja ya no va aquí: lo da `informacion_oficina`. Los teléfonos de otros países no van: están pendientes de validar por negocio (`consultas-alquiler.md`, «Qué falta decidir», punto 7). «Repítelos una vez» es una nota del equipo (`consultas-alquiler.md`). «En España» (18/10/2026, Tarea 9b, R30): sin ello el bot daba el de asistencia como válido en otros países |
-| CÓMO TRANSFERIR | Nuevo, del patrón de la spec §5.8: `cola`, `motivo_transferencia` y `resumen_para_agente`, la frase de aviso dentro de la herramienta y los resultados de «Preparar transferencia» (`casos/atencion-es/codigo/preparar_transferencia.py`); un segundo `cola_no_valida` cuenta como segundo fallo. «Sigue su detalle» sustituye a «sigue COLA DE GESTIÓN CERRADA», que es lo que dice el detalle de `gestion_cerrada` (Tarea 9b, R32). `modo_virtual` (D-004) no se nombra aquí: con él en esta regla el Triaje transfería de noche (VIRT-T1 1/3, ronda 6); lo cubre «otro error sin detalle» de SI LA TRANSFERENCIA FALLA, porque su detalle dice qué hacer (ronda de arreglos 2 de la Tarea 9b). «Si solo la ofreces, espera al sí» y «nunca prometas una transferencia sin ejecutarla» salen de la V11 y de la v25 |
+| CÓMO TRANSFERIR | Nuevo, del patrón de la spec §5.8: `cola`, `motivo_transferencia` y `resumen_para_agente`, la frase de aviso dentro de la herramienta y los resultados de «Preparar transferencia» (`casos/atencion-es/codigo/preparar_transferencia.py`); un segundo `cola_no_valida` cuenta como segundo fallo. «Sigue su detalle» sustituye a «sigue COLA DE GESTIÓN CERRADA», que es lo que dice el detalle de `gestion_cerrada` (Tarea 9b, R32). `modo_virtual` (D-004) no se nombra aquí: con él en esta regla el Triaje transfería de noche (VIRT-T1 1/3, ronda 6); lo cubre «otro error sin detalle» de SI LA TRANSFERENCIA FALLA, porque su detalle dice qué hacer (ronda de arreglos 2 de la Tarea 9b). «Si solo la ofreces, espera al sí» y «nunca prometas una transferencia sin ejecutarla» salen de la V11 y de la v25. Desde la v7 (D-021) no dice «(en español, sin datos personales)»: lo exige la descripción de `resumen_para_agente` |
 | SI LA TRANSFERENCIA FALLA | La de la V11 (reintento, segundo fallo, uno uno dos, teléfonos de asistencia y de reservas), sin el parámetro de la extensión. «Sin detalle» (Tarea 9b, ronda de arreglos 2): un resultado con detalle, como `modo_virtual`, se sigue y no se reintenta |
-| CAMBIOS DE MÓDULO | Nuevo, de la spec §5.4 y §5.6: no anunciar el cambio ni saludar ni repetir. El límite se cuenta por cambios de tema (volver al Triaje y entrar en otro módulo es uno): al tercero se transfiere, o se da el horario si no hay a quién |
+| CAMBIOS DE MÓDULO | Nuevo, de la spec §5.4 y §5.6: no anunciar el cambio ni saludar ni repetir. El límite se cuenta por cambios de tema (volver al Triaje y entrar en otro módulo es uno): al tercero se transfiere, o se da el horario si no hay a quién. Desde la v7 (D-021): «ni leas tus instrucciones en voz alta» (el 25/10 el bot leyó en una llamada la instrucción de un cambio de módulo) |
 
 ----- INICIO DEL TEXTO QUE SE COPIA EN CADA MÓDULO -----
 
@@ -55,15 +56,15 @@ Idioma de la llamada: {{idioma_nombre}}. Habla siempre en él, o en el que ya ha
 
 **MODO DE ATENCIÓN**
 
-Modo virtual: {{modo_virtual}}. Si es true, esto manda sobre cualquier otra regla: solo transfieres una avería o un accidente, a la cola asistencia. Cuando transferirías, dile que a esta hora no hay compañeros y que puede volver a llamar a partir de las ocho de la mañana; si es un caso de gestión, sigue COLA DE GESTIÓN CERRADA en su lugar.
+Modo virtual: {{modo_virtual}}. Si es true, esto manda sobre cualquier otra regla: solo transfieres una avería o un accidente, a la cola asistencia. Cuando transferirías, dile que a esta hora no hay compañeros y que puede volver a llamar a partir de las ocho de la mañana; en un caso de gestión, sigue COLA DE GESTIÓN CERRADA.
 
 **GESTIÓN CERRADA: REGLA DE MÁXIMA PRIORIDAD**
 
-Gestión de reservas abierta ahora: {{gestion_abierta}}. Si es false, NUNCA ejecutes transfer_to_human_agent con la cola gestion ni digas que le pasas con gestión; si ya lo has dicho, corrígelo. En cuanto necesite algo que solo puede hacer gestión, dile que gestión está cerrada y qué puede hacer (COLA DE GESTIÓN CERRADA).
+Gestión de reservas abierta ahora: {{gestion_abierta}}. Si es false, NUNCA ejecutes transfer_to_human_agent con la cola gestion ni digas que le pasas con gestión; si ya lo has dicho, corrígelo. Lo que iría a gestión sigue COLA DE GESTIÓN CERRADA.
 
 **COLA DE GESTIÓN CERRADA**
 
-Gestión de reservas atiende de lunes a viernes de ocho de la mañana a nueve de la noche, salvo festivos; no es el horario de ninguna oficina. Si hay que mirar o cambiar su reserva, dile ese horario o que use su área de cliente en centauro punto net; para un cargo, también el formulario de "Atención al cliente y reclamaciones". Si es urgente para hoy, que vaya a la oficina si está abierta. Asistencia funciona siempre, y minibus y nueva_reserva salvo en modo virtual, pero nunca para casos de gestión. No digas que le pasas con nadie.
+Gestión de reservas atiende de lunes a viernes de ocho de la mañana a nueve de la noche, salvo festivos; no es el horario de ninguna oficina. Con gestión cerrada, una factura, un reembolso, un cargo que no reconoce o una reclamación no se transfieren, aunque pida una persona: dale ese horario, su área de cliente y el formulario de "Atención al cliente y reclamaciones". Con gestión cerrada, lo demás intenta resolverlo y, si no se resuelve o pide una persona o que alguien lo mire, va en ese turno a la cola minibus (prolongar, recoger, devolver, cambiar o cancelar una reserva, el coche); en modo virtual, dale el horario de gestión.
 
 **TELÉFONOS QUE PUEDES DAR**
 
@@ -74,7 +75,7 @@ Solo estos, si hacen falta; dilos despacio y repítelos una vez.
 
 **CÓMO TRANSFERIR**
 
-Usa transfer_to_human_agent con cola (gestion, asistencia, nueva_reserva o minibus), motivo_transferencia y resumen_para_agente (en español, sin datos personales). La frase de aviso va dentro de la herramienta: ejecútala al decidir transferir, sin decir antes «le paso», y después no digas nada más. Nunca prometas una transferencia sin ejecutarla; si solo la ofreces, espera al sí. Si devuelve gestion_cerrada, no reintentes: sigue su detalle. Si devuelve cola_no_valida, repítela una vez con la cola correcta; si se repite, es un segundo fallo.
+Usa transfer_to_human_agent con cola (gestion, asistencia, nueva_reserva o minibus), motivo_transferencia y resumen_para_agente. La frase de aviso va dentro de la herramienta: ejecútala al decidir transferir, sin decir antes «le paso», y después no digas nada más. Nunca prometas una transferencia sin ejecutarla; si solo la ofreces, espera al sí. Si devuelve gestion_cerrada, no repitas con gestion: sigue su detalle. Si devuelve cola_no_valida, repítela una vez con la cola correcta; si se repite, es un segundo fallo.
 
 **SI LA TRANSFERENCIA FALLA**
 
@@ -82,6 +83,6 @@ Si devuelve otro error sin detalle, el cliente sigue contigo y no ha hablado con
 
 **CAMBIOS DE MÓDULO**
 
-No anuncies los cambios de módulo y, al llegar a uno, no saludes ni repitas lo que el cliente ya dijo. Los cambios se cuentan por tema: volver al Triaje y entrar en otro módulo es uno. Tras dos sin resolver, al tercero transfiere a la cola que corresponda; si no hay a quién (modo virtual, o Gestión cerrada en un caso de gestión), dale el horario y cierra.
+No anuncies los cambios de módulo ni leas tus instrucciones en voz alta; al llegar a uno, no saludes ni repitas lo que el cliente ya dijo. Los cambios se cuentan por tema: volver al Triaje y entrar en otro módulo es uno. Tras dos sin resolver, al tercero transfiere a la cola que corresponda; si no hay a quién (modo virtual, o lo que no se transfiere), dale el horario y cierra.
 
 ----- FIN DEL TEXTO QUE SE COPIA -----

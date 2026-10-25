@@ -18,12 +18,15 @@
 #   hora peninsular, y no en festivos nacionales), no se transfiere. La hora es la del momento en que se ejecuta
 #   el nodo, no la del principio de la llamada: este nodo NO usa gestion_abierta, aunque llegue en la entrada.
 #   Una llamada que empieza a las 20:55 y pide Gestión a las 21:02 no se transfiere.
+#   El detalle manda seguir COLA DE GESTIÓN CERRADA: lo importante va a la cola minibus y las facturas, los
+#   reembolsos, los cargos y las reclamaciones esperan a Gestión (D-021).
 # - Red de seguridad del modo virtual (D-004): de 22:00 a 08:00, hora peninsular y calculada al ejecutarse, solo se
 #   transfiere a asistencia; si piden minibus o nueva_reserva, no se transfiere y el resultado es modo_virtual, con
 #   un detalle que remite a MODO DE ATENCIÓN del bloque de reglas comunes.
 # - Si piden gestion en modo virtual, Gestión también está cerrada (cierra a las 21:00): gana gestion_cerrada,
 #   porque COLA DE GESTIÓN CERRADA da el horario real de Gestión («a partir de las ocho» sería falso de viernes a
-#   domingo y en vísperas de festivo) y el bloque de reglas comunes ya manda seguirla en un caso de gestión.
+#   domingo y en vísperas de festivo) y el bloque de reglas comunes ya manda seguirla en un caso de gestión. Su
+#   detalle es otro, sin la cola minibus, que de noche tampoco atiende (D-021).
 # - Nunca se devuelve transferir = true con un número vacío: si la URI de la cola pedida no llega, el resultado es
 #   cola_no_valida.
 # - hora_madrid, gestion_abierta_en, modo_virtual_en y FESTIVOS_NACIONALES son una copia de contexto_llamada.py (un
@@ -41,9 +44,16 @@ COLAS = {
 }
 
 DETALLE_GESTION_CERRADA = (
-    "No se ha transferido: el equipo de gestión de reservas atiende de lunes a viernes de ocho de la mañana a "
-    "nueve de la noche, salvo festivos. Díselo al cliente con calma, no digas que le pasas con nadie y sigue con "
-    "COLA DE GESTIÓN CERRADA."
+    "No se ha transferido: gestión de reservas está cerrada (atiende de lunes a viernes de ocho de la mañana a "
+    "nueve de la noche, salvo festivos). No uses la cola gestion: sigue COLA DE GESTIÓN CERRADA. Si es algo "
+    "importante de su alquiler o su viaje, la cola minibus; si es una factura, un reembolso, un cargo o una "
+    "reclamación, dile ese horario sin decir que le pasas con nadie."
+)
+DETALLE_GESTION_CERRADA_VIRTUAL = (
+    "No se ha transferido: gestión de reservas está cerrada (atiende de lunes a viernes de ocho de la mañana a "
+    "nueve de la noche, salvo festivos) y a esta hora solo hay compañeros en asistencia. No uses la cola gestion "
+    "ni la minibus: dile ese horario con calma, sin decir que le pasas con nadie. Si es una avería o un accidente, "
+    "transfiere a la cola asistencia."
 )
 DETALLE_MODO_VIRTUAL = (
     "No se ha transferido: de diez de la noche a ocho de la mañana no hay compañeros en esa cola. No lo vuelvas a "
@@ -173,7 +183,8 @@ def preparar(input_data, ahora_utc=None):
     # Gestión cerrada: se decide con la hora de ahora, nunca con gestion_abierta del principio de la llamada
     ahora = _en_utc(ahora_utc or datetime.now(timezone.utc))
     if cola == "gestion" and not gestion_abierta_en(ahora):
-        return salida(False, "", "gestion_cerrada", DETALLE_GESTION_CERRADA)
+        detalle = DETALLE_GESTION_CERRADA_VIRTUAL if modo_virtual_en(ahora) else DETALLE_GESTION_CERRADA
+        return salida(False, "", "gestion_cerrada", detalle)
 
     # Modo virtual: de noche solo hay compañeros en asistencia (gestion ya ha salido arriba como gestion_cerrada)
     if cola != "asistencia" and modo_virtual_en(ahora):

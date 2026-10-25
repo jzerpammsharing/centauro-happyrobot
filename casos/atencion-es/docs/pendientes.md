@@ -612,8 +612,9 @@ Lo que la revisión final dejó sin hacer en la rama; ninguno bloquea fusionarla
       un arreglo más. Antes de tocarlos, hacer sitio (mover texto a herramientas o a `buscar_respuesta`).
 
 ## Antes de conectar la primera línea (puerta 0, spec §8.4)
-- [ ] Comprobar que la variable del workflow `HORA_PRUEBA` vale `ninguna` en los tres entornos (si no, `estado_oficina`
-      usa esa hora en vez del reloj; D-014).
+- [x] Comprobar que la variable del workflow `HORA_PRUEBA` vale `ninguna` en los tres entornos (si no, `estado_oficina`
+      usa esa hora en vez del reloj; D-014). Comprobado el 22/10/2026 con `manage_variables`: `ninguna` en los tres, y
+      `OPCION_PRUEBA` también.
 - [ ] Evals en verde (Tarea 16, 20/10/2026, tras la ronda de arreglos 4: no lo están). Bloqueos, con su motivo, en
       `informes/evals-v2.md` («Ronda de arreglos 4»): VIRT-T1 2/3 (Triaje, modelo); HOR-C1 2/3 (Prolongación,
       modelo); en Consultas, FDS-02 0/3 (modelo y eval: añade cuándo llamar o la web; el enrutado lo mide FDS-02r,
@@ -621,12 +622,165 @@ Lo que la revisión final dejó sin hacer en la rama; ninguno bloquea fusionarla
       DEVOL-03a 1/3, DEVOL-03c 2/3 y CARGO-05 1/3 (modelo); resto de Punto de encuentro al 87,3 % (modelo; Madrid
       ambiguo, prompt o modelo). Prolongación pasa del 90 % en el resto (92,7 %); siguen PISTA-04, PROL-05, PROL-06 y
       CORREO-08 a 0/3, IDIOMA-01 e IDIOMA-05 a 1/3 y CORREO-03 y BORDE-02 a 2/3 (modelo).
-- [ ] Caso «coincide» del correo de contraseña probado con una reserva real (pendiente heredado de la v12).
-- [ ] `pista_correo` probada con una reserva real (verifica y devuelve solo el dominio).
+- [x] ~~Caso «coincide» del correo de contraseña probado con una reserva real~~ y ~~`pista_correo` probada con una
+      reserva real~~: no aplican desde la v3, que no envía correos (D-018). Siguen pendientes para la v2 y para la v12
+      de Prolongaciones.
 - [ ] Rutina diaria, artefacto y `scripts/medir_bots.py` funcionando. Hechos y probados con V11 y Minibús ES
       (Tarea 15); falta medir las llamadas de prueba del bot único (Tarea 17) y los créditos (clave de la API).
 - [ ] Movimiento de líneas y vuelta atrás ensayados, ida y vuelta, con la línea «Test SIP RingCentral».
 - [ ] Cerrar el experimento de Minibús ES v25 antes de la fase 2 (mover las líneas de Minibús).
+
+## v3 y prueba de una hora con la línea ES (D-018, 22/10/2026)
+- [ ] **Publicar la prueba** (lo hace el responsable): `procedimiento-lineas.md`, apartado 8. Por comprobar al
+      publicar: si HappyRobot deja publicar la v3 con la línea mientras la V11 la tenga publicada (el orden del
+      apartado 8 publica antes la V13, que no la lleva).
+- [ ] **T13-SCO** (`set_custom_output` con Gestión cerrada por el reloj) no se pasó con la v3: hay que ejecutarla fuera
+      del horario de Gestión. La cadena que mide no cambió en la v3.
+- [ ] Las evals CORREO-01 a 21, PISTA-01 a 04 y GC-P1 son solo de la v2 (el envío del correo) y no se pasan con la v3.
+      Se dejan en HappyRobot porque las evals son del nodo y las comparten todas las versiones.
+- [ ] En Triaje, Punto de encuentro, Información de oficina y Consultas, `transfer_to_human_agent` sigue listando el
+      motivo `correo_no_coincide`, y el campo `motivo_transferencia` del extract también. No hace daño (ningún módulo
+      lo usa ya); quitarlo en la próxima versión que toque esos módulos, con sus evals.
+- [ ] **Reembolsos:** la adenda de la rama local `atencion-es/plan-reembolsos` (D-017, propuesta) dice que Reembolsos
+      se construye «en una v3, fork de la v2». La v3 es ahora esta: al retomar la adenda, partir de la última versión
+      (hoy la v4, D-019; sería la v5) o decidir otra cosa.
+
+## v4: retraso de vuelo o tren a la cola de Minibús con Gestión cerrada (D-019, 24/10/2026)
+- [x] **Publicar la v4** en lugar de la v3: en producción desde el 24/10/2026 hacia las 19:44 (comprobado el 25/10 con
+      `manage_versions`). Vuelta atrás: volver a publicar la v3.
+- [x] Evals en la v4 (sábado 24/10, 19:00–19:20, Gestión cerrada por el reloj, antes del modo virtual). Seis nuevas
+      en Consultas, sin carpeta (el `folder_id` no se guardó al crearlas). Resultados con la v4 final (sección,
+      herramienta y prompt), en la tabla de abajo.
+
+| Eval | Resultado | Nota |
+|---|---|---|
+| V4-RT1 (crítica) vuelo a la una, sábado: explica el servicio y ofrece pasarle | 3/3 | También 3/3 antes de tocar herramienta y prompt |
+| V4-RT2 (crítica) acepta → cola minibus, motivo otro | 6/6 transfieren a minibus con motivo otro; el juez da 3/6 | Dos «fallos» eran el reintento tras el error de transferencia del entorno (lo manda SI LA TRANSFERENCIA FALLA; la nota del juez ya lo aclara) y uno, el resumen sin «El cliente habla inglés». Antes del cambio de herramienta y prompt, 0/3 (daba el horario de Gestión); solo con la herramienta, 1/3 |
+| V4-RT3 (control) Gestión abierta, acepta → cola gestion | 3/3 | |
+| V4-RT4 modo virtual: explica el servicio, no ofrece ni transfiere | 3/3 | |
+| V4-RT5 tren a Atocha, domingo, acepta → cola minibus | 4/6 | Las dos que fallan dicen «un momento» y no ejecutan la herramienta (el modelo, como CORREO-09 en la Tarea 10) |
+| V4-RT6 avisa de un retraso sin decir la hora | 1/1 | Expectativa ampliada tras la primera pasada (0/3): vale preguntar la hora o explicar ya el servicio y ofrecer; el bot hace lo segundo (3/3 antes del cambio de prompt) |
+
+Las conversaciones de RT2, RT3 y RT5 llevan sembrada la llamada a `buscar_respuesta` con la sección nueva, como en
+una llamada real (sin ella, el bot no tenía la regla delante). Regresión con la v4 final: DEVOL-03c, GC-C1, R34-C3,
+VIRT-C1, CARGO-05 y PRO-4 pasan (1/1 cada una). Con la sección nueva y antes del cambio de prompt: RECOG-03 y FDS-02r
+pasan; RECOG-02 2/3 en la v4 y 2/2 en la v3, y RECOG-01 1/3 en la v4 y 0/2 en la v3 (fallos ya conocidos, no del
+cambio).
+
+- [ ] **V4-RT5 4/6:** si en las llamadas reales el bot dice «un momento» sin transferir tras el sí del cliente, reforzarlo
+      (por ejemplo, en la descripción del aviso de `transfer_to_human_agent`).
+- [ ] **FDS-02** lleva sembrado el texto anterior de `recoger_tarde` y espera «no ofrece pasarle»: vale para la v3, no
+      para la v4. Al publicar la v4, cambiar su conversación y su expectativa (o retirarla y quedarse con V4-RT1).
+- [ ] **Prolongación** tiene el mismo `buscar_respuesta`, pero su prompt («Con gestión cerrada, nunca la cola gestion:
+      dale su horario») y su `transfer_to_human_agent` no tienen la excepción de la cola minibus. Un retraso de vuelo
+      rara vez llega a Prolongación (el Triaje lo manda a Consultas); si pasa, el bot ofrecerá pasarle y puede acabar
+      dando el horario de Gestión. Añadir la excepción en la próxima versión que toque Prolongación.
+- [ ] Punto de encuentro e Información de oficina: la cola `gestion` de su `transfer_to_human_agent` y su ESCALADO
+      siguen nombrando «el servicio de espera; solo con gestión abierta». No transfieren ellos el retraso (lo mandan a
+      `consultas_alquiler`), así que no se tocó; alinearlo cuando se toquen esos módulos.
+- [ ] Prolongaciones V11/V13 y Minibús ES v25 siguen con el texto anterior (con Gestión cerrada no se ofrece pasarle).
+      Si el callcenter quiere la regla también ahí, es una versión nueva de cada uno.
+
+## v6: dirección de las oficinas, también de aeropuerto (D-020, 25/10/2026)
+- [ ] **Antes de publicar la v6**, reforzar la regla del minibús «blanco o amarillo» de Punto de encuentro: la eval «v18 ·
+      España → el minibús puede ser blanco o amarillo» baja de 14/14 en la v4 a 12/18 en la v6 (el bot confirma que la
+      furgoneta concreta es la de Centauro). La v6 no tocó esa regla.
+- [ ] DIR-AGP-1 (Punto de encuentro) falla 0/3 en la v4 y en la v6: salta bien a Información de oficina, pero la
+      respuesta tras el Module Change no se puede medir bien en evals. Comprobarlo en una llamada de prueba.
+- [x] Minibús v28 (PR 11) no sigue (D-014 de Minibús, 25/10/2026): la línea de Minibús pasará al bot único, que ya da la
+      dirección siempre que la pidan (D-020, segunda subida). Lo que hay que mirar en las primeras llamadas de Minibús
+      está en `procedimiento-lineas.md`, apartado 4.
+- [ ] ~~Publicar la v6 en lugar de la v4~~: la v7 (D-021) sale de la v6 y la sustituye; lo que queda de la v6 sigue
+      en la v7.
+- [ ] Llamadas del fin de semana con la v4 (25/10, `datos/atencion-es-v4-2026-10-25.json`): dos fallos sin arreglar.
+      Luces del coche (run `cd3c95a9`): el bot se despide con «no tengo instrucciones para cada modelo», sin ofrecer
+      Asistencia ni la oficina (el bloque de consultas no lo cubre). Pide un agente (run `2e4f7a35`): el Triaje dice
+      enseguida que Gestión está cerrada sin preguntar qué necesita y no aclara si «añadir un día» es prolongar o una
+      reserva sin empezar. Además, un retraso de vuelo entró por Prolongación porque contestó «sí» al «¿Quiere prolongar…?»
+      del saludo (run `b7b8ebe0`). Arreglarlos sobre la última versión (hoy la v6). La v7 arregla el de `2e4f7a35`
+      (pregunta qué necesita también con Gestión cerrada y, si es importante, cola Minibús); siguen los otros dos.
+
+## v7: con Gestión cerrada, lo importante a la cola de Minibús (D-021, 25/10/2026)
+- [ ] **Confirmar con el callcenter** que la cola de Minibús asume lo que antes esperaba a Gestión (fines de semana,
+      festivos y de 21:00 a 22:00 entre semana): prolongar, recoger o devolver, cambiar la reserva, un problema con el
+      coche. No se ha medido cuántas llamadas más le llegarán.
+- [ ] Decidir si las agencias y aseguradoras también van a la cola de Minibús con Gestión cerrada (en la v7 no; es una
+      decisión mía, D-021).
+- [ ] Extract «Registrar resultado de la llamada»: que distinga una transferencia a Minibús por Gestión cerrada, para
+      medir cuántas hay (la v7 no lo toca).
+- [ ] Evals antiguas que contradicen la regla nueva (esperan «horario de Gestión, sin transferir»): actualizarlas o
+      retirarlas cuando se apruebe la v7. Lista en D-021, «Evals».
+- [ ] Repetir V4-RT3 en horario de Gestión (de lunes a viernes, de 8:00 a 21:00): el domingo falla por el reloj real
+      (D-021, «Evals»).
+- [ ] **Terminal sin aeropuerto con «terminal uno»** (D-021): el Triaje llama a `buscar_punto_de_encuentro` con
+      «terminal uno» 1 de cada 3 veces (V7-TERM-2) y Punto de encuentro supone Madrid siempre (V7-TERM-PE), así que a
+      un cliente de la T1 de Barcelona o Málaga le daría el punto de Madrid. Con «terminal cuatro» o «dos B» va bien
+      (V7-TERM-1 y V7-TERM-3). Ideas: que el Triaje pase la terminal en `terminal` y deje `aeropuerto` vacío para
+      forzar la pregunta, o un nodo de código que rechace un `aeropuerto` que sea solo una terminal. Mirar también si
+      pasa en llamadas reales.
+- [ ] Antes de publicar: sigue pendiente lo de la v6 (minibús «blanco o amarillo»); la v7 no lo toca.
+- [ ] Publicar la v7 en lugar de la v4 (lo hace una persona). Vuelta atrás: volver a publicar la v4.
+- [ ] Sin arreglar de las llamadas del 25/10 (`datos/atencion-es-v4-2026-10-25-tarde.json`): un «sí» o «yes» ambiguo al
+      saludo de la línea de Prolongación manda a Prolongación sin saber el motivo (`313b353b`, `97afefab`, y `b7b8ebe0`
+      por la mañana); en el aeropuerto de Barcelona sin terminal, Punto de encuentro pregunta dos veces si explica las
+      dos terminales en vez de darlas (`d08bb63e`); mezcla de idiomas por una frase suelta (`0d17fe4c`, `313b353b`);
+      si la web no deja prolongar, no ofrece la alternativa de una reserva nueva que prepare un compañero (cola
+      `nueva_reserva`) (`d1c015d3`, `730a1fc7`, los dos en domingo; la v7 ofrece en su lugar pasarle a la cola de
+      Minibús para revisarlo).
+
+### Llamadas del 25/10 de 13:31 a 20:20 (v4, sin arreglar en la v7)
+27 llamadas, todas por la línea de Prolongación (16 española, 11 inglesa), con Gestión cerrada
+(`datos/atencion-es-v4-2026-10-25-noche.json`, no versionado). El bot resuelve 4, deja 11 a medias y no resuelve 11. Las
+5 transferencias por retraso de vuelo a la cola de Minibús conectan (las 5 con su pata en RingCentral). El fallo más
+repetido, dar solo el horario de Gestión en un caso importante, sale en 10 llamadas y la v7 lo arregla en 9. Quedan
+estos, que la v7 no arregla (`3f2b2afe` y `b6124dc0`, comprobados en la transcripción; el resto, del análisis por
+subagentes):
+- [ ] **Cancelación con el plazo pasado** (`3f2b2afe`): reserva con la fecha equivocada y la recogida de hoy ya
+      pasada. El bot repite «cancelar es gratis hasta veinticuatro horas antes» sin decir que ese plazo ya ha pasado,
+      aunque el texto de `reserva_no_iniciada` dice que entonces no se reembolsa, y confirma que si cancela mañana
+      recibe un cupón. El cliente cuelga pensando que no pierde nada. Que el bloque de consultas diga qué contestar
+      cuando la recogida ya ha pasado o falta menos de veinticuatro horas.
+- [ ] **Retraso de vuelo sin transferir** (`b6124dc0`, inglés con poco nivel; el mismo teléfono que `313b353b` a las
+      13:11, tampoco resuelto): explica el servicio de espera y ofrece comprobarlo, pero tras un «wait» salta a NO PUDO
+      RECOGER A SU HORA, ofrece mirar si la reserva sigue disponible (no puede) y no transfiere; tampoco cuando el
+      cliente dice que no le entiende, aunque IDIOMA DE ATENCIÓN manda pasarle a la cola minibus. Eval con un «wait» o
+      una interrupción después de la oferta.
+- [ ] **El Triaje contesta él mismo una duda del alquiler** (`909fa242`): un reembolso de combustible, sin
+      `consultas_alquiler`; no dice que tarda hasta doce días según el banco y manda directamente al formulario de
+      reclamaciones.
+- [ ] **Alquiler de ida** (`ce433f55`): «devuélvalo en la misma oficina donde lo recogió» a un cliente con devolución
+      en otra oficina. La frase está en LA WEB NO LE DEJA y en el CIERRE de Prolongación y en `la_web_no_le_deja` del
+      bloque de consultas (Punto de encuentro e Información de oficina dicen algo parecido de los aeropuertos), que no
+      prevén los alquileres de ida: cambiarla por «en la oficina y a la hora de su contrato».
+- [ ] **Devolver fuera de horario** (`312feb1e`): Consultas le dice que devuelva el coche a las cinco de la mañana y
+      que no hace falta avisar «porque Gestión está cerrada», con Málaga aeropuerto abierto desde las siete; Información
+      de oficina lo corrige dos turnos después.
+- [ ] Leve (`1303cae4`): no aclara si un alquiler en Italia se prolonga igual desde la web.
+- [ ] Extract «Registrar resultado de la llamada»: marca «resuelto» en 8 llamadas que no se resolvieron y
+      `motivo_no_resuelto` «gestion_cerrada» en transferencias a Minibús que salieron bien.
+
+### Caso de Palma (Minibús ES v27, `551e5373`, 25/10 a las 20:05, inglés; lo pasó la sesión de Minibús)
+- [ ] El cliente llegaba después de las 23:00, cierre de Palma aeropuerto («maybe we don't come before 11»).
+      `recoger_tarde` solo dijo que la reserva se guarda doce horas; al preguntar el horario, Información de oficina
+      dijo que no podría recoger hasta las siete y, cuando preguntó por el servicio de cuarenta euros, que no tenía
+      información. Lo correcto, con Gestión cerrada: ofrecer comprobar el servicio de espera y, si acepta, cola minibus.
+      En Minibús salió bien el mismo día en `a4919d9b` y `594f336e`. **En la v7 es probable que falle igual:**
+      Información de oficina manda al que llega tarde a `consultas_alquiler` con `recoger_tarde`, pero nada le impide
+      decir que no hay servicio después del cierre, y Consultas no sabe el horario de la oficina, así que no puede
+      comparar la hora de llegada con la de cierre. Pasa también al revés: en `d7db850b` (17:43) transfirió a Minibús a
+      un cliente que llegaba a Alicante a las 22:30, con la oficina abierta hasta las 23:30. Hacen falta evals en
+      Consultas y en Información de oficina antes de cambiar nada.
+
+### Ideas de guías públicas de prompts de voz (Vapi, ElevenLabs, OpenAI; las trajo la sesión de Minibús)
+- [ ] Confirmar los datos clave en vez de suponerlos (va con lo de «terminal uno»).
+- [ ] Una regla fija, en su propia sección: si no tienes el dato, dilo y no adivines (Palma, `312feb1e`).
+- [ ] Dos o tres ejemplos cortos de conversación en el prompt: caso normal, caso límite y error de herramienta.
+- [ ] Prompts más ligeros: que `buscar_punto_de_encuentro` devuelva solo el punto del aeropuerto pedido y avise si la
+      terminal es ambigua. Arreglaría lo de Madrid de raíz, pero va contra D-002 de Minibús (puntos en el prompt):
+      medirlo antes.
+- [ ] Listas cortas en vez de párrafos largos.
+      Fuentes: docs.vapi.ai/prompting-guide, elevenlabs.io/docs/eleven-agents/best-practices/prompting-guide,
+      developers.openai.com/cookbook/examples/realtime_prompting_guide y github.com/openai/openai-realtime-agents.
 
 ## Preguntas abiertas de la Tarea 18 (para el responsable)
 - [ ] **¿Qué líneas quedan en Minibús ES al quitar las dos movidas en la fase 2?** Reembolsos usa una línea española
