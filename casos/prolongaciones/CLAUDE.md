@@ -98,13 +98,17 @@ del menú telefónico de Centauro España.
 ## 4. Rutina diaria de calidad
 
 `rutinas/informe-prolongaciones.md` es una rutina en la nube, «Centauro Prolongaciones - informe
-diario», que se ejecuta cada día a las 22:05 de Madrid. Hace tres cosas:
+diario», que se ejecuta cada día a las 20:05 UTC (21:05 de Madrid desde el cambio de hora del 25/10/2026; antes,
+22:05). Hace tres cosas:
 - analiza las llamadas del día en HappyRobot y RingCentral, en solo lectura;
 - escribe las cifras en los dos artefactos de abajo;
 - devuelve el informe.
 
-El fichero del repo está actualizado a la V11. La rutina programada en la nube sigue con el prompt
-del 09/10 (V8) y no se ha cambiado.
+**Desde el 24/10/2026 las dos líneas de Prolongación entran por el bot único** («Centauro Atención
+España») y este workflow no tiene versión en producción. Desde el 27/10/2026 la rutina lleva el prompt
+`casos/atencion-es/rutinas/monitor-prolongacion.md` (D-022 de Atención España): mide la línea de
+Prolongación en el bot único y escribe en los mismos dos artefactos. El fichero
+`rutinas/informe-prolongaciones.md` (V11) queda como histórico y para una vuelta atrás.
 
 | Artefacto | Compartido con | La rutina escribe en | Solo lo escriben los revisores |
 |---|---|---|---|
