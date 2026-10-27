@@ -16,6 +16,47 @@ Plantilla:
 
 ---
 
+## D-022 · 2026-10-27 · El monitor diario de Prolongaciones pasa a medir la línea de Prolongación en el bot único
+- **Qué:** prompt nuevo `rutinas/monitor-prolongacion.md` para la rutina en la nube «Centauro Prolongaciones - informe
+  diario» (`trig_01BTNdfZukdFBe6PpMrEAj5T`). Mide las llamadas con `opcion_menu` = `prolongacion` de «Centauro Atención
+  España» y sigue escribiendo en los artefactos de Prolongaciones (Calidad Prolongaciones: `informes`; Respuestas de
+  Daniel: `volumen` y `detectadas`). Cambios frente al prompt de Prolongaciones (V8 en la nube, V11 en el repo):
+  - nodos por persistent_id del bot único: cinco «Preparar transferencia» y cinco «Initiate customer connection»;
+  - las PARADAS de «Preparar transferencia» (`gestion_cerrada`, `modo_virtual`) sustituyen al error «NO DISPONIBLE»
+    y van a `perdidas_gestion_cerrada`;
+  - campos del extract del bot único (`motivo_principal`, `saltos`, `temas_consultados`, `pregunta_sin_respuesta`…),
+    con `motivo_principal` traducido a los `tipo` que entiende la página;
+  - fallos propios del bot único (saltos, leer instrucciones en voz alta, cola minibus con Gestión cerrada) y los
+    «conocidos de la v4 que arregla la v7» (D-021), contados aparte;
+  - la comparación «V8 frente a V7» pasa a «bot único frente a la V11», con la referencia de la V11 fija (12–24/10,
+    entre semana y fin de semana) en vez del día 1;
+  - el correo con el enlace de «¿Has olvidado tu contraseña?» lo manda la web: no es un dato inventado.
+- **Por qué:** desde el 24/10/2026 por la tarde las dos líneas de Prolongación entran por el bot único. Comprobado el
+  27/10/2026: el trigger de la v4 lleva las dos líneas (español e inglés; `idioma` en de una llamada real por la línea
+  inglesa), Prolongaciones no tiene versión en producción y su último run es del 24/10 a las 18:14. La rutina leía el
+  workflow de Prolongaciones: el 25/10 se escribió como «Atención v4» improvisando los campos (motivos con códigos que
+  la página no traduce, la alerta del correo de contraseña era un falso fallo) y no hay documentos del 26 ni del 27/10.
+- **Afecta a:** la rutina en la nube. La infografía agrupa «versión a versión» por el número: «Atención v4» sale
+  como «V4».
+- **Quién:** jzerpa (pidió apuntar el monitor al bot único el 27/10/2026 y que el agente pusiera el prompt en la
+  rutina y la lanzara para el 27 y el 26/10).
+- **Estado:** aplicada el 27/10/2026 hacia las 18:20. La rutina lleva el prompt de `rutinas/monitor-prolongacion.md`,
+  comprobado igual carácter a carácter. Ese día se lanzó a mano dos veces: una para el 27/10 y otra para el 26/10,
+  esta con «Analiza el 2026-10-26.» delante del prompt durante el lanzamiento.
+- **Ajuste (27/10/2026, tras esas dos pasadas):** las dos terminaron bien y sus cifras cuadran con HappyRobot (96
+  runs el 26/10 y 67 el 27/10 hasta las 18:09), pero cada una escribió `bot_unico_vs_v11` con otras claves (una con
+  cifras y porcentajes, otra solo con porcentajes y otros nombres), y `minibus_pct` salió 88 y 100 sin que el prompt
+  dijera qué es. El prompt fija ahora:
+  - las claves de `bot_unico_vs_v11`: siete métricas comunes a `ref_v11`, `periodo` y `acumulado`, con su base;
+  - el acumulado, que se calcula con los campos de primer nivel de los documentos anteriores, no con su
+    `bot_unico_vs_v11`;
+  - `bot_vs_directa`, con los dos porcentajes medidos igual (RingCentral, 18057 y 18061, % de `Accepted`):
+    `prolongaciones_pct` con las patas emparejadas con la línea de Prolongación y `minibus_pct` con las patas sin
+    pareja (otros bots, sobre todo Minibús ES).
+
+  Además, varios días se lanzan de uno en uno y del más antiguo al más reciente: lanzados a la vez, el acumulado del
+  27/10 salió sin el 26/10 (lo corrige la pasada de las 21:05 del 27/10). La rutina lleva el prompt ajustado.
+
 ## D-021 · 2026-10-25 · v7: con Gestión cerrada, lo importante va a la cola de Minibús; arreglos de las llamadas del 25/10
 - **Qué:** versión `v7 · v6 + Gestión cerrada: lo importante a la cola de Minibús` (`3it0j96ugsqw`), fork de la v6.
   Copias y detalle por nodo en `prompts/atencion-es/v7/` (README):

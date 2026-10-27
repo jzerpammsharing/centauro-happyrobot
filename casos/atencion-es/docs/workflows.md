@@ -308,7 +308,13 @@ extract lee las dos cadenas nuevas. Copias en `herramientas-punto-de-encuentro.m
 
 | Opción del menú | Idioma | Desde | Vuelta atrás |
 |---|---|---|---|
-| — | — | — | — |
+| Prolongación (`<LINEA_PROLONGACION_ES>`) | español | 24/10/2026 (v3 en prueba; v4 desde las 19:44) | Prolongaciones V11 |
+| Prolongación (`<LINEA_PROLONGACION_EN>`) | inglés | 24/10/2026 por la tarde (el último run de Prolongaciones es de las 18:14) | Prolongaciones V11 |
+
+**Comprobado el 27/10/2026** con `get_node_details` (solo lectura): el trigger «Inbound Call» de la v4 lleva DOS
+números, las dos líneas de Prolongación (una llamada real por la segunda sale con `idioma` en y `opcion_menu`
+prolongacion), y «Centauro Prolongacion Spain» no tiene versión en producción. El párrafo siguiente, que habla solo de
+la línea española, es anterior a esa comprobación.
 
 La v4, en producción desde el 24/10/2026 (D-019), lleva en el trigger la línea `<LINEA_PROLONGACION_ES>`, como la v3
 (D-018), la v6 (borrador, D-020) y la v7 (borrador, D-021). Vuelta atrás: la V11 de Prolongaciones (D-018). La v1 y la v2 tienen el trigger «Inbound Call» sin números, a propósito (dos workflows con la misma

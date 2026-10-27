@@ -38,7 +38,7 @@ ajustes, Twin): `docs/pendientes.md`.
 | `docs/planes/` | Plan de construcción (`2026-10-18-bot-unico-construccion.md`) y registro de progreso de los subagentes (`2026-10-18-bot-unico-progreso.md`, copia para retomar en otro equipo) |
 | `prompts/atencion-es/<versión>/` | Copias de los prompts y de la configuración de los nodos |
 | `codigo/` | Python de los nodos y sus pruebas (al construir) |
-| `rutinas/` | Prompt de la rutina diaria de calidad (`informe-atencion-es.md`) y fuente HTML del artefacto «Calidad Atención España» (`calidad-atencion-es.html`) |
+| `rutinas/` | Prompt de la rutina diaria de calidad (`informe-atencion-es.md`), fuente HTML del artefacto «Calidad Atención España» (`calidad-atencion-es.html`) y prompt del monitor de la línea de Prolongación (`monitor-prolongacion.md`, D-022) |
 
 ## 3. Reglas propias del caso
 
@@ -70,3 +70,10 @@ RingCentral (¿llegó a un agente?) → `scripts/normalizar_llamadas.py` → `sc
 | Artefacto | La rutina escribe en | Lo escriben personas |
 |---|---|---|
 | [Calidad Atención España](https://claude.ai/artifact/4YyyT2jrKTe1TjhGdApnh7) (privado; fuente `rutinas/calidad-atencion-es.html`) | `informes` (doc_id = AAAA-MM-DD) | cualquier campo de un documento que no salga de `informe_diario.py` ni de la sección 8 del prompt |
+
+**Monitor de la línea de Prolongación** (`rutinas/monitor-prolongacion.md`, D-022): sustituye al prompt de la rutina
+en la nube «Centauro Prolongaciones - informe diario» desde que las dos líneas de Prolongación entran por el bot único
+(24/10/2026). Mide solo `opcion_menu` = `prolongacion`, compara con la referencia fija de la V11 y escribe en los
+artefactos de Prolongaciones ([Calidad Prolongaciones](https://claude.ai/artifact/3i8Reh68FkdQDACdZdFq3A):
+`informes`; [Respuestas de Daniel](https://claude.ai/artifact/L4cpA1DVsHPdT3ELCQJY2Y): `volumen` y `detectadas`).
+La rutina en la nube lleva este prompt desde el 27/10/2026.
