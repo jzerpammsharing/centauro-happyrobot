@@ -13,6 +13,10 @@
     `detectadas`.
 - **Estado (11/10/2026):** este prompt está actualizado a la V11. La rutina programada en la nube
   sigue con el prompt del 09/10, escrito para la V8 (compara V8 con V7), y no se ha cambiado.
+- **Sustituido (27/10/2026):** desde el 24/10 las dos líneas de Prolongación las atiende el bot único
+  «Centauro Atención España» y este workflow no tiene versión en producción. El prompt para la rutina es
+  `casos/atencion-es/rutinas/monitor-prolongacion.md` (D-022 de Atención España). Este se queda como
+  histórico y para una vuelta atrás a la V11.
 - **Para recrearla en otra cuenta:** crea una rutina programada con el prompt de abajo, copiado tal
   cual.
 

@@ -175,7 +175,7 @@ Plantilla:
     ido bien.
   - Ejemplos: 52019f08-6f67-4055-8537-db12c2c7cd57 (primer caso) y
     4ca09060-423f-4b37-b45d-9fe7f5ee6172 (15/10, 18:06).
-  - Esos «failed» no son fallos de la llamada: ensucian el test A/B (C-004) y la rutina horaria
+  - Esos «failed» no son fallos de la llamada: ensucian el test A/B (C-008) y la rutina horaria
     tiene que descontarlos aparte.
 - **Afecta a:** Minibús ES v25, que sustituirá a v24 en el test A/B.
 - **Quién:** jzerpa.

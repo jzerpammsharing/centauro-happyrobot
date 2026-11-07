@@ -5,6 +5,95 @@ caso (D-NNN), la más reciente arriba, con la misma plantilla.
 
 ---
 
+## D-006 · 2026-10-22 · Búsqueda v2 del MCP en W1: primero por el teléfono, otras reservas y área de cliente
+- **Qué:** W1 v10 (`2y93xxzzph11`, fork de la v9; sin publicar).
+  - **Primer intento sin pedir ningún dato de la reserva.** Si «Teléfono del cliente consultable» es true, Daniel pide
+    el nombre completo y la fecha de nacimiento y consulta sin número de reserva, email ni DNI. El MCP busca por el
+    teléfono desde el que llama, que pone el sistema (`telefono_consulta` de «Calcular idioma y saludo»), nunca el
+    modelo.
+  - **Si no aparece por teléfono:** no dice que no existe. Pide el número de reserva (con el dictado por partes); si no
+    lo tiene, el email; si tampoco, el DNI o NIE. No vuelve a pedir el nombre ni la fecha. El «no encontrada» del
+    teléfono no cuenta como dificultad: no da pie a ofrecer el WhatsApp.
+  - **Límite:** dos consultas, o tres si la primera fue por teléfono. La falta de identificador del primer intento (una
+    llamada web o un número oculto) no cuenta.
+  - **Al verificar:** confirma de qué alquiler se trata, sin datos personales, como ya hacía con el email o el DNI.
+  - **Otras reservas:** si el cliente habla de otra que está en `otras_reservas`, consulta con su número sin pedírselo
+    ni leérselo. Si no está (solo vienen las 5 más recientes), le pide el número.
+  - **Área de cliente:** con `tiene_cuenta` false, antes de la factura o del «Reembolso Cupón», primero tiene que crear
+    la contraseña con «¿Has olvidado tu contraseña?» y el email que dio en la oficina.
+  - **Filtro:** deja pasar `numero_reserva`, `tiene_cuenta` y `otras_reservas` (estas, solo con seis campos sin datos
+    personales). Dice si la consulta fue por teléfono (`consulta_por_telefono`) y si cuenta en el límite
+    (`cuenta_en_limite`).
+  - **Llamadas web:** `telefono_consulta` usa `TELEFONO_PRUEBA`, para poder probar por web la búsqueda por teléfono con
+    una reserva propia. En producción nunca hay llamadas web.
+  - **Ejemplos de la herramienta:** los números de reserva de las descripciones pasan a ser inventados (pendiente de
+    los «posibles números reales»), y los `example` de los identificadores quedan vacíos.
+  - **Ajustes tras la regresión de evals (22/10, de madrugada):**
+    - si el cliente dice que no es esa reserva y `otras_reservas` no viene, está vacía o no encaja, Daniel no pregunta
+      por oficinas ni fechas: dice que con esos datos solo le aparece esa y pide el número de reserva;
+    - en el escalado, «tras dos intentos» pasa a «tras dos consultas (tres si la primera fue por el teléfono)»;
+    - en «Si el cliente se resiste», la frase de la v9 más «que no te dé la fecha de nacimiento a la primera no cuenta
+      como consulta ni como intento de identificación»;
+    - se probó y se quitó «Nunca rellenes un campo con un valor de ejemplo»: con ella Daniel no daba por bueno un
+      ER12345678 dictado (el número de los ejemplos y de las pruebas) y contestaba «Sí.», como si faltaran cifras.
+- **Por qué:**
+  - La búsqueda v2 del MCP (commit `b062686` de `centauro-mcp`, 21/10/2026) ya busca por el teléfono y devuelve hasta
+    5 reservas y si el cliente tiene cuenta.
+  - Muchos clientes llaman sin el número de reserva, y dictar números y emails es lo que más falla (D-001, D-003,
+    D-005). Con el teléfono, quien llama desde el móvil con el que reservó se identifica con su nombre y su fecha de
+    nacimiento.
+- **Afecta a:**
+  - W1: los nodos «Calcular idioma y saludo», `consultar_reembolso`, «Check Reimbursement Status», «Filtrar respuesta
+    verificada» y el prompt «Reembolsos».
+  - W2 no cambia: ya acepta número, email o DNI/NIE (v10) y no consulta el MCP. El teléfono lo añade W1 en su consulta.
+  - «Centauro Reembolsos» no cambia: está congelado (D-004).
+  - El extract de W1 tampoco cambia (pendiente: un valor `telefono` en `identificacion_via`).
+- **Quién:** jzerpa. Pedido por la sesión del MCP; la versión la creó Claude el 22/10/2026 de madrugada, sin publicar.
+- **Estado:** construida con evals (resultados en `pruebas/evals-busqueda-v2.md`). **Sin confirmar que el teléfono
+  llega al MCP** y con una regresión abierta: si el cliente no da la fecha de nacimiento a la primera, la v10 a veces
+  transfiere en vez de volver a pedirla (ver `docs/pendientes.md`). Sin publicar: la publica una persona tras probarla
+  por voz.
+
+---
+
+## D-005 · 2026-10-15 · Nombre sin inventar, email sin guiones y espera tranquila del WhatsApp
+- **Qué:** tras las pruebas por voz de la tarde con W1 v4 (informe
+  `docs/informes/2026-10-15-pruebas-tarde-w1-v4.md`):
+  - W1 v5, prompt «Reembolsos»:
+    - el nombre solo vale si lo dice el cliente o llega en `nombre_completo` por WhatsApp; nunca se saca
+      del email; antes de consultar se comprueba que los tres datos los ha dado el cliente;
+    - el email se deletrea entero letra a letra y sin los guiones, puntos o espacios que mete la
+      transcripción; solo lleva guion, punto o guion bajo si el cliente los dice;
+    - «Me ha llegado» solo con una señal `datos_whatsapp` en la conversación; si el cliente dice que ya lo
+      escribió y no hay señal: «Todavía no me ha llegado; a veces tarda unos segundos»;
+    - espera del WhatsApp: la frase de espera se dice una vez; en silencio no habla (como mucho «Sin
+      prisa.» una vez); no ofrece seguir por voz por un silencio, solo si el cliente dice que no le llega,
+      no sabe o prefiere dictar;
+    - si los datos del WhatsApp llegan tras dos consultas, se permite una tercera con esos datos;
+    - si la consulta con datos de WhatsApp no aparece, no se pide escribir más en el WhatsApp: se pregunta
+      si lo escribió bien y se sigue por voz;
+    - si el `nombre_completo` de la señal no parece un nombre (una palabra o igual al email), se pide por
+      voz.
+  - W1 v5, herramienta `consultar_reembolso`: la descripción admite la tercera consulta con datos de
+    WhatsApp; el nombre no se inventa ni se saca del email; el email sin guiones de la transcripción; el
+    mensaje al consultar con datos de WhatsApp es «Me ha llegado, gracias».
+  - W2 v9 (las dos ramas): el agente decide qué contestar según lo que ya tiene en toda la conversación:
+    con el dato de la reserva y sin nombre pide solo el nombre; un email o DNI/NIE ya es el dato de la
+    reserva; no repite el mismo mensaje; el nombre no sale del email; un número que empieza por ER va en
+    `numero_reserva`, nunca en `dni`.
+- **Por qué:** en las cuatro llamadas de prueba Daniel dijo «Me ha llegado» sin señal y consultó con un
+  nombre sacado del email; W2 no pedía el nombre (repetía «¿Tiene el número de reserva?…» aunque ya
+  tenía el email); el email se consultó con un guion que puso la transcripción; Daniel ofrecía seguir por
+  voz a los pocos segundos de enviar el WhatsApp y repetía la espera; y el límite de dos consultas dejaba
+  sin usar los datos del WhatsApp.
+- **Afecta a:** Reembolsos (W1 v5 y W2 v9). La voz (`voice_speed`) no cambia.
+- **Quién:** jzerpa.
+- **Estado:** construidas con evals (resultados en `pruebas/evals-whatsapp.md`, ronda D-005). W1 v5 y
+  W2 v9 publicadas juntas el 15/10/2026 por la tarde (por una persona), sin prueba por voz previa;
+  revisar las primeras llamadas.
+
+---
+
 ## D-004 · 2026-10-15 · Un solo bot de voz (W1) y WhatsApp solo cuando hay dificultad
 - **Qué:**
   - W1 («Centauro Reembolsos Llamada + w») es el único bot de voz de Reembolsos. «Centauro Reembolsos»

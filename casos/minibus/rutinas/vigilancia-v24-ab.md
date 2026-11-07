@@ -1,6 +1,6 @@
 # Rutina: vigilancia horaria de Minibús ES v24 (test A/B v22 frente a v24)
 
-- **Programación:** cada hora mientras dure el test A/B (C-004). Bórrala al cerrar el test.
+- **Programación:** cada hora mientras dure el test A/B (C-008). Bórrala al cerrar el test.
 - **Conectores:** `hr` (HappyRobot), solo lectura.
 - **Qué hace:** revisa las llamadas de la última hora atendidas por v24 y dice si hay algo grave.
   La decisión de dar de baja v24 la toma una persona: la rutina solo lo recomienda.

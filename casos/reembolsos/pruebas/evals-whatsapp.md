@@ -71,3 +71,52 @@ Cambios: (1) bloque «DATOS QUE LLEGAN POR WHATSAPP»: acuse corto sin repetir n
 | 4h señal tardía tras verificar | PASS | PASS | `8325089a-024c-4b65-a5f0-d18758c3a4af` |
 
 Total ronda 2: 10 PASS, 0 FAIL. Nota: una pasada intermedia con solo el primer ajuste de 4d dejó 4d en FAIL (ofrecía el WhatsApp pero no decía que no aparecía con esos datos); se añadió esa frase y se relanzaron los 10.
+
+## Ronda D-005 (15/10/2026): fallos de la prueba por voz de la tarde
+
+Versiones: W1 v4 `01a13eba-f5cd-7bac-bc47-3e399e60f3a9` (publicada) contra W1 v5
+`01a1401c-0965-780f-b482-dd25c59ca603`; W2 v8 `01a13a4e-dba7-7d39-aa38-e958bb2a7ccd` (publicada) contra
+W2 v9 `01a1401c-0eaf-7777-a8d7-ab69e20e8a7b`. Datos inventados (`Prueba Prueba`, `prueba@ejemplo.com`,
+`ER00000000`, 21/08/1985). Informe de las llamadas: `docs/informes/2026-10-15-pruebas-tarde-w1-v4.md`.
+
+### Evals nuevos de W1 (nodo «Reembolsos»)
+
+| Eval | eval_id | Reproduce | v4 | v5 (final) |
+|---|---|---|---|---|
+| D5 · «Ya lo he enviado» sin datos: no dice que le ha llegado | `01a14028-c1fc-74ac-ad7c-e435c8ae6325` | «Me ha llegado» sin señal (llamadas 1, 2 y 4) | FAIL | PASS |
+| D5 · Sin nombre del cliente: lo pide y no consulta | `01a14028-d094-75b3-9e0b-947d90e04362` | Nombre inventado (llamada 2) | PASS | PASS |
+| D5 · Email con guion de la transcripción: no lee «guion» | `01a14028-d5e5-74a7-8200-fc5e1518da53` | «ce, guion, efe…» (llamada 1) | FAIL | PASS |
+| D5 · Espera del WhatsApp: no repite la espera ni ofrece voz | `01a14028-dc48-77a4-8111-970880769203` | Espera repetida (llamadas 1 a 4) | PASS | PASS |
+| D5 · Datos de WhatsApp tras dos consultas: hace la tercera | `01a14029-7bfd-7ed9-add9-e97e9076bdd8` | Límite de dos consultas (llamada 3) | FAIL | PASS |
+| D5 · WhatsApp trae el email como nombre: pide el nombre por voz | `01a14029-8416-7aec-84c7-845641d21436` | Nombre = trozo del email (llamada 2) | FAIL | PASS |
+| D5 · No encontrada con datos de WhatsApp: no pide escribir otra vez | `01a14029-8d9a-75f4-881b-5e9fd47b7f36` | Pide escribir el NIE en el WhatsApp (llamada 4) | FAIL | PASS |
+
+Los evals no pueden reproducir los turnos que HappyRobot da al agente cuando hay silencio (el origen de
+«Si lo prefiere, seguimos por aquí» a los 6-7 s): el de la espera prueba un «vale, un momento» del
+cliente. Eso hay que mirarlo en la prueba por voz.
+
+### Regresión de W1 v5 (18 evals anteriores)
+
+Ronda final con el prompt definitivo: 17/18 a la primera y 18/18 al repetir el que falló («ID ·
+Verificado: «Ya he encontrado su reserva»»: el juez pidió el mes en «el siete»; el ejemplo del prompt
+tampoco lo lleva). Durante el ajuste:
+- con la primera versión del prompt, el email se deletreaba sin guion pero leía el apellido en bloque:
+  se añadió el ejemplo de deletreo completo;
+- la frase «lo que dices es solo "Me ha llegado"» hizo que, sin fecha de nacimiento, no la pidiera
+  (4c, 3 fallos seguidos): se separaron los dos casos («si ya tienes la fecha…» / «si todavía no…»).
+
+### Evals de W2 (nodo «Prompt» de la rama es)
+
+| Eval | eval_id | v8 | v9 |
+|---|---|---|---|
+| D5 · Solo email: pide el nombre, no el número de reserva | `01a14029-f772-737b-82c1-d294e24a23fa` | PASS | PASS |
+| D5 · Repite el email: no repite la pregunta y pide el nombre | `01a14029-fba0-7e9a-aa7d-3dca27cc6f0a` | FAIL (pasa a la llamada con el email como nombre) | PASS |
+| D5 · Email y luego nombre: pasa a la llamada con los dos | `01a1402a-016c-7e3f-84a1-996b618cc6d3` | PASS | PASS |
+| D5 · Email, nombre y número ER: el número no va en dni | `01a1402a-05c6-7180-a707-fd53cf0cbde4` | FAIL (ER también en `dni`) | PASS |
+| WA · Solo email y nombre (W-a) | `01a13bba-88b3-7f3c-b076-edb091234608` | PASS | FAIL (juez: error simulado del POST) → PASS |
+| WA · Solo DNI y nombre (W-b) | `01a13bba-8ddb-7568-bb8d-1fc00be85980` | PASS | FAIL (respuesta vacía) → PASS |
+| WA · Solo nombre (W-c) | `01a13bba-925a-754f-bfd8-6ba47ce08557` | FAIL | FAIL → PASS |
+
+En W2 v9 los tres evals anteriores fallaron en la primera pasada y pasaron al repetirlos; W-c sigue
+siendo inestable (ver pendientes). Los evals de W2 solo cuelgan de la rama es; la rama en tiene el mismo
+prompt.
