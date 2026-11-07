@@ -782,6 +782,47 @@ subagentes):
       Fuentes: docs.vapi.ai/prompting-guide, elevenlabs.io/docs/eleven-agents/best-practices/prompting-guide,
       developers.openai.com/cookbook/examples/realtime_prompting_guide y github.com/openai/openai-realtime-agents.
 
+## Antes de pasar la línea de Minibús ES
+**Propuesta pendiente de decidir** (la decide jzerpa). La hizo la sesión de Minibús el 25/10/2026 con los datos de ese
+día. El detalle de Minibús está en su informe, en la rama `minibus/prompt-v28-direccion-oficinas` (PR 11). Va además de
+la puerta 0 («Antes de conectar la primera línea», arriba) y de lo pendiente de la v7.
+
+Datos de partida (25/10/2026):
+- **Volumen:** Minibús ES (v27) tuvo 126 llamadas, de 8:01 a 20:17. El bot único tuvo 49 ese día y 68 desde la
+  tarde del 24/10. Al mover la línea, su carga se multiplicaría por unos 3,5.
+- **Coste:** Minibús v25 sale a unos 64 créditos por llamada y el bot único se estima en 60 a 75. No hay ahorro claro;
+  la ventaja es tener un solo sitio donde arreglar.
+- **Lo que el bot único ya hace mejor:** salta de Información de oficina a Punto de encuentro (en Minibús evitaría una
+  transferencia al día), da la dirección por cualquier motivo, tiene `estado_oficina`, el bloque de reglas comunes y
+  el WhatsApp como cierre normal.
+
+Condiciones propuestas:
+- [ ] **Hacer lo mismo que Minibús v27, cada punto con su eval:**
+  - **Retrasos:** elegir una regla. En Minibús (v26), el servicio de espera aceptado va siempre a la cola minibus; en
+    el bot único, solo con Gestión cerrada (D-019); con Gestión abierta, a la cola gestion.
+  - **WhatsApp al que ya espera en el punto** y pregunta cada cuánto pasa: frecuencia, referencia y oferta del enlace en
+    directo (D-013 de Minibús, evals WA-5 y WA-6). En la v7, Punto de encuentro solo lo ofrece justo después de dar el
+    punto (comprobado el 25/10).
+  - **Aeropuerto supuesto por la terminal** (caso de Minibús `70019d1b`; aquí, V7-TERM-PE y V7-TERM-2, en la v7).
+  - **Servicio de espera negado tras el cierre** (caso de Palma, en la v7).
+  - **Color del minibús:** su eval baja de 14/14 en la v4 a 12/18 en la v6 (en la v6).
+- [ ] **Medición lista antes de mover:** la tabla del gemelo de datos para el bot único y la rutina diaria con las
+      mismas cifras que se miran en Minibús. La rutina (`rutinas/informe-atencion-es.md`) ya prevé la fase 2 y mide si
+      conectan las transferencias, pero no estas cifras:
+  - WhatsApp ofrecido sobre llamadas aptas (el 25/10 en Minibús, 8 de 9) y enviados (4);
+  - transferencias conectadas (el 25/10 en Minibús, 34 de 37) y por cola;
+  - nada a Gestión con Gestión cerrada;
+  - retrasos;
+  - aeropuerto supuesto.
+- [ ] **Prueba corta, como la de D-018:** una hora en un momento tranquilo entre semana, con Minibús ES v27 publicada
+      como vuelta atrás (`procedimiento-lineas.md`).
+- [ ] **Comparar ese día con un día normal de Minibús** y decidir con esos datos.
+
+Riesgos:
+- Con una sola versión publicada para todas las líneas, un cambio para Prolongación puede romper Minibús: cada versión
+  necesita la regresión completa.
+- Siguen pendientes la puerta 0 y el ensayo de cómo mover una línea entre workflows.
+
 ## Preguntas abiertas de la Tarea 18 (para el responsable)
 - [ ] **¿Qué líneas quedan en Minibús ES al quitar las dos movidas en la fase 2?** Reembolsos usa una línea española
       que antes era de Minibús (Tarea 8). Listar el trigger de la v25 y decidir. Control de la fase 2: Minibús ES

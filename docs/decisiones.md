@@ -16,6 +16,15 @@ Plantilla:
 
 ---
 
+## C-007 · 2026-11-07 · Las PR se mergean sin revisión de otra persona
+- **Qué:** el paso 4 de «Antes de publicar» (`CLAUDE.md`, sección 3) ya no pide que otra persona revise el PR. Se
+  abre el PR a `main` y se mergea. Sigue en pie que publicar una versión lo hace una persona, no el agente.
+- **Por qué:** con esa regla `main` llevaba parado desde el 12/10/2026, con 10 PR abiertas y apiladas que empezaban a
+  chocar entre sí, y en `main` no constaba ni la versión del bot único que está en producción.
+- **Afecta a:** todos los casos.
+- **Quién:** jzerpa.
+- **Estado:** aplicada.
+
 ## C-006 · 2026-10-20 · Bloque de consultas: cinco párrafos ajustados por las evals del bot único (Tarea 16)
 - **Qué:** cambios en `comun/bloques/consultas-alquiler.md` (y en el `buscar_respuesta` generado de los dos nodos del
   bot único):
