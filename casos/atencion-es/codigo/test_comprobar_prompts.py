@@ -93,7 +93,7 @@ caso("bloque: dice los cuatro idiomas que atiende y, en francés, que se ofrecen
      "Atiendes en español, inglés, italiano y portugués" in BLOQUE and "nombrándolos" in BLOQUE)
 
 caso("bloque: en modo virtual, un caso de gestión sigue COLA DE GESTIÓN CERRADA",
-     "si es un caso de gestión, sigue COLA DE GESTIÓN CERRADA" in BLOQUE)
+     "en un caso de gestión, sigue COLA DE GESTIÓN CERRADA" in BLOQUE)
 
 caso("bloque: el límite de cambios se cuenta por tema y al tercero se transfiere",
      "por tema" in BLOQUE and "al tercero transfiere" in BLOQUE)
