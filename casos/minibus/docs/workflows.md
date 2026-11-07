@@ -15,6 +15,8 @@ tres tienen la misma estructura y cada uno tiene su propio agente «Daniel».
 3. **Fuera de horario:** «Derivacion nocturna ES/EN» → `transferir_a_cola_nocturna`.
 4. **ES v19 y siguientes:** añaden la fase «Prolongación y consultas» (`consultas_alquiler`,
    `informacion_oficina`) y el nodo «Registrar consultas del alquiler».
+5. **ES v28:** «Punto de encuentro» también tiene `informacion_oficina`, que cambia a «Información
+   de oficina» para dar la dirección de una oficina, también la de su aeropuerto (D-014).
 
 ## Comportamiento esperado de Daniel
 1. Identificar el MOTIVO antes de preguntar el aeropuerto.
@@ -38,7 +40,7 @@ informacion_oficina_entregada, valido_antes_de_informar, muletillas, tono_agente
 ## Versiones
 
 ### España (`019f7594-2cce-7eed-b995-dd9ea64a1062`)
-| Versión | Slug | Nombre / cambio | Estado (12/10/2026) |
+| Versión | Slug | Nombre / cambio | Estado (25/10/2026) |
 |---|---|---|---|
 | v16 | dlcl04sr1x8s | borrador: información de oficinas | — |
 | v17 | i0syf61bujsz | horario 08-23 y modo virtual | publicada hasta el 11/10 |
@@ -46,8 +48,13 @@ informacion_oficina_entregada, valido_antes_de_informar, muletillas, tono_agente
 | v19 | viuq0asx7ggf | v17 + prolongaciones y consultas + mejoras del análisis | recibió llamadas sin estar publicada (hasta el 10/10) |
 | v20 | 4onx46ig1kz4 | v19 + WhatsApp del punto de encuentro | — |
 | v21 | djfjfsx8zq2f | v19 + voz, Palma y respuestas validadas | recibió llamadas sin estar publicada (hasta el 10/10) |
-| **v22** | 2l6skwt8wphb | v21 + horario de la cola de Gestión | **publicada** (desde la noche del 11 al 12/10) |
+| v22 | 2l6skwt8wphb | v21 + horario de la cola de Gestión | publicada desde la noche del 11 al 12/10; ya no está en producción |
 | v23 | 3o04zrwgfj0g | v22 + saltos entre módulos | borrador completo, sin probar |
+| v24 | 5g6422lgdcem | v23 + WhatsApp del punto de encuentro con geolocalización (MAD, SVQ, AGP) | estuvo en el test A/B con v22 (C-008); sustituida por v25 (D-010, D-011) |
+| v25 | k2in5n9kk01x | v24 + rama por defecto en ¿Enviar WhatsApp? | estuvo en producción hasta el 24/10/2026; sustituida por v26 (D-011) |
+| v26 | fw02geuq54cv | v25 + servicio de espera y avisos de retraso a la cola de Minibús | estuvo en producción del 24 al 25/10/2026; sustituida por v27 (D-012) |
+| **v27** | e4qv98cib2dm | v26 + WhatsApp como cierre normal y para el cliente que ya espera | **publicada** (en producción el 25/10/2026) (D-013) |
+| v28 | arjyj8ufclwz | v27 + dirección de las oficinas desde Punto de encuentro | sin publicar y no se sigue: la línea pasa al bot único, que ya lo hace (D-014) |
 
 ### Italia (`01a03a65-3700-74c1-9c7b-e9c708833c4b`)
 | Versión | Slug | Estado |

@@ -16,6 +16,15 @@ Plantilla:
 
 ---
 
+## C-008 · 2026-10-15 · Se permiten tests A/B con dos versiones en producción
+- **Qué:** un workflow puede tener dos versiones en producción a la vez para comparar una frente a otra. Cada test lleva una entrada en el `decisiones.md` del caso con: versiones, reparto del tráfico, métricas, umbrales de decisión y fecha de revisión. Al terminar se deja una sola versión.
+- **Por qué:** poder medir el efecto de un cambio (primer uso: Minibús ES, v22 frente a v24) en lugar de publicarlo a ciegas.
+- **Afecta a:** todos los casos; regla de «una sola versión en producción» en `CLAUDE.md`.
+- **Quién:** jzerpa
+- **Estado:** aprobada
+- **Numeración:** se aprobó como C-004 en la rama de Minibús; al llegar a `main` ese número ya era el del bot único, y
+  pasó a C-008 el 07/11/2026.
+
 ## C-007 · 2026-11-07 · Las PR se mergean sin revisión de otra persona
 - **Qué:** el paso 4 de «Antes de publicar» (`CLAUDE.md`, sección 3) ya no pide que otra persona revise el PR. Se
   abre el PR a `main` y se mergea. Sigue en pie que publicar una versión lo hace una persona, no el agente.
