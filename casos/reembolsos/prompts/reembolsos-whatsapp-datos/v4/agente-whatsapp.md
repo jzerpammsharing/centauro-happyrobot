@@ -5,7 +5,7 @@ Fork de la v3. Se elimina «Señal de prueba (API)» y se construye:
 trigger «Petición desde la llamada» → agente «Agente de WhatsApp» (Outbound Text Agent) → prompt →
 herramienta `pasar_a_llamada` → POST «Señal a la llamada (API)».
 
-**Publicada por una persona solo para pruebas** (no conectada a clientes). Probada de extremo a extremo con W1 v2 (informe en `docs/informes/2026-10-12-pruebas-whatsapp.md`).
+**Publicada por una persona.** Desde el 12/10/2026 W1 recibe llamadas de la línea +34 911 200 3002, así que la plantilla mock puede llegar a clientes. Probada de extremo a extremo con W1 v2 (informe en `docs/informes/2026-10-12-pruebas-whatsapp.md`).
 
 ## Prompt (modelo gpt-5.4-mini, mensaje inicial vacío: abre la conversación la plantilla)
 
@@ -65,7 +65,7 @@ No se usa el nodo Send Signal (entrega el payload vacío; ver README de v3).
 ## Configuración del agente (resumen)
 
 - Canal `whatsapp`, dirección `outbound`, nombre visible «Centauro Rent a Car».
-- Cuenta de WhatsApp Business y número del workflow «WhatsApp Agent» (número +44 20 4621 5219); credencial «Whatsapp Centauro».
+- Cuenta de WhatsApp Business `970312032038916`; número +34 914 83 13 55 (id `1359458737254289`) desde el 12/10/2026, antes +44 20 4621 5219; credencial «Whatsapp Centauro».
 - `recipientNumber` = `telefono` del trigger. `idleTimeoutMinutes` 15. `endSessionOnDeliveryError` true.
 - Mensajes interactivos desactivados. Medios: OCR activado (standard), transcripción activada
   (advanced), notas de voz y medios salientes desactivados; máx. 5 archivos.

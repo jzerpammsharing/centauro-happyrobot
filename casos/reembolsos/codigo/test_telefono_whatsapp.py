@@ -4,7 +4,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from telefono_whatsapp import normalizar_telefono, whatsapp_posible  # noqa: E402
+from telefono_whatsapp import normalizar_telefono, telefono_para_consulta, whatsapp_posible  # noqa: E402
 
 CASOS_NORMALIZAR = [
     ("0034612345678", "+34612345678"),   # formato 00 que llega de la centralita
@@ -29,7 +29,28 @@ CASOS_POSIBLE = [
     ("", False),
 ]
 
+# (numero_cliente, telefono_prueba) -> teléfono que va al MCP
+CASOS_CONSULTA = [
+    (("+34612345678", ""), "+34612345678"),    # móvil
+    (("612345678", ""), "+34612345678"),       # sin prefijo
+    (("+34912345678", ""), "+34912345678"),    # fijo: también se puede buscar
+    (("0039375000000", ""), "+39375000000"),   # extranjero
+    (("web", "+34600000001"), "+34600000001"), # llamada web: TELEFONO_PRUEBA
+    (("web", ""), ""),                         # web sin TELEFONO_PRUEBA
+    (("web", "ninguna"), ""),
+    (("+34612345678", "+34600000001"), "+34612345678"),  # TELEFONO_PRUEBA solo en web
+    (("1234", ""), ""),                        # extensión interna (formadores)
+    (("anonymous", ""), ""),
+    (("", ""), ""),
+    ((None, None), ""),
+]
+
 fallos = 0
+for (cliente, prueba), esperado in CASOS_CONSULTA:
+    obtenido = telefono_para_consulta(cliente, prueba)
+    if obtenido != esperado:
+        fallos += 1
+        print("FALLO telefono_para_consulta(%r, %r) = %r, esperado %r" % (cliente, prueba, obtenido, esperado))
 for entrada, esperado in CASOS_NORMALIZAR:
     obtenido = normalizar_telefono(entrada)
     if obtenido != esperado:

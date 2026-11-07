@@ -22,6 +22,27 @@ Plantilla:
 
 ---
 
+## D-009 · 2026-10-12 · v23: saltos entre módulos (borrador)
+- **Qué:**
+  - Fork de la v22: v23 (`3o04zrwgfj0g`).
+  - «Punto de encuentro» e «Información de oficina» pueden pasar a «Prolongación y consultas» con
+    `consultas_alquiler`.
+  - «Prolongación y consultas» puede pasar a «Información de oficina» (a cualquier hora) y a
+    «Punto de encuentro» (solo fuera del modo virtual).
+  - Se quitan las copias resumidas de «OTRAS PREGUNTAS DEL ALQUILER» de los dos primeros módulos:
+    ahora remiten a `consultas_alquiler`.
+  - Prompts en `prompts/minibus-es/v23/`.
+- **Por qué:**
+  - En la v22, cuando el cliente pasa de prolongar o recoger tarde a preguntar por el minibús, el
+    bot transfiere a la cola de Minibús aunque el workflow tiene el dato. Pasó en ac24fb7b, 900cb235
+    y d53861dc (10-11/10).
+  - El conocimiento de prolongación estaba en tres sitios (bot de Prolongaciones, módulo de la v22 y
+    resumen en Punto de encuentro/Información de oficina), y ya empezaban a divergir.
+- **Afecta a:** Minibús ES v23.
+- **Quién:** jzerpa.
+- **Estado:** borrador completo (los 4 «Module Change» se enlazaron en el editor el 12/10).
+  - Falta probarlo y medirlo frente a la v22 antes de publicar.
+
 ## D-008 · 2026-10-11 · El repo es solo del caso Minibús
 - **Qué:** el proyecto se llama `centauro-happyrobot-minibus` y cubre solo los tres workflows de
   Minibús (ES, IT y PT). Otros bots de Centauro en HappyRobot, como Prolongaciones, irían en su
