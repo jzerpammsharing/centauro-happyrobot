@@ -36,8 +36,9 @@ Workflows de la carpeta de Centauro en HappyRobot (folder `019d8144-ce27-7aaf-b9
 | Caso | Carpeta | Workflows | Estado de la documentación |
 |---|---|---|---|
 | Minibús | `casos/minibus/` | Centauro Minibus SPAIN, ITALY y Portugal | Completa |
-| Prolongaciones | `casos/prolongaciones/` | Centauro Prolongacion Spain | Completa (V11) |
+| Prolongaciones | `casos/prolongaciones/` | Centauro Prolongacion Spain | Completa (V11; v12 en borrador, D-008) |
 | Reembolsos | `casos/reembolsos/` | Centauro Reembolsos, Centauro Reembolsos WhatsApp y Centauro Reembolsos · Datos por WhatsApp | Parcial: WhatsApp documentado (spec, D-001, pruebas); faltan el detalle del bot V4 y sus colas |
+| Atención España (bot único) | `casos/atencion-es/` | Centauro Atención España (creado el 18/10/2026; absorberá Minibús ES y Prolongación, C-004) | Spec aprobado (D-001); v2 construida; v3 (sin correo de contraseña, con la línea de Prolongación ES) publicada en prueba (D-018; en producción el 24/10/2026); v4 = v3 + retraso de vuelo o tren a la cola de Minibús con Gestión cerrada, en producción desde el 24/10/2026 (D-019); v6 = v4 + dirección de las oficinas, sin publicar (D-020); v7 = v6 + con Gestión cerrada, lo importante a la cola de Minibús y arreglos del 25/10, sin publicar (D-021); puerta 0 pendiente; tareas 1–16 de 18; 17 y 18 a falta de las partes con personas (registro en `docs/planes/2026-10-18-bot-unico-progreso.md`) |
 
 Para añadir un caso:
 1. Crea `casos/<caso>/` con `CLAUDE.md`, `docs/decisiones.md`, `docs/workflows.md`,
@@ -51,7 +52,9 @@ Para añadir un caso:
 | `CLAUDE.md` | Esta guía común |
 | `docs/decisiones.md` | Decisiones que afectan a todos los casos |
 | `docs/extensiones.md` | Todas las colas y extensiones de RingCentral (una sola vez para todos) |
-| `scripts/` | Utilidades de análisis reutilizables (Python, solo lectura) |
+| `docs/informes/` | Análisis que comparan varios casos |
+| `comun/bloques/` | Bloques de prompt comunes a varios bots (borrador; ver su README) |
+| `scripts/` | Utilidades de análisis reutilizables (Python, solo lectura). `medir_bots.py`: resolución real y créditos por llamada resuelta de los tres bots; `normalizar_llamadas.py`: registros por run → `llamadas.json`; `creditos_runs.py`: créditos por run con la API de facturación (clave en `HAPPYROBOT_API_KEY`, nunca en el repo); `coste_bots_vs_humanos.py`: business case de los bots frente a personas a salario mínimo. Pruebas en `scripts/test_*.py` (`python3 -I`) |
 | `casos/<caso>/CLAUDE.md` | Contexto del caso |
 | `casos/<caso>/docs/` | `decisiones.md`, `workflows.md`, `pendientes.md`, `informes/` |
 | `casos/<caso>/prompts/<workflow>/<versión>/` | Copia de los prompts de cada versión, para tener histórico y diff |
@@ -65,11 +68,12 @@ Para añadir un caso:
   1. Guarda el prompt nuevo en `casos/<caso>/prompts/`.
   2. Añade una entrada al `decisiones.md` del caso.
   3. Actualiza la tabla de versiones de `workflows.md`.
-  4. Abre un PR para que otra persona lo revise.
+  4. Abre un PR a `main` y mergéalo; no hace falta que lo revise otra persona (C-007).
 - **Publicar** lo hace una persona, no el agente, salvo que se pida de forma explícita en ese
   momento.
-- **Una sola versión en producción por workflow.** Si entran llamadas por versiones no
-  publicadas, apúntalo en los pendientes del caso.
+- **Una sola versión en producción por workflow**, salvo un test A/B aprobado (C-008): dos
+  versiones en producción a la vez, con su entrada en el `decisiones.md` del caso. Si entran
+  llamadas por versiones no publicadas, apúntalo en los pendientes del caso.
 - **Variables:** en actualizaciones se usan `{{persistent_id.variable}}`, nunca índices
   numéricos. Las salidas de AI Extract llevan el prefijo `response.`. Después de cambios en
   bloque, ejecuta `fix_broken_vars`.

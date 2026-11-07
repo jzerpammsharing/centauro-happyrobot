@@ -79,7 +79,7 @@ Paso a paso:
 2. El cliente acepta. El agente ejecuta `enviar_whatsapp` con `idioma: es`, que hace el POST a W2.
 3. En el mismo turno el agente dice que ya se lo ha enviado y pide la fecha de nacimiento por voz.
 4. W2 arranca y envía la plantilla mock `info_minibus` desde el número de empresa
-   +44 20 4621 5219; llega al móvil del equipo.
+   +44 20 4621 5219; llega al móvil del equipo. (Desde el 12/10/2026 a las 10:08 también probado con el número español +34 914 83 13 55, run de W2 `eeaf365c`.)
 5. El cliente responde por WhatsApp con la reserva (`ER12345678`) y el nombre («Prueba Prueba»).
 6. El agente de texto ejecuta `pasar_a_llamada`; el POST a la API de signals devuelve
    `published`.
