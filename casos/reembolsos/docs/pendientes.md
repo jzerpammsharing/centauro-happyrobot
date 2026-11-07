@@ -46,6 +46,24 @@
 - [ ] D-003, plantilla Meta `datos_reserva`: pide número y nombre, y «email y matrícula» opcionales. No menciona el DNI y sugiere la matrícula, que ya no se usa. Pedir una versión nueva de la plantilla.
 - [ ] D-003, W2 v8: la eval «Solo nombre: pide el dato de la reserva y no pasa nada» falla (2 intentos y reforzando prompt y herramienta): el agente (gpt-5.4-mini) ejecuta `pasar_a_llamada` con solo el nombre. Efecto limitado: la señal llega sin identificador y W1 v3 pide el dato por voz. En W2 v9 (D-005) pasa en 1 de 2 intentos: sigue inestable.
 - [ ] D-003: no hay evals de `consultar_reserva` ni de otros agentes que usen el MCP; el MCP ya acepta email y DNI allí.
+- [ ] **La V4 no recibe llamadas de clientes** (comprobado el 17/10/2026). En HappyRobot figura en
+  producción, pero solo tiene 2 llamadas reales (07 y 08/10) y unas 80 de prueba del 27/09; en Twin hay
+  2 filas.
+  - En RingCentral España no existe una cola de Reembolsos. Las colas de atención al cliente son Nueva
+    Reserva (18001), Prolongación (18002 y 18058), Mini Bus (18045 y 18056), Modif. Cancelac. (18046),
+    Otras consultas (18047) y Gestión (18057).
+  - Las dudas de reembolsos acaban en Gestión: en el análisis de 705 llamadas de la 18057 (del 1 al 25/09),
+    253 (36 %) eran de combustible, fianza o reembolsos. Es el tema más frecuente. Una llamada puede tocar
+    dos temas.
+  - Otras consultas (18047) no ha recibido ninguna llamada desde el 01/09; las llamadas directas del número
+    principal entran por Gestión (18057).
+  - Volumen de la 18057, según los informes diarios de la rutina de Prolongaciones (llamadas directas de
+    clientes, sin contar las que transfieren los bots):
+    - entre semana, unas 490 al día (del 6 al 16/10) y se pierde el 30 %;
+    - en fin de semana, 230 y 206 (10 y 11/10), todas perdidas porque Gestión no atiende.
+  - Estimación de reembolsos (36 % como máximo): unas 175 llamadas al día entre semana (unas 50 perdidas) y
+    unas 80 al día en fin de semana (todas perdidas).
+  - Falta decidir a qué número u opción del menú se conecta el bot. Lo decide y lo hace una persona.
 - [ ] Documentar el caso: `CLAUDE.md` y `docs/workflows.md`.
 - [x] Guardar en `prompts/` los prompts de la versión publicada (V4 en `prompts/reembolsos-v4/`).
 - [ ] Revisar que no transfiere a 2114, 2115 ni 2119 (C-001).
