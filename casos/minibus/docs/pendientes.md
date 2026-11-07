@@ -38,6 +38,22 @@
       `rutinas/informe-minibus.md` para que cuente solo las patas que casan con un intento de
       Minibús, como ya hace con 18057, 18061, 18001, 18006 y 18034.
 
+- [ ] **IT v3 y PT v3 (D-015): confirmar antes de publicar.**
+  - Que 19048/19049 (IT) y 19035/19036 (PT) son las colas de averías con agentes y atienden los 7
+    días, como la 18034.
+  - Horario del centro de atención para IT y PT: se ha supuesto el de España, de 08:00 a 22:00
+    peninsular (en Portugal, de 07:00 a 21:00).
+  - Horario de Mod. Reserva (18071/18074) y Alteração (18064/18067): se ha supuesto el de Gestión
+    ES, de lunes a viernes de 08:00 a 21:00 peninsular.
+  - Que la IVR de IT y PT filtra el horario como en España: sin la rama nocturna, a cualquier hora
+    entra el bot en modo virtual.
+  - El idioma del whisper y de `resumen_para_agente` (italiano / portugués) para los agentes de
+    cada cola.
+  - Probar con llamadas de test las dos líneas (local e inglés) de cada país, de día y en modo
+    virtual.
+- [ ] **IT y PT sin información de oficinas ni prolongaciones**: hacen falta los datos de oficinas
+      y las condiciones de alquiler de Italia y Portugal para portar esos módulos de ES v22.
+
 - [ ] **v23: probar con llamadas reales** (D-009). Los 4 «Module Change» están enlazados y la batería de evals pasa: 14/14 nuevas y 24/24 de regresión (`informes/2026-10-12-v23-evals.md`). Falta el recorrido completo en una llamada.
   - Probar los recorridos mixtos: minibús → prolongar, prolongar → minibús, oficina → fianza,
     recoger tarde → punto de encuentro, y prolongar → oficina en modo virtual.
@@ -98,4 +114,4 @@
   - parte de asistencia (3);
   - objetos olvidados (3).
 - [ ] Guardar en `prompts/` los prompts de las versiones publicadas. Hechos ES v17 y v22 (11/10);
-      faltan IT v2 y PT v1.
+      faltan IT v2 y PT v1 (sí están IT v3 y PT v3).
