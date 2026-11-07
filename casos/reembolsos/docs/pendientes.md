@@ -1,9 +1,10 @@
 # Pendientes del caso Reembolsos
 
-- [ ] **La línea de Reembolsos casi no entra por W1 desde el 22/10/2026** (comprobado el 07/11/2026 con
-  `monitor_runs`). El 21/10 W1 tuvo unas 90 llamadas (D-017 contaba unas 50 por día laborable); del 22/10 al 07/11, 9 (24/10, 27/10, 28/10, 05/11 y 06/11). W2
-  no tiene ninguna desde el 21/10. Averiguar si la línea se quitó del trigger de W1, si se movió a otro workflow o
-  si cambió el menú, y apuntarlo aquí y en `docs/extensiones.md` si cambia algo.
+- [ ] **La línea de Reembolsos está en pausa desde el 22/10/2026**, a la espera de mejoras (lo decidió el equipo;
+  lo confirmó jzerpa el 07/11/2026). Por eso W1 casi no recibe llamadas: unas 90 el 21/10 (D-017 contaba unas 50 por
+  día laborable) y 9 del 22/10 al 07/11. W2 no tiene ninguna desde el 21/10. Las mejoras preparadas y sin publicar
+  son la v9 y la v10 de W1 (D-006); sus pendientes están abajo. Al reactivar la línea: publicar la versión que se
+  elija (lo hace una persona), comprobar que las llamadas vuelven a entrar por W1 y apuntar la fecha aquí.
 - [ ] **Documentar W1 v6, v7 y v8 y W2 v10**: nombre, cambios y copia de los prompts en `prompts/`. Las copias de
   trabajo de W1 v6 están en `datos/`, que no se versiona. W1 v8 está en producción desde el 21/10/2026 y W2 v10
   desde el 20/10/2026.
