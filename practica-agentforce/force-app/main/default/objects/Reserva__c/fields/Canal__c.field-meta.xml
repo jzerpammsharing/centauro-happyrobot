@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Canal__c</fullName>
+    <label>Canal</label>
+    <description>Directa (web/teléfono de la empresa) o a través de un intermediario.</description>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Directa</fullName>
+                <default>false</default>
+                <label>Directa</label>
+            </value>
+            <value>
+                <fullName>Intermediario</fullName>
+                <default>false</default>
+                <label>Intermediario</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

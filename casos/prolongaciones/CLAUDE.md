@@ -110,6 +110,10 @@ España») y este workflow no tiene versión en producción. Desde el 27/10/2026
 Prolongación en el bot único y escribe en los mismos dos artefactos. El fichero
 `rutinas/informe-prolongaciones.md` (V11) queda como histórico y para una vuelta atrás.
 
+**Ojo (07/11/2026):** en la cuenta de jzerpa la única rutina de Prolongaciones es «Calidad Prolongaciones»
+(`trig_01Y2AgUWnEtCEtSz73shzw2j`, 20:20 UTC), con el prompt de la V11 del 12/10/2026: mide un workflow sin
+producción. La rutina con el monitor no está en esa cuenta. Ver `docs/pendientes.md`.
+
 | Artefacto | Compartido con | La rutina escribe en | Solo lo escriben los revisores |
 |---|---|---|---|
 | [Calidad Prolongaciones](https://claude.ai/artifact/3i8Reh68FkdQDACdZdFq3A) | personas concretas | `informes` (doc_id = AAAA-MM-DD) | dentro de `informes`, los campos `evaluacion_versiones`, `diff_versiones`, `mejoras` e `info_que_falta`, que se escriben a mano |

@@ -8,6 +8,7 @@ la columna «Estado».
 
 > **Congelado desde el 15/10/2026 (D-004).** El único bot de voz de Reembolsos es W1 («Centauro Reembolsos
 > Llamada + w»). Este workflow no se borra ni se publica (la V5 queda sin publicar); los cambios se hacen solo en W1.
+> **07/11/2026:** `get_workflows` no da ninguna versión en producción (ni la V3 ni la V4).
 
 Voicebot de reembolsos y fianzas. Copia del prompt de la V4:
 `prompts/reembolsos-v4/receive-customer-call.md`.
@@ -58,7 +59,7 @@ Copias de los prompts: `prompts/reembolsos-whatsapp/v1/` (nodos), `v2/` (prompt 
 | v5 | `ok9wpis1yhs3` | v5 · v4 + nombre sin inventar, email sin guiones y espera del WhatsApp | Nombre solo si lo da el cliente; email deletreado sin guiones de la transcripción; «Me ha llegado» solo con señal; espera del WhatsApp sin repetir ni ofrecer voz por silencio; tercera consulta con datos de WhatsApp; `consultar_reembolso` ajustada (D-005) | Superada. Fue la actual desde el 15/10/2026 por la tarde: publicada el 15/10/2026 por la tarde (por una persona, junto con W2 v9), con evals en verde y sin prueba por voz previa. Copia: `prompts/reembolsos-whatsapp/v5/` |
 | v6 | `3ecfxg24rjmv` | v6 · v5 + correcciones de las pruebas de formadores del 16/10 | Sin documentar aquí (copia de trabajo en `datos/`, no versionada) | Publicada; superada |
 | v7 | `6x100s4re7lp` | Version 7 | Sin documentar aquí | Publicada; recibió clientes desde el 20/10/2026 por la tarde; superada |
-| v8 | `ianc7jrlxhh1` | Version 8 | Sin documentar aquí | **Live** desde el 21/10/2026 |
+| v8 | `ianc7jrlxhh1` | Version 8 | Sin documentar aquí | **Live** desde el 21/10/2026 hacia las 16:16 (primera llamada a las 14:16 UTC); sigue en producción el 07/11/2026. Desde el 22/10 apenas recibe llamadas (ver `pendientes.md`) |
 | v9 | `pg7nqr3brbdd` | v9 · v8 + fecha de nacimiento, WhatsApp, consultar antes de transferir | La preparó otra sesión el 21/10; copia del prompt en `prompts/reembolsos-whatsapp/v9/` | Borrador, sin publicar |
 | v10 | `2y93xxzzph11` | v10 · v9 + búsqueda v2 del MCP (teléfono, varias reservas, tiene_cuenta) | Primer intento por el teléfono desde el que llama, otras reservas y área de cliente (D-006). Version_id `01a1607d-d367-7a80-9528-5eb548080d83` | Borrador, sin publicar (22/10/2026). Copia: `prompts/reembolsos-whatsapp/v10/`. Evals: `pruebas/evals-busqueda-v2.md` |
 
@@ -102,7 +103,8 @@ Copias: `prompts/reembolsos-whatsapp-datos/` (v1, v3 a v9).
 | v6 | `ag32yoirx45a` | v6 · prueba: plantilla estática datos_reserva con idioma es | Prueba: plantilla estática con `language = es` fijado por la API | Llega en español. Publicada solo en development para la prueba |
 | v7 | `63eqtfk9nrdl` | v7 · v4 + plantilla datos_reserva (rama es / en) | Plantilla real con una rama y un agente por idioma (D-002) | Publicada (vista live el 14/10/2026) |
 | v8 | `fm6g5527v6lw` | Version 8 | v7 + el agente acepta número, email o DNI/NIE y pasa `dni` en lugar de `matricula` (D-003, en las dos ramas) | Publicada (live el 15/10/2026, no por Claude). Copia: `prompts/reembolsos-whatsapp-datos/v8/`. La plantilla `datos_reserva` no cambia: sigue pidiendo número, nombre, y email y matrícula opcionales |
-| v9 | `n1ij39vr42xd` | v9 · v8 + pide el nombre y no repite la pregunta | Contesta según lo que ya tiene: con el dato de la reserva pide solo el nombre; email o DNI/NIE valen como dato; no repite mensajes; el nombre no sale del email; el número ER no va en `dni` (D-005, en las dos ramas) | **Actual**: publicada el 15/10/2026 por la tarde (por una persona, junto con W1 v5). Copia: `prompts/reembolsos-whatsapp-datos/v9/` |
+| v9 | `n1ij39vr42xd` | v9 · v8 + pide el nombre y no repite la pregunta | Contesta según lo que ya tiene: con el dato de la reserva pide solo el nombre; email o DNI/NIE valen como dato; no repite mensajes; el nombre no sale del email; el número ER no va en `dni` (D-005, en las dos ramas) | Publicada el 15/10/2026 por la tarde (por una persona, junto con W1 v5). Copia: `prompts/reembolsos-whatsapp-datos/v9/` |
+| v10 | `9sy4qxqffplv` | v10 · v9 + reconoce email y DNI/NIE sin pedir el número | Sin documentar aquí (sin copia del prompt) | **Actual**: en producción desde el 20/10/2026 por la tarde (primera llamada a las 15:03 UTC; comprobado el 07/11/2026). Última llamada: 21/10/2026 a las 17:13 UTC; ninguna desde entonces |
 
 El workflow se llama ahora en HappyRobot «Centauro Reembolsos (wa) · Datos por WhatsApp».
 

@@ -719,7 +719,10 @@ cambio).
       forzar la pregunta, o un nodo de código que rechace un `aeropuerto` que sea solo una terminal. Mirar también si
       pasa en llamadas reales.
 - [ ] Antes de publicar: sigue pendiente lo de la v6 (minibús «blanco o amarillo»); la v7 no lo toca.
-- [ ] Publicar la v7 en lugar de la v4 (lo hace una persona). Vuelta atrás: volver a publicar la v4.
+- [x] Publicar la v7 en lugar de la v4 (lo hace una persona). Vuelta atrás: volver a publicar la v4. **Publicada el
+      30/10/2026** entre las 19:56 y las 20:42 (comprobado el 07/11/2026 con `monitor_runs`: última llamada por la v4,
+      `6ed6a003`; primera por la v7, `d98b78a0`). No consta quién la publicó ni si antes se confirmó con el callcenter
+      (punto de arriba): lo que sigue sin marcar en esta sección queda pendiente con la v7 ya en producción.
 - [ ] Sin arreglar de las llamadas del 25/10 (`datos/atencion-es-v4-2026-10-25-tarde.json`): un «sí» o «yes» ambiguo al
       saludo de la línea de Prolongación manda a Prolongación sin saber el motivo (`313b353b`, `97afefab`, y `b7b8ebe0`
       por la mañana); en el aeropuerto de Barcelona sin terminal, Punto de encuentro pregunta dos veces si explica las
