@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Idioma_cliente__c</fullName>
+    <label>Idioma del cliente</label>
+    <description>Idioma del cliente (código ISO 639-1).</description>
+    <required>false</required>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>es</fullName>
+                <default>false</default>
+                <label>es</label>
+            </value>
+            <value>
+                <fullName>en</fullName>
+                <default>false</default>
+                <label>en</label>
+            </value>
+            <value>
+                <fullName>de</fullName>
+                <default>false</default>
+                <label>de</label>
+            </value>
+            <value>
+                <fullName>fr</fullName>
+                <default>false</default>
+                <label>fr</label>
+            </value>
+            <value>
+                <fullName>it</fullName>
+                <default>false</default>
+                <label>it</label>
+            </value>
+            <value>
+                <fullName>pt</fullName>
+                <default>false</default>
+                <label>pt</label>
+            </value>
+            <value>
+                <fullName>nl</fullName>
+                <default>false</default>
+                <label>nl</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

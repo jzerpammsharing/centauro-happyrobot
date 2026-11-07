@@ -17,11 +17,11 @@ emitir, anular o decidir lo transfiere a una persona.
 Hay una variante que ofrece al cliente escribir los datos difíciles de dictar por WhatsApp durante la
 llamada (spec en `docs/specs/2026-10-12-datos-por-whatsapp.md`, decisión D-001).
 
-| Workflow | workflow_id | slug | Producción / actual (15/10/2026) |
+| Workflow | workflow_id | slug | Producción (comprobado el 07/11/2026) |
 |---|---|---|---|
-| Centauro Reembolsos (congelado, D-004) | `01a0defb-9c46-7f81-b966-69ca9d211709` | `ey9623r10ly2` | No se toca: el único bot de voz es W1. V5 (`gwe1rc4d1po6`) sin publicar |
-| Centauro Reembolsos WhatsApp (W1, voz) | `01a12d4e-7c03-7494-8e0c-194e1256f8fb` | `j2cgq0sfra2q` | v5 (`ok9wpis1yhs3`, nombre sin inventar, email sin guiones y espera del WhatsApp, D-005) live desde el 15/10/2026 (tarde); recibe la línea +34 911 200 3002 desde el 12/10/2026 |
-| Centauro Reembolsos · Datos por WhatsApp (W2, texto) | `01a12d4c-5fe2-76d7-a233-3d5a16972ffd` | `p45rx5hlsber` | v9 (`n1ij39vr42xd`, pide el nombre y no repite la pregunta, D-005) live desde el 15/10/2026 (tarde); envía desde +34 914 83 13 55 con la plantilla `datos_reserva` |
+| Centauro Reembolsos (congelado, D-004) | `01a0defb-9c46-7f81-b966-69ca9d211709` | `ey9623r10ly2` | No se toca: el único bot de voz es W1. Sin versión en producción; V5 (`gwe1rc4d1po6`) sin publicar |
+| Centauro Reembolsos WhatsApp (W1, voz) | `01a12d4e-7c03-7494-8e0c-194e1256f8fb` | `j2cgq0sfra2q` | v8 (`ianc7jrlxhh1`) live desde el 21/10/2026 (v6 a v8 sin documentar en el repo); v9 y v10 sin publicar. Recibe la línea +34 911 200 3002 desde el 12/10/2026; desde el 22/10 apenas entran llamadas (9 hasta el 07/11) |
+| Centauro Reembolsos · Datos por WhatsApp (W2, texto) | `01a12d4c-5fe2-76d7-a233-3d5a16972ffd` | `p45rx5hlsber` | v10 (`9sy4qxqffplv`, reconoce email y DNI/NIE sin pedir el número) live desde el 20/10/2026; envía desde +34 914 83 13 55 con la plantilla `datos_reserva`. Sin llamadas desde el 21/10/2026 |
 
 - **Ficha de los workflows** (flujo y versiones): `docs/workflows.md`. Antes de publicar a clientes,
   sigue la checklist «Antes de publicar a clientes» de ese fichero.

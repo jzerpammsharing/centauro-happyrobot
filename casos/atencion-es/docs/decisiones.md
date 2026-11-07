@@ -154,7 +154,8 @@ Plantilla:
   - Los resultados de cada eval están en sus runs de HappyRobot (25/10, desde las 16:38 hora de Madrid).
 - **Afecta a:** v7 (borrador). La v4 sigue en producción; la v6, sin publicar, queda superada por la v7.
 - **Quién:** jzerpa (pedido el 25/10/2026). Publicar lo hace una persona.
-- **Estado:** aplicada en la v7 (sin publicar).
+- **Estado:** aplicada en la v7, **en producción desde el 30/10/2026** entre las 19:56 y las 20:42 (comprobado el
+  07/11/2026 con `monitor_runs` y `get_workflows`; no consta quién la publicó). Vuelta atrás: publicar la v4.
 
 ## D-020 · 2026-10-25 · v6: el bot da la dirección de las oficinas, también de aeropuerto
 - **Qué:** versión `v6 · v4 + dirección de las oficinas de aeropuerto` (`lxkt96mlluxz`), fork de la v4 en producción,

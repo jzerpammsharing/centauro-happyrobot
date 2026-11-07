@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Reserva__c</fullName>
+    <label>Reserva</label>
+    <description>Reserva a la que se refiere el caso.</description>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <referenceTo>Reserva__c</referenceTo>
+    <relationshipLabel>Casos</relationshipLabel>
+    <relationshipName>Casos</relationshipName>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <type>Lookup</type>
+</CustomField>

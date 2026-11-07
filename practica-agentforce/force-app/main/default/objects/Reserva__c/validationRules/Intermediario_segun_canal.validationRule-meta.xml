@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Intermediario_segun_canal</fullName>
+    <active>true</active>
+    <description>El intermediario se rellena si y solo si el canal es Intermediario.</description>
+    <errorConditionFormula>ISPICKVAL(Canal__c, &apos;Intermediario&apos;) = ISBLANK(Intermediario__c)</errorConditionFormula>
+    <errorDisplayField>Intermediario__c</errorDisplayField>
+    <errorMessage>Rellena el intermediario solo cuando el canal sea Intermediario.</errorMessage>
+</ValidationRule>

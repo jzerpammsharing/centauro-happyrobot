@@ -49,6 +49,13 @@
       del extract y el CLAUDE.md del caso, que ya refleja la segunda herramienta.
 
 ## Incidencias abiertas
+
+- [ ] **Rutina diaria sin el monitor del bot único** (07/11/2026). En la cuenta de jzerpa, las rutinas en la nube
+  son «Calidad minibus» y «Calidad Prolongaciones» (`trig_01Y2AgUWnEtCEtSz73shzw2j`, cada día a las 20:20 UTC).
+  «Calidad Prolongaciones» lleva el prompt de la V11 (actualizado por última vez el 12/10/2026) y mide este
+  workflow, que no tiene producción desde el 24/10. La rutina «Centauro Prolongaciones - informe diario»
+  (`trig_01BTNdfZukdFBe6PpMrEAj5T`), que según D-022 lleva `casos/atencion-es/rutinas/monitor-prolongacion.md`,
+  no está en esa cuenta. Comprobar desde qué cuenta corre y dejar una sola rutina, con el prompt del monitor.
 - [ ] **Transferencias a Gestión con la cola cerrada (causa sin arreglar).**
   - **Qué pasa:** con Gestión cerrada, «Resolver colas» pone el texto «NO DISPONIBLE AHORA…» en
     `cola_gestion_reserva`. En la V10, el bot copió ese texto en `extension_destino` en 3 de 3 casos

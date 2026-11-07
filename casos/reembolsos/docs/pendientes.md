@@ -1,5 +1,13 @@
 # Pendientes del caso Reembolsos
 
+- [ ] **La línea de Reembolsos casi no entra por W1 desde el 22/10/2026** (comprobado el 07/11/2026 con
+  `monitor_runs`). El 21/10 W1 tuvo unas 90 llamadas (D-017 contaba unas 50 por día laborable); del 22/10 al 07/11, 9 (24/10, 27/10, 28/10, 05/11 y 06/11). W2
+  no tiene ninguna desde el 21/10. Averiguar si la línea se quitó del trigger de W1, si se movió a otro workflow o
+  si cambió el menú, y apuntarlo aquí y en `docs/extensiones.md` si cambia algo.
+- [ ] **Documentar W1 v6, v7 y v8 y W2 v10**: nombre, cambios y copia de los prompts en `prompts/`. Las copias de
+  trabajo de W1 v6 están en `datos/`, que no se versiona. W1 v8 está en producción desde el 21/10/2026 y W2 v10
+  desde el 20/10/2026.
+
 - [ ] **D-006 · confirmar que el teléfono llega al MCP.** En `test_node` del MCP Call de W1 v10, con los
   identificadores vacíos y un teléfono de prueba, el MCP sigue respondiendo «Falta numero_reserva, email o dni» (22/10,
   de madrugada). El MCP ignora los argumentos que no conoce, así que puede ser:
